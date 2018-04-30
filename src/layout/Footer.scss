@@ -1,0 +1,19 @@
+@import '~variables';
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.copyright {
+  font-size: x-small;
+  color: rgba(white, 0.4);
+  text-align: center;
+}
+
+.logo {
+  width: auto;
+  height: 32px;
+  margin-bottom: 0.5em;
+}

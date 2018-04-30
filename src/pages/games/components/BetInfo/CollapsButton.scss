@@ -1,0 +1,10 @@
+.button__arrow {
+  transition: all 0.2s linear;
+
+  &_open {
+    transform: rotate(180deg);
+  }
+  &_closed {
+
+  }
+}

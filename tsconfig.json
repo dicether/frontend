@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "strictFunctionTypes": false,
+    "moduleResolution": "node",
+    "module": "es6",
+    "allowSyntheticDefaultImports": true,
+    "target": "es6",
+    "lib": [
+      "es2017",
+      "dom"
+    ],
+    "jsx": "react",
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "noImplicitReturns": true,
+    "noImplicitAny": false,
+    "pretty": true,
+    "strict": true,
+
+    "outDir": "lib",
+    "baseUrl": ".",
+    "rootDir": ".",
+    "noImplicitThis": true,
+    "allowJs": false,
+    "paths": {
+        "*": ["./typings/*"]
+    }
+  },
+  "include": [
+    "./src/**/*",
+    "./node_modules/types-ethereumjs-util/index.d.ts",
+    "./node_modules/types-bn/index.d.ts",
+    "./globals.d.ts",
+    "./globalsAugmented.d.ts"
+  ]
+}

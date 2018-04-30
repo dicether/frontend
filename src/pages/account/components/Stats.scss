@@ -1,0 +1,19 @@
+@import '~variables';
+
+.stats {
+  margin-top: 2em;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.entry {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.entry__header {
+  @extend .label-header;
+}

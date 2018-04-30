@@ -1,0 +1,32 @@
+@import '~variables';
+
+.friendList {
+}
+
+.list {
+  list-style: none;
+}
+
+.onlineStatus {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 0.25em;
+}
+
+.onlineStatus_online {
+  @extend .bg-success
+}
+
+.onlineStatus_offline {
+  @extend .bg-danger
+}
+
+.friend {
+  margin-left: 1em;
+}
+
+.friend_online {
+
+}

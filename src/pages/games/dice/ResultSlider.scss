@@ -1,0 +1,61 @@
+@import '~variables';
+
+$result-slider-height: 6rem;
+$result-slider-width: 6rem;
+
+
+.resultSlider {
+  // ignore pointer, touch events to allow slider handle to be used when result is shown!
+  pointer-events: none;
+  touch-action: none;
+
+  position: absolute;
+  transition: all 0.5s;
+  left: -($result-slider-width / 2);
+  top: 50%; // transform: translateY(-50%) in style see ResultSlider!
+  width: 100%;
+  z-index: 0;
+
+  &_hidden {
+    opacity: 0;
+  }
+
+  &_visible {
+    opacity: 1;
+  }
+}
+
+.resultWrapper {
+  position: relative;
+  transition: all 0.5s;
+  width: $result-slider-width;
+  height: $result-slider-height;
+
+  &_hidden {
+    transform: scale(0.25);
+  }
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  background-image: url('assets/images/resultSlider.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position:center
+}
+
+.result {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.result_won {
+  color: $success
+}
+
+.result_lost {
+  color: $danger
+}

@@ -1,0 +1,14 @@
+.gameState{
+  width: 100%;
+  padding: 1em;
+
+  &__entry {
+  padding-bottom: 0.25em;
+  }
+
+  &__value {
+  font-family: monospace;
+  font-size: 0.75rem;
+  overflow: auto;
+  }
+}

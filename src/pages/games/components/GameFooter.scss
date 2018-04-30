@@ -1,0 +1,27 @@
+.gameFooter {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-top: 1em;
+}
+
+.settings {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  &__setting {
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.25em;
+
+  }
+  &__key {
+    margin-right: 1em;
+  }
+}

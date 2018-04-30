@@ -1,0 +1,46 @@
+@import '~variables';
+
+.messageEntry {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.user {
+  display: inline-flex;
+  align-items: center;
+}
+
+.username {
+  font-weight: bold;
+  color: $gray-darker;
+  margin-right: 0.5rem;
+  cursor: pointer;
+}
+
+.username_friend {
+  color: $info;
+}
+
+.message {
+  word-break: break-all;
+  word-break: break-word; // For chrome
+  hyphens: auto;
+}
+
+.time {
+  font-size: 0.75em;
+  color: $gray-dark;
+  white-space: nowrap;
+}
+
+.message_bot {
+  color: $info
+}
+
+.tooltip {
+  z-index: 20000;
+  max-width: 100rem;
+}

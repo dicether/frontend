@@ -1,0 +1,27 @@
+@import '~variables';
+
+$ticks-color: $gray-400 !default;
+
+.ticks {
+  position: absolute;
+  top: -2rem;
+  left: 0;
+  width: 100%;
+  z-index: -2;
+}
+
+.ticks__tick {
+  position: absolute;
+  color: $ticks-color;
+  transform: translateX(-50%) translateY(-50%);
+  &::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    left: 50%;
+    top: 1.5rem;
+    transform: translateX(-50%);
+    height: 1rem;
+    background-color: $ticks-color;
+  }
+}

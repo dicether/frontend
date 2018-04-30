@@ -1,0 +1,31 @@
+.popover {
+  position: relative !important;
+
+  &__arrow {
+    &_top {
+      top: 0;
+      left: 50%;
+      margin-left: 0 !important;
+      transform: translateX(-50%);
+    }
+
+    &_bottom {
+      bottom: 0;
+      left: 50%;
+      margin-left: 0 !important;
+      transform: translateX(-50%);
+    }
+
+    &_right {
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    &_left {
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+}

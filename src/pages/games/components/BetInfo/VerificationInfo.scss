@@ -1,0 +1,15 @@
+.verificationInfo {
+  width: 100%;
+  padding: 1em;
+
+  &__entry {
+    padding-bottom: 1em;
+  }
+
+  &__value {
+    font-family: monospace;
+    font-size: 0.75rem;
+    overflow: auto;
+    word-break: break-all;
+  }
+}

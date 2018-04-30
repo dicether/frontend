@@ -1,0 +1,23 @@
+@import '~variables';
+
+.footer {
+  width: 100%;
+  padding: 1em;
+  flex: 0 0 auto;
+}
+
+.footerFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.textarea {
+  width: 100%;
+  resize: none; // disable scroll bar
+  overflow: hidden; // disable scroll bar
+}
+
+.online {
+
+}

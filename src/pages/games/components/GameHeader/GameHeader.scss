@@ -1,0 +1,19 @@
+@import '~variables';
+
+.gameHeader {
+  min-height: 3em;
+  margin-bottom: 0.75em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__entry {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__entryHeader {
+    @extend .label-header
+  }
+}

@@ -1,0 +1,24 @@
+@import '~variables';
+
+.userType {
+  margin-right: 0.25em;
+  display: inline;
+  font-weight: bold;
+  font-size: 80%;
+
+  &_adm {
+    color: red;
+  }
+  &_mod {
+    color: goldenrod;
+  }
+  &_vip {
+    color: darkviolet;
+  }
+  &_bot {
+    color: $info
+  }
+  &_dev {
+    color: green;
+  }
+}

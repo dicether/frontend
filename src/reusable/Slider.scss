@@ -1,0 +1,56 @@
+@import '~variables';
+
+@value primary: #{$primary};
+@value secondary: #{$secondary};
+@value info: #{$info};
+@value success: #{$success};
+@value warning: $warning;
+@value danger: #{$danger};
+
+
+:global {
+  .rc-slider {
+    height: 1.5rem;
+  }
+
+  .rc-slider-rail {
+    height: $progress-height;
+    background-color: $progress-bg;
+    border-radius: $progress-border-radius;
+    z-index: -1;
+  }
+
+  .rc-slider-track {
+    height: $progress-height;
+    background-color: $progress-bar-bg;
+    border-radius: $progress-border-radius;
+    z-index: -1;
+  }
+
+  .rc-slider-handle {
+    border: none;
+    border-radius: 0.25rem;
+    height: 1.5rem;
+    width: 1.5rem;
+    margin-left: -0.75rem;
+    margin-top: -0.25rem;
+    background-color: $gray-darker;
+    z-index: 0;
+    &:focus {
+      box-shadow: $btn-focus-box-shadow;
+      border-color: transparent;
+    }
+
+    &:active {
+      box-shadow: $btn-active-box-shadow;
+    }
+
+    &:hover {
+      z-index: 1; // hack for dice slider
+      background-color: darken($gray-darker, 7.5%)
+    }
+  }
+  .rc-handle-click-focus {
+    cursor: grabbing !important;
+  }
+}
