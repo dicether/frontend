@@ -103,7 +103,8 @@ if (node_env === 'development') {
 } else if (node_env === 'staging') {
     plugins = plugins.concat([
         new CopyWebpackPlugin([
-            {from: 'assets/robots-staging.txt', to: (process.env.DEV_SERVER === 'TRUE') ? './' : '../robots.txt'}
+            {from: 'assets/robots-staging.txt', to: (process.env.DEV_SERVER === 'TRUE') ? './' : '../robots.txt'},
+            {from: 'headers', to: (process.env.DEV_SERVER === 'TRUE') ? './' : '../'}
         ]),
         new webpack.DefinePlugin({
             'process.env': {
@@ -120,7 +121,8 @@ if (node_env === 'development') {
 } else  if (node_env === 'production') {
     plugins = plugins.concat([
         new CopyWebpackPlugin([
-            {from: 'assets/robots.txt', to: (process.env.DEV_SERVER === 'TRUE') ? './' : '../robots.txt'}
+            {from: 'assets/robots.txt', to: (process.env.DEV_SERVER === 'TRUE') ? './' : '../robots.txt'},
+            {from: 'headers', to: (process.env.DEV_SERVER === 'TRUE') ? './' : '../'}
         ]),
         new webpack.DefinePlugin({
             'process.env': {
