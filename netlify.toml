@@ -1,0 +1,17 @@
+[build]
+    publish = "dist"
+
+
+# production branch config
+[context.production]
+  command = "npm run build-production"
+
+
+# staging branch config
+[context.staging]
+  command = "npm run build-production"
+
+
+# master branch config
+[context.master]
+  command = "npm run build-staging"
