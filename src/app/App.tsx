@@ -23,10 +23,12 @@ import {getUser} from "../platform/modules/account/selectors";
 import {init as initSockets, unInit as unInitSockets} from '../platform/sockets';
 import {initUser, loadDefaultData} from "../platform/modules/account/asyncActions";
 import StateLoader from '../platform/components/state/StateLoader';
+import BeforeUnload from "./BeforeUnload";
 
 
 export const mapStateToProps = (state: RootState) => {
-    const {account, app, web3} = state;
+    const {account, app, web3, games} = state;
+    const {gameState} = games;
     const {notification} = app;
     const jwt = account.jwt;
 
@@ -36,6 +38,7 @@ export const mapStateToProps = (state: RootState) => {
         userAuth: getUser(state),
         defaultAccount: web3.account,
         notification,
+        gameState,
         web3: web3.web3
     };
 };
@@ -95,7 +98,7 @@ class App extends React.Component<Props, State> {
     }
 
     render() {
-        const {userAuth, notification, defaultAccount} = this.props;
+        const {userAuth, notification, defaultAccount, gameState} = this.props;
 
         const logout = (userAuth !== null && (userAuth.address !== defaultAccount && defaultAccount !== null));
         const dice = () => <Redirect to="/games/dice"/>;
@@ -115,6 +118,7 @@ class App extends React.Component<Props, State> {
                 </Switch>
                 <Chat/>
                 <TermsOfUseModal/>
+                <BeforeUnload gameState={gameState}/>
                 <Notification notification={notification}/>
                 <StateLoader/>
             </Layout>
