@@ -30,7 +30,7 @@ class  User extends React.Component<Props, State> {
         const {user} = this.props;
 
         return (
-            <div>
+            <span>
                 <span className={Style.name} onClick={this.onToggleModal}>{user.username}</span>
 
                 <Modal isOpen={this.state.showModal} toggle={this.onToggleModal}>
@@ -41,7 +41,7 @@ class  User extends React.Component<Props, State> {
                         <UserInfo user={user}/>
                     </ModalBody>
                 </Modal>
-            </div>
+            </span>
         )
     }
 }
