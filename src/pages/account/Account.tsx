@@ -33,6 +33,13 @@ class Account extends React.PureComponent<Props> {
         super(props);
     }
 
+    componentWillMount() {
+        const {loadStats, userAuth} = this.props;
+        if (userAuth) {
+            loadStats(userAuth.address);
+        }
+    }
+
 
     render() {
         const {stats, userAuth} = this.props;
