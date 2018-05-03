@@ -24,6 +24,7 @@ import {init as initSockets, unInit as unInitSockets} from '../platform/sockets'
 import {initUser, loadDefaultData} from "../platform/modules/account/asyncActions";
 import StateLoader from '../platform/components/state/StateLoader';
 import BeforeUnload from "./BeforeUnload";
+import GameSession from "../pages/gameSession/GameSession";
 
 
 export const mapStateToProps = (state: RootState) => {
@@ -114,6 +115,7 @@ class App extends React.Component<Props, State> {
                     <Route exact path="/logout" component={LogoutRoute}/>
                     <Route exact path="/games/dice" component={Game}/>
                     <AuthenticatedRoute authenticated={userAuth !== null} exact path="/account" component={Account}/>
+                    <Route exact path="/gameSession/:gameId(\d+)" component={GameSession}/>
                     <Route component={PathNotFound}/>
                 </Switch>
                 <Chat/>
