@@ -9,15 +9,18 @@ import {Address} from '../../reusable';
 const Style = require('./Account.scss');
 import {State} from "../../rootReducer";
 import {getUser} from "../../platform/modules/account/selectors";
-import {loadStats} from "../../platform/modules/account/asyncActions";
+import {loadGameSessions, loadStats} from "../../platform/modules/account/asyncActions";
+import GameSession from "../gameSession/GameSession";
+import GameSessions from "./components/GameSessions";
 
 
 const mapStateToProps = (state: State) => {
-    const {stats} = state.account;
+    const {stats, gameSessions} = state.account;
 
     return {
         userAuth: getUser(state),
         stats,
+        gameSessions,
     };
 };
 
@@ -37,12 +40,13 @@ class Account extends React.PureComponent<Props> {
         const {loadStats, userAuth} = this.props;
         if (userAuth) {
             loadStats(userAuth.address);
+            loadGameSessions(userAuth.address);
         }
     }
 
 
     render() {
-        const {stats, userAuth} = this.props;
+        const {stats, gameSessions, userAuth} = this.props;
 
         return (
             <div className={Style.account}>
@@ -55,6 +59,7 @@ class Account extends React.PureComponent<Props> {
                     </div>
                 }
                 <Stats stats={stats}/>
+                <GameSessions gameSessions={gameSessions}/>
             </div>
         );
     }

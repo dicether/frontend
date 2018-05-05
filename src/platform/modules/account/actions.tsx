@@ -1,5 +1,5 @@
 import * as types from './constants';
-import {Stats} from './types';
+import {GameSession, Stats} from './types';
 import {ActionCreateType} from "../../../util/util";
 
 
@@ -18,4 +18,9 @@ export const changeJWTS = ca((jwt : string|null) => {
 
 export const changeMyStats = ca((stats: Stats) => {
     return {type: types.CHANGE_USER_STATS, stats};
+});
+
+
+export const changeMyGameSessions = ca((gameSessions: GameSession[]) => {
+    return {type: types.CHANGE_GAME_SESSIONS, gameSessions};
 });

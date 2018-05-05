@@ -18,3 +18,9 @@ export interface User {
     username: string
     userType: UserType
 }
+
+export interface GameSession {
+    gameId: number,
+    balance: number,
+    roundId: number
+}

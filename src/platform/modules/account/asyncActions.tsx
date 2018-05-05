@@ -6,7 +6,7 @@ import {showErrorMessage} from "../utilities/actions";
 import {REALM} from "../../../config/config";
 import {signTypedData} from "../web3/asyncActions";
 import {catchError} from "../utilities/asyncActions";
-import {changeFirstVisitedS, changeJWTS, changeMyStats} from "./actions";
+import {changeFirstVisitedS, changeJWTS, changeMyGameSessions, changeMyStats} from "./actions";
 import {SOCKET} from "../../../config/sockets";
 import {loadMyBets} from "../bets/asyncActions";
 import {loadFriendRequests, loadFriends} from "../friends/asyncActions";
@@ -164,10 +164,21 @@ export function loadStats(address: string) {
     }
 }
 
+export function loadGameSessions(address: string) {
+    return function (dispatch: Dispatch) {
+        return axios.get(`userGameSessions/${address}`).then(
+            result => dispatch(changeMyGameSessions(result.data))
+        ).catch(
+            error => catchError(error, dispatch)
+        )
+    }
+}
+
 export function initUser(dispatch: Dispatch, jwt: string) {
     const address = jwtDecode<User>(jwt).address;
     dispatch(changeJWT(jwt));
     dispatch(loadStats(address)).catch(console.log);
+    dispatch(loadGameSessions(address)).catch(console.log);
     dispatch(loadMyBets(address));
     dispatch(loadFriends(address)).catch(console.log);
     dispatch(loadFriendRequests(address)).catch(console.log);
