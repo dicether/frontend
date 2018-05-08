@@ -145,7 +145,7 @@ export function verifyBetSignature(roundId: number, gameType: number, num: numbe
                                    serverHash: string, playerHash: string, gameId: number, contractAddress: string,
                                    sig: string, address: string) {
     const typedData = createTypedSignature(roundId, gameType, num, value, balance, serverHash, playerHash, gameId, contractAddress);
-    return ethSigUtil.recoverTypedSignature({data: typedData, sig}) === address;
+    return ethUtil.toChecksumAddress(ethSigUtil.recoverTypedSignature({data: typedData, sig})) === address;
 }
 
 

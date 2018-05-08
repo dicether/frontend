@@ -1,9 +1,11 @@
-import {Dispatch, GetState} from "../../../util/util";
+import BN from "bn.js";
+import ethUtil from "ethereumjs-util";
 import Web3 from "web3";
+import {TransactionReceipt} from "web3/types";
+
+import {Dispatch, GetState} from "../../../util/util";
 import {CONTRACT_ADDRESS, FROM_WEI_TO_BASE} from "../../../config/config";
 import {changeAccount, changeBalance, changeContract, changeNetworkId, changeWeb3} from "./actions";
-import BN from "bn.js";
-import {TransactionReceipt} from "web3/types";
 
 const stateChannelContractAbi =  require('assets/json/GameChannelContract.json');
 
@@ -48,7 +50,7 @@ export function fetchAccount() {
                 }
 
                 const curAccount = getState().web3.account;
-                const account = accounts[0].toLowerCase();
+                const account = ethUtil.toChecksumAddress(accounts[0]);
                 if (account !== curAccount) {
                     dispatch(changeAccount(account));
                 }

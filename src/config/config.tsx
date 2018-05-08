@@ -1,3 +1,5 @@
+import ethUtil from "ethereumjs-util";
+
 export const NAME = "Dicether";
 
 export const DISCORD_URL = "https://discord.gg/kD7FajM";
@@ -22,9 +24,9 @@ export const FROM_BASE_TO_WEI = 1e9; // conversion from base unit GWEI to wei
 export const NETWORK_ID = 1;
 export const NETWORK_NAME = "Main";
 
-export const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS || '';
+export const CONTRACT_ADDRESS = ethUtil.toChecksumAddress(process.env.CONTRACT_ADDRESS || '');
 
-export const SERVER_ADDRESS =  process.env.SERVER_ADDRESS || '';
+export const SERVER_ADDRESS =  ethUtil.toChecksumAddress(process.env.SERVER_ADDRESS || '');
 
 export const MIN_GAME_SESSION_VALUE = 1e7;
 export const MAX_GAME_SESSION_VALUE = 5e8;
