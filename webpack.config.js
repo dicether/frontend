@@ -2,6 +2,8 @@ const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
+const SitemapPlugin = require('sitemap-webpack-plugin').default;
+
 
 //plugins
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -41,6 +43,13 @@ const ContractAddress = "0xc95d227a1cf92b6fd156265aa8a3ca7c7de0f28e";
 const ServerAddress = "0xcef260a5fed7a896bbe07b933b3a5c17aec094d8";
 const ApiUrl = `https://api.${Domain}/api`;
 const WebsocketUrl = `https://websocket.${Domain}`;
+
+const Paths = [
+    '/games/dice',
+    '/faq',
+    '/hallOfFame',
+    '/gameSession/'
+];
 
 
 // Different resource chunks
@@ -135,6 +144,7 @@ if (node_env === 'development') {
                 'SOCKET_URL': JSON.stringify(WebsocketUrl),
             }
         }),
+        new SitemapPlugin(`https://${Domain}`, Paths, {skipGzip: true}),
         new webpack.SourceMapDevToolPlugin({
             test: [/\.js$/, /\.jsx$/],
             filename: '[file].map',
