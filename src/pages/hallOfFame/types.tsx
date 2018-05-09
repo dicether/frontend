@@ -6,8 +6,14 @@ export type Stat = {
     value: number
 }
 
-export type Stats = {
+export type StatEntry = {
     mostWagered: Array<Stat>,
-    mostWon: Array<Stat>,
     mostProfit: Array<Stat>
+}
+
+export type Stats = {
+    day: StatEntry,
+    week: StatEntry,
+    month: StatEntry,
+    all: StatEntry
 }

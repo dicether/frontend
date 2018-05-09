@@ -1,6 +1,5 @@
 import {combineReducers, Reducer} from 'redux'
 
-import hallOfFame, {State as HallOfFameState} from './pages/hallOfFame/reducer'
 import account, {State as AccountState} from './platform/modules/account/reducer'
 import chat, {State as ChatState} from './platform/modules/chat/reducer'
 import web3, {State as Web3State} from './platform/modules/web3/reducer'
@@ -10,7 +9,6 @@ import bets, {State as BetsState} from './platform/modules/bets/reducer';
 import games, {State as GamesState} from './platform/modules/games/reducer';
 
 export type State = {
-    hallOfFame: HallOfFameState,
     account: AccountState,
     chat: ChatState,
     friend: FriendState,
@@ -21,7 +19,6 @@ export type State = {
 }
 
 const appReducer: Reducer<State> = combineReducers({
-    hallOfFame,
     account,
     chat,
     friend,

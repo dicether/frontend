@@ -110,7 +110,7 @@ class App extends React.Component<Props, State> {
                 <Switch>
                     <Route exact path="/" component={dice}/>
                     <Route exact path="/faq" component={Faq}/>
-                    <Route exact path="/hallOfFame" component={HallOfFame}/>
+                    <Route path="/hallOfFame" component={HallOfFame}/>
                     <Route exact path="/termsOfUse" component={TermsOfUse}/>
                     <Route exact path="/logout" component={LogoutRoute}/>
                     <Route exact path="/games/dice" component={Game}/>

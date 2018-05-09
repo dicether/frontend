@@ -1,56 +1,105 @@
 import * as React from 'react'
-import {connect} from 'react-redux';
+import {NavLink as RRNavLink} from 'react-router-dom';
+import {NavItem, NavLink, Nav} from 'reactstrap';
 
 import {Row, Col} from '../../reusable/index'
 import StatsTable from './StatsTable'
-import {getStats} from './actions'
-import {DispatchProp} from '../../util/util';
-import {State} from '../../rootReducer';
+import {Stats} from "./types";
+import axios from "axios";
+import {Redirect, Route, RouteComponentProps, Switch} from "react-router";
+import {lstatSync} from "fs";
 
 const Style = require('./HallOfFame.scss');
 
 
-const mapStateToProps = ({hallOfFame}: State) => {
-    const {mostWon, mostProfit, mostWagered} = hallOfFame;
+const StatsEntry = ({stats}) => (
+    <Row>
+        <Col md={6}>
+            <StatsTable title="Most Wagered" name="Wagered" data={stats.mostWagered}/>
+        </Col>
+        <Col md={6}>
+            <StatsTable title="Most Profit" name="Profit" data={stats.mostProfit}/>
+        </Col>
+    </Row>
+);
 
-    return {
-        mostWon,
-        mostWagered,
-        mostProfit
-    };
+
+
+type Props = RouteComponentProps<any>;
+
+type State = {
+    stats: Stats
+}
+
+const defaultEntry = {
+    mostWagered: [],
+    mostProfit: [],
 };
 
-type ReduxProps = ReturnType<typeof mapStateToProps>;
-
-type Props = DispatchProp & ReduxProps;
-
-class HallOfFame extends React.Component<Props> {
+class HallOfFame extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
+        this.state = {
+            stats: {
+                all: defaultEntry,
+                day: defaultEntry,
+                week: defaultEntry,
+                month: defaultEntry
+            }
+        }
     }
 
     componentWillMount() {
-        const {dispatch} = this.props;
-        dispatch(getStats());
+        this.fetchData();
     }
 
+    fetchData = () => {
+        axios.get('stats').then(response => {
+            const stats = response.data;
+            this.setState({stats});
+        }).catch(console.log);
+    };
+
+
     render() {
-        const {mostWagered, mostProfit} = this.props;
+        const {stats} = this.state;
+        const {match} = this.props;
+
+        const NavLinkX: React.StatelessComponent<any> = NavLink;
+
+        const weekEntry = () =>  <StatsEntry stats={stats.week}/>;
+        const monthEntry = () =>  <StatsEntry stats={stats.month}/>;
+        const allEntry = () =>  <StatsEntry stats={stats.all}/>;
 
         return (
             <div>
                 <h2 className={Style.heading}>Hall of Fame</h2>
-                <Row>
-                    <Col md={6}>
-                        <StatsTable title="Most Wagered" name="Wagered" data={mostWagered}/>
-                    </Col>
-                    <Col md={6}>
-                        <StatsTable title="Most Profit" name="Profit" data={mostProfit}/>
-                    </Col>
-                </Row>
+                <Nav pills className={Style.selection}>
+                    <NavItem>
+                        <NavLinkX tag={RRNavLink} to={`${match.path}/weekly`}>
+                            Weekly
+                        </NavLinkX>
+                    </NavItem>
+                    <NavItem>
+                        <NavLinkX tag={RRNavLink} to={`${match.path}/monthly`}>
+                            Monthly
+                        </NavLinkX>
+                    </NavItem>
+                    <NavItem>
+                        <NavLinkX tag={RRNavLink} to={`${match.path}/all`}>
+                            All
+                        </NavLinkX>
+                    </NavItem>
+                </Nav>
+                <Switch>
+                    <Route exact path={`${match.path}`} render={() => <Redirect to={`${match.path}/weekly`}/>}/>
+                    <Route exact path={`${match.path}/weekly`} component={weekEntry}/>
+                    <Route exact path={`${match.path}/monthly`} component={monthEntry}/>
+                    <Route exact path={`${match.path}/all`} component={allEntry}/>
+                </Switch>
             </div>
         );
     }
 }
 
-export default connect(mapStateToProps)(HallOfFame);
+export default HallOfFame;
