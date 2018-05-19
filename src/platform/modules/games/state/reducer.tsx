@@ -8,9 +8,7 @@ export type Actions = ActionType<typeof actions>;
 
 export type Status =
     'CREATING'
-    | 'WAITING_FOR_SERVER'
     | 'ACTIVE'
-    | 'CANCELLING'
     | 'ENDED'
     | 'INVALID_SEED' // TODO: remove?
     | 'PLACED_BET'  // TODO: remove?
@@ -52,7 +50,6 @@ export type State = {
 
 const initialState: State = {
     status: 'ENDED',
-    reasonEnded: 'REGULAR_ENDED',
 
     hashChain: [],
     stake: 0,
@@ -73,22 +70,12 @@ export default function state(state: State = initialState, action: Actions): Sta
             hashChain: action.hashChain,
             stake: action.value,
             playerHash: action.hashChain[0],
+            serverHash: action.serverEndHash,
             createTransactionHash: action.createTransactionHash
         };
-        case types.WAITING_FOR_SERVER: return {...state,
-            status: 'WAITING_FOR_SERVER',
-            createTransactionHash: action.createTransactionHash,
-            gameId: action.gameId
-        };
+        case types.SET_CREATE_TRANSACTION_HASH: return {...state, createTransactionHash: action.createTransactionHash};
         case types.CREATE_TRANSACTION_FAILURE: return {...state, status: 'ENDED', reasonEnded: 'TRANSACTION_FAILURE'};
-        case types.CANCEL_TRANSACTION_FAILURE: return {
-            ...state,
-            status: (state.status === 'CANCELLING') ? 'WAITING_FOR_SERVER' : state.status
-        };
-        case types.CANCELLING: return {...state, status: 'CANCELLING'};
-        case types.CANCELLED: return {...state, status: 'ENDED', reasonEnded: 'CANCELLED_BY_PLAYER'};
-        case types.GAME_ACCEPTED: return {...state, status: 'ACTIVE', gameId: action.gameId, serverHash: action.serverHash};
-        case types.GAME_REJECTED: return {...state, status: 'ENDED', reasonEnded: 'REJECTED_BY_SERVER'};
+        case types.GAME_ACCEPTED: return {...state, status: 'ACTIVE', gameId: action.gameId};
         case types.ENDED_GAME: return {...state,
             status: 'ENDED',
             reasonEnded: 'REGULAR_ENDED',

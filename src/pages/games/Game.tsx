@@ -48,11 +48,6 @@ class Game extends React.Component<Props> {
         super(props);
     }
 
-    onRejectGame = (gameId: number) => {
-        const {serverRejectGame} = this.props;
-        serverRejectGame(gameId);
-    };
-
     onAcceptGame = ({gameId, serverHash}: {gameId: number, serverHash: string}) => {
         const {serverAcceptGame} = this.props;
         serverAcceptGame(gameId, serverHash);
@@ -67,11 +62,6 @@ class Game extends React.Component<Props> {
         const {removeStateListeners} = this.props;
         removeStateListeners();
     }
-
-    cancelCreateGame = () => {
-        const {cancelCreateGame} = this.props;
-        cancelCreateGame();
-    };
 
     createGame = (value: number, seed: string) => {
         const {createGame} = this.props;
@@ -123,7 +113,6 @@ class Game extends React.Component<Props> {
                             onStartGame={this.createGame}
                             onEndGame={this.endGame}
                             onSeedRequest={this.requestSeed}
-                            onCancel={this.cancelCreateGame}
                             onConflictEnd={this.conflictEnd}
                         />
                         }

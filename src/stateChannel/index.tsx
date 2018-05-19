@@ -94,15 +94,15 @@ export function createTypedSignature(roundId: number, gameType: number, num: num
     ];
 }
 
-export function getLastGameId(web3: Web3, contract: any, player: string, transactionHash: string): Promise<number> {
+export function getLastGameId(web3: Web3, contract: any, serverEndHash: string, transactionHash: string): Promise<number> {
     if (contract == null) {
         return Promise.reject("Error invalid web3 state!");
     }
 
     return web3.eth.getBlockNumber().then(blockNum => {
         return contract.getPastEvents('LogGameCreated', {
-            filter: {player},
-            fromBlock: blockNum - 4 * 3 * 60,
+            filter: {serverEndHash},
+            fromBlock: blockNum - 24 * 3 * 60,
             toBlock: 'latest'
         });
     }).then(events => {
@@ -115,24 +115,37 @@ export function getLastGameId(web3: Web3, contract: any, player: string, transac
     })
 }
 
+export async function getLogGameCreated(web3: Web3, contract: any, serverEndHash: string) {
+    const blockNum = await web3.eth.getBlockNumber();
+    const events = await contract.getPastEvents('LogGameCreated', {
+        filter: {serverEndHash},
+        fromBlock: Math.max(blockNum - 24 * 3 * 60, 0),
+        toBlock: 'latest'
+    });
 
-export function getServerHash(web3: Web3, contract: any, gameId: number, player: string): Promise<string> {
-    return web3.eth.getBlockNumber().then(blockNum => {
-        console.log(contract.events);
-        return contract.getPastEvents('LogGameAccepted', {
-            filter: {player},
-            fromBlock: Math.max(blockNum - 4 * 3 * 60, 0)
-        })
-    }).then(events => {
-        const len = events.length;
-        if (len === 0 || Number.parseInt(events[len - 1].returnValues.gameId) !== gameId) {
-            return Promise.reject(new Error("Could not read server hash!"));
-        }
+    if (events.length !== 1) {
+        return undefined;
+    }
 
-        return events[len - 1].returnValues.endHash;
-    })
+    return events[0];
 }
 
+export function getReasonEnded(web3: Web3, contract: any, gameId: number) {
+    return web3.eth.getBlockNumber().then(blockNum => {
+        return contract.getPastEvents('LogGameEnded', {
+            filter: {gameId},
+            fromBlock: blockNum - 24 * 3 * 60,
+            toBlock: 'latest'
+        });
+    }).then(events => {
+        const len = events.length;
+        if (len !== 1) {
+            return Promise.reject(new Error("Could not find event!"));
+        }
+
+        return events[0].returnValues.reasonEnded;
+    })
+}
 
 export function signBet(web3: Web3, account: string, roundId: number, gameType: number, num: number, value: number,
                         balance: number, serverHash: string, playerHash: string, gameId: number, contractAddress: string) {

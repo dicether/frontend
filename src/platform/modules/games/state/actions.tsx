@@ -6,8 +6,8 @@ import {ActionCreateType} from "../../../../util/util";
 const ca = <T extends ActionCreateType<typeof types>>(a: T) => a;
 
 
-export const creatingGame = ca((hashChain: Array<string>, value: number, transactionHash?: string) => {
-    return {type: types.CREATING_GAME, hashChain, value, createTransactionHash: transactionHash}
+export const creatingGame = ca((hashChain: Array<string>, serverEndHash: string, value: number, transactionHash?: string) => {
+    return {type: types.CREATING_GAME, hashChain, value, serverEndHash, createTransactionHash: transactionHash}
 });
 
 
@@ -16,32 +16,18 @@ export const transactionFailure = ca(() => {
 });
 
 
-export const cancelTransactionFailure = ca(() => {
-    return {type: types.CANCEL_TRANSACTION_FAILURE};
-});
-
-
-export const cancelled = ca(() => {
-    return {type: types.CANCELLED};
-});
-
 export const endedWithReason = ca((reason: ReasonEnded) => {
     return {type: types.ENDED_WITH_REASON, reason};
 });
 
 
-export const waitingForServer = ca((createTransactionHash: string, gameId: number) => {
-    return {type: types.WAITING_FOR_SERVER, createTransactionHash, gameId};
-});
+// export const waitingForServer = ca((createTransactionHash: string, gameId: number) => {
+//     return {type: types.WAITING_FOR_SERVER, createTransactionHash, gameId};
+// });
 
 
-export const acceptedGame = ca((gameId: number, serverHash: string) => {
-    return {type: types.GAME_ACCEPTED, gameId, serverHash}
-});
-
-
-export const rejectedGame = ca(() => {
-    return {type: types.GAME_REJECTED};
+export const acceptedGame = ca((gameId: number) => {
+    return {type: types.GAME_ACCEPTED, gameId}
 });
 
 
@@ -53,11 +39,6 @@ export const addBet = ca((roundId: number, gameType: number, betValue: number, n
 
 export const endBet = ca((serverSeed: string, playerSeed: string, balance: number) => {
     return {type: types.END_BET, serverSeed, playerSeed, balance};
-});
-
-
-export const cancelling = ca(() => {
-    return {type: types.CANCELLING};
 });
 
 
@@ -77,4 +58,9 @@ export const restoreState = ca((state: State) => {
 
 export const changeStatus = ca((status: Status) => {
     return {type: types.CHANGE_STATUS, status};
+});
+
+
+export const setCreateTransactionHash = ca((createTransactionHash: string) => {
+    return {type: types.SET_CREATE_TRANSACTION_HASH, createTransactionHash};
 });

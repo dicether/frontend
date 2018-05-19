@@ -1,16 +1,27 @@
 import axios from "axios";
-import ethUtil from 'ethereumjs-util'
 
 
 import {Dispatch, GetState, isLocalStorageAvailable} from "../../../../util/util";
 import {
-    calcPlayerProfit, calcResultNumber, createHashChain, fromBaseToWei, getLastGameId, getServerHash, keccak,
-    signBet, verifyBetSignature, verifySeed
+    calcPlayerProfit,
+    calcResultNumber,
+    createHashChain,
+    fromBaseToWei, getLastGameId, getReasonEnded, getLogGameCreated,
+    keccak,
+    signBet,
+    verifyBetSignature,
+    verifySeed
 } from "../../../../stateChannel";
 import {catchError} from "../../utilities/asyncActions";
 import {
-    acceptedGame, addBet, cancelled, cancelling, cancelTransactionFailure, changeStatus, creatingGame, endBet,
-    endedGame, endedWithReason, invalidSeed, rejectedGame, restoreState, transactionFailure, waitingForServer
+    acceptedGame,
+    addBet, changeStatus,
+    creatingGame,
+    endBet,
+    endedGame, endedWithReason,
+    invalidSeed,
+    restoreState, setCreateTransactionHash,
+    transactionFailure,
 } from "./actions";
 import {CONTRACT_ADDRESS, NETWORK_ID, NETWORK_NAME, SERVER_ADDRESS} from "../../../../config/config";
 import {showErrorMessage} from "../../utilities/actions";
@@ -26,22 +37,19 @@ const STORAGE_VERSION = 1;
 enum ContractStatus {
     ENDED = 0,
     ACTIVE = 1,
-    WAITING_FOR_SERVER = 2,
-    PLAYER_INITIATED_END = 3,
-    SERVER_INITIATED_END = 4,
+    PLAYER_INITIATED_END = 2,
+    SERVER_INITIATED_END = 3,
 }
 
 enum ContractReasonEnded {
     REGULAR_ENDED = 0,
     END_FORCED_BY_SERVER = 1,
     END_FORCED_BY_PLAYER = 2,
-    REJECTED_BY_SERVER = 3,
-    CANCELLED_BY_PLAYER = 4
 }
 
 
 export function loadContractStateCreatedGame() {
-    return function (dispatch: Dispatch, getState: GetState) {
+    return async function (dispatch: Dispatch, getState: GetState) {
         const {web3: web3State, games} = getState();
         const {contract} = web3State;
         const {gameState} = games;
@@ -52,20 +60,13 @@ export function loadContractStateCreatedGame() {
             return Promise.resolve();
         }
 
-        return contract.methods.gameIdGame(gameId).call().then(result => {
+        try {
+            const result = await contract.methods.gameIdGame(gameId).call();
             const status = Number.parseInt(result.status);
-            const reasonEnded = Number.parseInt(result.reasonEnded);
 
             if (status === ContractStatus.ENDED && gameState.status !== 'ENDED') {
+                const reasonEnded = await getReasonEnded(web3, contract, gameId);
                 return dispatch(endedWithReason(ContractReasonEnded[reasonEnded] as ReasonEnded));
-            } else if (status === ContractStatus.ACTIVE && gameState.status === 'WAITING_FOR_SERVER') {
-                return getServerHash(web3, contract, gameId, account).then(serverHash => {
-                    return dispatch(acceptedGame(gameId, serverHash));
-
-                })
-            } else if (status === ContractStatus.WAITING_FOR_SERVER && gameState.status === 'CREATING') {
-                // can not happen as we wouldn't know game id before WAITING_FOR_SERVER
-                return Promise.reject(new Error("Unexpected contract game state WAITING_FOR_SERVER!"));
             } else if (status === ContractStatus.PLAYER_INITIATED_END && gameState.status !== 'ENDED') {
                 return dispatch(changeStatus('PLAYER_INITIATED_END'));
             } else if (status === ContractStatus.SERVER_INITIATED_END && gameState.status !== 'ENDED') {
@@ -73,31 +74,35 @@ export function loadContractStateCreatedGame() {
             } else {
                 return Promise.resolve();
             }
-        }).catch(error => catchError(error, dispatch));
+        } catch(error) {
+            catchError(error, dispatch);
+        }
     }
 }
 
 export function loadContractGameState() {
-    return function (dispatch: Dispatch, getState: GetState) {
+    return async function (dispatch: Dispatch, getState: GetState) {
         const {web3: web3State, games} = getState();
         const {contract} = web3State;
         const {gameState} = games;
         const {web3, account} = web3State;
 
-        if (contract === null || web3 === null || account === null) {
+        if (contract === null || web3 === null || account === null || !gameState.serverHash) {
             return Promise.resolve();
         }
 
-
-        const transactionHash = gameState.createTransactionHash;
-        if (gameState.status === 'CREATING' && transactionHash !== undefined) {
-            return getLastGameId(web3, contract, account, transactionHash).then(gameId => {
-                return dispatch(waitingForServer(transactionHash, gameId));
-            }).catch(error => catchError(error, dispatch));
+        if (gameState.status === 'CREATING') {
+            const logCreated = await getLogGameCreated(web3, contract, gameState.serverHash);
+            if (logCreated) {
+                dispatch(acceptedGame(logCreated.returnValues.gameId));
+                dispatch(loadContractStateCreatedGame());
+            }
         }
-        return dispatch(loadContractStateCreatedGame());
+
+        dispatch(loadContractStateCreatedGame());
     }
 }
+
 
 export function loadServerGameState() {
     return function (dispatch: Dispatch, getState: GetState) {
@@ -109,18 +114,11 @@ export function loadServerGameState() {
             const data = result.data;
             const status = data.status;
             const gameId = data.gameId;
-            const serverHash = data.serverHash;
 
             const gameState = getState().games.gameState;
 
-            if (gameState.status === 'CREATING' || gameState.status === 'WAITING_FOR_SERVER'
-                || gameState.status === 'CANCELLING') {
-                if (status === 'ACTIVE') {
-                    // TODO: check serverHash
-                    dispatch(acceptedGame(gameId, serverHash));
-                } else if (status === 'REJECTED_BY_SERVER') {
-                    dispatch(rejectedGame());
-                }
+            if (gameState.status === 'CREATING' && status === 'ACTIVE') {
+                dispatch(acceptedGame(gameId));
             }
         }).catch(error => {
             if (error.response.status !== 404) {
@@ -150,9 +148,8 @@ export function loadLocalGameState(address: string) {
 export function syncGameState(address: string) {
     return function (dispatch: Dispatch, getState: GetState) {
         return dispatch(loadLocalGameState(address)).then(() => {
-            return dispatch(loadContractGameState())
-        }).then(() => {
-            return dispatch(loadServerGameState())
+            dispatch(loadContractGameState());
+            dispatch(loadServerGameState())
         }).catch(console.log);
     }
 }
@@ -165,53 +162,24 @@ export function storeGameState(address: string, gameState: State) {
     localStorage.setItem(`gameState${address}`, JSON.stringify({version: STORAGE_VERSION, gameState}));
 }
 
-export function serverRejectGame(gameId: number) {
-    return function (dispatch: Dispatch, getState: GetState) {
-        const gameState = getState().games.gameState;
-        const status = gameState.status;
-        if (status !== 'CREATING' || (gameState.gameId !== undefined && gameState.gameId !== gameId)) {
-            dispatch(showErrorMessage("Unexpected gameRejected message!"));
-            return;
-        }
-
-        dispatch(rejectedGame());
-    }
-}
 
 export function serverAcceptGame(gameId: number, serverHash: string) {
     return function (dispatch: Dispatch, getState: GetState) {
-        const {web3: web3State, games} = getState();
-        const {contract} = web3State;
-        const {web3, account} = web3State;
-
+        const {games} = getState();
 
         const gameState = games.gameState;
         const status = gameState.status;
-        if ((status !== 'CREATING' && status !== 'WAITING_FOR_SERVER' && status !== 'CANCELLING')
-            || (gameState.gameId !== undefined && gameState.gameId !== gameId)) {
+        if (status === 'ACTIVE') {
+            // already active => do nothing
+            return;
+        }
+
+        if (status !== 'CREATING' || gameState.serverHash !== serverHash) {
             dispatch(showErrorMessage("Unexpected gameAccepted message!"));
-            return undefined;
+            return;
         }
 
-        if (web3 === null || account === null) {
-            // accept server hash without checking
-            dispatch(acceptedGame(gameId, serverHash));
-            return undefined;
-        }
-
-        // check if server hash is valid
-        return getServerHash(web3, contract, gameId, account).then(contractServerHash => {
-            if (!ethUtil.toBuffer(serverHash).equals(ethUtil.toBuffer(contractServerHash))) {
-                dispatch(showErrorMessage(`Invalid server hash! ${serverHash} instead of ${contractServerHash}`));
-                return;
-            }
-
-            dispatch(acceptedGame(gameId, contractServerHash));
-        }).catch(error => {
-            // getServerHash failed => accept without checking but show error message
-            dispatch(acceptedGame(gameId, serverHash));
-            catchError(error, dispatch);
-        })
+        return dispatch(acceptedGame(gameId));
     }
 }
 
@@ -230,8 +198,8 @@ const checkIfEndTransactionFinished = (web3: Web3, transactionHash?: string) => 
     )
 };
 
-export function createGame(value: number, playerSeed: string) {
-    return function (dispatch: Dispatch, getState: GetState) {
+export function createGame(stake: number, playerSeed: string) {
+    return async function (dispatch: Dispatch, getState: GetState) {
         const web3State = getState().web3;
         const contract = web3State.contract;
         const account = web3State.account;
@@ -248,7 +216,6 @@ export function createGame(value: number, playerSeed: string) {
             return;
         }
 
-
         if (account === null || contract === null || web3State.web3 === null
                 || (status !== 'ENDED' && (status !== 'CREATING' && gameState.createTransactionHash !== undefined))) {
             dispatch(showErrorMessage("Invalid state! Can not create game!"));
@@ -263,73 +230,58 @@ export function createGame(value: number, playerSeed: string) {
         const createGame = contract.methods.createGame;
         const hashChain = createHashChain(playerSeed);
 
-
-        checkIfEndTransactionFinished(web3State.web3, gameState.endTransactionHash).then(finished => {
+        try {
+            const finished = await checkIfEndTransactionFinished(web3State.web3, gameState.endTransactionHash);
             // transaction hash is unknown
             if (!finished) {
                 dispatch(showErrorMessage("You need to wait until transaction ending game session in mined!"));
                 return Promise.resolve();
             }
 
-            dispatch(creatingGame(hashChain, value, undefined));
+            const response = await axios.post('/createGame');
+            const data = response.data;
+            const serverEndHash = data.serverEndHash;
+            const previousGameId = data.previousGameId;
+            const contractAddress = data.contractAddress;
+            const createBefore = data.createBefore;
+            const signature = data.signature;
 
-            return createGame(hashChain[0]).send({from: account, value: fromBaseToWei(value), gas: 180000}).on(error => {
+            dispatch(creatingGame(hashChain, serverEndHash, stake, undefined));
+
+
+            return createGame(hashChain[0], previousGameId, createBefore, serverEndHash, signature).send({
+                from: account,
+                value: fromBaseToWei(stake),
+                gas: 180000
+            }).on(error => {
                 catchError(error, dispatch);
             }).on('transactionHash', transactionHash => {
-                dispatch(creatingGame(hashChain, value, transactionHash));
+                dispatch(setCreateTransactionHash(transactionHash));
             }).on('receipt', (receipt: TransactionReceipt) => {
                 const event = receipt.events ? receipt.events.LogGameCreated : null;
-                if ((Number.parseInt(receipt.status) === 1 || (receipt.status as any) === true) && event !== null) {
-                    const gameId = (event.returnValues as any).gameId;
-                    dispatch(waitingForServer(receipt.transactionHash, Number.parseInt(gameId)));
-                } else {
-                    dispatch(showErrorMessage("Create game transaction failed!"));
-                    dispatch(transactionFailure());
+                    if ((Number.parseInt(receipt.status) !== 1 && (receipt.status as any) !== true) || event === null) {
+                        dispatch(showErrorMessage("Create game transaction failed!"));
+                        dispatch(transactionFailure());
+                    }
+            }).on('confirmation', (num: number, receipt: TransactionReceipt) => {
+                // wait for 3 confirmations
+                if (num === 3) {
+                    const event = receipt.events ? receipt.events.LogGameCreated : null;
+                    if ((Number.parseInt(receipt.status) !== 1 && (receipt.status as any) !== true) || event === null) {
+                        dispatch(showErrorMessage("Create game transaction failed!"));
+                        dispatch(transactionFailure());
+                    } else {
+                        const gameId = (event.returnValues as any).gameId;
+                        const serverEndHash = (event.returnValues as any).serverEndHash;
+                        dispatch(serverAcceptGame(gameId, serverEndHash));
+                    }
                 }
             }).catch(error => {
                 catchError(error, dispatch);
             })
-        }).catch(error => {
-                catchError(error, dispatch);
-        });
-    }
-}
-
-export function cancelCreateGame() {
-    return function (dispatch: Dispatch, getState: GetState) {
-        const gameState = getState().games.gameState;
-        const web3State = getState().web3;
-        const contract = web3State.contract;
-        const account = web3State.account;
-        const gameId = gameState.gameId;
-
-        if (!validNetwork(web3State.networkId)) {
-            dispatch(showErrorMessage(`Invalid network! You need to use ${NETWORK_NAME}!`));
-            return;
-        }
-
-        if (gameId === undefined || account === null || contract === null || gameState.status !== 'WAITING_FOR_SERVER') {
-            dispatch(showErrorMessage("Invalid state! Can not cancel game session creation!"));
-            return;
-        }
-
-        const cancelGame = contract.methods.cancelGame;
-        cancelGame(gameId).send({from: account, value: 0, gas: 120000}).on('transactionHash', hash => {
-            dispatch(cancelling());
-        }).on(error => {
+        } catch(error) {
             catchError(error, dispatch);
-            dispatch(cancelTransactionFailure());
-        }).then((receipt: TransactionReceipt) => {
-            if (Number.parseInt(receipt.status) === 1) {
-                dispatch(cancelled());
-            } else {
-                dispatch(cancelTransactionFailure());
-                dispatch(showErrorMessage("Cancelling transaction failed!"));
-            }
-        }).catch(error => {
-            catchError(error, dispatch);
-            dispatch(cancelTransactionFailure());
-        })
+        }
     }
 }
 

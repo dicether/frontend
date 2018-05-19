@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {State} from '../../../rootReducer';
-import {loadContractGameState, storeGameState, syncGameState} from '../../modules/games/state/asyncActions';
+import {storeGameState, syncGameState} from '../../modules/games/state/asyncActions';
 import {connect} from 'react-redux';
 import {getUser} from "../../modules/account/selectors";
 import {bindActionCreators, Dispatch} from "redux";
@@ -19,7 +19,6 @@ const mapStateToProps = (state: State) => {
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<State>) => bindActionCreators({
-    loadContractGameState,
     syncGameState
 }, dispatch);
 
@@ -41,12 +40,8 @@ class StateLoader extends React.Component<Props> {
     }
 
     componentWillReceiveProps(nextProps: Props) {
-        const {loadContractGameState, syncGameState, userAuth: nextUserAuth, gameState: nextState, web3: nextWeb3State} = nextProps;
+        const {syncGameState, userAuth: nextUserAuth, gameState: nextState, web3: nextWeb3State} = nextProps;
         const {userAuth: curUserAuth, gameState: curState, web3: curWeb3State} = this.props;
-
-        if (nextProps.web3.contract !== this.props.web3.contract && nextProps.web3.contract !== null) {
-            loadContractGameState();
-        }
 
         if (nextUserAuth !== curUserAuth && nextUserAuth !== null
                 || nextUserAuth !== null && nextWeb3State.account !== curWeb3State.account && nextWeb3State.account !== null) {

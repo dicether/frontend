@@ -16,7 +16,6 @@ type Props = {
     onStartGame(value: number, seed: string): void,
     onSeedRequest(): void,
     onEndGame(): void,
-    onCancel(): void,
     onConflictEnd(): void,
 }
 
@@ -44,7 +43,7 @@ export default class GameHeader extends React.Component<Props, State> {
 
 
     render() {
-        const {gameState, onStartGame, onEndGame, web3State, onSeedRequest, onCancel, onConflictEnd} = this.props;
+        const {gameState, onStartGame, onEndGame, web3State, onSeedRequest, onConflictEnd} = this.props;
         const {modalIsOpen} = this.state;
 
         // special case creating: handle as ended as long as we didn't get transaction hash
@@ -52,8 +51,6 @@ export default class GameHeader extends React.Component<Props, State> {
 
         const isGameActive = gameState.status === 'ACTIVE';
         const isGameCreating = gameState.status === 'CREATING' && gameState.createTransactionHash;
-        const isCancelling = gameState.status === 'CANCELLING';
-        const isWaitingForServer = gameState.status === 'WAITING_FOR_SERVER';
         const isSeedInvalid = gameState.status === 'INVALID_SEED';
         const placedBet = gameState.status === 'PLACED_BET';
         const lastGameTransactionHash = gameState.endTransactionHash;
@@ -81,17 +78,8 @@ export default class GameHeader extends React.Component<Props, State> {
                         <Ether gwei={gameState.balance}/>
                     </div>
                 ]}
-                {isCancelling &&
-                    <span>Cancelling Game Session creation... {spinner}</span>
-                }
                 {isGameCreating &&
                     <span>Creating Game Session... {spinner}</span>
-                }
-                {isWaitingForServer &&
-                    <div>
-                        <span>Waiting for Server... {spinner}</span>
-                        <Button size="sm" onClick={onCancel}>Cancel</Button>
-                    </div>
                 }
                 { serverInitiatedEnd &&
                     <div>

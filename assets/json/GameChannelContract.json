@@ -140,7 +140,7 @@
     "outputs": [
       {
         "name": "",
-        "type": "uint256"
+        "type": "uint128"
       }
     ],
     "payable": false,
@@ -173,20 +173,6 @@
       {
         "name": "",
         "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "typeHash",
-    "outputs": [
-      {
-        "name": "",
-        "type": "bytes32"
       }
     ],
     "payable": false,
@@ -259,6 +245,20 @@
     "type": "function"
   },
   {
+    "constant": true,
+    "inputs": [],
+    "name": "TYPE_HASH",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "constant": false,
     "inputs": [
       {
@@ -310,12 +310,8 @@
         "type": "uint8"
       },
       {
-        "name": "reasonEnded",
-        "type": "uint8"
-      },
-      {
         "name": "stake",
-        "type": "uint256"
+        "type": "uint128"
       },
       {
         "name": "gameType",
@@ -398,24 +394,6 @@
     ],
     "payable": false,
     "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_minStake",
-        "type": "uint256"
-      },
-      {
-        "name": "_maxStake",
-        "type": "uint256"
-      }
-    ],
-    "name": "setStakeRequirements",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -624,6 +602,24 @@
     "type": "function"
   },
   {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_minStake",
+        "type": "uint128"
+      },
+      {
+        "name": "_maxStake",
+        "type": "uint128"
+      }
+    ],
+    "name": "setStakeRequirements",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "constant": true,
     "inputs": [],
     "name": "houseAddress",
@@ -700,7 +696,7 @@
     "outputs": [
       {
         "name": "",
-        "type": "uint256"
+        "type": "uint128"
       }
     ],
     "payable": false,
@@ -752,11 +748,11 @@
       },
       {
         "name": "_minStake",
-        "type": "uint256"
+        "type": "uint128"
       },
       {
         "name": "_maxStake",
-        "type": "uint256"
+        "type": "uint128"
       },
       {
         "name": "_conflictResAddress",
@@ -791,54 +787,20 @@
       {
         "indexed": false,
         "name": "stake",
-        "type": "uint256"
+        "type": "uint128"
+      },
+      {
+        "indexed": true,
+        "name": "serverEndHash",
+        "type": "bytes32"
       },
       {
         "indexed": false,
-        "name": "endHash",
+        "name": "playerEndHash",
         "type": "bytes32"
       }
     ],
     "name": "LogGameCreated",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "name": "player",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "name": "gameId",
-        "type": "uint256"
-      }
-    ],
-    "name": "LogGameRejected",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "name": "player",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "name": "gameId",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "name": "endHash",
-        "type": "bytes32"
-      }
-    ],
-    "name": "LogGameAccepted",
     "type": "event"
   },
   {
@@ -887,6 +849,16 @@
         "indexed": true,
         "name": "gameId",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "name": "roundId",
+        "type": "uint32"
+      },
+      {
+        "indexed": false,
+        "name": "balance",
+        "type": "int256"
       },
       {
         "indexed": false,
@@ -971,68 +943,30 @@
     "constant": false,
     "inputs": [
       {
-        "name": "_endHash",
+        "name": "_playerEndHash",
         "type": "bytes32"
+      },
+      {
+        "name": "_previousGameId",
+        "type": "uint256"
+      },
+      {
+        "name": "_createBefore",
+        "type": "uint256"
+      },
+      {
+        "name": "_serverEndHash",
+        "type": "bytes32"
+      },
+      {
+        "name": "_serverSig",
+        "type": "bytes"
       }
     ],
     "name": "createGame",
     "outputs": [],
     "payable": true,
     "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_gameId",
-        "type": "uint256"
-      }
-    ],
-    "name": "cancelGame",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_playerAddress",
-        "type": "address"
-      },
-      {
-        "name": "_gameId",
-        "type": "uint256"
-      }
-    ],
-    "name": "rejectGame",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_playerAddress",
-        "type": "address"
-      },
-      {
-        "name": "_gameId",
-        "type": "uint256"
-      },
-      {
-        "name": "_endHash",
-        "type": "bytes32"
-      }
-    ],
-    "name": "acceptGame",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
     "type": "function"
   },
   {

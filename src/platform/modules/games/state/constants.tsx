@@ -21,3 +21,4 @@ export const END_BET = c('END_BET');
 export const RESTORE_STATE = c('RESTORE_STATE');
 export const CHANGE_STATUS = c('CHANGE_STATUS');
 export const ENDED_WITH_REASON = c('ENDED_WITH_REASON');
+export const SET_CREATE_TRANSACTION_HASH = c('SET_CREATE_TRANSACTION_HASH');
