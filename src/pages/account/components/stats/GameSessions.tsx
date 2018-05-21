@@ -1,7 +1,7 @@
 import * as React from "react";
-import {Table} from "../../../reusable";
-import {GameSession} from "../../../platform/modules/account/types";
-import Ether from "../../../reusable/Ether";
+import {Table} from "../../../../reusable/index";
+import {GameSession} from "../../../../platform/modules/account/types";
+import Ether from "../../../../reusable/Ether";
 import {Link} from "react-router-dom";
 
 const GameSessionRow = ({gameId, balance, roundId}: GameSession) => (

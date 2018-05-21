@@ -1,9 +1,9 @@
 import * as React from 'react';
 
-import {Ether} from '../../../reusable';
-import {Stats} from "../../../platform/modules/account/types";
+import {Ether} from '../../../../reusable/index';
+import {Stats} from "../../../../platform/modules/account/types";
 
-const Style = require('./Stats.scss');
+const Style = require('./GameStats.scss');
 
 type EntryProps = {
     value: number,
@@ -24,7 +24,7 @@ type Props = {
     stats: Stats
 };
 
-const Stats = ({stats}: Props) => {
+const GameStats = ({stats}: Props) => {
     const {profit, wagered, numBets} = stats;
     return (
         <div className={Style.stats}>
@@ -34,4 +34,4 @@ const Stats = ({stats}: Props) => {
         </div>);
 };
 
-export default Stats;
+export default GameStats;

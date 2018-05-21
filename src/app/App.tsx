@@ -114,7 +114,7 @@ class App extends React.Component<Props, State> {
                     <Route exact path="/termsOfUse" component={TermsOfUse}/>
                     <Route exact path="/logout" component={LogoutRoute}/>
                     <Route exact path="/games/dice" component={Game}/>
-                    <AuthenticatedRoute authenticated={userAuth !== null} exact path="/account" component={Account}/>
+                    <AuthenticatedRoute authenticated={userAuth !== null} path="/account" component={Account}/>
                     <Route exact path="/gameSession/:gameId(\d+)" component={GameSession}/>
                     <Route component={PathNotFound}/>
                 </Switch>

@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import {Stats as StatsType, User} from "../../modules/account/types";
 import axios from "axios";
-import Stats from "../../../pages/account/components/Stats";
+import GameStats from "../../../pages/account/components/stats/GameStats";
 import {Address} from '../../../reusable';
 
 const Style = require('./UserInfo.scss');
@@ -45,7 +45,7 @@ export default class UserInfo extends React.Component<Props, State> {
                 <h3 className="text-center">{user.username}</h3>
                 <Address address={user.address} />
                 {stats !== undefined &&
-                    <Stats stats={stats} />
+                    <GameStats stats={stats} />
                 }
             </div>
         );

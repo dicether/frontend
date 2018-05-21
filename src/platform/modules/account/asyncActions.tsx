@@ -129,12 +129,15 @@ export function register(username: string) {
             }
         ];
 
+        const referredBy = localStorage.getItem("referral");
+
         return signTypedData(web3, web3Account, typedData).then(result => {
             return axios.post('register', {
                 realm: REALM,
                 address: web3Account,
                 username,
                 signature: result,
+                referredBy: referredBy ? referredBy : undefined
             });
         }).then(response => {
                 initUser(dispatch, response.data.jwt);

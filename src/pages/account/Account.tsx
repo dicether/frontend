@@ -1,68 +1,48 @@
 import * as React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators, Dispatch} from 'redux';
-
-import {Tooltip} from '../../reusable/index';
-import Stats from './components/Stats';
-import {Address} from '../../reusable';
+import {NavLink as RRNavLink, Redirect, Route, Switch} from 'react-router-dom';
+import {NavItem, NavLink, Nav, Navbar, Collapse} from 'reactstrap';
+import {RouteComponentProps} from "react-router";
+import Stats from "./components/stats/Stats";
+import Affiliate from "./components/affiliate/Affiliate";
 
 const Style = require('./Account.scss');
-import {State} from "../../rootReducer";
-import {getUser} from "../../platform/modules/account/selectors";
-import {loadGameSessions, loadStats} from "../../platform/modules/account/asyncActions";
-import GameSession from "../gameSession/GameSession";
-import GameSessions from "./components/GameSessions";
 
 
-const mapStateToProps = (state: State) => {
-    const {stats, gameSessions} = state.account;
-
-    return {
-        userAuth: getUser(state),
-        stats,
-        gameSessions,
-    };
-};
-
-const mapDispatchToProps = (dispatch: Dispatch<State>) => bindActionCreators({
-    loadStats,
-}, dispatch);
-
-
-type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
+type Props = RouteComponentProps<any>;
 
 class Account extends React.PureComponent<Props> {
     constructor(props: Props) {
         super(props);
     }
 
-    componentWillMount() {
-        const {loadStats, userAuth} = this.props;
-        if (userAuth) {
-            loadStats(userAuth.address);
-            loadGameSessions(userAuth.address);
-        }
-    }
-
-
     render() {
-        const {stats, gameSessions, userAuth} = this.props;
+        const {match} = this.props;
+        const NavLinkX: React.StatelessComponent<any> = NavLink;
 
         return (
-            <div className={Style.account}>
-                {userAuth !== null &&
-                    <div>
-                        <h2 className={Style.username} id="username">{userAuth.username}</h2>
-                        <Tooltip target="username">
-                            <Address address={userAuth.address}/>
-                        </Tooltip>
-                    </div>
-                }
-                <Stats stats={stats}/>
-                <GameSessions gameSessions={gameSessions}/>
+            <div>
+                <Navbar color="faded" light expand style={{marginLeft: "-1.5rem"}}>
+                    <Nav navbar>
+                        <NavItem>
+                            <NavLinkX tag={RRNavLink} to={`${match.path}/stats`}>
+                                Statistics
+                            </NavLinkX>
+                        </NavItem>
+                        <NavItem>
+                            <NavLinkX tag={RRNavLink} to={`${match.path}/affiliate`}>
+                                Affiliate
+                            </NavLinkX>
+                        </NavItem>
+                    </Nav>
+                </Navbar>
+                <Switch>
+                    <Route exact path={`${match.path}`} render={() => <Redirect to={`${match.path}/stats`}/>}/>
+                    <Route exact path={`${match.path}/stats`} component={Stats}/>
+                    <Route exact path={`${match.path}/affiliate`} component={Affiliate}/>
+                </Switch>
             </div>
         );
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Account);
+export default Account;

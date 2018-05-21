@@ -6,6 +6,7 @@ import {BaseType} from "./BaseType";
 export interface Props extends BaseType {
     children: React.ReactNode,
     className?: string
+    row?: boolean
 }
 
 const FormGroup = ({children, className, ...rest}: Props) => (
