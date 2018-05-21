@@ -1,5 +1,6 @@
 import axios from "axios";
 import jwtDecode from 'jwt-decode';
+import Raven from "raven-js";
 
 import {Dispatch, GetState, isLocalStorageAvailable} from "../../../util/util";
 import {showErrorMessage} from "../utilities/actions";
@@ -149,7 +150,7 @@ export function deauthenticate() {
             dispatch({type: 'USER_LOGOUT'});
             dispatch(deAuthenticateSocket());
             loadDefaultData(dispatch);
-
+            Raven.setUserContext();
         }
     }
 }
@@ -175,7 +176,7 @@ export function loadGameSessions(address: string) {
 }
 
 export function initUser(dispatch: Dispatch, jwt: string) {
-    const address = jwtDecode<User>(jwt).address;
+    const {address, username} = jwtDecode<User>(jwt);
     dispatch(changeJWT(jwt));
     dispatch(loadStats(address)).catch(console.log);
     dispatch(loadGameSessions(address)).catch(console.log);
@@ -183,6 +184,10 @@ export function initUser(dispatch: Dispatch, jwt: string) {
     dispatch(loadFriends(address)).catch(console.log);
     dispatch(loadFriendRequests(address)).catch(console.log);
     dispatch(authenticateSocket());
+    Raven.setUserContext({
+        username,
+        address
+    });
 }
 
 export function loadDefaultData(dispatch: Dispatch) {

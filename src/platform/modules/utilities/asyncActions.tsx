@@ -1,5 +1,6 @@
 import {Dispatch} from "../../../util/util";
 import {showErrorMessage} from './actions';
+import Raven from "raven-js";
 
 
 function extractFirstLine(str: string) {
@@ -23,4 +24,5 @@ export function catchError(error: any, dispatch: Dispatch) {
         }
         dispatch(showErrorMessage(messageToShow));
     }
+    Raven.captureException(error);
 }
