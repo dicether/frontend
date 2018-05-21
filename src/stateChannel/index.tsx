@@ -107,7 +107,7 @@ export function getLastGameId(web3: Web3, contract: any, player: string, transac
         });
     }).then(events => {
         const len = events.length;
-        if (len === 0 && events[len - 1].transactionHash === transactionHash) {
+        if (len === 0 || events[len - 1].transactionHash !== transactionHash) {
             return Promise.reject(new Error("Could not find event!"));
         }
 
