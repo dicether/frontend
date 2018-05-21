@@ -148,13 +148,11 @@ if (node_env === 'development') {
         }),
         new SitemapPlugin(`https://${Domain}`, Paths, {skipGzip: true}),
         new webpack.SourceMapDevToolPlugin({
-            test: [/\.js$/, /\.jsx$/],
             filename: '[file].map',
-            append: false,
-            noSources: true, // Sourcemap without source
-            hidden: true
         }),
-        new UglifyJsPlugin()
+        new UglifyJsPlugin({
+            sourceMap: true
+        })
     ]);
 }
 
