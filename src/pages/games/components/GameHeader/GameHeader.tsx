@@ -190,32 +190,7 @@ export default class GameHeader extends React.Component<Props, State> {
                 )}
                 {isGameEnded && (
                     <div>
-                        <Button size="sm" color="primary" onClick={this.onShow}>
-                            Start Game Session
-                        </Button>
-                        <CreateGameModal
-                            isOpen={modalIsOpen}
-                            minValue={MIN_GAME_SESSION_VALUE}
-                            maxValue={MAX_GAME_SESSION_VALUE}
-                            onClose={this.onClose}
-                            onCreateGame={onStartGame}
-                            web3State={web3State}
-                        />
-                        {lastGameTransactionHash !== undefined && [
-                            <a
-                                key="1"
-                                ref={this.endTransactionRef}
-                                rel={"noreferrer"}
-                                style={{marginLeft: "1em"}}
-                                target="_blank"
-                                href={transactionUrl}
-                            >
-                                End Transaction
-                            </a>,
-                            <Tooltip key="2" target={() => this.endTransactionRef.current}>
-                                Show last game session end transaction
-                            </Tooltip>,
-                        ]}
+                        <span className="text-danger">Maintenance: No new games can be created!</span>
                     </div>
                 )}
             </div>
