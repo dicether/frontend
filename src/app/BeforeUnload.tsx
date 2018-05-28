@@ -19,7 +19,7 @@ class BeforeUnload extends React.Component<Props> {
     handleBeforeUnload = event => {
         const {gameState} = this.props;
 
-        if (gameState.status !== 'ENDED') {
+        if (gameState.status === 'ACTIVE') {
             const message = "You need to end the game session before leaving!";
             event.returnValue = message;
             return message;
