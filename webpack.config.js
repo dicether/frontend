@@ -39,7 +39,7 @@ const DevWebsocketUrl = 'http://localhost:5001';
 
 // Production and staging config
 const Domain = 'dicether.com';
-const ContractAddress = "0xc95d227a1cf92b6fd156265aa8a3ca7c7de0f28e";
+const ContractAddress = "0xbF8B9092e809DE87932B28ffaa00D520b04359aA";
 const ServerAddress = "0xcef260a5fed7a896bbe07b933b3a5c17aec094d8";
 const ApiUrl = `https://api.${Domain}/api`;
 const WebsocketUrl = `https://websocket.${Domain}`;
