@@ -6,6 +6,9 @@
 [context.production]
   command = "npm run build-production"
 
+# maintenance branch config
+[context.maintenance]
+  command = "npm run build-production"
 
 # staging branch config
 [context.staging]
