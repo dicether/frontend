@@ -1,0 +1,18 @@
+import * as React from "react";
+import Overview from "./components/Overview";
+import BigFeatures from "./components/BigFeatures";
+import SmallFeatures from "./components/SmallFeatures";
+import Games from "./components/Games";
+import {Container, Section} from "../../reusable";
+
+
+const Index = () => (
+    <div>
+        <Overview/>
+        <SmallFeatures/>
+        <Games/>
+        <BigFeatures/>
+    </div>
+);
+
+export default Index;

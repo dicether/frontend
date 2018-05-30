@@ -5,6 +5,7 @@ import {connect} from 'react-redux';
 import Layout from '../layout/Layout';
 import Game from '../pages/games/Game';
 import Faq from '../pages/faq/Faq';
+import Index from '../pages/index/Index';
 import HallOfFame from '../pages/hallOfFame/HallOfFame';
 import TermsOfUseModal from './TermsOfUseModal';
 import TermsOfUse from '../termsOfUse/TermsOfUse';
@@ -102,13 +103,13 @@ class App extends React.Component<Props, State> {
         const {userAuth, notification, defaultAccount, gameState} = this.props;
 
         const logout = (userAuth !== null && (userAuth.address !== defaultAccount && defaultAccount !== null));
-        const dice = () => <Redirect to="/games/dice"/>;
+        const index = () => (userAuth ? <Redirect to="/games/dice"/> : <Index/>);
 
         return (
             <Layout>
                 {logout && <Redirect to="/logout"/>}
                 <Switch>
-                    <Route exact path="/" component={dice}/>
+                    <Route exact path="/" component={index}/>
                     <Route exact path="/faq" component={Faq}/>
                     <Route path="/hallOfFame" component={HallOfFame}/>
                     <Route exact path="/termsOfUse" component={TermsOfUse}/>

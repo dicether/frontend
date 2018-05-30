@@ -26,3 +26,5 @@ export {default as FontAwesomeIcon} from './FontAwesomeIcon';
 export {default as Address} from './Address';
 export {default as Ether} from './Ether';
 export {default as DefinitionEntry} from './DefinitionEntry';
+export {default as Section} from './Section';
+export {default as Container} from './Container';

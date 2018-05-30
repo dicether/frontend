@@ -1,0 +1,27 @@
+@import "~variables";
+
+.games {
+  padding-top: 2rem;
+  padding-bottom: 4rem;
+}
+
+.gamesList {
+  display: flex;
+  justify-content: space-around;
+}
+
+.gamesListEntry {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &_disabled {
+    opacity: 0.25;
+  }
+}
+
+.gamesListEntry__img {
+  margin-bottom: 1rem;
+  color: $info;
+}

@@ -1,0 +1,16 @@
+.smallFeatures {
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+.entry {
+  line-height: 1.25;
+  margin-top: 2rem;
+  font-size: large;
+  display: flex;
+  align-items: center;
+
+  &__icon {
+    margin-right: 1rem;
+  }
+}

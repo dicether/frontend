@@ -5,12 +5,13 @@ import {BaseType} from "./BaseType";
 import {ColumnProps} from "reactstrap/lib/Col";
 
 export interface Props extends BaseType {
-    children: React.ReactNode
-    xs?: ColumnProps;
-    sm?: ColumnProps;
-    md?: ColumnProps;
-    lg?: ColumnProps;
-    xl?: ColumnProps;
+    children: React.ReactNode,
+    order?: string | number,
+    xs?: ColumnProps,
+    sm?: ColumnProps,
+    md?: ColumnProps,
+    lg?: ColumnProps,
+    xl?: ColumnProps
 }
 
 const Col = ({...rest}: Props) => (
