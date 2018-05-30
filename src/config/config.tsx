@@ -2,9 +2,13 @@ import ethUtil from "ethereumjs-util";
 
 export const NAME = "Dicether";
 
+export const CONTRACT_ADDRESS = ethUtil.toChecksumAddress(process.env.CONTRACT_ADDRESS || '');
+
+export const SERVER_ADDRESS =  ethUtil.toChecksumAddress(process.env.SERVER_ADDRESS || '');
+
 export const DISCORD_URL = "https://discord.gg/kD7FajM";
 export const REDDIT_URL = "https://www.reddit.com/r/Dicether";
-export const CONTRACT_URL = "https://etherscan.io/address/0xc95d227a1cf92b6fd156265aa8a3ca7c7de0f28e#code";
+export const CONTRACT_URL = `https://etherscan.io/address/${CONTRACT_ADDRESS}#code`;
 export const CONTACT_URL = "contact@dicether.com";
 export const BUGS_URL = "bugs@dicether.com";
 export const TWITTER_URL = "https://twitter.com/dicether";
@@ -24,9 +28,6 @@ export const FROM_BASE_TO_WEI = 1e9; // conversion from base unit GWEI to wei
 export const NETWORK_ID = 1;
 export const NETWORK_NAME = "Main";
 
-export const CONTRACT_ADDRESS = ethUtil.toChecksumAddress(process.env.CONTRACT_ADDRESS || '');
-
-export const SERVER_ADDRESS =  ethUtil.toChecksumAddress(process.env.SERVER_ADDRESS || '');
 
 export const MIN_GAME_SESSION_VALUE = 1e7;
 export const MAX_GAME_SESSION_VALUE = 5e8;
