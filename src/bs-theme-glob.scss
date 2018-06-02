@@ -74,38 +74,40 @@ td {
   white-space: nowrap;
 }
 
-@include media-breakpoint-up(sm) {
-  .container-chat-open {
-    width: unquote("calc(100% - #{$chat-width})") !important;
-    margin-left: 0;
+.chat-open {
+  @include media-breakpoint-up(sm) {
+    .container {
+      width: unquote("calc(100% - #{$chat-width})") !important;
+      margin-left: 0;
 
+    }
   }
-}
 
-@include media-breakpoint-up(md) {
-  .container-chat-open {
-    width: unquote("calc(100% - #{$chat-width})") !important;
-    margin-left: 0;
+  @include media-breakpoint-up(md) {
+    .container{
+      width: unquote("calc(100% - #{$chat-width})") !important;
+      margin-left: 0;
+    }
   }
-}
 
-@include media-breakpoint-up(lg) {
-  .container-chat-open {
-    width: unquote("calc(100% - #{$chat-width})") !important;
-    margin-left: 0;
+  @include media-breakpoint-up(lg) {
+    .container {
+      width: unquote("calc(100% - #{$chat-width})") !important;
+      margin-left: 0;
+    }
   }
-}
 
-@include media-breakpoint-up(xl) {
-  .container-chat-open {
-    width: unquote("calc(100% - #{$chat-width})") !important;
+  @include media-breakpoint-up(xl) {
+    .container {
+      width: unquote("calc(100% - #{$chat-width})") !important;
+    }
   }
-}
 
-@media (min-width: map_get($container-max-widths, xl) + $chat-width) {
-  .container-chat-open {
-    width: unquote("calc(100% - #{$chat-width})") !important;
-    margin-left: unquote("calc(50% -  #{(map_get($container-max-widths, xl) + $chat-width) / 2})");
+  @media (min-width: map_get($container-max-widths, xl) + $chat-width) {
+    .container {
+      width: unquote("calc(100% - #{$chat-width})") !important;
+      margin-left: unquote("calc(50% -  #{(map_get($container-max-widths, xl) + $chat-width) / 2})");
+    }
   }
 }
 
