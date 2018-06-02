@@ -4,6 +4,7 @@ import {NavItem, NavLink, Nav, Navbar, Collapse} from 'reactstrap';
 import {RouteComponentProps} from "react-router";
 import Stats from "./components/stats/Stats";
 import Affiliate from "./components/affiliate/Affiliate";
+import {Container} from "../../reusable";
 
 const Style = require('./Account.scss');
 
@@ -20,7 +21,7 @@ class Account extends React.PureComponent<Props> {
         const NavLinkX: React.StatelessComponent<any> = NavLink;
 
         return (
-            <div>
+            <Container>
                 <Navbar color="faded" light expand style={{marginLeft: "-1.5rem"}}>
                     <Nav navbar>
                         <NavItem>
@@ -40,7 +41,7 @@ class Account extends React.PureComponent<Props> {
                     <Route exact path={`${match.path}/stats`} component={Stats}/>
                     <Route exact path={`${match.path}/affiliate`} component={Affiliate}/>
                 </Switch>
-            </div>
+            </Container>
         );
     }
 }

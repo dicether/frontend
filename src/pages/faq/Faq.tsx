@@ -1,12 +1,13 @@
 import * as React from 'react';
 
 import {CONTACT_URL, BUGS_URL, METAMASK_URL, NAME, GITHUB_URL} from '../../config/config';
+import {Container} from "../../reusable";
 
 const Style = require('./Faq.scss');
 
 
 const Faq = () => (
-    <div className={Style.faq}>
+    <Container>
         <h2 className={Style.heading}>FAQ</h2>
         <div className={Style.entry}>
             <h5 className={Style.subheading}>What is {NAME}?</h5>
@@ -66,7 +67,7 @@ const Faq = () => (
                 You can mail us: <a href={`mailto:${CONTACT_URL}`}>{CONTACT_URL}</a>.
             </p>
         </div>
-    </div>
+    </Container>
 );
 
 export default Faq;

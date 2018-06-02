@@ -2,7 +2,7 @@ import * as React from 'react'
 import {NavLink as RRNavLink} from 'react-router-dom';
 import {NavItem, NavLink, Nav} from 'reactstrap';
 
-import {Row, Col} from '../../reusable/index'
+import {Row, Col, Container} from '../../reusable/index'
 import StatsTable from './StatsTable'
 import {Stats} from "./types";
 import axios from "axios";
@@ -72,7 +72,7 @@ class HallOfFame extends React.Component<Props, State> {
         const allEntry = () =>  <StatsEntry stats={stats.all}/>;
 
         return (
-            <div>
+            <Container>
                 <h2 className={Style.heading}>Hall of Fame</h2>
                 <Nav pills className={Style.selection}>
                     <NavItem>
@@ -97,7 +97,7 @@ class HallOfFame extends React.Component<Props, State> {
                     <Route exact path={`${match.path}/monthly`} component={monthEntry}/>
                     <Route exact path={`${match.path}/all`} component={allEntry}/>
                 </Switch>
-            </div>
+            </Container>
         );
     }
 }

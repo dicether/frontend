@@ -13,6 +13,7 @@ import * as asyncStateActions from "../../platform/modules/games/state/asyncActi
 import {bindActionCreators} from "redux";
 import {addListeners, removeListeners} from "../../platform/sockets";
 import listeners from "../../platform/modules/games/state/socketListeners";
+import {Container} from "../../reusable";
 
 const Style = require('./Game.scss');
 
@@ -103,7 +104,7 @@ class Game extends React.Component<Props> {
         const {showHelp, showExpertView, sound} = info;
 
         return (
-            <div>
+            <Container>
                 <div className="panel">
                     <div className={Style.game}>
                         {loggedIn &&
@@ -128,7 +129,7 @@ class Game extends React.Component<Props> {
                     </div>
                 </div>
                 <Stats/>
-            </div>
+            </Container>
         )
     }
 }
