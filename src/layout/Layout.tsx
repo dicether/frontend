@@ -31,19 +31,17 @@ type ReduxProps = ReturnType<typeof mapStateToProps>;
 type Props = RouteComponentProps<any> & ReduxProps & DispatchProp & OtherProps;
 
 const Layout = ({children, dispatch, showChat, authenticated} : Props) => {
-    const className = showChat;
+    const className = showChat ? 'chat-open' : '';
 
     return (
-        <div id="app" className="chat-open">
+        <div id="app" className={className}>
             <Header
                 showChat={showChat}
                 authenticated={authenticated}
                 register={(username: string) => dispatch(register(username))}
                 toggleChat={() => dispatch(toggleChat(true))}
                 authenticate={ () => { dispatch(authenticate()) }}/>
-            <Container>
-                {children}
-            </Container>
+            {children}
             <Footer showChat={showChat} />
         </div>
     );
