@@ -9,3 +9,9 @@
     color: $value;
   }
 }
+
+@each $color, $value in $colors {
+  .icon-#{$color} {
+    color: $value;
+  }
+}
