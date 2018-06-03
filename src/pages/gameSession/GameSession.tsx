@@ -7,6 +7,7 @@ import BetsList from "../games/components/BetsList";
 import User from "../../platform/components/user/User";
 import {User as UserType} from '../../platform/modules/account/types';
 import Ether from "../../reusable/Ether";
+import {Container} from "../../reusable";
 
 const Style = require('./GameSession.scss');
 
@@ -66,7 +67,7 @@ class GameSession extends React.Component<Props, State> {
         }
 
         return (
-            <div>
+            <Container>
                 <div className={Style.header}>
                     <h3>Game session:{this.props.match.params.gameId}</h3>
                     <span> Created by <User user={gameState.user}/></span>
@@ -74,7 +75,7 @@ class GameSession extends React.Component<Props, State> {
                     <Ether colored gwei={gameState.balance}/>
                 </div>
                 <BetsList bets={bets} showUser={false}/>
-            </div>
+            </Container>
         )
     }
 }
