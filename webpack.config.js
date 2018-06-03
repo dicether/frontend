@@ -228,7 +228,7 @@ module.exports = {
                                 localIdentName: '[hash:base64:5]__[local]',
                                 importLoaders: 1,
                                 getLocalIdent: (context, localIdentName, localName, options) => {
-                                    const request = path.relative(__dirname, context.context);
+                                    const request = path.relative(__dirname, context.resourcePath);
                                     const sha = crypto.createHash('sha1');
                                     sha.update(request);
                                     const prefix = sha.digest('base64').slice(0, 5);
