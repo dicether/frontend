@@ -1,7 +1,6 @@
 @import '~variables';
 
 .ether {
-
 }
 
 .ether_positiv {
@@ -10,4 +9,13 @@
 
 .ether_negativ {
   color: $danger;
+}
+
+.value {
+  vertical-align: middle;
+}
+
+.icon {
+  margin-left: 0.25em;
+  height: 1.1em;
 }
