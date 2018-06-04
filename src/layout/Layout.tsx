@@ -38,7 +38,6 @@ const Layout = ({children, dispatch, showChat, authenticated} : Props) => {
             <Header
                 showChat={showChat}
                 authenticated={authenticated}
-                register={(username: string) => dispatch(register(username))}
                 toggleChat={() => dispatch(toggleChat(true))}
                 authenticate={ () => { dispatch(authenticate()) }}/>
             {children}

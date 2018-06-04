@@ -1,11 +1,18 @@
 import * as React from 'react';
+import {bindActionCreators, Dispatch} from 'redux';
+import {connect} from "react-redux";
 
-import {Button, FormText, Form, FormGroup, Input} from '../reusable/index';
+import {Button, Form, FormGroup, FormText, Input} from '../../../reusable/index';
+import {register} from '../../modules/account/asyncActions';
 
 
-type Props = {
-    onRegister(username: string): void;
-}
+const mapDispatchToProps = (dispatch: Dispatch<State>) => bindActionCreators({
+    register
+}, dispatch);
+
+
+type Props = ReturnType<typeof mapDispatchToProps>;
+
 
 type State = {
     username: string,
@@ -13,7 +20,7 @@ type State = {
 }
 
 
-export default class Register extends React.Component<Props, State> {
+class Register extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -22,10 +29,10 @@ export default class Register extends React.Component<Props, State> {
     }
 
     register = (e: React.FormEvent<HTMLFormElement>) => {
-        const {onRegister} = this.props;
+        const {register} = this.props;
         const {username} = this.state;
 
-        onRegister(username);
+        register(username);
         e.preventDefault();
     };
 
@@ -63,3 +70,5 @@ export default class Register extends React.Component<Props, State> {
         )
     }
 }
+
+export default connect(undefined, mapDispatchToProps)(Register);

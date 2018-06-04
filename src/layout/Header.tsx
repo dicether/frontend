@@ -3,7 +3,7 @@ import {Container, Collapse, Navbar, NavbarBrand, NavbarToggler, Nav, NavItem, N
 import {NavLink as RRNavLink} from 'react-router-dom';
 import ClassName from 'classnames';
 
-import Register from './Register';
+import Register from '../platform/components/user/Register';
 import {Popover} from '../reusable/index';
 import {CONTRACT_URL} from "../config/config";
 
@@ -12,7 +12,7 @@ const Style = require('./Header.scss');
 const logo = require ('assets/images/logoTop.svg');
 
 
-class RegisterNavItem extends React.Component<{register(s: string): void}, {showRegister: boolean}> {
+class RegisterNavItem extends React.Component<{}, {showRegister: boolean}> {
     constructor(props: Props) {
         super(props);
         this.state = {
@@ -28,14 +28,13 @@ class RegisterNavItem extends React.Component<{register(s: string): void}, {show
 
     render() {
         const {showRegister} = this.state;
-        const {register} = this.props;
         return(
             <div>
                 <NavLink id="register" href="#" onClick={this.toggleRegister}>
                     Register
                 </NavLink>
                 <Popover isOpen={showRegister} toggle={this.toggleRegister} target="register">
-                    <Register onRegister={register}/>
+                    <Register/>
                 </Popover>
             </div>
         )
@@ -48,7 +47,6 @@ type Props = {
     showChat: boolean,
     toggleChat(show: boolean): void,
     authenticate(): void,
-    register(username: string): void
 }
 
 type State = {
@@ -77,7 +75,7 @@ class Header extends React.Component<Props, State> {
     };
 
     render () {
-        const {authenticated, register, showChat} = this.props;
+        const {authenticated, showChat} = this.props;
         const {isOpen} = this.state;
 
         const className = ClassName({
@@ -120,7 +118,7 @@ class Header extends React.Component<Props, State> {
                                     </NavItem>
                                 ] : [
                                     <NavItem key="1">
-                                        <RegisterNavItem register={register}/>
+                                        <RegisterNavItem/>
                                     </NavItem>,
                                     <NavItem key="2">
                                         <NavLink href="#" onClick={this.props.authenticate}>Login</NavLink>
