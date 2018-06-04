@@ -83,7 +83,7 @@ class Stats extends React.Component<Props, CompState> {
         const {activeTab} = this.state;
 
         return (
-            <div>
+            <div className={Style.stats}>
                 <Nav pills className={Style.betSelection}>
                     <NavItem>
                         <NavLink
