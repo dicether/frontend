@@ -35,7 +35,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
 }, dispatch);
 
 
-type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
+type OtherProps = {
+    showMyBets: boolean
+}
+
+
+type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps> & OtherProps;
 
 type Tab = 'allBets' | 'myBets';
 
@@ -79,11 +84,12 @@ class Stats extends React.Component<Props, CompState> {
     };
 
     render() {
-        const {allBets, myBets} = this.props;
+        const {allBets, myBets, showMyBets} = this.props;
         const {activeTab} = this.state;
 
         return (
             <div className={Style.stats}>
+                {showMyBets &&
                 <Nav pills className={Style.betSelection}>
                     <NavItem>
                         <NavLink
@@ -104,6 +110,7 @@ class Stats extends React.Component<Props, CompState> {
                         </NavLink>
                     </NavItem>
                 </Nav>
+                }
                 <TabContent activeTab={activeTab}>
                     <TabPane tabId="allBets">
                         <BetsList bets={allBets}/>

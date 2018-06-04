@@ -1,4 +1,15 @@
+@import "~variables";
+
 .center {
   vertical-align: middle !important;
   text-align: center;
+}
+
+.infoButton {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.entries {
+  color: $gray-700;
 }

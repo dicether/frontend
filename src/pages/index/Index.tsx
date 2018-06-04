@@ -14,7 +14,7 @@ const Index = () => (
         <Games/>
         <Section>
             <Container>
-                <Stats />
+                <Stats showMyBets={false}/>
             </Container>
         </Section>
         <BigFeatures/>

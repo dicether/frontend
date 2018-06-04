@@ -128,7 +128,7 @@ class Game extends React.Component<Props> {
                         />
                     </div>
                 </div>
-                <Stats/>
+                <Stats showMyBets/>
             </Container>
         )
     }

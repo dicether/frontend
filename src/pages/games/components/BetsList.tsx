@@ -30,7 +30,7 @@ class BetInfoModal extends React.Component<BetInfoModalProps, {isOpen: boolean}>
         const {isOpen} = this.state;
 
         return ([
-                <Button key="1" color="link" onClick={this.toggle}>Show</Button>,
+                <Button className={Style.infoButton} key="1" color="link" onClick={this.toggle}>Show</Button>,
                 <Modal key="2" isOpen={isOpen} toggle={this.toggle}>
                     <div style={{margin: '1em 1em 0 1em'}}>
                         <button type="button" className="close" aria-label="Close" onClick={this.toggle}>
@@ -58,9 +58,9 @@ const LastBetRow = ({bet, showUser}: LastBetRowProps) => {
             <td className={Style.center}><User user={user}/></td>
             }
             <td className={Style.center}>{moment(timestamp).format('LT')}</td>
-            <td className={Style.center}><Ether gwei={value} showCurrencySymbol={false}/></td>
+            <td className={Style.center}><Ether gwei={value} showCurrencySymbol /></td>
             <td className={Style.center}><BetInfoModal bet={bet}/></td>
-            <td className={Style.center}><Ether gwei={profit} showCurrencySymbol={false} colored/></td>
+            <td className={Style.center}><Ether gwei={profit} showCurrencySymbol colored/></td>
         </tr>
     );
 };
@@ -74,19 +74,19 @@ type Props = {
 
 const BetsList = ({bets, showUser = true}: Props) => {
     return (
-        <Table hover striped responsive>
+        <Table hover noBorders responsive>
             <thead>
             <tr className="text-center">
                 {showUser &&
                 <th className={Style.center}>User</th>
                 }
                 <th className={Style.center}>Time</th>
-                <th className={Style.center}>Bet (ETH)</th>
+                <th className={Style.center}>Bet</th>
                 <th className={Style.center}>Info</th>
-                <th className={Style.center}>Profit (ETH)</th>
+                <th className={Style.center}>Profit</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody className={Style.entries}>
                 {bets.slice().map(bet =>
                     <LastBetRow key={bet.id} bet={bet} showUser={showUser}/>
                 )}
