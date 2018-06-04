@@ -19,6 +19,14 @@
   &_disabled {
     opacity: 0.25;
   }
+
+  &_enabled {
+    transition: all .2s ease-in-out;
+    &:hover {
+      text-decoration: none;
+      transform: scale(1.05);
+    }
+  }
 }
 
 .gamesListEntry__img {
