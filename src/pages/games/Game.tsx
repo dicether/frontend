@@ -13,7 +13,7 @@ import * as asyncStateActions from "../../platform/modules/games/state/asyncActi
 import {bindActionCreators} from "redux";
 import {addListeners, removeListeners} from "../../platform/sockets";
 import listeners from "../../platform/modules/games/state/socketListeners";
-import {Container} from "../../reusable";
+import {Container, Section} from "../../reusable";
 
 const Style = require('./Game.scss');
 
@@ -104,32 +104,42 @@ class Game extends React.Component<Props> {
         const {showHelp, showExpertView, sound} = info;
 
         return (
-            <Container>
-                <div className="panel">
-                    <div className={Style.game}>
-                        {loggedIn &&
-                        <GameHeader
-                            web3State={web3State}
-                            gameState={gameState}
-                            onStartGame={this.createGame}
-                            onEndGame={this.endGame}
-                            onSeedRequest={this.requestSeed}
-                            onConflictEnd={this.conflictEnd}
-                        />
-                        }
-                        <Route exact path="/games/dice" component={Dice}/>
-                        <GameFooter
-                            showHelp={showHelp}
-                            onToggleHelp={this.onToggleHelp}
-                            showExpertView={showExpertView}
-                            onToggleExpertView={this.onToggleExpertView}
-                            sound={sound}
-                            onToggleSound={this.onToggleSound}
-                        />
-                    </div>
-                </div>
-                <Stats showMyBets/>
-            </Container>
+            <div>
+                <Section gray>
+                    <Container>
+                        <div className={Style.wrapper}>
+                            <div className={Style.gameWrapper}>
+                                <div className={Style.game}>
+                                    {loggedIn &&
+                                    <GameHeader
+                                        web3State={web3State}
+                                        gameState={gameState}
+                                        onStartGame={this.createGame}
+                                        onEndGame={this.endGame}
+                                        onSeedRequest={this.requestSeed}
+                                        onConflictEnd={this.conflictEnd}
+                                    />
+                                    }
+                                    <Route exact path="/games/dice" component={Dice}/>
+                                    <GameFooter
+                                        showHelp={showHelp}
+                                        onToggleHelp={this.onToggleHelp}
+                                        showExpertView={showExpertView}
+                                        onToggleExpertView={this.onToggleExpertView}
+                                        sound={sound}
+                                        onToggleSound={this.onToggleSound}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </Container>
+                </Section>
+                <Section>
+                    <Container>
+                        <Stats showMyBets/>
+                    </Container>
+                </Section>
+            </div>
         )
     }
 }
