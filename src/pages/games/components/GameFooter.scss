@@ -1,3 +1,5 @@
+@import "~variables";
+
 .gameFooter {
   position: relative;
   display: flex;
@@ -24,4 +26,9 @@
   &__key {
     margin-right: 1em;
   }
+}
+
+.state {
+  padding: 1rem;
+  background-color: $white;
 }

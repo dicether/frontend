@@ -58,7 +58,9 @@ export default class GameFooter extends React.Component<Props, State> {
                     <IconButton color="secondary" icon="question" onClick={() => onToggleHelp(!showHelp)}/>
                 </ButtonToolbar>
                 {showExpertView &&
-                <GameState/>
+                    <div className={Style.state}>
+                        <GameState/>
+                    </div>
                 }
             </div>
         );

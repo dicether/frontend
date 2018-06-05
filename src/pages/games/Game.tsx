@@ -121,7 +121,9 @@ class Game extends React.Component<Props> {
                                     />
                                     }
                                     <Route exact path="/games/dice" component={Dice}/>
-                                    <GameFooter
+                                </div>
+                            </div>
+                            <GameFooter
                                         showHelp={showHelp}
                                         onToggleHelp={this.onToggleHelp}
                                         showExpertView={showExpertView}
@@ -129,8 +131,6 @@ class Game extends React.Component<Props> {
                                         sound={sound}
                                         onToggleSound={this.onToggleSound}
                                     />
-                                </div>
-                            </div>
                         </div>
                     </Container>
                 </Section>
