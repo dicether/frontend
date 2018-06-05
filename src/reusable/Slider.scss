@@ -17,14 +17,12 @@
     height: $progress-height;
     background-color: $progress-bg;
     border-radius: $progress-border-radius;
-    z-index: -1;
   }
 
   .rc-slider-track {
     height: $progress-height;
     background-color: $progress-bar-bg;
     border-radius: $progress-border-radius;
-    z-index: -1;
   }
 
   .rc-slider-handle {

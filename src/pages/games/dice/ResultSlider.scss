@@ -14,7 +14,6 @@ $result-slider-width: 6rem;
   left: -($result-slider-width / 2);
   top: 50%; // transform: translateY(-50%) in style see ResultSlider!
   width: 100%;
-  z-index: 0;
 
   &_hidden {
     opacity: 0;
