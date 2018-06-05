@@ -17,7 +17,7 @@ import AuthenticatedRoute from './AuthenticatedRoute';
 import LogoutRoute from '../platform/modules/utilities/LogoutRoute';
 import Notification from './Notification';
 import {WEB3_POLL_INTERVAL} from '../config/config';
-import {bindActionCreators, Dispatch} from "redux";
+import {bindActionCreators} from "redux";
 import {State as RootState} from "../rootReducer";
 import {RouteComponentProps} from "react-router";
 import {getUser} from "../platform/modules/account/selectors";
@@ -26,6 +26,7 @@ import {initUser, loadDefaultData} from "../platform/modules/account/asyncAction
 import StateLoader from '../platform/components/state/StateLoader';
 import BeforeUnload from "./BeforeUnload";
 import GameSession from "../pages/gameSession/GameSession";
+import {Dispatch} from "../util/util";
 
 
 export const mapStateToProps = (state: RootState) => {
@@ -45,7 +46,7 @@ export const mapStateToProps = (state: RootState) => {
     };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<State>) => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
     ...bindActionCreators({fetchAllWeb3}, dispatch),
     initSockets: () => initSockets(dispatch),
     unInitSockets: () => unInitSockets(dispatch),
