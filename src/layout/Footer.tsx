@@ -17,17 +17,14 @@ type Props = {
 const Footer = ({showChat} : Props) => {
     const className = showChat ? 'container-chat-open' : '';
 
-    // Hack to allow to prop!
-    const NavLinkX: React.StatelessComponent<any> = NavLink;
-
     return (
         <footer className={Style.footer}>
             <nav className="navbar navbar-dark bg-dark">
                 <Container className={className}>
                         <Col className={Style.brand + ' order-sm-2 my-auto'} sm={{size: 4}} xs={12}>
-                            <NavLinkX to="/" tag={RRNavLink}>
+                            <NavLink to="/" tag={RRNavLink}>
                                 <img className={Style.logo} src={logo}/>
-                            </NavLinkX>
+                            </NavLink>
                             <span className={Style.copyright}>©2017 {NAME}. All Rights Reserved</span>
                         </Col>
                         <Col className="my-auto order-sm-1" sm={{size: 4}} xs={12}>

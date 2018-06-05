@@ -65,8 +65,6 @@ class HallOfFame extends React.Component<Props, State> {
         const {stats} = this.state;
         const {match} = this.props;
 
-        const NavLinkX: React.StatelessComponent<any> = NavLink;
-
         const weekEntry = () =>  <StatsEntry stats={stats.week}/>;
         const monthEntry = () =>  <StatsEntry stats={stats.month}/>;
         const allEntry = () =>  <StatsEntry stats={stats.all}/>;
@@ -76,19 +74,19 @@ class HallOfFame extends React.Component<Props, State> {
                 <h2 className={Style.heading}>Hall of Fame</h2>
                 <Nav pills className={Style.selection}>
                     <NavItem>
-                        <NavLinkX tag={RRNavLink} to={`${match.path}/weekly`}>
+                        <NavLink tag={RRNavLink} to={`${match.path}/weekly`}>
                             Weekly
-                        </NavLinkX>
+                        </NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLinkX tag={RRNavLink} to={`${match.path}/monthly`}>
+                        <NavLink tag={RRNavLink} to={`${match.path}/monthly`}>
                             Monthly
-                        </NavLinkX>
+                        </NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLinkX tag={RRNavLink} to={`${match.path}/all`}>
+                        <NavLink tag={RRNavLink} to={`${match.path}/all`}>
                             All
-                        </NavLinkX>
+                        </NavLink>
                     </NavItem>
                 </Nav>
                 <Switch>

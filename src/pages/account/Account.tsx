@@ -18,21 +18,20 @@ class Account extends React.PureComponent<Props> {
 
     render() {
         const {match} = this.props;
-        const NavLinkX: React.StatelessComponent<any> = NavLink;
 
         return (
             <Container>
                 <Navbar color="faded" light expand style={{marginLeft: "-1.5rem"}}>
                     <Nav navbar>
                         <NavItem>
-                            <NavLinkX tag={RRNavLink} to={`${match.path}/stats`}>
+                            <NavLink tag={RRNavLink} to={`${match.path}/stats`}>
                                 Statistics
-                            </NavLinkX>
+                            </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLinkX tag={RRNavLink} to={`${match.path}/affiliate`}>
+                            <NavLink tag={RRNavLink} to={`${match.path}/affiliate`}>
                                 Affiliate
-                            </NavLinkX>
+                            </NavLink>
                         </NavItem>
                     </Nav>
                 </Navbar>

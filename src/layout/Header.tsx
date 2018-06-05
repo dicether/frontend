@@ -82,24 +82,20 @@ class Header extends React.Component<Props, State> {
             'container-chat-open': showChat
         });
 
-        // Hack to allow to prop!
-        const NavbarBrandX: React.StatelessComponent<any> = NavbarBrand;
-        const NavLinkX: React.StatelessComponent<any> = NavLink;
-
         return (
                 <Navbar id="header" expand="md" dark color="dark">
                     <Container className={className}>
-                        <NavbarBrandX tag={RRNavLink} to="/">
+                        <NavbarBrand tag={RRNavLink} to="/">
                                 <img className={Style.brandImage} src={logo}/>
-                        </NavbarBrandX>
+                        </NavbarBrand>
                         <NavbarToggler onClick={this.toggle}/>
                         <Collapse isOpen={isOpen} navbar>
                             <Nav navbar>
                                 <NavItem>
-                                    <NavLinkX to="/faq" tag={RRNavLink}>FAQ</NavLinkX>
+                                    <NavLink to="/faq" tag={RRNavLink}>FAQ</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLinkX to="/hallOfFame" tag={RRNavLink}>Hall of fame</NavLinkX>
+                                    <NavLink to="/hallOfFame" tag={RRNavLink}>Hall of fame</NavLink>
                                 </NavItem>
                                 <NavItem>
                                     <NavLink target="_blank" href={CONTRACT_URL}>Contract</NavLink>
@@ -111,10 +107,10 @@ class Header extends React.Component<Props, State> {
                             <Nav className="ml-auto" navbar>
                                 {authenticated ? [
                                     <NavItem key="1">
-                                        <NavLinkX tag={RRNavLink} to="/account">Account</NavLinkX>
+                                        <NavLink tag={RRNavLink} to="/account">Account</NavLink>
                                     </NavItem>,
                                     <NavItem key="2">
-                                        <NavLinkX tag={RRNavLink} to="/logout">Logout</NavLinkX>
+                                        <NavLink tag={RRNavLink} to="/logout">Logout</NavLink>
                                     </NavItem>
                                 ] : [
                                     <NavItem key="1">
