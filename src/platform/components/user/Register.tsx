@@ -3,11 +3,12 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {connect} from "react-redux";
 
 import {Button, Form, FormGroup, FormText, Input} from '../../../reusable/index';
-import {register} from '../../modules/account/asyncActions';
+import {register, authenticate} from '../../modules/account/asyncActions';
 
 
 const mapDispatchToProps = (dispatch: Dispatch<State>) => bindActionCreators({
-    register
+    register,
+    authenticate
 }, dispatch);
 
 
@@ -55,6 +56,7 @@ class Register extends React.Component<Props, State> {
     };
 
     render() {
+        const {authenticate} = this.props;
         const {username, isValid} = this.state;
 
         return (
@@ -65,6 +67,7 @@ class Register extends React.Component<Props, State> {
                         <FormText>You can't change the username after registration! So choose wisely...</FormText>
                     </FormGroup>
                     <Button color="primary" type="submit" disabled={isValid !== true} onClick={this.register}>Register</Button>
+                    <Button color="link" onClick={authenticate}>Already registered</Button>
                 </Form>
             </div>
         )
