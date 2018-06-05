@@ -98,7 +98,7 @@
     "ts-loader": "^3.5.0",
     "types-bn": "0.0.1",
     "types-ethereumjs-util": "0.0.7",
-    "typescript": "^2.8.0-dev.20180308",
+    "typescript": "^2.8.4",
     "typings-for-css-modules-loader": "^1.7.0",
     "uglifyjs-webpack-plugin": "^1.2.0",
     "url-loader": "^1.0.1",
