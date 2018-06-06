@@ -48,6 +48,7 @@
     "classnames": "^2.2.5",
     "clean-webpack-plugin": "^0.1.19",
     "copy-webpack-plugin": "^4.5.1",
+    "core-js": "^2.5.7",
     "css-loader": "^0.28.4",
     "eth-sig-util": "^1.4.0",
     "ethereumjs-abi": "^0.6.4",
