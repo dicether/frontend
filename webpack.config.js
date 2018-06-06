@@ -45,12 +45,12 @@ const ApiUrl = `https://api.${Domain}/api`;
 const WebsocketUrl = `https://websocket.${Domain}`;
 
 const Paths = [
+    '/',
     '/games/dice',
     '/faq',
     '/hallOfFame/weekly',
     '/hallOfFame/monthly',
     '/hallOfFame/all',
-    '/gameSession/'
 ];
 
 
