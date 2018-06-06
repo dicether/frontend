@@ -3,7 +3,7 @@ import * as React from 'react';
 import {State as GameState} from '../../../../platform/modules/games/state/reducer';
 import {Ether} from '../../../../reusable';
 import CreateGameModal from './CreateGameModal';
-import {MIN_GAME_SESSION_VALUE, MAX_GAME_SESSION_VALUE, NETWORK_NAME} from '../../../../config/config';
+import {MIN_GAME_SESSION_VALUE, MAX_GAME_SESSION_VALUE, NETWORK_NAME, SESSION_TIMEOUT} from '../../../../config/config';
 import {Button, FontAwesomeIcon} from '../../../../reusable/index';
 import {State as Web3State} from '../../../../platform/modules/web3/reducer';
 
@@ -83,7 +83,7 @@ export default class GameHeader extends React.Component<Props, State> {
                 }
                 { serverInitiatedEnd &&
                     <div>
-                        <span className="text-danger">Server initiated end! Should only happen if you didn't play for 24 hours!</span>
+                        <span className="text-danger">Server initiated end! Should only happen if you didn't play for {SESSION_TIMEOUT} hours!</span>
                         <Button size="sm" onClick={onConflictEnd}>Conflict End</Button>
                     </div>
                 }

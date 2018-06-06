@@ -42,3 +42,5 @@ export const MIN_NUMBER_DICE_1 = 1;
 export const MAX_NUMBER_DICE_1 = 98;
 export const MIN_NUMBER_DICE_2 = 2;
 export const MAX_NUMBER_DICE_2 = 99;
+
+export const SESSION_TIMEOUT = 6; // in hours
