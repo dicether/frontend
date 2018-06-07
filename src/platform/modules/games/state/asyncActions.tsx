@@ -216,9 +216,13 @@ export function createGame(stake: number, playerSeed: string) {
             return;
         }
 
-        if (account === null || contract === null || web3State.web3 === null
-                || (status !== 'ENDED' && (status !== 'CREATING' && gameState.createTransactionHash !== undefined))) {
-            dispatch(showErrorMessage("Invalid state! Can not create game!"));
+        if (account === null || contract === null || web3State.web3 === null) {
+            dispatch(showErrorMessage("You need a web3 enabled browser (Metamask)!"));
+            return;
+        }
+
+        if (status !== 'ENDED' && (status !== 'CREATING' && gameState.createTransactionHash !== undefined)) {
+            dispatch(showErrorMessage("Invalid game state! Can not create game!"));
             return;
         }
 
@@ -307,7 +311,7 @@ export function endGame() {
         const balance = gameState.balance;
 
         if (playerHash === undefined || serverHash === undefined || web3 === null || playerAddress === null || gameId === undefined) {
-            dispatch(showErrorMessage("Invalid state!"));
+            dispatch(showErrorMessage("Invalid game state!"));
             return;
         }
 
@@ -486,8 +490,8 @@ export function placeBet(num: number, betValue: number, gameType: number) {
         }
 
         if (web3 === null || account === null) {
-            dispatch(showErrorMessage("Web3 not available!"));
-            return Promise.reject(new Error("Web3 not available!"));
+            dispatch(showErrorMessage("You need a web3 enabled browser (Metamask)!"));
+            return Promise.reject(new Error("You need a web3 enabled browser (Metamask)!"));
         }
 
         // TODO: Allow value + balance with new contract
