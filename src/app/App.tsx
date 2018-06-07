@@ -121,7 +121,7 @@ class App extends React.Component<Props, State> {
                     <Route component={PathNotFound}/>
                 </Switch>
                 <Chat/>
-                <TermsOfUseModal/>
+                {/*<TermsOfUseModal/>*/}
                 <BeforeUnload gameState={gameState}/>
                 <Notification notification={notification}/>
                 <StateLoader/>
