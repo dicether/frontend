@@ -6,7 +6,7 @@ const Style = require("./SmallFeatures.scss");
 
 const Entry = ({text, icon}) => (
   <Col sm={6} className={Style.entry}>
-      <Icon size="lg" fixedWidth color="info" icon={icon} className={Style.entry__icon}/>
+      <Icon size="lg" fixedWidth color="yellow" icon={icon} className={Style.entry__icon}/>
       <span>{text}</span>
   </Col>
 );

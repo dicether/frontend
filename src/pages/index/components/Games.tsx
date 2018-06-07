@@ -14,11 +14,11 @@ const Games = () => (
             <div className={Style.gamesList}>
                 <Link to="/games/dice" className={Style.gamesListEntry + ' ' + Style.gamesListEntry_enabled}>
                         <Icon className={Style.gamesListEntry__img} size="8x" icon="dice"/>
-                        <h5>Classic Dice</h5>
+                        <h5 className={Style.gamesListEntry__text}>Classic Dice</h5>
                 </Link>
                 <div className={Style.gamesListEntry + ' ' + Style.gamesListEntry_disabled}>
                     <Icon className={Style.gamesListEntry__img} size="8x" icon="question"/>
-                    <h5>More Coming Soon</h5>
+                    <h5 className={Style.gamesListEntry__text}>More Coming Soon</h5>
                 </div>
             </div>
         </Container>

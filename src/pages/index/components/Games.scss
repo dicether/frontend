@@ -11,6 +11,7 @@
 }
 
 .gamesListEntry {
+  flex: 1 1 0;
   margin-top: 1rem;
   display: flex;
   flex-direction: column;
@@ -29,9 +30,12 @@
       transform: scale(1.05);
     }
   }
-}
 
-.gamesListEntry__img {
-  margin-bottom: 1rem;
-  color: $info;
+  &__img {
+    margin-bottom: 1rem;
+    color: $primary;
+  }
+  &__text {
+    text-align: center;
+  }
 }
