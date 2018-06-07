@@ -66,7 +66,7 @@ class Dice extends React.Component<Props, DiceState> {
         const safeBetValue = Math.round(betValue / MIN_BET_VALUE) * MIN_BET_VALUE;
         const gameType = reversedRoll ? GameType.DICE_HIGHER : GameType.DICE_LOWER;
 
-        this.props.placeBet(num, safeBetValue, gameType).then(result => {
+        placeBet(num, safeBetValue, gameType).then(result => {
             this.setState({result, showResult: true});
             clearTimeout(this.resultTimeoutId);
             this.resultTimeoutId = window.setTimeout(() => this.setState({showResult: false}), 5000);
@@ -100,4 +100,4 @@ class Dice extends React.Component<Props, DiceState> {
     }
 }
 
-export default connect(mapStateToProps)(Dice);
+export default connect(mapStateToProps, mapDispatchToProps)(Dice);
