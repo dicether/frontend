@@ -52,7 +52,7 @@ const Entry = ({idx, entry}) => {
 
 
 const BigFeatures = () => (
-    <Section gray className={Style.features}>
+    <Section className={Style.features}>
         <Container>
         <h2 className="text-center">Fast, Secure and Fair</h2>
         {

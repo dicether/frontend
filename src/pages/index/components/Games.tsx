@@ -8,7 +8,7 @@ const Style = require("./Games.scss");
 
 
 const Games = () => (
-    <Section gray className={Style.games}>
+    <Section className={Style.games}>
         <Container>
             <h2 className="text-center">Games</h2>
             <div className={Style.gamesList}>

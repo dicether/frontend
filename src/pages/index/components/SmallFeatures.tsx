@@ -35,7 +35,7 @@ const entries = [
 ];
 
 const SmallFeatures = () => (
-    <Section gray className={Style.smallFeatures}>
+    <Section className={Style.smallFeatures}>
         <Container>
             <Row>
             {entries.map(entry =>
