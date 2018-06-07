@@ -5,11 +5,12 @@ import DiceUi from './DiceUi';
 import {placeBet} from '../../../platform/modules/games/state/asyncActions';
 import sounds from '../sound';
 
-import {DispatchProp} from '../../../util/util';
 import {State} from '../../../rootReducer';
 import {toggleHelp} from '../../../platform/modules/games/info/actions';
 import {MAX_BET_VALUE, MIN_BET_VALUE} from '../../../config/config';
 import {GameType} from "../../../stateChannel";
+import {bindActionCreators, Dispatch} from "redux";
+import {showErrorMessage} from "../../../platform/modules/utilities/actions";
 
 
 const mapStateToProps = ({games, account}: State) => {
@@ -22,17 +23,21 @@ const mapStateToProps = ({games, account}: State) => {
     }
 };
 
+const mapDispatchToProps = (dispatch: Dispatch<State>) => ({
+    placeBet: (num, safeBetValue, gameType) => dispatch(placeBet(num, safeBetValue, gameType)),
+    toggleHelp: (t) => dispatch(toggleHelp(t)),
+    showErrorMessage: (message) => dispatch(showErrorMessage(message))
+});
 
-type ReduxProps = ReturnType<typeof mapStateToProps>;
 
 
-type Props = ReduxProps & DispatchProp;
+type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
+
 
 type DiceState = {
     result: {num: number, won: boolean},
     showResult: boolean;
 }
-
 
 
 class Dice extends React.Component<Props, DiceState> {
@@ -51,17 +56,17 @@ class Dice extends React.Component<Props, DiceState> {
     }
 
     onToggleHelp = () => {
-        const {dispatch, info} = this.props;
-        dispatch(toggleHelp(!info.showHelp))
+        const {toggleHelp, info} = this.props;
+        toggleHelp(!info.showHelp);
     };
 
     onPlaceBet = (num: number, betValue: number, reversedRoll: boolean) => {
-        const {info, dispatch} = this.props;
+        const {info, placeBet} = this.props;
 
         const safeBetValue = Math.round(betValue / MIN_BET_VALUE) * MIN_BET_VALUE;
         const gameType = reversedRoll ? GameType.DICE_HIGHER : GameType.DICE_LOWER;
 
-        dispatch(placeBet(num, safeBetValue, gameType)).then(result => {
+        this.props.placeBet(num, safeBetValue, gameType).then(result => {
             this.setState({result, showResult: true});
             clearTimeout(this.resultTimeoutId);
             this.resultTimeoutId = window.setTimeout(() => this.setState({showResult: false}), 5000);
@@ -69,7 +74,7 @@ class Dice extends React.Component<Props, DiceState> {
             if (info.sound) {
                 setTimeout(() => result.won ? sounds.win.playFromBegin() : sounds.lose.playFromBegin(), 500);
             }
-        }).catch(console.log);
+        }).catch(error => showErrorMessage(error.message));
     };
 
     render() {

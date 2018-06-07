@@ -485,29 +485,24 @@ export function placeBet(num: number, betValue: number, gameType: number) {
 
 
         if (gameState.status !== 'ACTIVE' || gameId === undefined) {
-            dispatch(showErrorMessage("You need to be logged in and have created a game session before placing bets!"));
             return Promise.reject(new Error("Invalid game status!"));
         }
 
         if (web3 === null || account === null) {
-            dispatch(showErrorMessage("You need a web3 enabled browser (Metamask)!"));
             return Promise.reject(new Error("You need a web3 enabled browser (Metamask)!"));
         }
 
         // TODO: Allow value + balance with new contract
         if (betValue > stake) {
-            dispatch(showErrorMessage("Invalid bet value: Funds to low!"));
             return Promise.reject(new Error("Invalid bet value: Funds to low!"));
         }
 
 
         if (betValue > stake + balance) {
-            dispatch(showErrorMessage("Invalid bet value: Funds to low!"));
             return Promise.reject(new Error("Invalid bet value: Funds to low!"));
         }
 
         if (serverHash === undefined || playerHash === undefined) {
-            dispatch(showErrorMessage("Invalid game state!"));
             return Promise.reject(new Error("Invalid game state!"));
         }
 
