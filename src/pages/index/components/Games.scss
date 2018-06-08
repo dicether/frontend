@@ -23,7 +23,7 @@
     opacity: 0.25;
   }
 
-  &_enabled {
+  &__link {
     transition: all .2s ease-in-out;
     &:hover {
       text-decoration: none;
@@ -33,7 +33,6 @@
 
   &__img {
     margin-bottom: 1rem;
-    color: $primary;
   }
   &__text {
     text-align: center;
