@@ -1,4 +1,5 @@
 import * as React from 'react';
+import DocumentTitle from 'react-document-title';
 import {Redirect, Route, Switch, withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 
@@ -107,25 +108,27 @@ class App extends React.Component<Props, State> {
         const index = () => (userAuth ? <Redirect to="/games/dice"/> : <Index/>);
 
         return (
-            <Layout>
-                {logout && <Redirect to="/logout"/>}
-                <Switch>
-                    <Route exact path="/" component={index}/>
-                    <Route exact path="/faq" component={Faq}/>
-                    <Route path="/hallOfFame" component={HallOfFame}/>
-                    <Route exact path="/termsOfUse" component={TermsOfUse}/>
-                    <Route exact path="/logout" component={LogoutRoute}/>
-                    <Route exact path="/games/dice" component={Game}/>
-                    <AuthenticatedRoute authenticated={userAuth !== null} path="/account" component={Account}/>
-                    <Route exact path="/gameSession/:gameId(\d+)" component={GameSession}/>
-                    <Route component={PathNotFound}/>
-                </Switch>
-                <Chat/>
-                {/*<TermsOfUseModal/>*/}
-                <BeforeUnload gameState={gameState}/>
-                <Notification notification={notification}/>
-                <StateLoader/>
-            </Layout>
+            <DocumentTitle title="Dicether">
+                <Layout>
+                    {logout && <Redirect to="/logout"/>}
+                    <Switch>
+                        <Route exact path="/" component={index}/>
+                        <Route exact path="/faq" component={Faq}/>
+                        <Route path="/hallOfFame" component={HallOfFame}/>
+                        <Route exact path="/termsOfUse" component={TermsOfUse}/>
+                        <Route exact path="/logout" component={LogoutRoute}/>
+                        <Route exact path="/games/dice" component={Game}/>
+                        <AuthenticatedRoute authenticated={userAuth !== null} path="/account" component={Account}/>
+                        <Route exact path="/gameSession/:gameId(\d+)" component={GameSession}/>
+                        <Route component={PathNotFound}/>
+                    </Switch>
+                    <Chat/>
+                    {/*<TermsOfUseModal/>*/}
+                    <BeforeUnload gameState={gameState}/>
+                    <Notification notification={notification}/>
+                    <StateLoader/>
+                </Layout>
+            </DocumentTitle>
         );
     }
 }

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import DocumentTitle from 'react-document-title';
 import {connect} from 'react-redux';
 
 import DiceUi from './DiceUi';
@@ -88,15 +89,19 @@ class Dice extends React.Component<Props, DiceState> {
             maxBetValue = Math.max(max, MIN_BET_VALUE);
         }
 
-        return <DiceUi
-            onBet={this.onPlaceBet}
-            result={result}
-            showResult={showResult}
-            sound={info.sound}
-            showHelp={info.showHelp}
-            onToggleHelp={this.onToggleHelp}
-            maxBetValue={maxBetValue}
-        />
+        return (
+            <DocumentTitle title="Ethereum State Channel Dice - Dicether">
+                <DiceUi
+                onBet={this.onPlaceBet}
+                result={result}
+                showResult={showResult}
+                sound={info.sound}
+                showHelp={info.showHelp}
+                onToggleHelp={this.onToggleHelp}
+                maxBetValue={maxBetValue}
+                />
+            </DocumentTitle>
+        )
     }
 }
 

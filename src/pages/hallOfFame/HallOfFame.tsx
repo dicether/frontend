@@ -1,4 +1,5 @@
 import * as React from 'react'
+import DocumentTitle from 'react-document-title';
 import {NavLink as RRNavLink} from 'react-router-dom';
 import {NavItem, NavLink, Nav} from 'reactstrap';
 
@@ -70,32 +71,34 @@ class HallOfFame extends React.Component<Props, State> {
         const allEntry = () =>  <StatsEntry stats={stats.all}/>;
 
         return (
-            <Container>
-                <h2 className={Style.heading}>Hall of Fame</h2>
-                <Nav pills className={Style.selection}>
-                    <NavItem>
-                        <NavLink tag={RRNavLink} to={`${match.path}/weekly`}>
-                            Weekly
-                        </NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink tag={RRNavLink} to={`${match.path}/monthly`}>
-                            Monthly
-                        </NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink tag={RRNavLink} to={`${match.path}/all`}>
-                            All
-                        </NavLink>
-                    </NavItem>
-                </Nav>
-                <Switch>
-                    <Route exact path={`${match.path}`} render={() => <Redirect to={`${match.path}/weekly`}/>}/>
-                    <Route exact path={`${match.path}/weekly`} component={weekEntry}/>
-                    <Route exact path={`${match.path}/monthly`} component={monthEntry}/>
-                    <Route exact path={`${match.path}/all`} component={allEntry}/>
-                </Switch>
-            </Container>
+            <DocumentTitle title="Hall of Fame - Dicether">
+                <Container>
+                    <h2 className={Style.heading}>Hall of Fame</h2>
+                    <Nav pills className={Style.selection}>
+                        <NavItem>
+                            <NavLink tag={RRNavLink} to={`${match.path}/weekly`}>
+                                Weekly
+                            </NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink tag={RRNavLink} to={`${match.path}/monthly`}>
+                                Monthly
+                            </NavLink>
+                        </NavItem>
+                        <NavItem>
+                            <NavLink tag={RRNavLink} to={`${match.path}/all`}>
+                                All
+                            </NavLink>
+                        </NavItem>
+                    </Nav>
+                    <Switch>
+                        <Route exact path={`${match.path}`} render={() => <Redirect to={`${match.path}/weekly`}/>}/>
+                        <Route exact path={`${match.path}/weekly`} component={weekEntry}/>
+                        <Route exact path={`${match.path}/monthly`} component={monthEntry}/>
+                        <Route exact path={`${match.path}/all`} component={allEntry}/>
+                    </Switch>
+                </Container>
+            </DocumentTitle>
         );
     }
 }

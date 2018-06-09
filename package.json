@@ -74,6 +74,7 @@
     "rc-slider": "^8.6.1",
     "react": "^16.1.1",
     "react-bootstrap-switch": "^15.5.2",
+    "react-document-title": "^2.0.3",
     "react-dom": "^16.1.1",
     "react-emojione": "^5.0.0",
     "react-numeric-input": "^2.1.0",
