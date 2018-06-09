@@ -61,13 +61,13 @@ class CreateCampaign extends React.Component<Props, State> {
                     <FormGroup row>
                         <Label for="campaignName" sm={3}>Campaign Name</Label>
                         <Col sm={9}>
-                            <Input id="campaignName" isValid={isNameValid} showValidation value={name} placeholder="Name" onValue={this.onName}/>
+                            <Input id="campaignName" isValid={isNameValid} showValidation value={name} placeholder="e.g. myCampaign" onValue={this.onName}/>
                         </Col>
                     </FormGroup>
                     <FormGroup row>
                         <Label for="campaignId" sm={3}>Campaign Id</Label>
                         <Col sm={9}>
-                            <Input id="campaignId" isValid={isIdValid} showValidation value={id} placeholder="Id" onValue={this.onId}/>
+                            <Input id="campaignId" isValid={isIdValid} showValidation value={id} placeholder="e.g. camp123" onValue={this.onId}/>
                         </Col>
                     </FormGroup>
                     <Button
