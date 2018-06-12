@@ -9,7 +9,7 @@ import {signTypedData} from "../web3/asyncActions";
 import {catchError} from "../utilities/asyncActions";
 import {changeFirstVisitedS, changeJWTS, changeMyGameSessions, changeMyStats} from "./actions";
 import {SOCKET} from "../../../config/sockets";
-import {loadMyBets} from "../bets/asyncActions";
+import {loadBets, loadMyBets} from "../bets/asyncActions";
 import {loadFriendRequests, loadFriends} from "../friends/asyncActions";
 import {loadMessages} from "../chat/asyncActions";
 import {User} from "./types";
@@ -194,6 +194,7 @@ export function initUser(dispatch: Dispatch, jwt: string) {
 }
 
 export function loadDefaultData(dispatch: Dispatch) {
+    dispatch(loadBets());
     dispatch(loadMessages());
     SOCKET.emit('getUsersOnline');
 }

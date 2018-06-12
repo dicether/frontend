@@ -56,25 +56,6 @@ class Stats extends React.Component<Props, CompState> {
         }
     }
 
-    componentWillMount() {
-        const {loadBets, loadMyBets, userAuth} = this.props;
-
-        loadBets();
-
-        if (userAuth !== null) {
-            loadMyBets(userAuth.address);
-        }
-    }
-
-    componentWillReceiveProps(nextProps: Props) {
-        const {userAuth: previousUser} = this.props;
-        const {userAuth: nextUser, loadMyBets} = nextProps;
-        if ((nextUser !== null && previousUser !== null && previousUser.address !== nextUser.address) ||
-                (previousUser === null && nextUser !== null)) {
-            loadMyBets(nextUser.address);
-        }
-    }
-
     toggle = (tab: Tab) => {
         if (this.state.activeTab !== tab) {
             this.setState({
