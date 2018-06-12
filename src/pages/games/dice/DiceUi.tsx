@@ -17,6 +17,7 @@ type Props = {
     showResult: boolean,
     sound: boolean,
     showHelp: boolean,
+    stake: number,
     maxBetValue: number,
     result: {num: number, won: boolean},
 
@@ -62,11 +63,20 @@ export default class DiceUi extends React.Component<Props, State> {
     }
 
     componentWillReceiveProps(props: Props) {
-        const oldMaxBetValue = this.props.maxBetValue;
-        const newMaxBetValue = props.maxBetValue;
+        const {maxBetValue: oldMaxBetValue, stake: oldStake} = this.props;
+        const {maxBetValue: newMaxBetValue, stake: newStake} = props;
 
-        if (oldMaxBetValue !== newMaxBetValue && this.state.value > newMaxBetValue) {
-            this.setState({value: newMaxBetValue});
+        let value = this.state.value;
+        if (oldStake !== newStake) {
+            value = newStake > 2 * newMaxBetValue ? newMaxBetValue : newMaxBetValue / 2;
+        }
+
+        if (oldMaxBetValue !== newMaxBetValue && value > newMaxBetValue) {
+            value = newMaxBetValue;
+        }
+
+        if (value !== this.state.value) {
+            this.setState({value});
         }
     }
 

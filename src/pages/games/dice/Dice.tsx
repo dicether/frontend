@@ -92,6 +92,7 @@ class Dice extends React.Component<Props, DiceState> {
         return (
             <DocumentTitle title="Ethereum State Channel Dice - Dicether">
                 <DiceUi
+                stake={gameState.stake}
                 onBet={this.onPlaceBet}
                 result={result}
                 showResult={showResult}
