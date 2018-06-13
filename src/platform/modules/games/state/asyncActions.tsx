@@ -497,12 +497,6 @@ export function placeBet(num: number, betValue: number, gameType: number) {
             return Promise.reject(new Error("You need a web3 enabled browser (Metamask)!"));
         }
 
-        // TODO: Allow value + balance with new contract
-        if (betValue > stake) {
-            return Promise.reject(new Error("Invalid bet value: Funds to low!"));
-        }
-
-
         if (betValue > stake + balance) {
             return Promise.reject(new Error("Invalid bet value: Funds to low!"));
         }

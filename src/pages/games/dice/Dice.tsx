@@ -84,8 +84,7 @@ class Dice extends React.Component<Props, DiceState> {
 
         let maxBetValue = MAX_BET_VALUE;
         if (gameState.status !== 'ENDED') {
-            // TODO: Allow value + balance with new contract
-            const max = Math.min(gameState.stake + gameState.balance, gameState.stake, MAX_BET_VALUE);
+            const max = Math.min(gameState.stake + gameState.balance, MAX_BET_VALUE);
             maxBetValue = Math.max(max, MIN_BET_VALUE);
         }
 
