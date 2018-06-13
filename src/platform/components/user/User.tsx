@@ -7,6 +7,7 @@ const Style = require('./User.scss');
 
 export type Props = {
     user: UserType
+    buttonText?: string
 }
 
 export type State = {
@@ -27,11 +28,11 @@ class  User extends React.Component<Props, State> {
     };
 
     render() {
-        const {user} = this.props;
+        const {user, buttonText} = this.props;
 
         return (
             <span>
-                <span className={Style.name} onClick={this.onToggleModal}>{user.username}</span>
+                <span className={Style.name} onClick={this.onToggleModal}>{buttonText ? buttonText : user.username}</span>
 
                 <Modal isOpen={this.state.showModal} toggle={this.onToggleModal}>
                     <ModalBody>

@@ -73,7 +73,7 @@ class UserTooltip extends React.Component<Props> {
 
         return (
             <div className={Style.userTooltip}>
-                <User user={user}/>
+                <User user={user} buttonText="View Profile"/>
                 {isInvitable &&
                     <Button size="sm" color="primary" onClick={ () => this.sendInvite(address) }>
                         Send Friend Invitation
