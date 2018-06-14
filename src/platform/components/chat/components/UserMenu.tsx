@@ -73,14 +73,14 @@ class UserMenu extends React.Component<Props> {
 
         return (
             <div>
-                <User user={user} userButton={<Button variant="dropdown">View Profil</Button>}/>
+                <User user={user} userButton={<Button size="sm" variant="dropdown">View Profil</Button>}/>
                 {isInvitable &&
-                    <Button variant="dropdown" onClick={ () => this.sendInvite(address) }>
+                    <Button size="sm" variant="dropdown" onClick={ () => this.sendInvite(address) }>
                         Send Friend Invitation
                     </Button>
                 }
                 {userAuth !== null && userAuth.userType === 'MOD' &&
-                    <Button variant="dropdown" onClick={() => this.mute(address)}>
+                    <Button size="sm" variant="dropdown" onClick={() => this.mute(address)}>
                         Mute User
                     </Button>
                 }
