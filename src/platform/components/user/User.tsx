@@ -37,12 +37,7 @@ class  User extends React.Component<Props, State> {
                 }</span>
 
                 <Modal isOpen={this.state.showModal} toggle={this.onToggleModal}>
-                    <ModalBody>
-                        <button type="button" className="close" aria-label="Close" onClick={this.onToggleModal}>
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <UserInfo user={user}/>
-                    </ModalBody>
+                    <UserInfo user={user}/>
                 </Modal>
             </span>
         )

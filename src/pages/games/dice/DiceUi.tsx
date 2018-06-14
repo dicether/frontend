@@ -206,10 +206,8 @@ export default class DiceUi extends React.Component<Props, State> {
                 <Row noGutters>
                     <Button block color="primary" onClick={this.placeBet}>Roll Dice</Button>
                 </Row>
-                <Modal isOpen={showHelp} toggle={onToggleHelp} title="How to play">
-                    <ModalBody>
+                <Modal isOpen={showHelp} toggle={onToggleHelp}>
                         <HowToPlay/>
-                    </ModalBody>
                 </Modal>
             </div>
         );

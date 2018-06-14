@@ -38,21 +38,18 @@ class TermsOfUseModal extends React.Component<Props> {
         const {firstVisited} = this.props;
 
         return (
-            <Modal title="Welcome to Dicether!" isOpen={firstVisited} toggle={this.onClose}>
-                <ModalBody>
-                    <p>
-                        This is the beta version of dicether.com.
-                        You can try all features using the ethereum mainet.
-                        If you find any bugs, please report it to <a href={`mailto:${BUGS_URL}`}>{BUGS_URL}</a>.
-                        <br/>
-                        Play responsibly and do not bet what you can not afford to lose.
-                        Do not play if you are under 18. Do not play if doing so is illegal in your
-                        jurisdiction!
-                    </p>
-                </ModalBody>
-                <ModalFooter>
-                    <Button color="primary" onClick={this.onClose}>OK</Button>
-                </ModalFooter>
+            <Modal isOpen={firstVisited} toggle={this.onClose}>
+                <h3 className="text-center">Welcome to Dicether</h3>
+                <p>
+                    This is the beta version of dicether.com.
+                    You can try all features using the ethereum mainet.
+                    If you find any bugs, please report it to <a href={`mailto:${BUGS_URL}`}>{BUGS_URL}</a>.
+                    <br/>
+                    Play responsibly and do not bet what you can not afford to lose.
+                    Do not play if you are under 18. Do not play if doing so is illegal in your
+                    jurisdiction!
+                </p>
+                <Button color="primary" onClick={this.onClose}>OK</Button>
             </Modal>
         );
     }

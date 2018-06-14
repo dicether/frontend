@@ -72,8 +72,8 @@ export default class CreateGameModal extends React.Component<Props, State> {
         }
 
         return (
-            <Modal isOpen={isOpen} toggle={onClose} title="Create Game Session">
-                <ModalBody>
+            <Modal isOpen={isOpen} toggle={onClose}>
+                    <h3 className="text-center">Create Game Session</h3>
                     {accountBalance === null ?
                         <span className={"text-warning"}>Failed reading your account balance!</span>
                         :
@@ -108,10 +108,7 @@ export default class CreateGameModal extends React.Component<Props, State> {
                             </span>
                         </div>
                     }
-                </ModalBody>
-                <ModalFooter>
                     <Button color="primary" disabled={toLowBalance} onClick={this.createGame}>Deposit</Button>
-                </ModalFooter>
             </Modal>
         );
     }

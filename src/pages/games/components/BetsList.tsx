@@ -32,11 +32,6 @@ class BetInfoModal extends React.Component<BetInfoModalProps, {isOpen: boolean}>
         return ([
                 <Button className={Style.infoButton} key="1" color="link" onClick={this.toggle}>Show</Button>,
                 <Modal key="2" isOpen={isOpen} toggle={this.toggle}>
-                    <div style={{margin: '1em 1em 0 1em'}}>
-                        <button type="button" className="close" aria-label="Close" onClick={this.toggle}>
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
                     <BetInfo bet={bet}/>
                 </Modal>
         ])

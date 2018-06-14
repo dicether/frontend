@@ -62,6 +62,7 @@ class Register extends React.Component<Props, State> {
 
         return (
             <div>
+                <h3 className="text-center">Register</h3>
                 <Form onSubmit={this.register}>
                     <FormGroup>
                         <Input isValid={isValid} showValidation value={username} placeholder="Username" onValue={this.onUsername}/>

@@ -6,6 +6,7 @@ import {MAX_BET_VALUE, MAX_GAME_SESSION_VALUE, MIN_BET_VALUE, MIN_GAME_SESSION_V
 
 const HowToPlay = () => (
     <div className={Style.howToPlay}>
+        <h3 className="text-center">How to play?</h3>
         <h5>Start game session</h5>
         <p>
             Press <em>Start Game Session</em> and deposit your desired amount of Ether
