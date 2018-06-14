@@ -3,7 +3,7 @@ import {emojify} from 'react-emojione';
 import ClassNames from 'classnames';
 import moment from 'moment';
 
-import {Popover} from '../../../../reusable/index';
+import {Dropdown, Popover} from '../../../../reusable/index';
 import UserType from './UserType';
 import UserToolTip from './UserTooltip';
 
@@ -61,23 +61,10 @@ class Message extends React.Component<Props, State> {
                 <div style={{minWidth: 0}}>
                     <div className={Style.user}>
                         <UserType userType={user.userType}/>
-                        {user.userType !== 'BOT' ? [
-                                <span
-                                    key="1"
-                                    id={`messagePopover${message.timestamp}`}
-                                    onClick={this.toggleUserPopover}
-                                    className={usernameClass}>
-                                        {user.username}:
-                                </span>,
-                                <Popover
-                                    key="2"
-                                    target={`messagePopover${message.timestamp}`}
-                                    placement="top"
-                                    isOpen={showUserPopover}
-                                    toggle={this.toggleUserPopover}>
-                                    <UserToolTip user={user}/>
-                                </Popover>
-                            ]
+                        {user.userType !== 'BOT' ?
+                            <Dropdown button={<span className={usernameClass}>{user.username}:</span>}>
+                                <UserToolTip user={user}/>
+                            </Dropdown>
                             :
                             <span className={usernameClass}>{user.username}:</span>
                         }

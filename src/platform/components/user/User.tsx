@@ -1,13 +1,13 @@
 import * as React from 'react';
 import {User as UserType} from "../../modules/account/types";
 import UserInfo from "./UserInfo";
-import {Modal, ModalBody} from "../../../reusable";
+import {Button, Modal, ModalBody} from "../../../reusable";
 
 const Style = require('./User.scss');
 
 export type Props = {
     user: UserType
-    buttonText?: string
+    userButton?: React.ReactNode
 }
 
 export type State = {
@@ -28,11 +28,13 @@ class  User extends React.Component<Props, State> {
     };
 
     render() {
-        const {user, buttonText} = this.props;
+        const {user, userButton} = this.props;
 
         return (
             <span>
-                <span className={Style.name} onClick={this.onToggleModal}>{buttonText ? buttonText : user.username}</span>
+                <span className={Style.name} onClick={this.onToggleModal}>{
+                    userButton ? userButton : user.username
+                }</span>
 
                 <Modal isOpen={this.state.showModal} toggle={this.onToggleModal}>
                     <ModalBody>

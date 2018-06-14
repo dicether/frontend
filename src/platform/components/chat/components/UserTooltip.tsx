@@ -9,6 +9,7 @@ import {mute} from '../../../modules/chat/asyncActions';
 import {getUser} from "../../../modules/account/selectors";
 import {User as UserType} from "../../../modules/account/types";
 import User from "../../user/User";
+import {DropdownItem, DropdownMenu} from "reactstrap";
 
 const Style = require('./UserTooltip.scss');
 
@@ -72,15 +73,15 @@ class UserTooltip extends React.Component<Props> {
         const isInvitable = this.isInvitable(address);
 
         return (
-            <div className={Style.userTooltip}>
-                <User user={user} buttonText="View Profile"/>
+            <div>
+                <User user={user} userButton={<Button variant="dropdown">View Profil</Button>}/>
                 {isInvitable &&
-                    <Button size="sm" color="primary" onClick={ () => this.sendInvite(address) }>
+                    <Button variant="dropdown" onClick={ () => this.sendInvite(address) }>
                         Send Friend Invitation
                     </Button>
                 }
                 {userAuth !== null && userAuth.userType === 'MOD' &&
-                    <Button size="sm" color="primary" onClick={() => this.mute(address)}>
+                    <Button variant="dropdown" onClick={() => this.mute(address)}>
                         Mute User
                     </Button>
                 }
