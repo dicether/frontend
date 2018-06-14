@@ -45,14 +45,6 @@ class Stats extends React.PureComponent<Props> {
 
         return (
             <div>
-                {/*{userAuth !== null &&*/}
-                {/*<div>*/}
-                    {/*<h3 className={Style.username} id="username">{userAuth.username}</h3>*/}
-                    {/*<Tooltip target="username">*/}
-                        {/*<Address address={userAuth.address}/>*/}
-                    {/*</Tooltip>*/}
-                {/*</div>*/}
-                {/*}*/}
                 <GameStats stats={stats}/>
                 <GameSessions gameSessions={gameSessions}/>
             </div>

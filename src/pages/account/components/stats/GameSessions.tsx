@@ -4,11 +4,13 @@ import {GameSession} from "../../../../platform/modules/account/types";
 import Ether from "../../../../reusable/Ether";
 import {Link} from "react-router-dom";
 
+const Style = require("./GameSessions.scss");
+
 const GameSessionRow = ({gameId, balance, roundId}: GameSession) => (
         <tr className="text-center">
             <td><Link to={`/gameSession/${gameId}`}>{gameId}</Link></td>
-            <td><Ether gwei={balance} colored showCurrencySymbol={false}/></td>
             <td>{roundId}</td>
+            <td><Ether gwei={balance} colored showCurrencySymbol/></td>
         </tr>
 );
 
@@ -17,22 +19,24 @@ export type Props = {
 }
 
 const GameSessions = ({gameSessions}: Props) => (
-    <div style={{marginTop: "3em"}}>
+    <div style={{marginTop: "4em"}}>
         <h4 className="text-center">Your Game Sessions</h4>
-        <Table hover striped responsive>
-            <thead>
-            <tr className="text-center">
-                <th>Game Id</th>
-                <th>Profit(ETH)</th>
-                <th>#Bets</th>
-            </tr>
-            </thead>
-            <tbody>
-            {gameSessions.slice().map(gameSession =>
-                <GameSessionRow {...gameSession}/>
-            )}
-            </tbody>
-        </Table>
+        <div className={Style.gameSessionsWrapper}>
+            <Table hover noBorders>
+                <thead>
+                <tr className="text-center">
+                    <th>Game Id</th>
+                    <th>#Bets</th>
+                    <th>Profit(ETH)</th>
+                </tr>
+                </thead>
+                <tbody className={Style.gamseSessionEntries}>
+                {gameSessions.slice().map(gameSession =>
+                    <GameSessionRow {...gameSession}/>
+                )}
+                </tbody>
+            </Table>
+        </div>
     </div>
 );
 

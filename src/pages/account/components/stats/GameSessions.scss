@@ -1,0 +1,11 @@
+@import "~variables";
+
+.gameSessionsWrapper {
+  max-width: 40rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.gameSessionEntries {
+  color: $gray-700;
+}
