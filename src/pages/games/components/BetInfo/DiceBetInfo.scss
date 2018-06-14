@@ -28,6 +28,6 @@
   }
 
   &__resultHeader {
-    @extend .label-header;
+    @include label-header;
   }
 }

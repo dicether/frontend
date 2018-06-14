@@ -14,6 +14,6 @@
   }
 
   &__entryHeader {
-    @extend .label-header
+    @include label-header
   }
 }

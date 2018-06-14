@@ -88,8 +88,8 @@ $gray-darker: $gray-700;
 
 $chat-width: 400px;
 
-.label-header {
-  font-weight: bold;
-  color: $gray-600;
+@mixin label-header {
+  font-weight: 500;
+  color: $gray-800;
 }
 

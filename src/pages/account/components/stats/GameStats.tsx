@@ -14,8 +14,8 @@ type EntryProps = {
 
 const StatsEntry = ({value, name, colored=false, ether=true}: EntryProps) => (
     <div className={Style.entry}>
-        <h5 className={Style.entry__header}>{name}</h5>
-        <span> {ether ? <Ether colored={colored} gwei={value}/> : value }</span>
+        <dt className={Style.entry__header}>{name}</dt>
+        <dd> {ether ? <Ether colored={colored} gwei={value}/> : value }</dd>
     </div>
 );
 
@@ -27,11 +27,11 @@ type Props = {
 const GameStats = ({stats}: Props) => {
     const {profit, wagered, numBets} = stats;
     return (
-        <div className={Style.stats}>
+        <dl className={Style.stats}>
             <StatsEntry value={wagered} name={"Wagered"}/>
             <StatsEntry colored value={profit} name={"Profit"}/>
             <StatsEntry ether={false} value={numBets} name={"#Bets"}/>
-        </div>);
+        </dl>);
 };
 
 export default GameStats;

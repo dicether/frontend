@@ -15,5 +15,6 @@
 }
 
 .entry__header {
-  @extend .label-header;
+  font-size: 1.125rem;
+  @include label-header;
 }
