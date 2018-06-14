@@ -28,3 +28,4 @@ export {default as Ether} from './Ether';
 export {default as DefinitionEntry} from './DefinitionEntry';
 export {default as Section} from './Section';
 export {default as Container} from './Container';
+export {default as Dropdown} from './Dropdown';

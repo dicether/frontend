@@ -12,12 +12,14 @@ export interface Props extends BaseType {
     disabled?: boolean,
     onClick?: React.MouseEventHandler<any>;
     block?: boolean,
+    variant?: string,
     type?: string
 }
 
 
-const Button = ({block, children, size, color = 'secondary', outline = false, active, disabled = false, onClick, ...rest}: Props) => (
+const Button = ({block, children, size, color = 'secondary', outline = false, active, disabled = false, onClick, variant, ...rest}: Props) => (
     <BootstrapButton
+            className={variant === "dropdown" ? "dropdown-item" : ""}
             block={block}
             size={size}
             color={color}
