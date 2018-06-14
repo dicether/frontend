@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import {Dropdown, Popover} from '../../../../reusable/index';
 import UserType from './UserType';
-import UserToolTip from './UserTooltip';
+import UserToolTip from './UserMenu';
 
 import {Message as MessageType} from '../../../modules/chat/types';
 import {Friend} from '../../../modules/friends/types';

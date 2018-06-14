@@ -9,9 +9,8 @@ import {mute} from '../../../modules/chat/asyncActions';
 import {getUser} from "../../../modules/account/selectors";
 import {User as UserType} from "../../../modules/account/types";
 import User from "../../user/User";
-import {DropdownItem, DropdownMenu} from "reactstrap";
 
-const Style = require('./UserTooltip.scss');
+const Style = require('./UserMenu.scss');
 
 
 export const mapStateToProps = (state : State) => {
@@ -42,7 +41,7 @@ export type OtherProps = {
 export type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps> & OtherProps;
 
 
-class UserTooltip extends React.Component<Props> {
+class UserMenu extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
     }
@@ -90,4 +89,4 @@ class UserTooltip extends React.Component<Props> {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserTooltip);
+export default connect(mapStateToProps, mapDispatchToProps)(UserMenu);
