@@ -3,6 +3,7 @@ import moment from 'moment';
 
 import {Bet} from '../../../../platform/modules/bets/types';
 import {Ether} from '../../../../reusable';
+import User from "../../../../platform/components/user/User";
 
 const Style = require('./Overview.scss');
 
@@ -14,7 +15,7 @@ const Overview = ({bet}: Props) => (
     <div className={Style.overview}>
         <h3>Dice:{bet.id}</h3>
         <span>{moment(bet.timestamp).format('lll')}</span>
-        <span>Placed by <strong>{bet.user.username}</strong></span>
+        <span>Placed by <User user={bet.user}/></span>
         <div className={Style.overview__stats}>
             <div className={Style.overview__statEntry}>
                 <span className={Style.overview__entryHeader}>Wagered</span>
