@@ -91,6 +91,11 @@ export function loadContractGameState() {
             return Promise.resolve();
         }
 
+        if (!validNetwork(web3State.networkId)) {
+            dispatch(showErrorMessage(`Invalid network! You need to use ${NETWORK_NAME}!`));
+            return;
+        }
+
         if (gameState.status === 'CREATING') {
             const logCreated = await getLogGameCreated(web3, contract, gameState.serverHash);
             if (logCreated) {
