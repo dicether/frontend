@@ -87,7 +87,7 @@ export function loadContractGameState() {
         const {gameState} = games;
         const {web3, account} = web3State;
 
-        if (contract === null || web3 === null || account === null || !gameState.serverHash) {
+        if (contract === null || web3 === null || account === null || !gameState.serverHash || web3State.networkId === null) {
             return Promise.resolve();
         }
 

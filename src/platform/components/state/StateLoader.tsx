@@ -43,8 +43,9 @@ class StateLoader extends React.Component<Props> {
         const {syncGameState, userAuth: nextUserAuth, gameState: nextState, web3: nextWeb3State} = nextProps;
         const {userAuth: curUserAuth, gameState: curState, web3: curWeb3State} = this.props;
 
-        if (nextUserAuth !== curUserAuth && nextUserAuth !== null
-                || nextUserAuth !== null && nextWeb3State.account !== curWeb3State.account && nextWeb3State.account !== null) {
+        if (nextUserAuth !== null && (nextUserAuth !== curUserAuth
+                || nextWeb3State.account !== curWeb3State.account && nextWeb3State.account !== null
+                || nextWeb3State.networkId !== curWeb3State.networkId && nextWeb3State.networkId !== null)) {
             syncGameState(nextUserAuth.address);
         }
 
