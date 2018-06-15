@@ -64,7 +64,7 @@ class Dice extends React.Component<Props, DiceState> {
     onPlaceBet = (num: number, betValue: number, reversedRoll: boolean) => {
         const {info, placeBet} = this.props;
 
-        const safeBetValue = Math.round(betValue / MIN_BET_VALUE) * MIN_BET_VALUE;
+        const safeBetValue = Math.round(betValue);
         const gameType = reversedRoll ? GameType.DICE_HIGHER : GameType.DICE_LOWER;
 
         placeBet(num, safeBetValue, gameType).then(result => {
