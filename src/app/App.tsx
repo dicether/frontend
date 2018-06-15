@@ -80,6 +80,7 @@ class App extends React.Component<Props, State> {
             initUser(jwt);
         }
 
+        fetchAllWeb3();
         const timer = window.setInterval(() => fetchAllWeb3(), WEB3_POLL_INTERVAL);
         this.setState({web3Timer: timer});
     }
