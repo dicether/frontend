@@ -13,3 +13,21 @@
 .entries {
   color: $gray-700;
 }
+
+@keyframes expand {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+
+  to {
+    opacity: 1;
+    max-height: 2rem;
+  }
+}
+
+
+.entry {
+  will-change: margin, max-height;
+  animation: expand 250ms ease-out forwards;
+}

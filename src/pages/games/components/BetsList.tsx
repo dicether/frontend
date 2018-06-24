@@ -50,12 +50,12 @@ const LastBetRow = ({bet, showUser}: LastBetRowProps) => {
     return (
         <tr>
             {showUser &&
-            <td className={Style.center}><User user={user}/></td>
+            <td className={Style.center}><div className={Style.entry}> <User user={user}/> </div></td>
             }
-            <td className={Style.center}>{moment(timestamp).format('LT')}</td>
-            <td className={Style.center}><Ether gwei={value} showCurrencySymbol /></td>
-            <td className={Style.center}><BetInfoModal bet={bet}/></td>
-            <td className={Style.center}><Ether gwei={profit} showCurrencySymbol colored/></td>
+            <td className={Style.center}><div className={Style.entry}>{moment(timestamp).format('LT')}</div></td>
+            <td className={Style.center}><div className={Style.entry}><Ether gwei={value} showCurrencySymbol /></div></td>
+            <td className={Style.center}><div className={Style.entry}><BetInfoModal bet={bet}/></div></td>
+            <td className={Style.center}><div className={Style.entry}><Ether gwei={profit} showCurrencySymbol colored/></div></td>
         </tr>
     );
 };
