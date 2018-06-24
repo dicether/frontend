@@ -8,8 +8,8 @@
 .gameWrapper {
   background-color: $white;
   padding: 1rem;
-  border-radius: $border-radius * 2;
-  box-shadow: $gray-300 0 0 10px 0;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.04);
 
   @include media-breakpoint-down(sm) {
     margin-left: -$grid-gutter-width / 4;
