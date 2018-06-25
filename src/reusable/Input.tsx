@@ -20,7 +20,7 @@ export interface Props extends BaseType {
 
 export type State = {
     inputValue: string,
-    isValid: boolean|null
+    isValid?: boolean
 };
 
 
@@ -43,7 +43,6 @@ export default class Input extends React.Component<Props, State> {
 
         this.state = {
             inputValue: this.props.value,
-            isValid: null
         }
     }
 
@@ -73,9 +72,9 @@ export default class Input extends React.Component<Props, State> {
         const val = (event.target as HTMLInputElement).value;
         const {onValue, validate} = this.props;
 
-        const valid = validate === undefined || validate(val).valid;
+        const valid = validate !== undefined ? validate(val).valid : undefined;
         this.setState({inputValue: val, isValid: valid});
-        if (onValue && valid) {
+        if (onValue && valid !== false) {
             onValue(val);
         }
     };
@@ -84,18 +83,18 @@ export default class Input extends React.Component<Props, State> {
         const {inputValue, isValid: isValidState} = this.state;
         const {suffix, disabled, readOnly, placeholder, showValidation, isValid: isValidProp} = this.props;
 
-        let isValid: boolean | null = null;
-        if (typeof(isValidProp) !== "undefined") {
+        let isValid;
+        if (isValidProp !== undefined) {
             isValid = isValidProp;
-        } else if (isValidState !== null) {
+        } else if (isValidState !== undefined) {
             isValid = isValidState;
         }
 
         const className = ClassNames(
             'form-control',
             Style.input__input,
-            {'is-valid': isValid !== null && isValid && showValidation},
-            {'is-invalid': isValid !== null && !isValid && showValidation},
+            {'is-valid': isValid === true && showValidation},
+            {'is-invalid': isValid === false && showValidation},
         );
 
         return (
