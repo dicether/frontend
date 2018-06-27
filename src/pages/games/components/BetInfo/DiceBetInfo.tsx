@@ -1,7 +1,7 @@
 import * as React from 'react';
+import {GameType} from "@dicether/state-channel";
 
 import {StaticPopover, ProgressBar} from '../../../../reusable/index';
-import {GameType} from "../../../../stateChannel";
 
 const Style = require('./DiceBetInfo.scss');
 

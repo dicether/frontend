@@ -1,9 +1,9 @@
 import * as React from 'react';
-import {Bet} from '../../../../platform/modules/bets/types';
+import {calcResultNumber, verifySeed, verifySignature} from '@dicether/state-channel';
 
-import { calcResultNumber, verifyBetSignature, verifySeed} from '../../../../stateChannel';
+import {Bet} from '../../../../platform/modules/bets/types';
 import {FontAwesomeIcon} from "../../../../reusable";
-import {SERVER_ADDRESS} from "../../../../config/config";
+import {CHAIN_ID, SERVER_ADDRESS, SIGNATURE_VERSION} from "../../../../config/config";
 
 const Style = require('./Verification.scss');
 
@@ -31,10 +31,8 @@ class Verification extends React.PureComponent<Props> {
 
         const validUserSeed = verifySeed(bet.userSeed, bet.userHash);
         const validServerSeed = verifySeed(bet.serverSeed, bet.serverHash);
-        const validUserSig = verifyBetSignature(bet.roundId, bet.gameType, bet.num, bet.value, bet.balance,
-            bet.serverHash, bet.userHash, bet.gameId, bet.contractAddress, bet.userSig, bet.user.address);
-        const validServerSig = verifyBetSignature(bet.roundId, bet.gameType, bet.num, bet.value, bet.balance,
-            bet.serverHash, bet.userHash, bet.gameId, bet.contractAddress, bet.serverSig, SERVER_ADDRESS);
+        const validUserSig = verifySignature(bet, CHAIN_ID, bet.contractAddress, bet.userSig, bet.user.address, SIGNATURE_VERSION);
+        const validServerSig = verifySignature(bet, CHAIN_ID, bet.contractAddress, bet.serverSig, SERVER_ADDRESS, SIGNATURE_VERSION);
 
         const resultNum = calcResultNumber(bet.gameType, bet.serverSeed, bet.userSeed);
 

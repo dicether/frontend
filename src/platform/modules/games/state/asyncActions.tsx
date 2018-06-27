@@ -1,33 +1,45 @@
 import axios from "axios";
-
-
-import {Dispatch, GetState, isLocalStorageAvailable} from "../../../../util/util";
 import {
+    calcNewBalance,
     calcPlayerProfit,
     calcResultNumber,
     createHashChain,
-    fromBaseToWei, getLastGameId, getReasonEnded, getLogGameCreated,
+    createTypedData,
+    fromGweiToWei,
+    hasWon,
     keccak,
-    signBet,
-    verifyBetSignature,
-    verifySeed
-} from "../../../../stateChannel";
+    verifySeed,
+    verifySignature
+} from "@dicether/state-channel";
+
+import {Dispatch, GetState, isLocalStorageAvailable} from "../../../../util/util";
+import {getLogGameCreated, getReasonEnded} from "../../../../contractUtils";
 import {catchError} from "../../utilities/asyncActions";
 import {
     acceptedGame,
-    addBet, changeStatus,
+    addBet,
+    changeStatus,
     creatingGame,
     endBet,
-    endedGame, endedWithReason,
+    endedGame,
+    endedWithReason,
     invalidSeed,
-    restoreState, setCreateTransactionHash,
+    restoreState,
+    setCreateTransactionHash,
     transactionFailure,
 } from "./actions";
-import {CONTRACT_ADDRESS, NETWORK_ID, NETWORK_NAME, SERVER_ADDRESS} from "../../../../config/config";
+import {
+    CHAIN_ID,
+    CONTRACT_ADDRESS,
+    NETWORK_ID,
+    NETWORK_NAME,
+    SERVER_ADDRESS,
+    SIGNATURE_VERSION
+} from "../../../../config/config";
 import {showErrorMessage} from "../../utilities/actions";
 import {ReasonEnded, State} from "./reducer";
 import {TransactionReceipt} from "../../../../../typings/web3/types";
-import {getTransactionReceipt} from "../../web3/asyncActions";
+import {getTransactionReceipt, signTypedData} from "../../web3/asyncActions";
 import Web3 from "web3";
 
 
@@ -260,7 +272,7 @@ export function createGame(stake: number, playerSeed: string) {
 
             return createGame(hashChain[0], previousGameId, createBefore, serverEndHash, signature).send({
                 from: account,
-                value: fromBaseToWei(stake),
+                value: fromGweiToWei(stake).toString(),
                 gas: 180000
             }).on(error => {
                 catchError(error, dispatch);
@@ -303,7 +315,7 @@ export function endGame() {
 
         // use previous seeds as new hashes seeds (hash chain)
         const serverHash = gameState.serverHash;
-        const playerHash = gameState.playerHash;
+        const userHash = gameState.playerHash;
 
 
         const serverAddress = SERVER_ADDRESS;
@@ -315,38 +327,43 @@ export function endGame() {
         const value = 0;
         const balance = gameState.balance;
 
-        if (playerHash === undefined || serverHash === undefined || web3 === null || playerAddress === null || gameId === undefined) {
+
+        if (!userHash || !serverHash|| !web3|| !playerAddress || !gameId || !account) {
             dispatch(showErrorMessage("Invalid game state!"));
             return;
         }
 
+        const bet = {
+            roundId: gameState.roundId + 1,
+            gameType: 0,
+            num: 0,
+            value: 0,
+            balance,
+            serverHash,
+            userHash,
+            gameId
+        };
+
         let playerSig = "";
-        signBet(web3, playerAddress, roundId, gameType, num, value, balance, serverHash, playerHash, gameId,
-            CONTRACT_ADDRESS).then(result => {
+        const typedData = createTypedData(bet, CHAIN_ID, CONTRACT_ADDRESS, SIGNATURE_VERSION);
+        signTypedData(web3, account, typedData).then(result => {
             playerSig = result;
             return axios.post('endGame', {
-                'roundId': roundId,
-                'gameType': gameType,
-                'num': num,
-                'value': value,
-                'balance': balance,
-                'serverHash': serverHash,
-                'playerHash': playerHash,
-                'gameId': gameId,
+                ...bet,
+                'playerHash': bet.userHash,
                 'contractAddress': CONTRACT_ADDRESS,
                 'playerSig': playerSig
             });
         }).then(response => {
             const serverSig = response.data.serverSig;
 
-            if (!verifyBetSignature(roundId, gameType, num, value, balance, serverHash,
-                    playerHash, gameId, CONTRACT_ADDRESS, serverSig, serverAddress)) {
+            if (!verifySignature(bet, CHAIN_ID, CONTRACT_ADDRESS,  serverSig, SERVER_ADDRESS, SIGNATURE_VERSION)) {
                 return Promise.reject(new Error('Invalid server signature!'));
             }
 
             const endTransactionHash = response.data.transactionHash;
 
-            dispatch(endedGame(roundId, serverHash, playerHash, serverSig, playerSig, endTransactionHash));
+            dispatch(endedGame(roundId, serverHash, userHash, serverSig, playerSig, endTransactionHash));
 
             return Promise.resolve();
         }).catch(error => catchError(error, dispatch));
@@ -390,14 +407,14 @@ export function conflictEnd() {
         } else {
             let serverHash = keccak(gameState.serverHash);
             let playerHash = keccak(gameState.playerHash);
-            const value = fromBaseToWei(gameState.betValue as number);
-            let balance = fromBaseToWei(oldBalance);
+            const value = fromGweiToWei(gameState.betValue as number);
+            let balance = fromGweiToWei(oldBalance);
             let playerSeed = gameState.playerHash;
 
             if (gameState.status === 'PLACED_BET') {
                 serverHash = gameState.serverHash;
                 playerHash = gameState.playerHash;
-                balance = fromBaseToWei(gameState.balance);
+                balance = fromGweiToWei(gameState.balance);
                 playerSeed = gameState.hashChain[roundId];
             }
 
@@ -455,10 +472,7 @@ export function requestSeed() {
                 return Promise.reject(new Error("Invalid server seed!"));
             }
 
-            const resNum = calcResultNumber(gameState.gameType, serverSeed, playerSeed);
-            const playerProfit = calcPlayerProfit(gameState.gameType, gameState.num, betValue, resNum);
-
-            const newPlayerBalance = gameState.balance + playerProfit;
+            const newPlayerBalance = calcNewBalance(gameState.gameType, gameState.num, betValue, serverSeed, playerSeed, gameState.balance);
 
             if (newServerBalance !== newPlayerBalance) {
                 return Promise.reject(new Error("Invalid server balance!"));
@@ -479,7 +493,7 @@ export function placeBet(num: number, betValue: number, gameType: number) {
 
         // use previous seeds as new hashes seeds (hash chain)
         const serverHash = gameState.serverHash;
-        const playerHash = gameState.playerHash;
+        const userHash = gameState.playerHash;
 
 
         const serverAddress = SERVER_ADDRESS;
@@ -493,7 +507,7 @@ export function placeBet(num: number, betValue: number, gameType: number) {
             return Promise.reject(new Error("Invalid game status!"));
         }
 
-        if (web3 === null || account === null) {
+        if (!web3 || !account) {
             return Promise.reject(new Error("You need a web3 enabled browser (Metamask)!"));
         }
 
@@ -501,15 +515,27 @@ export function placeBet(num: number, betValue: number, gameType: number) {
             return Promise.reject(new Error("Invalid bet value: Funds to low!"));
         }
 
-        if (serverHash === undefined || playerHash === undefined) {
+        if (!serverHash || !userHash) {
             return Promise.reject(new Error("Invalid game state!"));
         }
 
 
         let playerSig = "";
         let playerSeed = "";
-        return signBet(web3, account, roundId, gameType, num, betValue, balance, serverHash, playerHash,
-            gameId, CONTRACT_ADDRESS).then(result => {
+
+        const bet = {
+            roundId,
+            gameType,
+            num,
+            value: betValue,
+            balance,
+            serverHash,
+            userHash,
+            gameId
+        };
+
+        const typedData = createTypedData(bet, CHAIN_ID, CONTRACT_ADDRESS, SIGNATURE_VERSION);
+        return signTypedData(web3, account, typedData).then(result => {
             playerSig = result;
             return axios.post('placeBet', {
                 'roundId': roundId,
@@ -518,7 +544,7 @@ export function placeBet(num: number, betValue: number, gameType: number) {
                 'value': betValue,
                 'balance': balance,
                 'serverHash': serverHash,
-                'playerHash': playerHash,
+                'playerHash': userHash,
                 'gameId': gameId,
                 'contractAddress': CONTRACT_ADDRESS,
                 'playerSig': playerSig
@@ -526,12 +552,11 @@ export function placeBet(num: number, betValue: number, gameType: number) {
         }).then(response => {
             const serverSig = response.data.serverSig;
 
-            if (!verifyBetSignature(roundId, gameType, num, betValue, balance, serverHash, playerHash, gameId,
-                    CONTRACT_ADDRESS, serverSig, serverAddress)) {
+            if (!verifySignature(bet, CHAIN_ID, CONTRACT_ADDRESS, serverSig, SERVER_ADDRESS, SIGNATURE_VERSION)) {
                 return Promise.reject(new Error("Error placing bet: Invalid server signature!"));
             }
 
-            dispatch(addBet(roundId, gameType, betValue, num, balance, serverHash, playerHash, serverSig, playerSig));
+            dispatch(addBet(roundId, gameType, betValue, num, balance, serverHash, userHash, serverSig, playerSig));
 
             playerSeed = gameState.hashChain[roundId];
             return axios.post('revealSeed', {
@@ -549,7 +574,8 @@ export function placeBet(num: number, betValue: number, gameType: number) {
             }
 
             const resNum = calcResultNumber(gameType, serverSeed, playerSeed);
-            const playerProfit = calcPlayerProfit(gameType, num, betValue, resNum);
+            const hashWon = hasWon(gameType, bet.num, resNum);
+            const playerProfit = calcPlayerProfit(gameType, num, betValue, hashWon);
             const newPlayerBalance = balance + playerProfit;
 
             if (newServerBalance !== newPlayerBalance) {
