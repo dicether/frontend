@@ -36,6 +36,7 @@ const DevContractAddress = "0x7a1e1ded2fabcfe87af12ee7b8d7303b0e63c303";
 const DevServerAddress = "0xa8d5f39f3ccd4795b0e38feacb4f2ee22486ca44";
 const DevApiUrl = 'http://localhost:5000/api';
 const DevWebsocketUrl = 'http://localhost:5001';
+const DevChainId = 123456789;
 
 // Production and staging config
 const Domain = 'dicether.com';
@@ -43,6 +44,7 @@ const ContractAddress = "0xbF8B9092e809DE87932B28ffaa00D520b04359aA";
 const ServerAddress = "0xcef260a5fed7a896bbe07b933b3a5c17aec094d8";
 const ApiUrl = `https://api.${Domain}/api`;
 const WebsocketUrl = `https://websocket.${Domain}`;
+const ChainId = 1;
 
 const Paths = [
     '/',
@@ -107,7 +109,8 @@ if (node_env === 'development') {
                 'CONTRACT_ADDRESS': JSON.stringify(DevContractAddress),
                 'SERVER_ADDRESS': JSON.stringify(DevServerAddress),
                 "API_URL": JSON.stringify(DevApiUrl),
-                'SOCKET_URL': JSON.stringify(DevWebsocketUrl)
+                'SOCKET_URL': JSON.stringify(DevWebsocketUrl),
+                'CHAIN_ID': JSON.stringify(DevChainId)
             }
         })
     ]);
@@ -125,7 +128,8 @@ if (node_env === 'development') {
                 'CONTRACT_ADDRESS': JSON.stringify(ContractAddress),
                 'SERVER_ADDRESS': JSON.stringify(ServerAddress),
                 'API_URL': JSON.stringify(ApiUrl),
-                'SOCKET_URL': JSON.stringify(WebsocketUrl)
+                'SOCKET_URL': JSON.stringify(WebsocketUrl),
+                'CHAIN_ID': JSON.stringify(ChainId)
             }
         })
     ]);
@@ -144,6 +148,7 @@ if (node_env === 'development') {
                 'SERVER_ADDRESS': JSON.stringify(ServerAddress),
                 'API_URL': JSON.stringify(ApiUrl),
                 'SOCKET_URL': JSON.stringify(WebsocketUrl),
+                'CHAIN_ID': JSON.stringify(ChainId)
             }
         }),
         new SitemapPlugin(`https://${Domain}`, Paths, {skipGzip: true}),
