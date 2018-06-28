@@ -1,6 +1,8 @@
 @import '~variables';
 
 .ether {
+  display: inline-flex;
+  align-items: center;
 }
 
 .ether_positiv {
@@ -12,7 +14,6 @@
 }
 
 .value {
-  vertical-align: middle;
 }
 
 .icon {
