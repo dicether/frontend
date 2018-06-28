@@ -13,6 +13,7 @@ import {MAX_BET_VALUE, MIN_BET_VALUE} from '../../../config/config';
 
 import {bindActionCreators, Dispatch} from "redux";
 import {showErrorMessage} from "../../../platform/modules/utilities/actions";
+import {catchError} from "../../../platform/modules/utilities/asyncActions";
 
 
 const mapStateToProps = ({games, account}: State) => {
@@ -28,7 +29,7 @@ const mapStateToProps = ({games, account}: State) => {
 const mapDispatchToProps = (dispatch: Dispatch<State>) => ({
     placeBet: (num, safeBetValue, gameType) => dispatch(placeBet(num, safeBetValue, gameType)),
     toggleHelp: (t) => dispatch(toggleHelp(t)),
-    showErrorMessage: (message) => dispatch(showErrorMessage(message))
+    catchError: (error) => catchError(error, dispatch)
 });
 
 
@@ -63,7 +64,7 @@ class Dice extends React.Component<Props, DiceState> {
     };
 
     onPlaceBet = (num: number, betValue: number, reversedRoll: boolean) => {
-        const {info, placeBet, showErrorMessage} = this.props;
+        const {info, placeBet, catchError} = this.props;
 
         const safeBetValue = Math.round(betValue);
         const gameType = reversedRoll ? GameType.DICE_HIGHER : GameType.DICE_LOWER;
@@ -76,7 +77,7 @@ class Dice extends React.Component<Props, DiceState> {
             if (info.sound) {
                 setTimeout(() => result.won ? sounds.win.playFromBegin() : sounds.lose.playFromBegin(), 500);
             }
-        }).catch(error => showErrorMessage(error.message));
+        }).catch(error => catchError(error));
     };
 
     render() {

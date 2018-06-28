@@ -535,6 +535,7 @@ export function placeBet(num: number, betValue: number, gameType: number) {
         };
 
         const typedData = createTypedData(bet, CHAIN_ID, CONTRACT_ADDRESS, SIGNATURE_VERSION);
+
         return signTypedData(web3, account, typedData).then(result => {
             playerSig = result;
             return axios.post('placeBet', {
@@ -586,7 +587,6 @@ export function placeBet(num: number, betValue: number, gameType: number) {
 
             return Promise.resolve({num: resNum, won: playerProfit > 0});
         }).catch(error => {
-            catchError(error, dispatch);
             return Promise.reject(error);
         });
     }
