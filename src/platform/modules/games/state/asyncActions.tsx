@@ -349,6 +349,7 @@ export function endGame() {
         signTypedData(web3, account, typedData).then(result => {
             playerSig = result;
             return axios.post('endGame', {
+                bet,
                 ...bet,
                 'playerHash': bet.userHash,
                 'contractAddress': CONTRACT_ADDRESS,
@@ -539,6 +540,7 @@ export function placeBet(num: number, betValue: number, gameType: number) {
         return signTypedData(web3, account, typedData).then(result => {
             playerSig = result;
             return axios.post('placeBet', {
+                bet,
                 'roundId': roundId,
                 'gameType': gameType,
                 'num': num,
