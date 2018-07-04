@@ -350,8 +350,6 @@ export function endGame() {
             playerSig = result;
             return axios.post('endGame', {
                 bet,
-                ...bet,
-                'playerHash': bet.userHash,
                 'contractAddress': CONTRACT_ADDRESS,
                 'playerSig': playerSig
             });
@@ -541,14 +539,6 @@ export function placeBet(num: number, betValue: number, gameType: number) {
             playerSig = result;
             return axios.post('placeBet', {
                 bet,
-                'roundId': roundId,
-                'gameType': gameType,
-                'num': num,
-                'value': betValue,
-                'balance': balance,
-                'serverHash': serverHash,
-                'playerHash': userHash,
-                'gameId': gameId,
                 'contractAddress': CONTRACT_ADDRESS,
                 'playerSig': playerSig
             });
