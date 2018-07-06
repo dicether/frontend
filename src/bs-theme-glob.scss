@@ -74,6 +74,12 @@ td {
   white-space: nowrap;
 }
 
+@include media-breakpoint-down(md){
+  .container {
+    max-width: 100%;
+  }
+}
+
 .chat-open {
   @include media-breakpoint-up(sm) {
     .container {
