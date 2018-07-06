@@ -18,7 +18,7 @@ const Modal = ({isOpen, toggle, children, title, ...rest}: Props) => (
             <button type="button" className="close" aria-label="Close" onClick={toggle}>
                 <span aria-hidden="true">&times;</span>
             </button>
-            <div>
+            <div style={{padding: "1rem"}}>
                 {children}
             </div>
         </ModalBody>
