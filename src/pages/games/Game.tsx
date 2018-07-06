@@ -136,7 +136,7 @@ class Game extends React.Component<Props> {
                 </Section>
                 <Section>
                     <Container>
-                        <Stats showMyBets/>
+                        <Stats showMyBets={loggedIn}/>
                     </Container>
                 </Section>
             </div>
