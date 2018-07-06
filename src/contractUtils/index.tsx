@@ -9,7 +9,7 @@ export function getLastGameId(web3: Web3, contract: any, serverEndHash: string, 
     return web3.eth.getBlockNumber().then(blockNum => {
         return contract.getPastEvents('LogGameCreated', {
             filter: {serverEndHash},
-            fromBlock: Math.max(blockNum - 24 * 3 * 60, 0),
+            fromBlock: Math.max(blockNum - 30 * 24 * 4 * 60, 0),
             toBlock: 'latest'
         });
     }).then(events => {
@@ -26,7 +26,7 @@ export async function getLogGameCreated(web3: Web3, contract: any, serverEndHash
     const blockNum = await web3.eth.getBlockNumber();
     const events = await contract.getPastEvents('LogGameCreated', {
         filter: {serverEndHash},
-        fromBlock: Math.max(blockNum - 24 * 3 * 60, 0),
+        fromBlock: Math.max(blockNum - 30 * 24 * 4 * 60, 0),
         toBlock: 'latest'
     });
 
@@ -41,7 +41,7 @@ export function getReasonEnded(web3: Web3, contract: any, gameId: number) {
     return web3.eth.getBlockNumber().then(blockNum => {
         return contract.getPastEvents('LogGameEnded', {
             filter: {gameId},
-            fromBlock: Math.max(blockNum - 24 * 3 * 60, 0),
+            fromBlock: Math.max(blockNum - 30 * 24 * 4 * 60, 0),
             toBlock: 'latest'
         });
     }).then(events => {
