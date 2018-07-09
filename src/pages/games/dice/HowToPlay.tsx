@@ -10,12 +10,14 @@ const HowToPlay = () => (
         <h5>Start game session</h5>
         <p>
             Press <em>Start Game Session</em> and deposit your desired amount of Ether
-            (between <Ether gwei={MIN_GAME_SESSION_VALUE}/> and  <Ether gwei={MAX_GAME_SESSION_VALUE}/>).
+            (between <Ether gwei={MIN_GAME_SESSION_VALUE} precision={2}/>
+            and <Ether gwei={MAX_GAME_SESSION_VALUE} precision={2}/> ETH).
         </p>
         <h5>Roll dice</h5>
         <h6>Step1</h6>
         <p>
-            Choose your bet amount (between <Ether gwei={MIN_BET_VALUE}/> and <Ether gwei={MAX_BET_VALUE}/>).
+            Choose your bet amount (between <Ether gwei={MIN_BET_VALUE} precision={5}/>
+            and <Ether gwei={MAX_BET_VALUE} precision={5}/> ETH).
         </p>
         <h6>Step2</h6>
         <p>
