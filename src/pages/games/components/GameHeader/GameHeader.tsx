@@ -103,7 +103,7 @@ export default class GameHeader extends React.Component<Props, State> {
                                 style={{marginLeft: '1em'}}
                                 target="_blank"
                                 href={transactionUrl}>
-                                Last Game Session Transaction
+                                End Transaction
                             </a>
                         }
                     </div>
