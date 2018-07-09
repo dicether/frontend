@@ -131,10 +131,11 @@ export function loadServerGameState() {
             const data = result.data;
             const status = data.status;
             const gameId = data.gameId;
+            const userHash = data.userHash;
 
             const gameState = getState().games.gameState;
 
-            if (gameState.status === 'CREATING' && status === 'ACTIVE') {
+            if (gameState.status === 'CREATING' && status === 'ACTIVE' && gameState.playerHash === userHash) {
                 dispatch(acceptedGame(gameId));
             }
         }).catch(error => {
