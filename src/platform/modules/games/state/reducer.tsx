@@ -75,7 +75,7 @@ export default function state(state: State = initialState, action: Actions): Sta
         };
         case types.SET_CREATE_TRANSACTION_HASH: return {...state, createTransactionHash: action.createTransactionHash};
         case types.CREATE_TRANSACTION_FAILURE: return {...state, status: 'ENDED', reasonEnded: 'TRANSACTION_FAILURE'};
-        case types.GAME_ACCEPTED: return {...state, status: 'ACTIVE', gameId: action.gameId};
+        case types.GAME_CREATED: return {...state, status: 'ACTIVE', gameId: action.gameId};
         case types.ENDED_GAME: return {...state,
             status: 'ENDED',
             reasonEnded: 'REGULAR_ENDED',

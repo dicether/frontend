@@ -16,7 +16,7 @@ import {Dispatch, GetState, isLocalStorageAvailable} from "../../../../util/util
 import {getLogGameCreated, getReasonEnded} from "../../../../contractUtils";
 import {catchError} from "../../utilities/asyncActions";
 import {
-    acceptedGame,
+    gameCreated,
     addBet,
     changeStatus,
     creatingGame,
@@ -111,7 +111,7 @@ export function loadContractGameState() {
         if (gameState.status === 'CREATING') {
             const logCreated = await getLogGameCreated(web3, contract, gameState.serverHash);
             if (logCreated) {
-                dispatch(acceptedGame(logCreated.returnValues.gameId));
+                dispatch(gameCreated(logCreated.returnValues.gameId));
                 dispatch(loadContractStateCreatedGame());
             }
         }
@@ -136,7 +136,7 @@ export function loadServerGameState() {
             const gameState = getState().games.gameState;
 
             if (gameState.status === 'CREATING' && status === 'ACTIVE' && gameState.playerHash === userHash) {
-                dispatch(acceptedGame(gameId));
+                dispatch(gameCreated(gameId));
             }
         }).catch(error => {
             if (error.response.status !== 404) {
@@ -197,7 +197,7 @@ export function serverAcceptGame(gameId: number, serverHash: string) {
             return;
         }
 
-        return dispatch(acceptedGame(gameId));
+        return dispatch(gameCreated(gameId));
     }
 }
 

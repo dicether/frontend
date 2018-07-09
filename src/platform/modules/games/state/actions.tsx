@@ -26,8 +26,8 @@ export const endedWithReason = ca((reason: ReasonEnded) => {
 // });
 
 
-export const acceptedGame = ca((gameId: number) => {
-    return {type: types.GAME_ACCEPTED, gameId}
+export const gameCreated = ca((gameId: number) => {
+    return {type: types.GAME_CREATED, gameId}
 });
 
 
