@@ -1,6 +1,17 @@
 import * as React from 'react';
 
-import {Button, Ether, FormGroup, Input, Label, Modal, ModalBody, ModalFooter, ValueInput} from '../../../../reusable';
+import {
+    Button,
+    Ether,
+    Form,
+    FormGroup,
+    Input,
+    Label,
+    Modal,
+    ModalBody,
+    ModalFooter,
+    ValueInput
+} from '../../../../reusable';
 import {State as Web3State} from '../../../../platform/modules/web3/reducer';
 import {generateSeed} from '../../../../util/crypto';
 import {SESSION_TIMEOUT} from "../../../../config/config";
@@ -46,12 +57,13 @@ export default class CreateGameModal extends React.Component<Props, State> {
         }
     }
 
-    createGame = () => {
+    createGame = (e) => {
         const {onCreateGame, onClose} = this.props;
         const {value, seed} = this.state;
 
         onCreateGame(value, seed);
         onClose();
+        e.preventDefault();
     };
 
     onValueChange = (value: number) => {
@@ -77,16 +89,19 @@ export default class CreateGameModal extends React.Component<Props, State> {
                     {accountBalance === null ?
                         <span className={"text-warning"}>Failed reading your account balance!</span>
                         :
-                        <span>Your Balance: <Ether gwei={accountBalance}/></span>
+                        <span>Your Balance: <Ether gwei={accountBalance}/> ETH</span>
                     }
                     {toLowBalance ?
                         <div>
                             <span className={'text-danger'}>Too low balance on your account!</span>
                         </div>
                         :
-                        <div style={{marginTop: '1em'}}>
+                        <Form style={{marginTop: '1em'}} onSubmit={this.createGame}>
                             <FormGroup>
-                                <Label for="value">Amount to deposit (between <Ether gwei={minValue}/> and <Ether gwei={max}/>)</Label>
+                                <Label for="value">
+                                    Amount to deposit (between <Ether gwei={minValue} precision={2}/>
+                                    and <Ether gwei={max} precision={2}/> ETH)
+                                </Label>
                                 <ValueInput
                                     id="value"
                                     min={minValue}
@@ -100,15 +115,17 @@ export default class CreateGameModal extends React.Component<Props, State> {
                                 <Label for="seed">Your seed used to generate the hash chain</Label>
                                 <Input disabled value={seed}/>
                             </FormGroup>
-                            <span className={'text-warning'}>
-                                The data required for the game session is stored local on your browser. So don't clear
-                                your browser history as long as the game session is active.
+                            <FormGroup className='text-warning'>
+                                The data required for the game session is stored local on your browser. So <em>don't clear
+                                your browser history</em> as long as the game session is active.
                                 If your are done with playing you must end the game session. If you don't end the game session,
                                 we will end it after waiting {SESSION_TIMEOUT} hours and you will need to pay a fine!
-                            </span>
-                        </div>
+                            </FormGroup>
+                            <FormGroup>
+                                <Button type="submit" color="primary" disabled={toLowBalance}>Deposit</Button>
+                            </FormGroup>
+                        </Form>
                     }
-                    <Button color="primary" disabled={toLowBalance} onClick={this.createGame}>Deposit</Button>
             </Modal>
         );
     }
