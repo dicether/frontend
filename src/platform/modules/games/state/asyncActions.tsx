@@ -240,7 +240,7 @@ export function createGame(stake: number, playerSeed: string) {
         }
 
         if (status !== 'ENDED' && (status !== 'CREATING' && gameState.createTransactionHash !== undefined)) {
-            dispatch(showErrorMessage("Invalid game state! Can not create game!"));
+            dispatch(showErrorMessage(`Invalid game status: ${status}! Can not create game!`));
             return;
         }
 
@@ -264,12 +264,10 @@ export function createGame(stake: number, playerSeed: string) {
             const data = response.data;
             const serverEndHash = data.serverEndHash;
             const previousGameId = data.previousGameId;
-            const contractAddress = data.contractAddress;
             const createBefore = data.createBefore;
             const signature = data.signature;
 
             dispatch(creatingGame(hashChain, serverEndHash, stake, undefined));
-
 
             return createGame(hashChain[0], previousGameId, createBefore, serverEndHash, signature).send({
                 from: account,
@@ -318,18 +316,17 @@ export function endGame() {
         const serverHash = gameState.serverHash;
         const userHash = gameState.playerHash;
 
-
-        const serverAddress = SERVER_ADDRESS;
         const playerAddress = account;
         const gameId = gameState.gameId;
         const roundId = gameState.roundId + 1;
-        const gameType = 0;
-        const num = 0;
-        const value = 0;
         const balance = gameState.balance;
 
+        if (!account || !web3) {
+            dispatch(showErrorMessage("You need a web3 enabled browser (Metamask)!"));
+            return;
+        }
 
-        if (!userHash || !serverHash|| !web3|| !playerAddress || !gameId || !account) {
+        if (!userHash || !serverHash|| !playerAddress || !gameId) {
             dispatch(showErrorMessage("Invalid game state!"));
             return;
         }
@@ -503,8 +500,8 @@ export function placeBet(num: number, betValue: number, gameType: number) {
         const stake = gameState.stake;
 
 
-        if (gameState.status !== 'ACTIVE' || gameId === undefined) {
-            return Promise.reject(new Error("Invalid game status!"));
+        if (gameState.status !== 'ACTIVE') {
+            return Promise.reject(new Error(`Invalid game status: ${gameState.status}!`));
         }
 
         if (!web3 || !account) {
@@ -515,7 +512,7 @@ export function placeBet(num: number, betValue: number, gameType: number) {
             return Promise.reject(new Error("Invalid bet value: Funds to low!"));
         }
 
-        if (!serverHash || !userHash) {
+        if (!serverHash || !userHash || gameId === undefined) {
             return Promise.reject(new Error("Invalid game state!"));
         }
 
