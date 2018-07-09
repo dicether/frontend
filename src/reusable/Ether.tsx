@@ -8,8 +8,15 @@ export function formatEth(gwei: number, precision = 9) {
     return (gwei / 1e9).toFixed(precision);
 }
 
-const Ether = ({gwei, showCurrencySymbol = false, colored = false}: { gwei: number, showCurrencySymbol?: boolean, colored?: boolean }) => {
-    const ether = formatEth(gwei);
+export type Props = {
+    gwei: number,
+    showCurrencySymbol?: boolean,
+    colored?: boolean,
+    precision?: number
+}
+
+const Ether = ({gwei, precision = 9, showCurrencySymbol = false, colored = false}: Props) => {
+    const ether = formatEth(gwei, precision);
     const classNames = ClassNames(
         Style.ether,
         {[Style.ether_positiv]: colored && gwei > 0},
