@@ -108,29 +108,29 @@ class Game extends React.Component<Props> {
                 <Section gray>
                     <Container>
                         <div className={Style.wrapper}>
+                             {loggedIn &&
+                                <GameHeader
+                                    web3State={web3State}
+                                    gameState={gameState}
+                                    onStartGame={this.createGame}
+                                    onEndGame={this.endGame}
+                                    onSeedRequest={this.requestSeed}
+                                    onConflictEnd={this.conflictEnd}
+                                />
+                             }
                             <div className={Style.gameWrapper}>
                                 <div className={Style.game}>
-                                    {loggedIn &&
-                                    <GameHeader
-                                        web3State={web3State}
-                                        gameState={gameState}
-                                        onStartGame={this.createGame}
-                                        onEndGame={this.endGame}
-                                        onSeedRequest={this.requestSeed}
-                                        onConflictEnd={this.conflictEnd}
-                                    />
-                                    }
                                     <Route exact path="/games/dice" component={Dice}/>
                                 </div>
                             </div>
                             <GameFooter
-                                        showHelp={showHelp}
-                                        onToggleHelp={this.onToggleHelp}
-                                        showExpertView={showExpertView}
-                                        onToggleExpertView={this.onToggleExpertView}
-                                        sound={sound}
-                                        onToggleSound={this.onToggleSound}
-                                    />
+                                showHelp={showHelp}
+                                onToggleHelp={this.onToggleHelp}
+                                showExpertView={showExpertView}
+                                onToggleExpertView={this.onToggleExpertView}
+                                sound={sound}
+                                onToggleSound={this.onToggleSound}
+                            />
                         </div>
                     </Container>
                 </Section>
