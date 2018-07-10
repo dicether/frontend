@@ -97,13 +97,18 @@ export function loadContractGameState() {
         const {web3: web3State, games} = getState();
         const {contract} = web3State;
         const {gameState} = games;
-        const {web3, account} = web3State;
+        const {web3, account, networkId} = web3State;
 
-        if (contract === null || web3 === null || account === null || !gameState.serverHash || web3State.networkId === null) {
-            return Promise.resolve();
+        if (!gameState.serverHash) {
+            dispatch(showErrorMessage("Invalid game state: serverHasH undefined!"));
+            return;
         }
 
-        if (!validNetwork(web3State.networkId)) {
+        if (!account || !web3 || !contract || networkId === null) {
+            return;
+        }
+
+        if (!validNetwork(networkId)) {
             dispatch(showErrorMessage(`Invalid network! You need to use ${NETWORK_NAME}!`));
             return;
         }
