@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {State as GameState} from '../../../../platform/modules/games/state/reducer';
-import {Ether} from '../../../../reusable';
+import {Ether, Tooltip} from '../../../../reusable';
 import CreateGameModal from './CreateGameModal';
 import {MIN_GAME_SESSION_VALUE, MAX_GAME_SESSION_VALUE, NETWORK_NAME, SESSION_TIMEOUT} from '../../../../config/config';
 import {Button, FontAwesomeIcon} from '../../../../reusable/index';
@@ -25,11 +25,15 @@ type State = {
 
 
 export default class GameHeader extends React.Component<Props, State> {
+    endTransactionRef: React.RefObject<HTMLAnchorElement>;
+
     constructor(props: Props) {
         super(props);
         this.state = {
             modalIsOpen: false
-        }
+        };
+
+        this.endTransactionRef = React.createRef();
     }
 
     onClose = () => {
@@ -98,13 +102,19 @@ export default class GameHeader extends React.Component<Props, State> {
                             onCreateGame={onStartGame}
                             web3State={web3State}
                         />
-                        {lastGameTransactionHash !== undefined &&
+                        {lastGameTransactionHash !== undefined && [
                             <a
+                                key="1"
+                                ref={this.endTransactionRef}
                                 style={{marginLeft: '1em'}}
                                 target="_blank"
                                 href={transactionUrl}>
                                 End Transaction
-                            </a>
+                            </a>,
+                            <Tooltip key="2" target={() => this.endTransactionRef.current}>
+                                Show last game session end transaction
+                            </Tooltip>
+                        ]
                         }
                     </div>
                 }
