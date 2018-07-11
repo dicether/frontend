@@ -1,9 +1,11 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 
+import {clearState} from "../../modules/games/state/actions";
 import {Output} from '../../../reusable/index';
-import {State as GameState} from '../../../rootReducer';
-import {DispatchProp} from "../../../util/util";
+import {State} from '../../../rootReducer';
+import ClearState from "./ClearState";
+import {bindActionCreators, Dispatch} from "redux";
 
 const Style = require('./State.scss');
 
@@ -29,7 +31,7 @@ const Entry = ({id, name, data}: EntryProps) => {
 };
 
 
-const mapStateToProps = ({games}: GameState) => {
+const mapStateToProps = ({games}: State) => {
     const {gameState} = games;
 
     return {
@@ -37,13 +39,16 @@ const mapStateToProps = ({games}: GameState) => {
     }
 };
 
-type ReduxProps = ReturnType<typeof mapStateToProps>;
+const mapDispatchToProps = (dispatch: Dispatch<State>) => bindActionCreators({
+   clearState
+}, dispatch);
 
-type Props = DispatchProp & ReduxProps;
+type Props =  ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
-const State = ({gameState}: Props) => {
+const State = ({gameState, clearState}: Props) => {
     return (
         <div>
+            <ClearState clearState={clearState}/>
             <Entry id={'gameState_status'} name="Status" data={gameState.status}/>
             <Entry id={'gameState_reasonEnded'} name="Reason Ended" data={gameState.reasonEnded}/>
             <Entry id={'gameState_endTransactionHash'} name="End Transaction Hash" data={gameState.endTransactionHash}/>
@@ -61,4 +66,4 @@ const State = ({gameState}: Props) => {
     );
 };
 
-export default connect(mapStateToProps)(State);
+export default connect(mapStateToProps, mapDispatchToProps)(State);

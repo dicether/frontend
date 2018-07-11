@@ -64,3 +64,8 @@ export const changeStatus = ca((status: Status) => {
 export const setCreateTransactionHash = ca((createTransactionHash: string) => {
     return {type: types.SET_CREATE_TRANSACTION_HASH, createTransactionHash};
 });
+
+
+export const clearState = ca(() => {
+    return {type: types.CLEAR_STATE};
+});

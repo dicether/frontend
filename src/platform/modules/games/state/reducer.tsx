@@ -112,6 +112,7 @@ export default function state(state: State = initialState, action: Actions): Sta
         case types.RESTORE_STATE: return {...action.state};
         case types.CHANGE_STATUS: return {...state, status: action.status};
         case types.ENDED_WITH_REASON: return {...state, status: 'ENDED', reasonEnded: action.reason};
+        case types.CLEAR_STATE: return initialState;
         default:
             assertNever(action);
             return state;
