@@ -2,10 +2,12 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 
 import {clearState} from "../../modules/games/state/actions";
+import {conflictEnd} from "../../modules/games/state/asyncActions";
 import {Output} from '../../../reusable/index';
 import {State} from '../../../rootReducer';
 import ClearState from "./ClearState";
 import {bindActionCreators, Dispatch} from "redux";
+import ConflictEnd from "./ConflictEnd";
 
 const Style = require('./State.scss');
 
@@ -40,7 +42,8 @@ const mapStateToProps = ({games}: State) => {
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<State>) => bindActionCreators({
-   clearState
+    clearState,
+    conflictEnd
 }, dispatch);
 
 type Props =  ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
@@ -48,7 +51,10 @@ type Props =  ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatch
 const State = ({gameState, clearState}: Props) => {
     return (
         <div>
-            <ClearState clearState={clearState}/>
+            <div>
+                <ClearState clearState={clearState}/>{" "}
+                <ConflictEnd conflictEnd={conflictEnd}/>
+            </div>
             <Entry id={'gameState_status'} name="Status" data={gameState.status}/>
             <Entry id={'gameState_reasonEnded'} name="Reason Ended" data={gameState.reasonEnded}/>
             <Entry id={'gameState_endTransactionHash'} name="End Transaction Hash" data={gameState.endTransactionHash}/>
