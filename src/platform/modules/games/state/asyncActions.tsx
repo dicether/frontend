@@ -99,8 +99,12 @@ export function loadContractGameState() {
         const {gameState} = games;
         const {web3, account, networkId} = web3State;
 
+        if (getState().games.gameState.status === 'ENDED') {
+            return;
+        }
+
         if (!gameState.serverHash) {
-            dispatch(showErrorMessage("Invalid game state: serverHasH undefined!"));
+            dispatch(showErrorMessage("Invalid game state: serverHash undefined!"));
             return;
         }
 
