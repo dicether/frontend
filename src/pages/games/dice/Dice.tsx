@@ -6,13 +6,10 @@ import {GameType} from "@dicether/state-channel";
 import DiceUi from './DiceUi';
 import {placeBet} from '../../../platform/modules/games/state/asyncActions';
 import sounds from '../sound';
-
 import {State} from '../../../rootReducer';
 import {toggleHelp} from '../../../platform/modules/games/info/actions';
 import {MAX_BET_VALUE, MIN_BET_VALUE} from '../../../config/config';
-
-import {bindActionCreators, Dispatch} from "redux";
-import {showErrorMessage} from "../../../platform/modules/utilities/actions";
+import {Dispatch} from "redux";
 import {catchError} from "../../../platform/modules/utilities/asyncActions";
 
 

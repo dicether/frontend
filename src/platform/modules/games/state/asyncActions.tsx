@@ -16,18 +16,16 @@ import {Dispatch, GetState, isLocalStorageAvailable} from "../../../../util/util
 import {getLogGameCreated, getReasonEnded} from "../../../../contractUtils";
 import {catchError} from "../../utilities/asyncActions";
 import {
-    gameCreated,
     addBet,
-    changeStatus,
     creatingGame,
-    endBet,
     endedGame,
     endedWithReason,
-    invalidSeed,
+    gameCreated,
     restoreState,
-    setCreateTransactionHash,
-    transactionFailure,
+    revealSeed, serverConflictEnd, userAbortConflictEnd, userAbortForceEnd, userConflictEnd,
+    userInitiateConflictEnd, userInitiateForceEnd,
 } from "./actions";
+import {ReasonEnded, State as GameState, State} from "./reducer";
 import {
     CHAIN_ID,
     CONTRACT_ADDRESS,
@@ -37,11 +35,10 @@ import {
     SIGNATURE_VERSION
 } from "../../../../config/config";
 import {showErrorMessage} from "../../utilities/actions";
-import {ReasonEnded, State} from "./reducer";
 import {TransactionReceipt} from "../../../../../typings/web3/types";
 import {getTransactionReceipt, signTypedData} from "../../web3/asyncActions";
 import Web3 from "web3";
-
+import {Bet} from "../../../../../../dicether_state-channel/src/types";
 
 const STORAGE_VERSION = 1;
 
@@ -49,15 +46,212 @@ const STORAGE_VERSION = 1;
 enum ContractStatus {
     ENDED = 0,
     ACTIVE = 1,
-    PLAYER_INITIATED_END = 2,
+    USER_INITIATED_END = 2,
     SERVER_INITIATED_END = 3,
 }
 
 enum ContractReasonEnded {
     REGULAR_ENDED = 0,
     END_FORCED_BY_SERVER = 1,
-    END_FORCED_BY_PLAYER = 2,
+    END_FORCED_BY_USER = 2,
 }
+
+
+
+//
+// Event handling
+//
+function canCreateGame(gameState: GameState) {
+    const status = gameState.status;
+    return status === "ENDED" || (status === "CREATING" && !gameState.createTransactionHash);
+}
+
+function createGameEvent(hashChain: Array<string>, serverEndHash: string, value: number, transactionHash?: string) {
+    return function (dispatch: Dispatch, getState: GetState) {
+        if (canCreateGame(getState().games.gameState)) {
+            dispatch(creatingGame(hashChain, serverEndHash, value, transactionHash));
+        }
+    }
+}
+
+
+function canEndGame(gameState: GameState) {
+    const status = gameState.status;
+    return status !== "ENDED";
+}
+
+function endGameEvent(reason: ReasonEnded) {
+    return function(dispatch: Dispatch, getState: GetState) {
+        if (canEndGame(getState().games.gameState)) {
+            dispatch(endedWithReason(reason));
+        }
+    }
+}
+
+
+function canRegularEndGame(gameState: GameState) {
+    const status = gameState.status;
+    return status === "ACTIVE";
+}
+
+function regularEndGameEvent(roundId: number, serverHash: string, userHash: string, serverSig: string, userSig: string, endTransactionHash: string) {
+    return function(dispatch: Dispatch, getState: GetState) {
+        if (canRegularEndGame(getState().games.gameState)) {
+            dispatch(endedGame(roundId, serverHash, userHash, serverSig, userSig, endTransactionHash));
+        }
+    }
+}
+
+
+function canActivateGame(gameState: GameState, serverEndHash?: string) {
+    const status = gameState.status;
+    return status === "CREATING" && (!serverEndHash || gameState.serverHash === serverEndHash);
+}
+
+function activateGameEvent(gameId: number) {
+    return function (dispatch: Dispatch, getState: GetState) {
+        if (canActivateGame(getState().games.gameState)) {
+            dispatch((gameCreated(gameId)));
+        }
+    }
+}
+
+
+function canPlaceBet(gameState: GameState) {
+    const status = gameState.status;
+    return status === "ACTIVE";
+}
+
+function placeBetEvent(bet: Bet, serverSig: string, userSig: string) {
+    return function (dispatch: Dispatch, getState: GetState) {
+        if (canPlaceBet(getState().games.gameState)) {
+            dispatch(addBet(bet, serverSig, userSig));
+        }
+    }
+}
+
+
+function canRevealSeed(gameState: GameState) {
+    const status = gameState.status;
+    return status === "PLACED_BET";
+}
+
+function revealSeedEvent(serverSeed: string, userSeed: string, balance: number) {
+    return function (dispatch: Dispatch, getState: GetState) {
+        if (canRevealSeed(getState().games.gameState)) {
+            dispatch(revealSeed(serverSeed, userSeed, balance));
+        }
+    }
+}
+
+
+function canUserInitiateConflictEnd(gameState: GameState) {
+    const status = gameState.status;
+    return status === "ACTIVE" || status === "PLACED_BET" || status === "SERVER_CONFLICT_ENDED";
+}
+
+function userInitiateConflictEndEvent(transactionHash: string) {
+    return function (dispatch: Dispatch, getState: GetState) {
+        if (canUserInitiateConflictEnd(getState().games.gameState)) {
+            dispatch(userInitiateConflictEnd(transactionHash));
+        }
+    }
+}
+
+
+function canUserConflictEnd(gameState: GameState) {
+    const status = gameState.status;
+    return status === "USER_INITIATED_CONFLICT_END";
+}
+
+function userConflictEndEvent() {
+    return function (dispatch: Dispatch, getState: GetState) {
+        if (canUserConflictEnd(getState().games.gameState)) {
+            dispatch(userConflictEnd());
+        }
+    }
+}
+
+
+function canUserAbortConflictEnd(gameState: GameState) {
+    const status = gameState.status;
+    return status === "USER_INITIATED_CONFLICT_END";
+}
+
+function userAbortConflictEndEvent() {
+    return function (dispatch: Dispatch, getState: GetState) {
+        if (canUserAbortConflictEnd(getState().games.gameState)) {
+            dispatch(userAbortConflictEnd());
+        }
+    }
+}
+
+
+function canUserInitiateForceEnd(gameState: GameState) {
+    const status = gameState.status;
+    return status === "USER_CONFLICT_ENDED";
+}
+
+function userInitiateForceEndEvent(transactionHash: string) {
+     return function (dispatch: Dispatch, getState: GetState) {
+         if (canUserInitiateForceEnd(getState().games.gameState)) {
+            dispatch(userInitiateForceEnd(transactionHash));
+         }
+     }
+}
+
+
+function canUserAbortForceEnd(gameState: GameState) {
+    const status = gameState.status;
+    return status === 'USER_INITIATED_FORCE_END';
+}
+
+function userAbortForceEndEvent() {
+     return function (dispatch: Dispatch, getState: GetState) {
+         if (canUserAbortForceEnd(getState().games.gameState)) {
+            dispatch(userAbortForceEnd());
+         }
+     }
+}
+
+
+
+function canServerConflictEnd(gameState: GameState) {
+    const status = gameState.status;
+    return status === "CREATING" || status === "USER_CONFLICT_ENDED" || status === "USER_INITIATED_CONFLICT_END"
+        || status === "ACTIVE" || status === "PLACED_BET";
+}
+
+function serverConflictEndEvent() {
+    return function (dispatch: Dispatch, getState: GetState) {
+        if (canServerConflictEnd(getState().games.gameState)) {
+            dispatch(serverConflictEnd());
+        }
+    }
+}
+
+
+//
+// util functions
+//
+function isTransactionFailed(receipt: TransactionReceipt) {
+    return Number.parseInt(receipt.status) !== 1 && (receipt.status as any) !== true;
+}
+
+export const validNetwork = (networkId: number | null) => {
+    // only check for null on development
+    return (networkId !== null) && (process.env.NODE_ENV === 'development' || networkId === NETWORK_ID);
+};
+
+const checkIfEndTransactionFinished = (web3: Web3, transactionHash?: string) => {
+    if (!transactionHash) {
+        return Promise.resolve(true);
+    }
+
+    return getTransactionReceipt(web3, transactionHash).then(receipt =>
+        receipt !== null
+    )
+};
 
 
 export function loadContractStateCreatedGame() {
@@ -68,29 +262,35 @@ export function loadContractStateCreatedGame() {
         const {gameId} = gameState;
         const {web3, account} = web3State;
 
-        if (web3 === null || gameId === undefined || account === null) {
-            return Promise.resolve();
+        if (!web3 || !account) {
+            throw new Error("You need a web3 enabled browser (Metamask)!");
+        }
+
+        if (gameId === undefined) {
+            throw new Error("Invalid game state!");
         }
 
         try {
             const result = await contract.methods.gameIdGame(gameId).call();
             const status = Number.parseInt(result.status);
 
-            if (status === ContractStatus.ENDED && gameState.status !== 'ENDED') {
+            if (status === ContractStatus.ENDED && canEndGame(gameState)) {
                 const reasonEnded = await getReasonEnded(web3, contract, gameId);
-                return dispatch(endedWithReason(ContractReasonEnded[reasonEnded] as ReasonEnded));
-            } else if (status === ContractStatus.PLAYER_INITIATED_END && gameState.status !== 'ENDED') {
-                return dispatch(changeStatus('PLAYER_INITIATED_END'));
-            } else if (status === ContractStatus.SERVER_INITIATED_END && gameState.status !== 'ENDED') {
-                return dispatch(changeStatus('SERVER_INITIATED_END'));
+                return dispatch(endGameEvent(ContractReasonEnded[reasonEnded] as ReasonEnded));
+
+            } else if (status === ContractStatus.USER_INITIATED_END && canUserConflictEnd(gameState)) {
+                return dispatch(userConflictEndEvent());
+            } else if (status === ContractStatus.SERVER_INITIATED_END && canServerConflictEnd(gameState)) {
+                return dispatch(serverConflictEndEvent());
             } else {
-                return Promise.resolve();
+                return;
             }
         } catch(error) {
             catchError(error, dispatch);
         }
     }
 }
+
 
 export function loadContractGameState() {
     return async function (dispatch: Dispatch, getState: GetState) {
@@ -99,37 +299,32 @@ export function loadContractGameState() {
         const {gameState} = games;
         const {web3, account, networkId} = web3State;
 
-        if (getState().games.gameState.status === 'ENDED') {
-            return;
-        }
-
-        if (!gameState.serverHash) {
-            dispatch(showErrorMessage("Invalid game state: serverHash undefined!"));
-            return;
-        }
-
         if (!account || !web3 || !contract || networkId === null) {
-            return;
+            throw new Error("You need a web3 enabled browser (Metamask)!");
         }
 
         if (!validNetwork(networkId)) {
-            dispatch(showErrorMessage(`Invalid network! You need to use ${NETWORK_NAME}!`));
-            return;
+            throw new Error(`Invalid network! You need to use ${NETWORK_NAME}!`);
         }
 
         if (gameState.status === 'CREATING') {
+            // special case as we don't know gameId to read contract state!
+            if (!gameState.serverHash) {
+                throw new Error("Invalid game state: serverHash undefined!");
+            }
             const logCreated = await getLogGameCreated(web3, contract, gameState.serverHash);
             if (logCreated) {
-                dispatch(gameCreated(logCreated.returnValues.gameId));
-                dispatch(loadContractStateCreatedGame());
+                dispatch(activateGameEvent(logCreated.returnValues.gameId));
+                return dispatch(loadContractStateCreatedGame());
             }
+        } else {
+            return dispatch(loadContractStateCreatedGame());
         }
-
-        dispatch(loadContractStateCreatedGame());
     }
 }
 
 
+// TODO: remove???
 export function loadServerGameState() {
     return function (dispatch: Dispatch, getState: GetState) {
         if (getState().games.gameState.status === 'ENDED') {
@@ -172,15 +367,6 @@ export function loadLocalGameState(address: string) {
     }
 }
 
-export function syncGameState(address: string) {
-    return function (dispatch: Dispatch, getState: GetState) {
-        return dispatch(loadLocalGameState(address)).then(() => {
-            dispatch(loadContractGameState());
-            dispatch(loadServerGameState())
-        }).catch(console.log);
-    }
-}
-
 export function storeGameState(address: string, gameState: State) {
     if (!isLocalStorageAvailable()) {
         console.warn("No local storage support! Can not store game state!");
@@ -190,7 +376,19 @@ export function storeGameState(address: string, gameState: State) {
 }
 
 
-export function serverAcceptGame(gameId: number, serverHash: string) {
+export function syncGameState(address: string) {
+    return function (dispatch: Dispatch, getState: GetState) {
+        return dispatch(loadLocalGameState(address)).then(() => {
+            // FIXME: // check if web3 is available
+            dispatch(loadContractGameState());
+            dispatch(loadServerGameState());
+        }).catch(error => catchError(dispatch, error));
+    }
+}
+
+
+// TODO: improve, check contract state???
+export function serverActiveGame(gameId: number, serverHash: string) {
     return function (dispatch: Dispatch, getState: GetState) {
         const {games} = getState();
 
@@ -210,20 +408,6 @@ export function serverAcceptGame(gameId: number, serverHash: string) {
     }
 }
 
-export const validNetwork = (networkId: number | null) => {
-    // only check for null on development
-    return (networkId !== null) && (process.env.NODE_ENV === 'development' || networkId === NETWORK_ID);
-};
-
-const checkIfEndTransactionFinished = (web3: Web3, transactionHash?: string) => {
-    if (!transactionHash) {
-        return Promise.resolve(true);
-    }
-
-    return getTransactionReceipt(web3, transactionHash).then(receipt =>
-        receipt !== null
-    )
-};
 
 export function createGame(stake: number, playerSeed: string) {
     return async function (dispatch: Dispatch, getState: GetState) {
@@ -234,39 +418,33 @@ export function createGame(stake: number, playerSeed: string) {
         const status = gameState.status;
 
         if (!isLocalStorageAvailable()) {
-            dispatch(showErrorMessage("You browser doesn't support sessionStorage/localStorage! Without playing is not possible!"));
-            return;
+            return Promise.reject(new Error("You browser doesn't support sessionStorage/localStorage! Without playing is not possible!"));
         }
 
         if (!validNetwork(web3State.networkId)) {
-            dispatch(showErrorMessage(`Invalid network! You need to use ${NETWORK_NAME}!`));
-            return;
+            return Promise.reject(new Error(`Invalid network! You need to use ${NETWORK_NAME}!`));
         }
 
-        if (account === null || contract === null || web3State.web3 === null) {
-            dispatch(showErrorMessage("You need a web3 enabled browser (Metamask)!"));
-            return;
+        if (!account|| !contract || !web3State.web3) {
+            return Promise.reject(new Error("You need a web3 enabled browser (Metamask)!"));
         }
 
-        if (status !== 'ENDED' && (status !== 'CREATING' && gameState.createTransactionHash !== undefined)) {
-            dispatch(showErrorMessage(`Invalid game status: ${status}! Can not create game!`));
-            return;
+        if (!canCreateGame(gameState)) {
+            return Promise.reject(new Error(`Invalid game status: ${status}! Can not create game!`));
         }
 
         if ((web3State.web3.currentProvider as any).isTrust) {
-            dispatch(showErrorMessage("Trust wallet is currently not supported!"));
-            return;
+            return Promise.reject(new Error("Trust wallet is currently not supported!"));
         }
 
         const createGame = contract.methods.createGame;
         const hashChain = createHashChain(playerSeed);
 
         try {
+             // TODO: Move to canCreateGame???
             const finished = await checkIfEndTransactionFinished(web3State.web3, gameState.endTransactionHash);
-            // transaction hash is unknown
             if (!finished) {
-                dispatch(showErrorMessage("You need to wait until transaction ending game session in mined!"));
-                return Promise.resolve();
+                return Promise.reject(new Error("You need to wait until transaction ending game session in mined!"));
             }
 
             const response = await axios.post('/createGame');
@@ -276,40 +454,41 @@ export function createGame(stake: number, playerSeed: string) {
             const createBefore = data.createBefore;
             const signature = data.signature;
 
-            dispatch(creatingGame(hashChain, serverEndHash, stake, undefined));
+            dispatch(createGameEvent(hashChain, serverEndHash, stake, undefined));
 
-            return createGame(hashChain[0], previousGameId, createBefore, serverEndHash, signature).send({
-                from: account,
-                value: fromGweiToWei(stake).toString(),
-                gas: 180000
-            }).on(error => {
-                catchError(error, dispatch);
-            }).on('transactionHash', transactionHash => {
-                dispatch(setCreateTransactionHash(transactionHash));
-            }).on('receipt', (receipt: TransactionReceipt) => {
-                const event = receipt.events ? receipt.events.LogGameCreated : null;
-                    if ((Number.parseInt(receipt.status) !== 1 && (receipt.status as any) !== true) || event === null) {
-                        dispatch(showErrorMessage("Create game transaction failed!"));
-                        dispatch(transactionFailure());
+            return new Promise ((resolve, reject) => {
+                createGame(hashChain[0], previousGameId, createBefore, serverEndHash, signature).send({
+                    from: account,
+                    value: fromGweiToWei(stake).toString(),
+                    gas: 180000
+                }).on(error => {
+                    reject(error);
+                }).on('transactionHash', transactionHash => {
+                    dispatch(createGameEvent(hashChain, serverEndHash, stake, transactionHash));
+                }).on('receipt', (receipt: TransactionReceipt) => {
+                    if (isTransactionFailed(receipt)) {
+                        dispatch(endGameEvent("TRANSACTION_FAILURE"));
+                        reject(new Error("Create game transaction failed!"));
                     }
-            }).on('confirmation', (num: number, receipt: TransactionReceipt) => {
-                // wait for 3 confirmations
-                if (num === 3) {
-                    const event = receipt.events ? receipt.events.LogGameCreated : null;
-                    if ((Number.parseInt(receipt.status) !== 1 && (receipt.status as any) !== true) || event === null) {
-                        dispatch(showErrorMessage("Create game transaction failed!"));
-                        dispatch(transactionFailure());
-                    } else {
-                        const gameId = (event.returnValues as any).gameId;
-                        const serverEndHash = (event.returnValues as any).serverEndHash;
-                        dispatch(serverAcceptGame(gameId, serverEndHash));
+                }).on('confirmation', (num: number, receipt: TransactionReceipt) => {
+                    // wait for 3 confirmations
+                    if (num === 3) {
+                        const event = receipt.events ? receipt.events.LogGameCreated : null;
+                        if (isTransactionFailed(receipt) || !event) {
+                            dispatch(endGameEvent("TRANSACTION_FAILURE"));
+                            reject(new Error("Create game transaction failed!"));
+                        } else {
+                            const gameId = (event.returnValues as any).gameId;
+                            dispatch(activateGameEvent(gameId));
+                            resolve();
+                        }
                     }
-                }
-            }).catch(error => {
-                catchError(error, dispatch);
-            })
+                }).catch(error => {
+                    reject(error);
+                })
+            });
         } catch(error) {
-            catchError(error, dispatch);
+            return Promise.reject(error);
         }
     }
 }
@@ -320,6 +499,7 @@ export function endGame() {
         const gameState = state.games.gameState;
         const account = state.web3.account;
         const web3 = state.web3.web3;
+        const networkId = state.web3.networkId;
 
         // use previous seeds as new hashes seeds (hash chain)
         const serverHash = gameState.serverHash;
@@ -330,14 +510,24 @@ export function endGame() {
         const roundId = gameState.roundId + 1;
         const balance = gameState.balance;
 
+        if (!getState().account.jwt) {
+            return Promise.reject(new Error("You need to login before ending game session!"));
+        }
+
         if (!account || !web3) {
-            dispatch(showErrorMessage("You need a web3 enabled browser (Metamask)!"));
-            return;
+            return Promise.reject( new Error("You need a web3 enabled browser (Metamask)!"));
+        }
+
+        if (!validNetwork(networkId)) {
+            return Promise.reject(new Error(`Invalid network! You need to use ${NETWORK_NAME}!`));
+        }
+
+        if (!canRegularEndGame(gameState)) {
+            return Promise.reject(new Error(`Invalid game status ${gameState.status}! Can not end game!`))
         }
 
         if (!userHash || !serverHash|| !playerAddress || !gameId) {
-            dispatch(showErrorMessage("Invalid game state!"));
-            return;
+            return Promise.reject(new Error("Invalid state!"));
         }
 
         const bet = {
@@ -353,7 +543,7 @@ export function endGame() {
 
         let playerSig = "";
         const typedData = createTypedData(bet, CHAIN_ID, CONTRACT_ADDRESS, SIGNATURE_VERSION);
-        signTypedData(web3, account, typedData).then(result => {
+        return signTypedData(web3, account, typedData).then(result => {
             playerSig = result;
             return axios.post('endGame', {
                 bet,
@@ -369,10 +559,10 @@ export function endGame() {
 
             const endTransactionHash = response.data.transactionHash;
 
-            dispatch(endedGame(roundId, serverHash, userHash, serverSig, playerSig, endTransactionHash));
+            dispatch(regularEndGameEvent(roundId, serverHash, userHash, serverSig, playerSig, endTransactionHash));
 
             return Promise.resolve();
-        }).catch(error => catchError(error, dispatch));
+        }).catch(error => Promise.reject(error));
     }
 }
 
@@ -383,8 +573,8 @@ export function conflictEnd() {
         const account = state.web3.account;
         const web3 = state.web3.web3;
         const contract = state.web3.contract;
+        const networkId = state.web3.networkId;
 
-        const playerAddress = account;
         const gameId = gameState.gameId;
         const roundId = gameState.roundId;
         const gameType = gameState.gameType;
@@ -393,22 +583,36 @@ export function conflictEnd() {
         const serverSig = gameState.serverSig;
         const contractAddress = contract.options.address;
 
-        if (gameState.serverHash === undefined || gameState.playerHash === undefined || web3 === null || playerAddress === null
-            || gameId === undefined || contract == null) {
-            dispatch(showErrorMessage("Invalid state!"));
-            return;
+        if (!web3 || !account || !contract) {
+            return Promise.reject(new Error("You need a web3 enabled browser (Metamask)!"));
+        }
+
+        if (!validNetwork(networkId)) {
+            return Promise.reject(new Error(`Invalid network! You need to use ${NETWORK_NAME}!`));
+        }
+
+        if (!canUserInitiateConflictEnd(gameState)) {
+            return Promise.reject(new Error(`Invalid game status ${gameState.status}! Can not conflict end!`));
+        }
+
+        if (!gameState.serverHash|| !gameState.playerHash || gameId === undefined) {
+            return Promise.reject(new Error("Invalid state!"));
         }
 
         if (roundId === 0) {
             const cancelActiveGame = contract.methods.playerCancelActiveGame;
-            cancelActiveGame(gameId).send({from: account, value: 0, gas: 120000}).on('transactionHash', hash => {
-                // TODO
+            return cancelActiveGame(gameId).send({from: account, value: 0, gas: 120000}).on('transactionHash', transactionHash => {
+                dispatch(userInitiateConflictEndEvent(transactionHash));
             }).on(error => {
-                catchError(error, dispatch);
+                return Promise.reject(error);
             }).then((receipt: TransactionReceipt) => {
-                // TODO
+                if (isTransactionFailed(receipt)) {
+                    dispatch(userAbortConflictEndEvent());
+                } else {
+                    dispatch(userConflictEndEvent());
+                }
             }).catch(error => {
-                catchError(error, dispatch);
+                return Promise.reject(error);
             })
         } else {
             let serverHash = keccak(gameState.serverHash);
@@ -425,7 +629,7 @@ export function conflictEnd() {
             }
 
             const playerEndGameConflict = contract.methods.playerEndGameConflict;
-            playerEndGameConflict(
+            return playerEndGameConflict(
                 roundId,
                 gameType,
                 num,
@@ -437,14 +641,18 @@ export function conflictEnd() {
                 contractAddress,
                 serverSig,
                 playerSeed,
-            ).send({from: account, gas: 200000}).on('transactionHash', hash => {
-                // TODO
+            ).send({from: account, gas: 200000}).on('transactionHash', transactionHash => {
+                dispatch(userInitiateConflictEndEvent(transactionHash));
             }).on(error => {
-                catchError(error, dispatch);
+                return Promise.reject(error);
             }).then((receipt: TransactionReceipt) => {
-                // TODO
+                if (isTransactionFailed(receipt)) {
+                    dispatch(userAbortConflictEnd());
+                } else {
+                    dispatch(userConflictEndEvent());
+                }
             }).catch(error => {
-                catchError(error, dispatch);
+                return Promise.reject(error);
             })
         }
     }
@@ -455,15 +663,20 @@ export function requestSeed() {
         const gameState = getState().games.gameState;
         const serverHash = gameState.serverHash;
 
-
-        if ((gameState.status !== 'INVALID_SEED' && gameState.status !== 'PLACED_BET') || serverHash === undefined
-            || typeof gameState.betValue === 'undefined') {
-            dispatch(showErrorMessage("Invalid game status!"));
-            return Promise.resolve();
+        if (!getState().account.jwt) {
+            return Promise.reject(new Error("You need to login before playing!"));
         }
 
-        const betValue: number = gameState.betValue;
+        if (!canRevealSeed(gameState)) {
+            return Promise.reject(new Error(`Invalid game status: ${gameState.status}! Can not place bet!`));
+        }
+
+        const betValue = gameState.betValue;
         const playerSeed = gameState.hashChain[gameState.roundId];
+
+        if (betValue === undefined || serverHash === undefined) {
+            return Promise.reject(new Error("Invalid game state!"));
+        }
 
         return axios.post('revealSeed', {
             'gameId': gameState.gameId,
@@ -474,7 +687,6 @@ export function requestSeed() {
             const newServerBalance = response.data.balance;
 
             if (!verifySeed(serverSeed, serverHash)) {
-                dispatch(invalidSeed());
                 return Promise.reject(new Error("Invalid server seed!"));
             }
 
@@ -484,9 +696,9 @@ export function requestSeed() {
                 return Promise.reject(new Error("Invalid server balance!"));
             }
 
-            return Promise.resolve(dispatch(endBet(serverSeed, playerSeed, newServerBalance)));
+            return Promise.resolve(dispatch(revealSeedEvent(serverSeed, playerSeed, newServerBalance)));
         }).catch(error => {
-            catchError(error, dispatch);
+            return Promise.reject(error);
         });
     }
 }
@@ -501,30 +713,34 @@ export function placeBet(num: number, betValue: number, gameType: number) {
         const serverHash = gameState.serverHash;
         const userHash = gameState.playerHash;
 
-
-        const serverAddress = SERVER_ADDRESS;
         const roundId = gameState.roundId + 1;
         const gameId = gameState.gameId;
         const balance = gameState.balance;
         const stake = gameState.stake;
 
-
-        if (gameState.status !== 'ACTIVE') {
-            return Promise.reject(new Error(`Invalid game status: ${gameState.status}!`));
+        if (!getState().account.jwt) {
+            return Promise.reject(new Error("You need to login before playing!"));
         }
 
         if (!web3 || !account) {
             return Promise.reject(new Error("You need a web3 enabled browser (Metamask)!"));
         }
 
-        if (betValue > stake + balance) {
-            return Promise.reject(new Error("Invalid bet value: Funds to low!"));
+        if (!validNetwork(web3State.networkId)) {
+            return Promise.reject(new Error(`Invalid network! You need to use ${NETWORK_NAME}!`));
+        }
+
+        if (!canPlaceBet(gameState)) {
+            return Promise.reject(new Error(`Invalid game status: ${gameState.status}! Can not place bet!`));
         }
 
         if (!serverHash || !userHash || gameId === undefined) {
             return Promise.reject(new Error("Invalid game state!"));
         }
 
+        if (betValue > stake + balance) {
+            return Promise.reject(new Error("Invalid bet value: Funds to low!"));
+        }
 
         let playerSig = "";
         let playerSeed = "";
@@ -556,7 +772,7 @@ export function placeBet(num: number, betValue: number, gameType: number) {
                 return Promise.reject(new Error("Error placing bet: Invalid server signature!"));
             }
 
-            dispatch(addBet(roundId, gameType, betValue, num, balance, serverHash, userHash, serverSig, playerSig));
+            dispatch(placeBetEvent(bet, serverSig, playerSig));
 
             playerSeed = gameState.hashChain[roundId];
             return axios.post('revealSeed', {
@@ -564,12 +780,11 @@ export function placeBet(num: number, betValue: number, gameType: number) {
                 'roundId': roundId,
                 'playerSeed': playerSeed,
             });
-        }).then(response => {
+        }).then(response => { // TODO: Replace with reveal seed!!!
             const serverSeed = response.data.serverSeed;
             const newServerBalance = response.data.balance;
 
             if (!verifySeed(serverSeed, serverHash)) {
-                dispatch(invalidSeed());
                 return Promise.reject(new Error("Invalid server seed!"));
             }
 
@@ -582,7 +797,7 @@ export function placeBet(num: number, betValue: number, gameType: number) {
                 return Promise.reject(new Error("Invalid server balance!"));
             }
 
-            dispatch(endBet(serverSeed, playerSeed, newServerBalance));
+            dispatch(revealSeedEvent(serverSeed, playerSeed, newServerBalance));
 
             return Promise.resolve({num: resNum, won: playerProfit > 0});
         }).catch(error => {

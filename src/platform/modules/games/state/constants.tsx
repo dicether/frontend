@@ -7,19 +7,21 @@ function c<T>(p: T): T {
 
 
 export const CREATING_GAME = c('CREATING_GAME');
-export const WAITING_FOR_SERVER = c('WAITING_FOR_SERVER');
-export const CREATE_TRANSACTION_FAILURE = c('CREATE_TRANSACTION_FAILURE');
-export const CANCEL_TRANSACTION_FAILURE = c('CANCEL_TRANSACTION_FAILURE');
-export const CANCELLING = c('CANCELLING');
-export const CANCELLED = c('CANCELLED'); // player called contract cancelled before server accepted or rejected
+
 export const GAME_CREATED = c('GAME_CREATED');
-export const GAME_REJECTED = c('GAME_REJECTED');
 export const ENDED_GAME = c('ENDED_GAME');
 export const PLACE_BET = c('PLACE_BET');
 export const INVALID_SEED = c('INVALID_SEED');
 export const END_BET = c('END_BET');
-export const RESTORE_STATE = c('RESTORE_STATE');
 export const CHANGE_STATUS = c('CHANGE_STATUS');
 export const ENDED_WITH_REASON = c('ENDED_WITH_REASON');
-export const SET_CREATE_TRANSACTION_HASH = c('SET_CREATE_TRANSACTION_HASH');
+
+export const USER_INITIATE_CONFLICT_END = c('INITIATE_CONFLICT_END');
+export const USER_ABORT_CONFLICT_END = c('USER_ABORT_CONFLICT_END');
+export const USER_CONFLICT_END = c('USER_CONFLICT_END');
+export const USER_INITIATE_FORCE_END = c('USER_INITIATE_FORCE_END');
+export const USER_ABORT_FORCE_END = c('USER_ABORT_FORCE_END');
+export const SERVER_CONFLICT_END = c('SERVER_CONFLICT_END');
+
+export const RESTORE_STATE = c('RESTORE_STATE');
 export const CLEAR_STATE = c('CLEAR_STATE');

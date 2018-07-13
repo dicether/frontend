@@ -7,6 +7,7 @@ import {MIN_GAME_SESSION_VALUE, MAX_GAME_SESSION_VALUE, NETWORK_NAME, SESSION_TI
 import {Button, FontAwesomeIcon} from '../../../../reusable/index';
 import {State as Web3State} from '../../../../platform/modules/web3/reducer';
 
+
 const Style = require('./GameHeader.scss');
 
 type Props = {
@@ -55,11 +56,9 @@ export default class GameHeader extends React.Component<Props, State> {
 
         const isGameActive = gameState.status === 'ACTIVE';
         const isGameCreating = gameState.status === 'CREATING' && gameState.createTransactionHash;
-        const isSeedInvalid = gameState.status === 'INVALID_SEED';
         const placedBet = gameState.status === 'PLACED_BET';
         const lastGameTransactionHash = gameState.endTransactionHash;
-        const serverInitiatedEnd = gameState.status === 'SERVER_INITIATED_END';
-        // const playerInitiatedEnd = gameState.status === 'SERVER_INITIATED_END';
+        const serverInitiatedEnd = gameState.status === 'SERVER_CONFLICT_ENDED';
 
         const transactionUrlNetPrefix = NETWORK_NAME === 'Main' ? '' : `${NETWORK_NAME}.`;
         const transactionUrl = `https://${transactionUrlNetPrefix}etherscan.io/tx/${lastGameTransactionHash}`;
@@ -68,16 +67,18 @@ export default class GameHeader extends React.Component<Props, State> {
 
         return (
             <div className={Style.gameHeader}>
-                {(isSeedInvalid || placedBet) &&
+                {placedBet &&
                     <Button size="sm" color="primary" onClick={onSeedRequest}>Request seed!</Button>
                 }
-                {(isGameActive || isSeedInvalid || placedBet) && [
-                    <Button key="1" size="sm" color="secondary" onClick={onEndGame}>End Game Session</Button>,
-                    <div key="2" className={Style.gameHeader__entry}>
+                {isGameActive &&
+                    <Button key="1" size="sm" color="secondary" onClick={onEndGame}>End Game Session</Button>
+                }
+                {(isGameActive || placedBet) && [
+                    <div key="1" className={Style.gameHeader__entry}>
                         <span className={Style.gameHeader__entryHeader} key="2">Funds left</span>
                         <Ether gwei={gameState.stake + gameState.balance}/>
                     </div>,
-                    <div key="3" className={Style.gameHeader__entry}>
+                    <div key="2" className={Style.gameHeader__entry}>
                         <span className={Style.gameHeader__entryHeader} key="2">Balance</span>
                         <Ether gwei={gameState.balance}/>
                     </div>
@@ -85,7 +86,7 @@ export default class GameHeader extends React.Component<Props, State> {
                 {isGameCreating &&
                     <span>Creating Game Session... {spinner}</span>
                 }
-                { serverInitiatedEnd &&
+                {serverInitiatedEnd &&
                     <div>
                         <span className="text-danger">Server initiated end! Should only happen if you didn't play for {SESSION_TIMEOUT} hours!</span>
                         <Button size="sm" onClick={onConflictEnd}>Conflict End</Button>

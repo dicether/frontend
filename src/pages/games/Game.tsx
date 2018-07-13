@@ -14,6 +14,9 @@ import {bindActionCreators} from "redux";
 import {addListeners, removeListeners} from "../../platform/sockets";
 import listeners from "../../platform/modules/games/state/socketListeners";
 import {Container, Section} from "../../reusable";
+import {catchError} from "../../platform/modules/utilities/asyncActions";
+import {conflictEnd, createGame, endGame, requestSeed} from "../../platform/modules/games/state/asyncActions";
+
 
 const Style = require('./Game.scss');
 
@@ -31,11 +34,15 @@ const mapStateToProps = ({games, web3, account}: State) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
     ...bindActionCreators({
-        ...asyncStateActions,
         toggleExpertView,
         toggleHelp,
         toggleSound,
     }, dispatch),
+    createGame: (value, seed) => dispatch(createGame(value, seed)),
+    endGame: () => dispatch(endGame()),
+    requestSeed: () => dispatch(requestSeed()),
+    conflictEnd: () => dispatch(conflictEnd()),
+    catchError: (error) => catchError(error, dispatch),
     addStateListeners: () => addListeners(listeners, dispatch),
     removeStateListeners: () => removeListeners(listeners, dispatch)
 });
@@ -49,11 +56,6 @@ class Game extends React.Component<Props> {
         super(props);
     }
 
-    onAcceptGame = ({gameId, serverHash}: {gameId: number, serverHash: string}) => {
-        const {serverAcceptGame} = this.props;
-        serverAcceptGame(gameId, serverHash);
-    };
-
     componentWillMount() {
         const {addStateListeners} = this.props;
         addStateListeners()
@@ -65,23 +67,23 @@ class Game extends React.Component<Props> {
     }
 
     createGame = (value: number, seed: string) => {
-        const {createGame} = this.props;
-        createGame(value, seed);
+        const {createGame, catchError} = this.props;
+        createGame(value, seed).catch(catchError);
     };
 
     endGame = () => {
-        const {endGame} = this.props;
-        endGame();
+        const {endGame, catchError} = this.props;
+        endGame().catch(catchError);
     };
 
     requestSeed = () => {
-        const {requestSeed} = this.props;
-        requestSeed();
+        const {requestSeed, catchError} = this.props;
+        requestSeed().catch(catchError);
     };
 
     conflictEnd = () => {
-        const {conflictEnd} = this.props;
-        conflictEnd();
+        const {conflictEnd, catchError} = this.props;
+        conflictEnd().catch(catchError);
     };
 
     onToggleHelp = (show: boolean) => {
