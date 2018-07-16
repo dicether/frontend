@@ -13,6 +13,7 @@ const stateChannelContractAbi =  require('assets/json/GameChannelContract.json')
 export function fetchNetwork() {
     return function (dispatch: Dispatch, getState: GetState) {
         const web3 = getState().web3.web3;
+        const networkId = getState().web3.networkId;
         if (web3 !== null) {
             web3.eth.net.getId().then(netId => {
                 const networkId = getState().web3.networkId;
@@ -22,6 +23,8 @@ export function fetchNetwork() {
             }).catch(
                 error => console.log("Network id fetching failed: " + error)
             );
+        } else if (networkId !== null) {
+            dispatch(changeNetworkId(null));
         }
     }
 }
@@ -29,13 +32,13 @@ export function fetchNetwork() {
 export function fetchWeb3() {
     return function (dispatch: Dispatch, getState: GetState) {
         const web3Data = getState().web3;
-        if (web3Data.web3 === null) {
-            if (window.web3 !== undefined) {
-                const web3 = new Web3(window.web3.currentProvider);
-                const contract = new web3.eth.Contract(stateChannelContractAbi, CONTRACT_ADDRESS);
-                dispatch(changeWeb3(web3));
-                dispatch(changeContract(contract));
-            }
+        if (window.web3 !== undefined && web3Data.web3 === null) {
+            const web3 = new Web3(window.web3.currentProvider);
+            const contract = new web3.eth.Contract(stateChannelContractAbi, CONTRACT_ADDRESS);
+            dispatch(changeWeb3(web3));
+            dispatch(changeContract(contract));
+        } else if (window.web3 === undefined && web3Data.web3 !== null) {
+            dispatch(changeWeb3(null));
         }
     }
 }
@@ -43,13 +46,13 @@ export function fetchWeb3() {
 export function fetchAccount() {
     return function (dispatch: Dispatch, getState: GetState) {
         const web3 = getState().web3.web3;
+        const curAccount = getState().web3.account;
         if (web3 !== null) {
             web3.eth.getAccounts().then(accounts => {
-                if (accounts.length === 0) {
-                    return
+                if (accounts.length === 0 && curAccount !== null) {
+                    dispatch(changeAccount(null));
                 }
 
-                const curAccount = getState().web3.account;
                 const account = ethUtil.toChecksumAddress(accounts[0]);
                 if (account !== curAccount) {
                     dispatch(changeAccount(account));
@@ -57,6 +60,8 @@ export function fetchAccount() {
             }).catch(
                 error => console.log("Account fetching failed: " + error)
             );
+        } else if (curAccount !== null) {
+            dispatch(changeAccount(null));
         }
     }
 }
@@ -76,6 +81,8 @@ export function fetchAccountBalance() {
             }).catch(
                 error => console.log("Balance fetching failed: " + error)
             );
+        } else if (web3State.balance !== null) {
+            dispatch(changeBalance(null));
         }
     }
 }
