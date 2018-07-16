@@ -4,19 +4,21 @@ import {connect} from 'react-redux';
 import {GameType} from "@dicether/state-channel";
 
 import DiceUi from './DiceUi';
-import {placeBet} from '../../../platform/modules/games/state/asyncActions';
+import {placeBet, validNetwork} from '../../../platform/modules/games/state/asyncActions';
 import sounds from '../sound';
 import {State} from '../../../rootReducer';
 import {toggleHelp} from '../../../platform/modules/games/info/actions';
-import {MAX_BET_VALUE, MIN_BET_VALUE} from '../../../config/config';
+import {MAX_BET_VALUE, MIN_BET_VALUE, NETWORK_NAME} from '../../../config/config';
 import {Dispatch} from "redux";
 import {catchError} from "../../../platform/modules/utilities/asyncActions";
+import {showErrorMessage} from "../../../platform/modules/utilities/actions";
 
 
-const mapStateToProps = ({games, account}: State) => {
+const mapStateToProps = ({games, account, web3}: State) => {
     const {gameState, info} = games;
 
     return {
+        web3Available: web3.account && web3.contract && web3.web3 && validNetwork(web3.networkId),
         gameState,
         info,
         loggedIn: account.jwt !== null
@@ -26,7 +28,8 @@ const mapStateToProps = ({games, account}: State) => {
 const mapDispatchToProps = (dispatch: Dispatch<State>) => ({
     placeBet: (num, safeBetValue, gameType) => dispatch(placeBet(num, safeBetValue, gameType)),
     toggleHelp: (t) => dispatch(toggleHelp(t)),
-    catchError: (error) => catchError(error, dispatch)
+    catchError: (error) => catchError(error, dispatch),
+    showErrorMessage: (message) => dispatch(showErrorMessage(message))
 });
 
 
@@ -61,10 +64,15 @@ class Dice extends React.Component<Props, DiceState> {
     };
 
     onPlaceBet = (num: number, betValue: number, reversedRoll: boolean) => {
-        const {info, placeBet, catchError} = this.props;
+        const {info, placeBet, catchError, web3Available, showErrorMessage} = this.props;
 
         const safeBetValue = Math.round(betValue);
         const gameType = reversedRoll ? GameType.DICE_HIGHER : GameType.DICE_LOWER;
+
+        if (!web3Available) {
+            showErrorMessage(`You need to have a web3 enabled browser (e.g. Metamask) for playing and select network: ${NETWORK_NAME}!`);
+            return;
+        }
 
         placeBet(num, safeBetValue, gameType).then(result => {
             this.setState({result, showResult: true});
