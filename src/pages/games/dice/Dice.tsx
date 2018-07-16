@@ -64,13 +64,18 @@ class Dice extends React.Component<Props, DiceState> {
     };
 
     onPlaceBet = (num: number, betValue: number, reversedRoll: boolean) => {
-        const {info, placeBet, catchError, web3Available, showErrorMessage} = this.props;
+        const {info, placeBet, catchError, web3Available, showErrorMessage, gameState, loggedIn} = this.props;
 
         const safeBetValue = Math.round(betValue);
         const gameType = reversedRoll ? GameType.DICE_HIGHER : GameType.DICE_LOWER;
 
         if (!web3Available) {
             showErrorMessage(`You need to have a web3 enabled browser (e.g. Metamask) for playing and select network: ${NETWORK_NAME}!`);
+            return;
+        }
+
+        if (gameState.status !== "ACTIVE" || !loggedIn) {
+            showErrorMessage("You need to logging and create a game session before playing!");
             return;
         }
 
