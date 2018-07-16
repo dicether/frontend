@@ -123,7 +123,7 @@ if (node_env === 'development') {
         new webpack.DefinePlugin({
             'process.env': {
                 'NODE_ENV': JSON.stringify('staging'),
-                'SENTRY_LOGGING': false,
+                'SENTRY_LOGGING': true,
                 'REDUX_LOGGING': true,
                 'CONTRACT_ADDRESS': JSON.stringify(ContractAddress),
                 'SERVER_ADDRESS': JSON.stringify(ServerAddress),
