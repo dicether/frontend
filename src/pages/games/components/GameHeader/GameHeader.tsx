@@ -6,6 +6,7 @@ import CreateGameModal from './CreateGameModal';
 import {MIN_GAME_SESSION_VALUE, MAX_GAME_SESSION_VALUE, NETWORK_NAME, SESSION_TIMEOUT} from '../../../../config/config';
 import {Button, FontAwesomeIcon} from '../../../../reusable/index';
 import {State as Web3State} from '../../../../platform/modules/web3/reducer';
+import {validNetwork} from "../../../../platform/modules/games/state/asyncActions";
 
 
 const Style = require('./GameHeader.scss');
@@ -51,6 +52,8 @@ export default class GameHeader extends React.Component<Props, State> {
         const {gameState, onStartGame, onEndGame, web3State, onSeedRequest, onConflictEnd} = this.props;
         const {modalIsOpen} = this.state;
 
+        const isWeb3Available = web3State.account && web3State.contract && web3State.web3 && validNetwork(web3State.networkId);
+
         // special case creating: handle as ended as long as we didn't get transaction hash
         const isGameEnded = gameState.status === 'ENDED' || (gameState.status === 'CREATING' && !gameState.createTransactionHash);
 
@@ -64,6 +67,14 @@ export default class GameHeader extends React.Component<Props, State> {
         const transactionUrl = `https://${transactionUrlNetPrefix}etherscan.io/tx/${lastGameTransactionHash}`;
 
         const spinner = <FontAwesomeIcon color="dark" icon="spinner" spin size="lg"/>;
+
+        if (!isWeb3Available) {
+            return (
+                <div className={Style.gameHeader}>
+                    <span className="text-danger">You need a web3 enabled browser for playing (e.g. Metamask)</span>
+                </div>
+            )
+        }
 
         return (
             <div className={Style.gameHeader}>
