@@ -8,6 +8,6 @@ declare module 'eth-sig-util' {
 }
 
 declare module 'raven-for-redux' {
-    export default function createRavenMiddleware(raven: any): any;
+    export default function createRavenMiddleware(raven: any, options: {[id: string]: any}): any;
 }
 
