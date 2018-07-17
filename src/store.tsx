@@ -4,7 +4,6 @@ import thunkMiddleware from "redux-thunk";
 import createRavenMiddleware from "raven-for-redux";
 import {createLogger} from "redux-logger";
 import Raven from "raven-js";
-import {RESTORE_STATE} from "./platform/modules/games/state/constants";
 
 const middlewares: Array<Middleware> = [
     thunkMiddleware
@@ -19,11 +18,9 @@ function filterState(state: State) {
 }
 
 function filterAction(action: any) {
-    if (action.type === RESTORE_STATE) {
-        const {state, ...newAction} = action;
-        return newAction;
-    }
-    return action;
+    // Remove data from action
+    const {type} = action;
+    return {type};
 }
 
 if (process.env.SENTRY_LOGGING) {
