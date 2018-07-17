@@ -270,24 +270,21 @@ export function loadContractStateCreatedGame() {
             throw new Error("Invalid game state!");
         }
 
-        try {
-            const result = await contract.methods.gameIdGame(gameId).call();
-            const status = Number.parseInt(result.status);
+        const result = await contract.methods.gameIdGame(gameId).call();
+        const status = Number.parseInt(result.status);
 
-            if (status === ContractStatus.ENDED && canEndGame(gameState)) {
-                const reasonEnded = await getReasonEnded(web3, contract, gameId);
-                return dispatch(endGameEvent(ContractReasonEnded[reasonEnded] as ReasonEnded));
+        if (status === ContractStatus.ENDED && canEndGame(gameState)) {
+            const reasonEnded = await getReasonEnded(web3, contract, gameId);
+            return dispatch(endGameEvent(ContractReasonEnded[reasonEnded] as ReasonEnded));
 
-            } else if (status === ContractStatus.USER_INITIATED_END && canUserConflictEnd(gameState)) {
-                return dispatch(userConflictEndEvent());
-            } else if (status === ContractStatus.SERVER_INITIATED_END && canServerConflictEnd(gameState)) {
-                return dispatch(serverConflictEndEvent());
-            } else {
-                return;
-            }
-        } catch(error) {
-            catchError(error, dispatch);
+        } else if (status === ContractStatus.USER_INITIATED_END && canUserConflictEnd(gameState)) {
+            return dispatch(userConflictEndEvent());
+        } else if (status === ContractStatus.SERVER_INITIATED_END && canServerConflictEnd(gameState)) {
+            return dispatch(serverConflictEndEvent());
+        } else {
+            return;
         }
+
     }
 }
 
@@ -317,7 +314,7 @@ export function loadContractGameState() {
                 dispatch(activateGameEvent(logCreated.returnValues.gameId));
                 return dispatch(loadContractStateCreatedGame());
             }
-        } else {
+        } else if (gameState.status !== 'ENDED') {
             return dispatch(loadContractStateCreatedGame());
         }
     }
@@ -380,9 +377,12 @@ export function syncGameState(address: string) {
     return function (dispatch: Dispatch, getState: GetState) {
         return dispatch(loadLocalGameState(address)).then(() => {
             // FIXME: // check if web3 is available
-            dispatch(loadContractGameState());
-            dispatch(loadServerGameState());
-        }).catch(error => catchError(dispatch, error));
+            return dispatch(loadContractGameState());
+        }).then(() => {
+            return dispatch(loadServerGameState());
+        }).catch(error => {
+            catchError(error, dispatch)
+        });
     }
 }
 
