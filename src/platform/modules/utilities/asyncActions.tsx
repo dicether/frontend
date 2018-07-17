@@ -10,6 +10,8 @@ function extractFirstLine(str: string) {
 
 
 export function catchError(error: any, dispatch: Dispatch) {
+    Raven.captureException(error);
+
     const response = error.response;
     const data = response ? response.data : null;
     const statusText = response ? response.statusText : null;
@@ -24,5 +26,4 @@ export function catchError(error: any, dispatch: Dispatch) {
         }
         dispatch(showErrorMessage(messageToShow));
     }
-    Raven.captureException(error);
 }

@@ -1,4 +1,5 @@
 import 'babel-polyfill';
+import Raven from "raven-js";
 import * as React from 'react';
 import {render} from 'react-dom';
 import 'what-input';
@@ -14,8 +15,10 @@ parseReferral();
 
 const root = document.getElementById('root');
 if (root !== null) {
-    render(
-        <Root store={store}/>,
-        root
-    );
+    Raven.context(() => {
+        render(
+            <Root store={store}/>,
+            root
+        );
+    });
 }
