@@ -294,9 +294,20 @@ export function loadContractGameState() {
 
         if (gameState.status === 'CREATING') {
             // special case as we don't know gameId to read contract state!
-            if (!gameState.serverHash) {
-                throw new Error("Invalid game state: serverHash undefined!");
+            if (!gameState.serverHash || !gameState.createTransactionHash) {
+                throw new Error("Invalid game state!");
             }
+
+            const receipt = await getTransactionReceipt(web3, gameState.createTransactionHash);
+            if (!receipt) {
+                // transaction isn't mined
+                return;
+            }
+
+            if (isTransactionFailed(receipt)) {
+                return dispatch(endGameEvent("TRANSACTION_FAILURE"));
+            }
+
             const logCreated = await getLogGameCreated(web3, contract, gameState.serverHash);
             if (logCreated) {
                 dispatch(activateGameEvent(logCreated.returnValues.gameId));
