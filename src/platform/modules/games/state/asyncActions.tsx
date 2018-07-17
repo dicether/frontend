@@ -41,6 +41,7 @@ import {showErrorMessage} from "../../utilities/actions";
 import {TransactionReceipt} from "../../../../../typings/web3/types";
 import {getTransactionReceipt, signTypedData} from "../../web3/asyncActions";
 import Web3 from "web3";
+import retry from "async-retry";
 
 const STORAGE_VERSION = 1;
 
@@ -645,6 +646,16 @@ export function conflictEnd() {
     }
 }
 
+async function revealSeedRequest(gameId, roundId, playerSeed) {
+    return retry(() => {
+        return axios.post('revealSeed', {
+            'gameId': gameId,
+            'roundId': roundId,
+            'playerSeed': playerSeed,
+        });
+    }, {retries: 1, minTimeout: 500});
+}
+
 export function requestSeed() {
     return function (dispatch: Dispatch, getState: GetState) {
         const gameState = getState().games.gameState;
@@ -665,11 +676,7 @@ export function requestSeed() {
             return Promise.reject(new Error("Invalid game state!"));
         }
 
-        return axios.post('revealSeed', {
-            'gameId': gameState.gameId,
-            'roundId': gameState.roundId,
-            'playerSeed': playerSeed,
-        }).then(response => {
+        return revealSeedRequest(gameState.gameId, gameState.roundId, playerSeed).then(response => {
             const serverSeed = response.data.serverSeed;
             const newServerBalance = response.data.balance;
 
@@ -762,11 +769,8 @@ export function placeBet(num: number, betValue: number, gameType: number) {
             dispatch(placeBetEvent(bet, serverSig, playerSig));
 
             playerSeed = gameState.hashChain[roundId];
-            return axios.post('revealSeed', {
-                'gameId': gameState.gameId,
-                'roundId': roundId,
-                'playerSeed': playerSeed,
-            });
+
+            return revealSeedRequest(gameId, roundId, playerSeed);
         }).then(response => { // TODO: Replace with reveal seed!!!
             const serverSeed = response.data.serverSeed;
             const newServerBalance = response.data.balance;
