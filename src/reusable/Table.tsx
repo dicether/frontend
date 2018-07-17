@@ -10,20 +10,20 @@ export interface Props extends BaseType {
     children: React.ReactNode,
     bordered?: boolean,
     striped?: boolean,
-    inverse?: boolean,
+    dark?: boolean,
     hover?: boolean
     responsive?: boolean
     noBorders?: boolean
 }
 
 
-const Table = ({children, bordered = false, striped = false, inverse = false, hover = false, noBorders = false, ...rest}: Props) => (
+const Table = ({children, bordered = false, striped = false, dark = false, hover = false, noBorders = false, ...rest}: Props) => (
     <BootstrapTable
         className={noBorders ? Style.noBorders : undefined}
         children={children}
         bordered={bordered}
         striped={striped}
-        inverse={inverse}
+        dark={dark}
         hover={hover}
         {...rest}
     />
