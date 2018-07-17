@@ -1,7 +1,9 @@
+import {Bet} from '@dicether/state-channel';
+
 import * as types from './constants';
 import {ReasonEnded, State, Status} from './reducer';
 import {ActionCreateType} from "../../../../util/util";
-import {Bet} from "../../../../../../dicether_state-channel/src/types";
+
 
 
 const ca = <T extends ActionCreateType<typeof types>>(a: T) => a;

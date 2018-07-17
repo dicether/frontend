@@ -1,7 +1,9 @@
 import axios from "axios";
 import {
+    GameStatus as ContractStatus,
+    ReasonEnded as ContractReasonEnded,
     calcNewBalance,
-    calcPlayerProfit,
+    calcUserProfit,
     calcResultNumber,
     createHashChain,
     createTypedData,
@@ -9,7 +11,8 @@ import {
     hasWon,
     keccak,
     verifySeed,
-    verifySignature
+    verifySignature,
+    Bet
 } from "@dicether/state-channel";
 
 import {Dispatch, GetState, isLocalStorageAvailable} from "../../../../util/util";
@@ -38,24 +41,8 @@ import {showErrorMessage} from "../../utilities/actions";
 import {TransactionReceipt} from "../../../../../typings/web3/types";
 import {getTransactionReceipt, signTypedData} from "../../web3/asyncActions";
 import Web3 from "web3";
-import {Bet} from "../../../../../../dicether_state-channel/src/types";
 
 const STORAGE_VERSION = 1;
-
-
-enum ContractStatus {
-    ENDED = 0,
-    ACTIVE = 1,
-    USER_INITIATED_END = 2,
-    SERVER_INITIATED_END = 3,
-}
-
-enum ContractReasonEnded {
-    REGULAR_ENDED = 0,
-    END_FORCED_BY_SERVER = 1,
-    END_FORCED_BY_USER = 2,
-}
-
 
 
 //
@@ -790,7 +777,7 @@ export function placeBet(num: number, betValue: number, gameType: number) {
 
             const resNum = calcResultNumber(gameType, serverSeed, playerSeed);
             const hashWon = hasWon(gameType, bet.num, resNum);
-            const playerProfit = calcPlayerProfit(gameType, num, betValue, hashWon);
+            const playerProfit = calcUserProfit(gameType, num, betValue, hashWon);
             const newPlayerBalance = balance + playerProfit;
 
             if (newServerBalance !== newPlayerBalance) {
