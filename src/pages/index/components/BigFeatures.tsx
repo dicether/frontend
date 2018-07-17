@@ -56,7 +56,7 @@ const BigFeatures = () => (
         <Container>
         <h2 className="text-center">Fast, Secure and Fair</h2>
         {
-            entries.map((entry, idx) => <Entry entry={entry} idx={idx}/>)
+            entries.map((entry, idx) => <Entry key={idx} entry={entry} idx={idx}/>)
         }
         </Container>
     </Section>

@@ -24,8 +24,8 @@ class JoinNow extends React.Component<{}, State> {
     render() {
         return (
             [
-                <Button color="primary" size="lg" onClick={this.onToggle}>Join Now</Button>,
-                <Modal isOpen={this.state.isOpen} toggle={this.onToggle}>
+                <Button key={1} color="primary" size="lg" onClick={this.onToggle}>Join Now</Button>,
+                <Modal key={2} isOpen={this.state.isOpen} toggle={this.onToggle}>
                         <Register/>
                 </Modal>
             ]

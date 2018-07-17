@@ -38,8 +38,8 @@ const SmallFeatures = () => (
     <Section className={Style.smallFeatures}>
         <Container>
             <Row>
-            {entries.map(entry =>
-                <Entry {...entry}/>
+            {entries.map((entry, idx) =>
+                <Entry key={idx} {...entry}/>
             )}
             </Row>
         </Container>
