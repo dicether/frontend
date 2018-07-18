@@ -189,6 +189,20 @@ function userInitiateForceEndEvent(transactionHash: string) {
 }
 
 
+function canUserForceEnd(gameState: GameState) {
+    const status = gameState.status;
+    return status === "USER_INITIATED_FORCE_END";
+}
+
+function userForceEndEvent() {
+   return function (dispatch: Dispatch, getState: GetState) {
+     if (canUserForceEnd(getState().games.gameState)) {
+        dispatch(endedWithReason("END_FORCED_BY_PLAYER"));
+     }
+ }
+}
+
+
 function canUserAbortForceEnd(gameState: GameState) {
     const status = gameState.status;
     return status === 'USER_INITIATED_FORCE_END';
@@ -654,6 +668,46 @@ export function conflictEnd() {
                 return Promise.reject(error);
             })
         }
+    }
+}
+
+
+export function forceEnd() {
+    return function (dispatch: Dispatch, getState: GetState) {
+        const state = getState();
+        const gameState = state.games.gameState;
+        const account = state.web3.account;
+        const contract = state.web3.contract;
+        const networkId = state.web3.networkId;
+
+        const gameId = gameState.gameId;
+
+        if (!account || !contract) {
+            return Promise.reject(new Error("You need a web3 enabled browser (Metamask)!"));
+        }
+
+        if (!validNetwork(networkId)) {
+            return Promise.reject(new Error(`Invalid network! You need to use ${NETWORK_NAME}!`));
+        }
+
+        if (!canUserInitiateForceEnd(gameState)) {
+            return Promise.reject(new Error(`Invalid game status ${gameState.status}! Can not force end!`));
+        }
+
+        const playerForceGameEnd = contract.methods.playerForceGameEnd;
+        return playerForceGameEnd(gameId).send({from: account, value: 0, gas: 120000}).on('transactionHash', transactionHash => {
+            dispatch(userInitiateForceEndEvent(transactionHash));
+        }).on(error => {
+            return Promise.reject(error);
+        }).then((receipt: TransactionReceipt) => {
+            if (isTransactionFailed(receipt)) {
+                dispatch(userAbortForceEndEvent());
+            } else {
+                dispatch(userForceEndEvent());
+            }
+        }).catch(error => {
+            return Promise.reject(error);
+        });
     }
 }
 
