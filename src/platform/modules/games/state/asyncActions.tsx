@@ -207,7 +207,7 @@ function userAbortForceEndEvent() {
 function canServerConflictEnd(gameState: GameState) {
     const status = gameState.status;
     return status === "CREATING" || status === "USER_CONFLICT_ENDED" || status === "USER_INITIATED_CONFLICT_END"
-        || status === "ACTIVE" || status === "PLACED_BET";
+        || status === "USER_INITIATED_FORCE_END" || status === "ACTIVE" || status === "PLACED_BET";
 }
 
 function serverConflictEndEvent() {
