@@ -133,7 +133,7 @@ function revealSeedEvent(serverSeed: string, userSeed: string, balance: number) 
 }
 
 
-function canUserInitiateConflictEnd(gameState: GameState) {
+export function canUserInitiateConflictEnd(gameState: GameState) {
     const status = gameState.status;
     return status === "ACTIVE" || status === "PLACED_BET" || status === "SERVER_CONFLICT_ENDED";
 }

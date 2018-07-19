@@ -1,12 +1,13 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
 
+import {catchError} from "../../modules/utilities/asyncActions";
 import {clearState} from "../../modules/games/state/actions";
-import {conflictEnd} from "../../modules/games/state/asyncActions";
+import {conflictEnd, canUserInitiateConflictEnd} from "../../modules/games/state/asyncActions";
 import {Output} from '../../../reusable/index';
 import {State} from '../../../rootReducer';
 import ClearState from "./ClearState";
-import {bindActionCreators, Dispatch} from "redux";
+import {Dispatch} from "redux";
 import ConflictEnd from "./ConflictEnd";
 
 const Style = require('./State.scss');
@@ -41,19 +42,22 @@ const mapStateToProps = ({games}: State) => {
     }
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<State>) => bindActionCreators({
-    clearState,
-    conflictEnd
-}, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch<State>) => ({
+    clearState: () => dispatch(clearState()),
+    conflictEnd: () => dispatch(conflictEnd()),
+    catchError: (error) => catchError(error, dispatch)
+});
 
 type Props =  ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
-const State = ({gameState, clearState, conflictEnd}: Props) => {
+const State = ({gameState, clearState, conflictEnd, catchError}: Props) => {
     return (
         <div>
             <div>
                 <ClearState clearState={clearState}/>{" "}
-                <ConflictEnd conflictEnd={conflictEnd}/>
+                {canUserInitiateConflictEnd(gameState) &&
+                    <ConflictEnd conflictEnd={() => conflictEnd().catch(catchError)}/>
+                }
             </div>
             <Entry id={'gameState_status'} name="Status" data={gameState.status}/>
             <Entry id={'gameState_reasonEnded'} name="Reason Ended" data={gameState.reasonEnded}/>
