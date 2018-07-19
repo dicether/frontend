@@ -36,7 +36,7 @@ const ForceEndRender = ({hours, minutes, seconds, completed, onForceEnd}) => {
                 <span>
                     The server didn't respond. You can force the game session termination!
                 </span>
-                <Button onClick={onForceEnd}>Force Termination</Button>
+                <Button size="sm" onClick={onForceEnd}>Force Termination</Button>
             </div>
         );
     } else {
@@ -44,8 +44,8 @@ const ForceEndRender = ({hours, minutes, seconds, completed, onForceEnd}) => {
             <div>
                 <span>
                     You created a game session dispute. If the server doesn't respond, you
-                    can force the termination of the game session in
-                    {hours}:{minutes}:{seconds}.
+                    can force the termination of the game session in { hours}:{minutes}:{seconds}.
+
                 </span>
             </div>
         );
@@ -54,7 +54,7 @@ const ForceEndRender = ({hours, minutes, seconds, completed, onForceEnd}) => {
 
 
 const ForceEnd = ({endTime, onForceEnd}) => {
-    const sessionTimeout = SESSION_TIMEOUT * 3600 * 1000 + endTime; // convert to milliseconds
+    const sessionTimeout = SESSION_TIMEOUT * 3600 * 1000 + new Date(endTime).getTime(); // convert to milliseconds
 
     return (
         <Countdown

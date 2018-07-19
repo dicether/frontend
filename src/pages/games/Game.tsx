@@ -89,7 +89,7 @@ class Game extends React.Component<Props> {
     forceEnd = () => {
         const {forceEnd, catchError} = this.props;
         forceEnd().catch(catchError);
-    }
+    };
 
     onToggleHelp = (show: boolean) => {
         const {toggleHelp} = this.props;

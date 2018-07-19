@@ -48,7 +48,7 @@ const mapDispatchToProps = (dispatch: Dispatch<State>) => bindActionCreators({
 
 type Props =  ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
-const State = ({gameState, clearState}: Props) => {
+const State = ({gameState, clearState, conflictEnd}: Props) => {
     return (
         <div>
             <div>
