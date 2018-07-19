@@ -1,4 +1,6 @@
 import * as React from 'react';
+import Countdown from 'react-countdown-now';
+
 
 import {State as GameState} from '../../../../platform/modules/games/state/reducer';
 import {Ether, Tooltip} from '../../../../reusable';
@@ -19,11 +21,48 @@ type Props = {
     onSeedRequest(): void,
     onEndGame(): void,
     onConflictEnd(): void,
+    onForceEnd(): void
 }
 
 type State = {
     modalIsOpen: boolean
 }
+
+
+const ForceEndRender = ({hours, minutes, seconds, completed, onForceEnd}) => {
+    if (completed) {
+        return (
+            <div>
+                <span>
+                    The server didn't respond. You can force the game session termination!
+                </span>
+                <Button onClick={onForceEnd}>Force Termination</Button>
+            </div>
+        );
+    } else {
+        return (
+            <div>
+                <span>
+                    You created a game session dispute. If the server doesn't respond, you
+                    can force the termination of the game session in
+                    {hours}:{minutes}:{seconds}.
+                </span>
+            </div>
+        );
+    }
+};
+
+
+const ForceEnd = ({endTime, onForceEnd}) => {
+    const sessionTimeout = SESSION_TIMEOUT * 3600 * 1000 + endTime; // convert to milliseconds
+
+    return (
+        <Countdown
+            renderer={props => <ForceEndRender {...props} onForceEnd={onForceEnd}/>}
+            date={sessionTimeout}
+        />
+    )
+};
 
 
 export default class GameHeader extends React.Component<Props, State> {
@@ -49,7 +88,7 @@ export default class GameHeader extends React.Component<Props, State> {
 
 
     render() {
-        const {gameState, onStartGame, onEndGame, web3State, onSeedRequest, onConflictEnd} = this.props;
+        const {gameState, onStartGame, onEndGame, web3State, onSeedRequest, onConflictEnd, onForceEnd} = this.props;
         const {modalIsOpen} = this.state;
 
         const isWeb3Available = web3State.account && web3State.contract && web3State.web3 && validNetwork(web3State.networkId);
@@ -62,6 +101,7 @@ export default class GameHeader extends React.Component<Props, State> {
         const placedBet = gameState.status === 'PLACED_BET';
         const lastGameTransactionHash = gameState.endTransactionHash;
         const serverInitiatedEnd = gameState.status === 'SERVER_CONFLICT_ENDED';
+        const isUserConflictEnded = gameState.status === 'USER_CONFLICT_ENDED';
 
         const transactionUrlNetPrefix = NETWORK_NAME === 'Main' ? '' : `${NETWORK_NAME}.`;
         const transactionUrl = `https://${transactionUrlNetPrefix}etherscan.io/tx/${lastGameTransactionHash}`;
@@ -78,6 +118,9 @@ export default class GameHeader extends React.Component<Props, State> {
 
         return (
             <div className={Style.gameHeader}>
+                {isUserConflictEnded &&
+                    <ForceEnd endTime={gameState.conflictEndTime} onForceEnd={onForceEnd}/>
+                }
                 {placedBet &&
                     <Button size="sm" color="primary" onClick={onSeedRequest}>Request seed!</Button>
                 }

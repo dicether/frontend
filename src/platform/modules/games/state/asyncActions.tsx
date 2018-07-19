@@ -152,10 +152,10 @@ function canUserConflictEnd(gameState: GameState) {
     return status === "USER_INITIATED_CONFLICT_END";
 }
 
-function userConflictEndEvent() {
+function userConflictEndEvent(time: Date) {
     return function (dispatch: Dispatch, getState: GetState) {
         if (canUserConflictEnd(getState().games.gameState)) {
-            dispatch(userConflictEnd());
+            dispatch(userConflictEnd(time));
         }
     }
 }
@@ -280,7 +280,7 @@ export function loadContractStateCreatedGame() {
             return dispatch(endGameEvent(ContractReasonEnded[reasonEnded] as ReasonEnded));
 
         } else if (status === ContractStatus.USER_INITIATED_END && canUserConflictEnd(gameState)) {
-            return dispatch(userConflictEndEvent());
+            return dispatch(userConflictEndEvent(new Date()));
         } else if (status === ContractStatus.SERVER_INITIATED_END && canServerConflictEnd(gameState)) {
             return dispatch(serverConflictEndEvent());
         } else {
@@ -622,7 +622,7 @@ export function conflictEnd() {
                 if (isTransactionFailed(receipt)) {
                     dispatch(userAbortConflictEndEvent());
                 } else {
-                    dispatch(userConflictEndEvent());
+                    dispatch(userConflictEndEvent(new Date()));
                 }
             }).catch(error => {
                 return Promise.reject(error);
@@ -662,7 +662,7 @@ export function conflictEnd() {
                 if (isTransactionFailed(receipt)) {
                     dispatch(userAbortConflictEnd());
                 } else {
-                    dispatch(userConflictEndEvent());
+                    dispatch(userConflictEndEvent(new Date()));
                 }
             }).catch(error => {
                 return Promise.reject(error);

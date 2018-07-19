@@ -9,13 +9,12 @@ import GameFooter from './components/GameFooter'
 import {toggleExpertView, toggleHelp, toggleSound} from '../../platform/modules/games/info/actions';
 import {State} from '../../rootReducer';
 import {Dispatch} from '../../util/util';
-import * as asyncStateActions from "../../platform/modules/games/state/asyncActions";
+import {conflictEnd, createGame, endGame, forceEnd, requestSeed} from "../../platform/modules/games/state/asyncActions";
 import {bindActionCreators} from "redux";
 import {addListeners, removeListeners} from "../../platform/sockets";
 import listeners from "../../platform/modules/games/state/socketListeners";
 import {Container, Section} from "../../reusable";
 import {catchError} from "../../platform/modules/utilities/asyncActions";
-import {conflictEnd, createGame, endGame, requestSeed} from "../../platform/modules/games/state/asyncActions";
 
 
 const Style = require('./Game.scss');
@@ -42,6 +41,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     endGame: () => dispatch(endGame()),
     requestSeed: () => dispatch(requestSeed()),
     conflictEnd: () => dispatch(conflictEnd()),
+    forceEnd: () => dispatch(forceEnd()),
     catchError: (error) => catchError(error, dispatch),
     addStateListeners: () => addListeners(listeners, dispatch),
     removeStateListeners: () => removeListeners(listeners, dispatch)
@@ -86,6 +86,11 @@ class Game extends React.Component<Props> {
         conflictEnd().catch(catchError);
     };
 
+    forceEnd = () => {
+        const {forceEnd, catchError} = this.props;
+        forceEnd().catch(catchError);
+    }
+
     onToggleHelp = (show: boolean) => {
         const {toggleHelp} = this.props;
         toggleHelp(show);
@@ -117,6 +122,7 @@ class Game extends React.Component<Props> {
                                     onStartGame={this.createGame}
                                     onEndGame={this.endGame}
                                     onSeedRequest={this.requestSeed}
+                                    onForceEnd={this.forceEnd}
                                     onConflictEnd={this.conflictEnd}
                                 />
                              }

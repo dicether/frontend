@@ -33,6 +33,7 @@ export type State = {
     endTransactionHash?: string,
     forceEndTransactionHash?: string,
     conflictEndTransactionHash?: string
+    conflictEndTime?: Date
     previousState?: Status // for user conflict end, force end aborting
 
     gameId?: number,
@@ -122,7 +123,10 @@ export default function state(state: State = initialState, action: Actions): Sta
             status: (state.previousState as Status),
             previousState: undefined
         };
-        case types.USER_CONFLICT_END: return {...state, status: 'USER_CONFLICT_ENDED'};
+        case types.USER_CONFLICT_END: return {...state,
+            status: 'USER_CONFLICT_ENDED',
+            conflictEndTime: action.time
+        };
         case types.USER_INITIATE_FORCE_END: return {...state,
             status: 'USER_INITIATED_FORCE_END',
             forceEndTransactionHash: action.transactionHash,
@@ -133,7 +137,7 @@ export default function state(state: State = initialState, action: Actions): Sta
             previousState: undefined
         };
         case types.SERVER_CONFLICT_END: return {...state,
-            status: 'SERVER_CONFLICT_ENDED'
+            status: 'SERVER_CONFLICT_ENDED',
         };
         case types.RESTORE_STATE: return {...action.state};
         case types.CLEAR_STATE: return initialState;

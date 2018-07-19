@@ -42,8 +42,8 @@ export const userAbortConflictEnd = ca(() => {
    return {type: types.USER_ABORT_CONFLICT_END};
 });
 
-export const userConflictEnd = ca(() => {
-   return {type: types.USER_CONFLICT_END};
+export const userConflictEnd = ca((time: Date) => {
+   return {type: types.USER_CONFLICT_END, time};
 });
 
 export const userInitiateForceEnd = ca((transactionHash: string) => {
