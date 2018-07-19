@@ -102,6 +102,8 @@ export default class GameHeader extends React.Component<Props, State> {
         const lastGameTransactionHash = gameState.endTransactionHash;
         const serverInitiatedEnd = gameState.status === 'SERVER_CONFLICT_ENDED';
         const isUserConflictEnded = gameState.status === 'USER_CONFLICT_ENDED';
+        const isConflictEnding = gameState.status === 'USER_INITIATED_CONFLICT_END';
+        const isForceEnding = gameState.status === 'USER_INITIATED_FORCE_END';
 
         const transactionUrlNetPrefix = NETWORK_NAME === 'Main' ? '' : `${NETWORK_NAME}.`;
         const transactionUrl = `https://${transactionUrlNetPrefix}etherscan.io/tx/${lastGameTransactionHash}`;
@@ -118,6 +120,12 @@ export default class GameHeader extends React.Component<Props, State> {
 
         return (
             <div className={Style.gameHeader}>
+                {isConflictEnding &&
+                    <span>Conflict Ending... {spinner}</span>
+                }
+                {isForceEnding &&
+                    <span>Force Ending... {spinner}</span>
+                }
                 {isUserConflictEnded &&
                     <ForceEnd endTime={gameState.conflictEndTime} onForceEnd={onForceEnd}/>
                 }
