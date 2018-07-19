@@ -49,8 +49,11 @@ export function fetchAccount() {
         const curAccount = getState().web3.account;
         if (web3 !== null) {
             web3.eth.getAccounts().then(accounts => {
-                if (accounts.length === 0 && curAccount !== null) {
-                    dispatch(changeAccount(null));
+                if (accounts.length === 0) {
+                    if (curAccount !== null) {
+                        dispatch(changeAccount(null));
+                    }
+                    return;
                 }
 
                 const account = ethUtil.toChecksumAddress(accounts[0]);
