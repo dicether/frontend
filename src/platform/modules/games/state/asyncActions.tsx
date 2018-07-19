@@ -42,6 +42,7 @@ import {TransactionReceipt} from "../../../../../typings/web3/types";
 import {getTransactionReceipt, signTypedData} from "../../web3/asyncActions";
 import Web3 from "web3";
 import retry from "async-retry";
+import * as Raven from "raven-js";
 
 const STORAGE_VERSION = 1;
 
@@ -58,6 +59,8 @@ function createGameEvent(hashChain: Array<string>, serverEndHash: string, value:
     return function (dispatch: Dispatch, getState: GetState) {
         if (canCreateGame(getState().games.gameState)) {
             dispatch(creatingGame(hashChain, serverEndHash, value, transactionHash));
+        } else {
+            Raven.captureMessage("Unexpected createGameEvent");
         }
     }
 }
@@ -72,6 +75,8 @@ function endGameEvent(reason: ReasonEnded) {
     return function(dispatch: Dispatch, getState: GetState) {
         if (canEndGame(getState().games.gameState)) {
             dispatch(endedWithReason(reason));
+        } else {
+            Raven.captureMessage("Unexpected endGameEvent");
         }
     }
 }
@@ -86,6 +91,8 @@ function regularEndGameEvent(roundId: number, serverHash: string, userHash: stri
     return function(dispatch: Dispatch, getState: GetState) {
         if (canRegularEndGame(getState().games.gameState)) {
             dispatch(endedGame(roundId, serverHash, userHash, serverSig, userSig, endTransactionHash));
+        } else {
+            Raven.captureMessage("Unexpected regularEndGameEvent");
         }
     }
 }
@@ -100,6 +107,8 @@ function activateGameEvent(gameId: number) {
     return function (dispatch: Dispatch, getState: GetState) {
         if (canActivateGame(getState().games.gameState)) {
             dispatch((gameCreated(gameId)));
+        } else {
+             Raven.captureMessage("Unexpected activateGameEvent");
         }
     }
 }
@@ -114,6 +123,8 @@ function placeBetEvent(bet: Bet, serverSig: string, userSig: string) {
     return function (dispatch: Dispatch, getState: GetState) {
         if (canPlaceBet(getState().games.gameState)) {
             dispatch(addBet(bet, serverSig, userSig));
+        } else {
+             Raven.captureMessage("Unexpected placeBetEvent");
         }
     }
 }
@@ -128,6 +139,8 @@ function revealSeedEvent(serverSeed: string, userSeed: string, balance: number) 
     return function (dispatch: Dispatch, getState: GetState) {
         if (canRevealSeed(getState().games.gameState)) {
             dispatch(revealSeed(serverSeed, userSeed, balance));
+        } else {
+             Raven.captureMessage("Unexpected revealSeedEvent");
         }
     }
 }
@@ -142,6 +155,8 @@ function userInitiateConflictEndEvent(transactionHash: string) {
     return function (dispatch: Dispatch, getState: GetState) {
         if (canUserInitiateConflictEnd(getState().games.gameState)) {
             dispatch(userInitiateConflictEnd(transactionHash));
+        } else {
+             Raven.captureMessage("Unexpected userInitiateConflictEndEvent");
         }
     }
 }
@@ -156,6 +171,8 @@ function userConflictEndEvent(time: Date) {
     return function (dispatch: Dispatch, getState: GetState) {
         if (canUserConflictEnd(getState().games.gameState)) {
             dispatch(userConflictEnd(time));
+        } else {
+             Raven.captureMessage("Unexpected userConflictEndEvent");
         }
     }
 }
@@ -170,6 +187,8 @@ function userAbortConflictEndEvent() {
     return function (dispatch: Dispatch, getState: GetState) {
         if (canUserAbortConflictEnd(getState().games.gameState)) {
             dispatch(userAbortConflictEnd());
+        } else {
+             Raven.captureMessage("Unexpected userAbortConflictEndEvent");
         }
     }
 }
@@ -184,7 +203,9 @@ function userInitiateForceEndEvent(transactionHash: string) {
      return function (dispatch: Dispatch, getState: GetState) {
          if (canUserInitiateForceEnd(getState().games.gameState)) {
             dispatch(userInitiateForceEnd(transactionHash));
-         }
+        } else {
+             Raven.captureMessage("Unexpected userInitiateForceEndEvent");
+        }
      }
 }
 
@@ -195,11 +216,13 @@ function canUserForceEnd(gameState: GameState) {
 }
 
 function userForceEndEvent() {
-   return function (dispatch: Dispatch, getState: GetState) {
-     if (canUserForceEnd(getState().games.gameState)) {
-        dispatch(endedWithReason("END_FORCED_BY_PLAYER"));
-     }
- }
+    return function (dispatch: Dispatch, getState: GetState) {
+        if (canUserForceEnd(getState().games.gameState)) {
+            dispatch(endedWithReason("END_FORCED_BY_PLAYER"));
+        } else {
+             Raven.captureMessage("Unexpected userForceEndEvent");
+        }
+    }
 }
 
 
@@ -212,7 +235,9 @@ function userAbortForceEndEvent() {
      return function (dispatch: Dispatch, getState: GetState) {
          if (canUserAbortForceEnd(getState().games.gameState)) {
             dispatch(userAbortForceEnd());
-         }
+        } else {
+             Raven.captureMessage("Unexpected userAbortForceEndEvent");
+        }
      }
 }
 
@@ -228,6 +253,8 @@ function serverConflictEndEvent() {
     return function (dispatch: Dispatch, getState: GetState) {
         if (canServerConflictEnd(getState().games.gameState)) {
             dispatch(serverConflictEnd());
+        } else {
+             Raven.captureMessage("Unexpected serverConflictEndEvent");
         }
     }
 }
