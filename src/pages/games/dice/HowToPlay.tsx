@@ -17,7 +17,7 @@ const HowToPlay = () => (
         <h6>Step1</h6>
         <p>
             Choose your bet amount (between <Ether gwei={MIN_BET_VALUE} precision={5}/>
-            and <Ether gwei={MAX_BET_VALUE} precision={5}/> ETH).
+            {" "}and <Ether gwei={MAX_BET_VALUE} precision={5}/> ETH).
         </p>
         <h6>Step2</h6>
         <p>
