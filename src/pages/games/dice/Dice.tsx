@@ -69,13 +69,18 @@ class Dice extends React.Component<Props, DiceState> {
         const safeBetValue = Math.round(betValue);
         const gameType = reversedRoll ? GameType.DICE_HIGHER : GameType.DICE_LOWER;
 
+        if (!loggedIn) {
+            showErrorMessage("You need to login before playing!");
+            return;
+        }
+
         if (!web3Available) {
             showErrorMessage(`You need to have a web3 enabled browser (e.g. Metamask) for playing and select network: ${NETWORK_NAME}!`);
             return;
         }
 
-        if (gameState.status !== "ACTIVE" || !loggedIn) {
-            showErrorMessage("You need to logging and create a game session before playing!");
+        if (gameState.status === "ENDED") {
+            showErrorMessage("You need to create a game session before playing!");
             return;
         }
 
