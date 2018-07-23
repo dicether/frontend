@@ -527,7 +527,9 @@ export function createGame(stake: number, playerSeed: string) {
                             reject(new Error("Create game transaction failed!"));
                         } else {
                             const gameId = (event.returnValues as any).gameId;
-                            dispatch(activateGameEvent(gameId));
+                            if (getState().games.gameState.status !== "ACTIVE") {
+                                dispatch(activateGameEvent(gameId));
+                            }
                             resolve();
                         }
                     }
