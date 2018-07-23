@@ -84,6 +84,17 @@ class Dice extends React.Component<Props, DiceState> {
             return;
         }
 
+        if (gameState.status === "PLACED_BET") {
+            showErrorMessage("Your seed isn't revealed! Should normally work without your interaction." +
+                " To manually reveal it You can click \"request seed\"!");
+            return;
+        }
+
+        if (gameState.status !== "ACTIVE") {
+            showErrorMessage("Can not place bet! You game session must be active to create bets!");
+            return;
+        }
+
         placeBet(num, safeBetValue, gameType).then(result => {
             this.setState({result, showResult: true});
             clearTimeout(this.resultTimeoutId);
