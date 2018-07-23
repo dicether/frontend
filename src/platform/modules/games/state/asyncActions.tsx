@@ -1,18 +1,21 @@
 import axios from "axios";
+import Web3 from "web3";
+import retry from "async-retry";
+import Raven from "raven-js";
 import {
-    GameStatus as ContractStatus,
-    ReasonEnded as ContractReasonEnded,
+    Bet,
     calcNewBalance,
-    calcUserProfit,
     calcResultNumber,
+    calcUserProfit,
     createHashChain,
     createTypedData,
     fromGweiToWei,
+    GameStatus as ContractStatus,
     hasWon,
     keccak,
+    ReasonEnded as ContractReasonEnded,
     verifySeed,
-    verifySignature,
-    Bet
+    verifySignature
 } from "@dicether/state-channel";
 
 import {Dispatch, GetState, isLocalStorageAvailable} from "../../../../util/util";
@@ -25,8 +28,13 @@ import {
     endedWithReason,
     gameCreated,
     restoreState,
-    revealSeed, serverConflictEnd, userAbortConflictEnd, userAbortForceEnd, userConflictEnd,
-    userInitiateConflictEnd, userInitiateForceEnd,
+    revealSeed,
+    serverConflictEnd,
+    userAbortConflictEnd,
+    userAbortForceEnd,
+    userConflictEnd,
+    userInitiateConflictEnd,
+    userInitiateForceEnd,
 } from "./actions";
 import {ReasonEnded, State as GameState, State} from "./reducer";
 import {
@@ -40,9 +48,7 @@ import {
 import {showErrorMessage} from "../../utilities/actions";
 import {TransactionReceipt} from "../../../../../typings/web3/types";
 import {getTransactionReceipt, signTypedData} from "../../web3/asyncActions";
-import Web3 from "web3";
-import retry from "async-retry";
-import * as Raven from "raven-js";
+
 
 const STORAGE_VERSION = 1;
 
