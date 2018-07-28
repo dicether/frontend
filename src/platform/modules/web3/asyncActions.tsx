@@ -104,7 +104,7 @@ export function getTransactionReceipt(web3: Web3, transactionHash: string): Prom
 }
 
 export function signTypedData(web3: Web3, from: string, typedData: any): Promise<string> {
-    const params = [typedData, from];
+    const params = [JSON.stringify(typedData), from];
     const method = 'eth_signTypedData';
 
     return new Promise(function (resolve, reject) {
