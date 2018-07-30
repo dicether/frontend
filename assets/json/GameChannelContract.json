@@ -1,70 +1,39 @@
 [
   {
-    "constant": false,
-    "inputs": [
+    "constant": true,
+    "inputs": [],
+    "name": "DOMAIN_SEPERATOR",
+    "outputs": [
       {
-        "name": "_roundId",
-        "type": "uint32"
-      },
-      {
-        "name": "_gameType",
-        "type": "uint8"
-      },
-      {
-        "name": "_num",
-        "type": "uint16"
-      },
-      {
-        "name": "_value",
-        "type": "uint256"
-      },
-      {
-        "name": "_balance",
-        "type": "int256"
-      },
-      {
-        "name": "_serverHash",
-        "type": "bytes32"
-      },
-      {
-        "name": "_playerHash",
-        "type": "bytes32"
-      },
-      {
-        "name": "_gameId",
-        "type": "uint256"
-      },
-      {
-        "name": "_contractAddress",
-        "type": "address"
-      },
-      {
-        "name": "_serverSig",
-        "type": "bytes"
-      },
-      {
-        "name": "_playerSeed",
+        "name": "",
         "type": "bytes32"
       }
     ],
-    "name": "playerEndGameConflict",
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "activate",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
     "type": "function"
   },
   {
-    "constant": false,
-    "inputs": [
+    "constant": true,
+    "inputs": [],
+    "name": "activated",
+    "outputs": [
       {
-        "name": "_newOwner",
-        "type": "address"
+        "name": "",
+        "type": "bool"
       }
     ],
-    "name": "setOwner",
-    "outputs": [],
     "payable": false,
-    "stateMutability": "nonpayable",
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -89,7 +58,7 @@
         "type": "address"
       }
     ],
-    "name": "playerGameId",
+    "name": "userGameId",
     "outputs": [
       {
         "name": "",
@@ -117,6 +86,20 @@
     ],
     "payable": false,
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_gameIdCntr",
+        "type": "uint256"
+      }
+    ],
+    "name": "setGameIdCntr",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -177,6 +160,29 @@
     ],
     "payable": false,
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "BET_TYPEHASH",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [],
+    "name": "claimOwnership",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -245,34 +251,6 @@
     "type": "function"
   },
   {
-    "constant": true,
-    "inputs": [],
-    "name": "TYPE_HASH",
-    "outputs": [
-      {
-        "name": "",
-        "type": "bytes32"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_gameId",
-        "type": "uint256"
-      }
-    ],
-    "name": "playerForceGameEnd",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "constant": false,
     "inputs": [
       {
@@ -323,7 +301,7 @@
       },
       {
         "name": "betNum",
-        "type": "uint16"
+        "type": "uint256"
       },
       {
         "name": "betValue",
@@ -334,7 +312,7 @@
         "type": "int256"
       },
       {
-        "name": "playerSeed",
+        "name": "userSeed",
         "type": "bytes32"
       },
       {
@@ -369,6 +347,60 @@
     "type": "function"
   },
   {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_roundId",
+        "type": "uint32"
+      },
+      {
+        "name": "_gameType",
+        "type": "uint8"
+      },
+      {
+        "name": "_num",
+        "type": "uint256"
+      },
+      {
+        "name": "_value",
+        "type": "uint256"
+      },
+      {
+        "name": "_balance",
+        "type": "int256"
+      },
+      {
+        "name": "_serverHash",
+        "type": "bytes32"
+      },
+      {
+        "name": "_userHash",
+        "type": "bytes32"
+      },
+      {
+        "name": "_gameId",
+        "type": "uint256"
+      },
+      {
+        "name": "_contractAddress",
+        "type": "address"
+      },
+      {
+        "name": "_serverSig",
+        "type": "bytes"
+      },
+      {
+        "name": "_userSeed",
+        "type": "bytes32"
+      }
+    ],
+    "name": "userEndGameConflict",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "constant": true,
     "inputs": [],
     "name": "houseProfit",
@@ -397,6 +429,68 @@
     "type": "function"
   },
   {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_roundId",
+        "type": "uint32"
+      },
+      {
+        "name": "_gameType",
+        "type": "uint8"
+      },
+      {
+        "name": "_num",
+        "type": "uint256"
+      },
+      {
+        "name": "_value",
+        "type": "uint256"
+      },
+      {
+        "name": "_balance",
+        "type": "int256"
+      },
+      {
+        "name": "_serverHash",
+        "type": "bytes32"
+      },
+      {
+        "name": "_userHash",
+        "type": "bytes32"
+      },
+      {
+        "name": "_gameId",
+        "type": "uint256"
+      },
+      {
+        "name": "_contractAddress",
+        "type": "address"
+      },
+      {
+        "name": "_userSig",
+        "type": "bytes"
+      },
+      {
+        "name": "_userAddress",
+        "type": "address"
+      },
+      {
+        "name": "_serverSeed",
+        "type": "bytes32"
+      },
+      {
+        "name": "_userSeed",
+        "type": "bytes32"
+      }
+    ],
+    "name": "serverEndGameConflict",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "constant": true,
     "inputs": [],
     "name": "MAX_TRANSFER_TIMSPAN",
@@ -408,6 +502,20 @@
     ],
     "payable": false,
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_gameId",
+        "type": "uint256"
+      }
+    ],
+    "name": "userCancelActiveGame",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -451,7 +559,7 @@
     "constant": false,
     "inputs": [
       {
-        "name": "_playerAddress",
+        "name": "_userAddress",
         "type": "address"
       },
       {
@@ -473,69 +581,7 @@
         "type": "uint256"
       }
     ],
-    "name": "playerCancelActiveGame",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_roundId",
-        "type": "uint32"
-      },
-      {
-        "name": "_gameType",
-        "type": "uint8"
-      },
-      {
-        "name": "_num",
-        "type": "uint16"
-      },
-      {
-        "name": "_value",
-        "type": "uint256"
-      },
-      {
-        "name": "_balance",
-        "type": "int256"
-      },
-      {
-        "name": "_serverHash",
-        "type": "bytes32"
-      },
-      {
-        "name": "_playerHash",
-        "type": "bytes32"
-      },
-      {
-        "name": "_gameId",
-        "type": "uint256"
-      },
-      {
-        "name": "_contractAddress",
-        "type": "address"
-      },
-      {
-        "name": "_playerSig",
-        "type": "bytes"
-      },
-      {
-        "name": "_playerAddress",
-        "type": "address"
-      },
-      {
-        "name": "_serverSeed",
-        "type": "bytes32"
-      },
-      {
-        "name": "_playerSeed",
-        "type": "bytes32"
-      }
-    ],
-    "name": "serverEndGameConflict",
+    "name": "userForceGameEnd",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
@@ -549,6 +595,20 @@
       {
         "name": "",
         "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "EIP712DOMAIN_TYPEHASH",
+    "outputs": [
+      {
+        "name": "",
+        "type": "bytes32"
       }
     ],
     "payable": false,
@@ -587,7 +647,7 @@
     "constant": false,
     "inputs": [
       {
-        "name": "_playerAddress",
+        "name": "_userAddress",
         "type": "address"
       },
       {
@@ -678,6 +738,20 @@
   {
     "constant": true,
     "inputs": [],
+    "name": "pendingOwner",
+    "outputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
     "name": "activeGames",
     "outputs": [
       {
@@ -712,6 +786,20 @@
       }
     ],
     "name": "setHouseAddress",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "name": "_newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "transferOwnership",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
@@ -763,7 +851,7 @@
         "type": "address"
       },
       {
-        "name": "_gameIdCntr",
+        "name": "_chainId",
         "type": "uint256"
       }
     ],
@@ -776,7 +864,7 @@
     "inputs": [
       {
         "indexed": true,
-        "name": "player",
+        "name": "user",
         "type": "address"
       },
       {
@@ -796,7 +884,7 @@
       },
       {
         "indexed": false,
-        "name": "playerEndHash",
+        "name": "userEndHash",
         "type": "bytes32"
       }
     ],
@@ -808,7 +896,7 @@
     "inputs": [
       {
         "indexed": true,
-        "name": "player",
+        "name": "user",
         "type": "address"
       },
       {
@@ -817,7 +905,7 @@
         "type": "uint256"
       }
     ],
-    "name": "LogPlayerRequestedEnd",
+    "name": "LogUserRequestedEnd",
     "type": "event"
   },
   {
@@ -825,7 +913,7 @@
     "inputs": [
       {
         "indexed": true,
-        "name": "player",
+        "name": "user",
         "type": "address"
       },
       {
@@ -842,7 +930,7 @@
     "inputs": [
       {
         "indexed": true,
-        "name": "player",
+        "name": "user",
         "type": "address"
       },
       {
@@ -924,6 +1012,12 @@
   },
   {
     "anonymous": false,
+    "inputs": [],
+    "name": "LogActive",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
     "inputs": [
       {
         "indexed": true,
@@ -940,10 +1034,27 @@
     "type": "event"
   },
   {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "name": "previousOwner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "LogOwnerShipTransferInitiated",
+    "type": "event"
+  },
+  {
     "constant": false,
     "inputs": [
       {
-        "name": "_playerEndHash",
+        "name": "_userEndHash",
         "type": "bytes32"
       },
       {
@@ -982,7 +1093,7 @@
       },
       {
         "name": "_num",
-        "type": "uint16"
+        "type": "uint256"
       },
       {
         "name": "_value",
@@ -997,7 +1108,7 @@
         "type": "bytes32"
       },
       {
-        "name": "_playerHash",
+        "name": "_userHash",
         "type": "bytes32"
       },
       {
@@ -1009,11 +1120,11 @@
         "type": "address"
       },
       {
-        "name": "_playerAddress",
+        "name": "_userAddress",
         "type": "address"
       },
       {
-        "name": "_playerSig",
+        "name": "_userSig",
         "type": "bytes"
       }
     ],
@@ -1036,7 +1147,7 @@
       },
       {
         "name": "_num",
-        "type": "uint16"
+        "type": "uint256"
       },
       {
         "name": "_value",
@@ -1051,7 +1162,7 @@
         "type": "bytes32"
       },
       {
-        "name": "_playerHash",
+        "name": "_userHash",
         "type": "bytes32"
       },
       {
@@ -1067,7 +1178,7 @@
         "type": "bytes"
       }
     ],
-    "name": "playerEndGame",
+    "name": "userEndGame",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
