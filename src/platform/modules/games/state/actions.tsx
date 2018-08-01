@@ -21,16 +21,16 @@ export const gameCreated = ca((gameId: number) => {
     return {type: types.GAME_CREATED, gameId}
 });
 
-export const addBet = ca((bet: Bet, serverSig: string, playerSig: string) => {
-    return {type: types.PLACE_BET, bet, serverSig, playerSig};
+export const addBet = ca((bet: Bet, serverSig: string, userSig: string) => {
+    return {type: types.PLACE_BET, bet, serverSig, userSig};
 });
 
-export const revealSeed = ca((serverSeed: string, playerSeed: string, balance: number) => {
-    return {type: types.END_BET, serverSeed, playerSeed, balance};
+export const revealSeed = ca((serverSeed: string, userSeed: string, balance: number) => {
+    return {type: types.END_BET, serverSeed, userSeed, balance};
 });
 
-export const endedGame = ca((roundId: number, serverHash: string, playerHash: string, serverSig: string, playerSig: string, endTransactionHash: string) => {
-    return {type: types.ENDED_GAME, roundId, serverHash, playerHash, serverSig, playerSig, endTransactionHash};
+export const endedGame = ca((roundId: number, serverHash: string, userHash: string, serverSig: string, userSig: string, endTransactionHash: string) => {
+    return {type: types.ENDED_GAME, roundId, serverHash, userHash, serverSig, userSig, endTransactionHash};
 });
 
 

@@ -20,10 +20,10 @@ export type Status =
 export type ReasonEnded =
     'REGULAR_ENDED'
     | 'END_FORCED_BY_SERVER'
-    | 'END_FORCED_BY_PLAYER'
+    | 'END_FORCED_BY_USER'
     | 'REJECTED_BY_SERVER'
     | 'TRANSACTION_FAILURE'
-    | 'CANCELLED_BY_PLAYER';
+    | 'CANCELLED_BY_USER';
 
 export type State = {
     status: Status,
@@ -89,9 +89,9 @@ export default function state(state: State = initialState, action: Actions): Sta
             num: 0,
             betValue: 0,
             serverHash: action.serverHash,
-            playerHash: action.playerHash,
+            playerHash: action.userHash,
             serverSig: action.serverSig,
-            playerSig: action.playerSig,
+            playerSig: action.userSig,
         };
         case types.PLACE_BET: return {...state,
             status: 'PLACED_BET',
@@ -103,12 +103,12 @@ export default function state(state: State = initialState, action: Actions): Sta
             serverHash: action.bet.serverHash,
             playerHash: action.bet.userHash,
             serverSig: action.serverSig,
-            playerSig: action.playerSig,
+            playerSig: action.userSig,
         };
         case types.END_BET: return {...state,
             status: 'ACTIVE',
             serverHash: action.serverSeed,
-            playerHash: action.playerSeed,
+            playerHash: action.userSeed,
             oldBalance: state.balance,
             balance: action.balance,
         };

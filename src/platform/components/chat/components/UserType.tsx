@@ -39,7 +39,7 @@ const UserType = ({userType}: Props) => {
         return (
             <span>
                 <span ref={t => {target = t}} className={Style.userType + ' ' + Style.userType_vip}>V</span>
-                <Tooltip target={() => target}>VIP Player</Tooltip>
+                <Tooltip target={() => target}>VIP User</Tooltip>
              </span>
         );
     } else if (userType === 'BOT') {

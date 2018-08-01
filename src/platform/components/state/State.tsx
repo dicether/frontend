@@ -69,7 +69,7 @@ const State = ({gameState, clearState, conflictEnd, catchError}: Props) => {
             <Entry id={'gameState_betValue'} name="Bet Value" data={gameState.betValue}/>
             <Entry id={'gameState_balance'} name="Balance" data={gameState.balance}/>
             <Entry id={'gameState_serverHash'} name="Server Hash" data={gameState.serverHash}/>
-            <Entry id={'gameState_playerHash'} name="Player Hash" data={gameState.playerHash}/>
+            <Entry id={'gameState_userHash'} name="User Hash" data={gameState.playerHash}/>
             <Entry id={'gameState_serverSig'} name="Server Signature" data={gameState.serverSig}/>
             <Entry id={'gameState_playerSig'} name="Player Sigature" data={gameState.playerSig}/>
         </div>

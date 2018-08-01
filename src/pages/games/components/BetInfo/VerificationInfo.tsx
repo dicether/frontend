@@ -52,9 +52,9 @@ class VerificationInfo extends React.PureComponent<Props, State> {
                         <Entry id={`bet_${bet.id}_betValue`} name="Bet Value (Wei)" data={bet.value * FROM_BASE_TO_WEI}/>
                         <Entry id={`bet_${bet.id}_balance`} name="Balance (Wei)" data={bet.balance * FROM_BASE_TO_WEI}/>
                         <Entry id={`bet_${bet.id}_serverHash`} name="Server Hash" data={bet.serverHash}/>
-                        <Entry id={`bet_${bet.id}_playerHash`} name="Player Hash" data={bet.userHash}/>
+                        <Entry id={`bet_${bet.id}_userHash`} name="User Hash" data={bet.userHash}/>
                         <Entry id={`bet_${bet.id}_serverSeed`} name="Server seed" data={bet.serverSeed}/>
-                        <Entry id={`bet_${bet.id}_playerSeed`} name="Player seed" data={bet.userSeed}/>
+                        <Entry id={`bet_${bet.id}_userSeed`} name="User seed" data={bet.userSeed}/>
                         <Entry id={`bet_${bet.id}_gameId`} name="Game Id" data={bet.gameId}/>
                         <Entry id={`bet_${bet.id}_contractAddress`} name="Contract Address" data={bet.contractAddress}/>
                         <Entry id={`bet_${bet.id}_serverSig`} name="Server Signature" data={bet.serverSig}/>

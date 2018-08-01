@@ -10,10 +10,10 @@ import {
     createHashChain,
     createTypedData,
     fromGweiToWei,
-    GameStatus as ContractStatus,
+    GameStatus as ContractStatus, hashBet,
     hasWon,
     keccak,
-    ReasonEnded as ContractReasonEnded,
+    ReasonEnded as ContractReasonEnded, recoverBetSigner,
     verifySeed,
     verifySignature
 } from "@dicether/state-channel";
@@ -224,7 +224,7 @@ function canUserForceEnd(gameState: GameState) {
 function userForceEndEvent() {
     return function (dispatch: Dispatch, getState: GetState) {
         if (canUserForceEnd(getState().games.gameState)) {
-            dispatch(endedWithReason("END_FORCED_BY_PLAYER"));
+            dispatch(endedWithReason("END_FORCED_BY_USER"));
         } else {
              Raven.captureMessage("Unexpected userForceEndEvent");
         }
@@ -457,7 +457,7 @@ export function serverActiveGame(gameId: number, serverHash: string) {
 }
 
 
-export function createGame(stake: number, playerSeed: string) {
+export function createGame(stake: number, userSeed: string) {
     return async function (dispatch: Dispatch, getState: GetState) {
         const web3State = getState().web3;
         const contract = web3State.contract;
@@ -486,7 +486,7 @@ export function createGame(stake: number, playerSeed: string) {
         }
 
         const createGame = contract.methods.createGame;
-        const hashChain = createHashChain(playerSeed);
+        const hashChain = createHashChain(userSeed);
 
         try {
              // TODO: Move to canCreateGame???
@@ -555,7 +555,7 @@ export function endGame() {
         const serverHash = gameState.serverHash;
         const userHash = gameState.playerHash;
 
-        const playerAddress = account;
+        const userAddress = account;
         const gameId = gameState.gameId;
         const roundId = gameState.roundId + 1;
         const balance = gameState.balance;
@@ -576,7 +576,7 @@ export function endGame() {
             return Promise.reject(new Error(`Invalid game status ${gameState.status}! Can not end game!`))
         }
 
-        if (!userHash || !serverHash|| !playerAddress || !gameId) {
+        if (!userHash || !serverHash|| !userAddress || !gameId) {
             return Promise.reject(new Error("Invalid state!"));
         }
 
@@ -591,14 +591,14 @@ export function endGame() {
             gameId
         };
 
-        let playerSig = "";
+        let userSig = "";
         const typedData = createTypedData(bet, CHAIN_ID, CONTRACT_ADDRESS, SIGNATURE_VERSION);
         return signTypedData(web3, account, typedData).then(result => {
-            playerSig = result;
+            userSig = result;
             return axios.post('endGame', {
                 bet,
                 'contractAddress': CONTRACT_ADDRESS,
-                'playerSig': playerSig
+                'userSig': userSig
             });
         }).then(response => {
             const serverSig = response.data.serverSig;
@@ -609,7 +609,7 @@ export function endGame() {
 
             const endTransactionHash = response.data.transactionHash;
 
-            dispatch(regularEndGameEvent(roundId, serverHash, userHash, serverSig, playerSig, endTransactionHash));
+            dispatch(regularEndGameEvent(roundId, serverHash, userHash, serverSig, userSig, endTransactionHash));
 
             return Promise.resolve();
         }).catch(error => Promise.reject(error));
@@ -650,7 +650,7 @@ export function conflictEnd() {
         }
 
         if (roundId === 0) {
-            const cancelActiveGame = contract.methods.playerCancelActiveGame;
+            const cancelActiveGame = contract.methods.userCancelActiveGame;
             return cancelActiveGame(gameId).send({from: account, value: 0, gas: 120000}).on('transactionHash', transactionHash => {
                 dispatch(userInitiateConflictEndEvent(transactionHash));
             }).on(error => {
@@ -666,31 +666,31 @@ export function conflictEnd() {
             })
         } else {
             let serverHash = keccak(gameState.serverHash);
-            let playerHash = keccak(gameState.playerHash);
+            let userHash = keccak(gameState.playerHash);
             const value = fromGweiToWei(gameState.betValue as number);
             let balance = fromGweiToWei(oldBalance);
-            let playerSeed = gameState.playerHash;
+            let userSeed = gameState.playerHash;
 
             if (gameState.status === 'PLACED_BET') {
                 serverHash = gameState.serverHash;
-                playerHash = gameState.playerHash;
+                userHash = gameState.playerHash;
                 balance = fromGweiToWei(gameState.balance);
-                playerSeed = gameState.hashChain[roundId];
+                userSeed = gameState.hashChain[roundId];
             }
 
-            const playerEndGameConflict = contract.methods.playerEndGameConflict;
-            return playerEndGameConflict(
+            const userEndGameConflict = contract.methods.userEndGameConflict;
+            return userEndGameConflict(
                 roundId,
                 gameType,
                 num,
                 value,
                 balance,
                 serverHash,
-                playerHash,
+                userHash,
                 gameId,
                 contractAddress,
                 serverSig,
-                playerSeed,
+                userSeed,
             ).send({from: account, gas: 200000}).on('transactionHash', transactionHash => {
                 dispatch(userInitiateConflictEndEvent(transactionHash));
             }).on(error => {
@@ -731,8 +731,8 @@ export function forceEnd() {
             return Promise.reject(new Error(`Invalid game status ${gameState.status}! Can not force end!`));
         }
 
-        const playerForceGameEnd = contract.methods.playerForceGameEnd;
-        return playerForceGameEnd(gameId).send({from: account, value: 0, gas: 120000}).on('transactionHash', transactionHash => {
+        const userForceGameEnd = contract.methods.userForceGameEnd;
+        return userForceGameEnd(gameId).send({from: account, value: 0, gas: 120000}).on('transactionHash', transactionHash => {
             dispatch(userInitiateForceEndEvent(transactionHash));
         }).on(error => {
             return Promise.reject(error);
@@ -748,12 +748,12 @@ export function forceEnd() {
     }
 }
 
-async function revealSeedRequest(gameId, roundId, playerSeed) {
+async function revealSeedRequest(gameId, roundId, userSeed) {
     return retry(() => {
         return axios.post('revealSeed', {
             'gameId': gameId,
             'roundId': roundId,
-            'playerSeed': playerSeed,
+            'userSeed': userSeed,
         });
     }, {retries: 1, minTimeout: 500});
 }
@@ -772,13 +772,13 @@ export function requestSeed() {
         }
 
         const betValue = gameState.betValue;
-        const playerSeed = gameState.hashChain[gameState.roundId];
+        const userSeed = gameState.hashChain[gameState.roundId];
 
         if (betValue === undefined || serverHash === undefined) {
             return Promise.reject(new Error("Invalid game state!"));
         }
 
-        return revealSeedRequest(gameState.gameId, gameState.roundId, playerSeed).then(response => {
+        return revealSeedRequest(gameState.gameId, gameState.roundId, userSeed).then(response => {
             const serverSeed = response.data.serverSeed;
             const newServerBalance = response.data.balance;
 
@@ -786,13 +786,13 @@ export function requestSeed() {
                 return Promise.reject(new Error("Invalid server seed!"));
             }
 
-            const newPlayerBalance = calcNewBalance(gameState.gameType, gameState.num, betValue, serverSeed, playerSeed, gameState.balance);
+            const newuserBalance = calcNewBalance(gameState.gameType, gameState.num, betValue, serverSeed, userSeed, gameState.balance);
 
-            if (newServerBalance !== newPlayerBalance) {
+            if (newServerBalance !== newuserBalance) {
                 return Promise.reject(new Error("Invalid server balance!"));
             }
 
-            return Promise.resolve(dispatch(revealSeedEvent(serverSeed, playerSeed, newServerBalance)));
+            return Promise.resolve(dispatch(revealSeedEvent(serverSeed, userSeed, newServerBalance)));
         }).catch(error => {
             return Promise.reject(error);
         });
@@ -838,8 +838,8 @@ export function placeBet(num: number, betValue: number, gameType: number) {
             return Promise.reject(new Error("Invalid bet value: Funds to low!"));
         }
 
-        let playerSig = "";
-        let playerSeed = "";
+        let userSig = "";
+        let userSeed = "";
 
         const bet = {
             roundId,
@@ -855,11 +855,11 @@ export function placeBet(num: number, betValue: number, gameType: number) {
         const typedData = createTypedData(bet, CHAIN_ID, CONTRACT_ADDRESS, SIGNATURE_VERSION);
 
         return signTypedData(web3, account, typedData).then(result => {
-            playerSig = result;
+            userSig = result;
             return axios.post('placeBet', {
                 bet,
                 'contractAddress': CONTRACT_ADDRESS,
-                'playerSig': playerSig
+                'userSig': userSig
             });
         }).then(response => {
             const serverSig = response.data.serverSig;
@@ -868,11 +868,11 @@ export function placeBet(num: number, betValue: number, gameType: number) {
                 return Promise.reject(new Error("Error placing bet: Invalid server signature!"));
             }
 
-            dispatch(placeBetEvent(bet, serverSig, playerSig));
+            dispatch(placeBetEvent(bet, serverSig, userSig));
 
-            playerSeed = gameState.hashChain[roundId];
+            userSeed = gameState.hashChain[roundId];
 
-            return revealSeedRequest(gameId, roundId, playerSeed);
+            return revealSeedRequest(gameId, roundId, userSeed);
         }).then(response => { // TODO: Replace with reveal seed!!!
             const serverSeed = response.data.serverSeed;
             const newServerBalance = response.data.balance;
@@ -881,18 +881,18 @@ export function placeBet(num: number, betValue: number, gameType: number) {
                 return Promise.reject(new Error("Invalid server seed!"));
             }
 
-            const resNum = calcResultNumber(gameType, serverSeed, playerSeed);
+            const resNum = calcResultNumber(gameType, serverSeed, userSeed);
             const hashWon = hasWon(gameType, bet.num, resNum);
-            const playerProfit = calcUserProfit(gameType, num, betValue, hashWon);
-            const newPlayerBalance = balance + playerProfit;
+            const userProfit = calcUserProfit(gameType, num, betValue, hashWon);
+            const newuserBalance = balance + userProfit;
 
-            if (newServerBalance !== newPlayerBalance) {
+            if (newServerBalance !== newuserBalance) {
                 return Promise.reject(new Error("Invalid server balance!"));
             }
 
-            dispatch(revealSeedEvent(serverSeed, playerSeed, newServerBalance));
+            dispatch(revealSeedEvent(serverSeed, userSeed, newServerBalance));
 
-            return Promise.resolve({num: resNum, won: playerProfit > 0});
+            return Promise.resolve({num: resNum, won: userProfit > 0});
         }).catch(error => {
             return Promise.reject(error);
         });
