@@ -50,7 +50,7 @@ import {TransactionReceipt} from "../../../../../typings/web3/types";
 import {getTransactionReceipt, signTypedData} from "../../web3/asyncActions";
 
 
-const STORAGE_VERSION = 1;
+const STORAGE_VERSION = 2;
 
 
 //
