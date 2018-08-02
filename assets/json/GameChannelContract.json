@@ -1088,18 +1088,6 @@
         "type": "uint32"
       },
       {
-        "name": "_gameType",
-        "type": "uint8"
-      },
-      {
-        "name": "_num",
-        "type": "uint256"
-      },
-      {
-        "name": "_value",
-        "type": "uint256"
-      },
-      {
         "name": "_balance",
         "type": "int256"
       },
@@ -1140,18 +1128,6 @@
       {
         "name": "_roundId",
         "type": "uint32"
-      },
-      {
-        "name": "_gameType",
-        "type": "uint8"
-      },
-      {
-        "name": "_num",
-        "type": "uint256"
-      },
-      {
-        "name": "_value",
-        "type": "uint256"
       },
       {
         "name": "_balance",
