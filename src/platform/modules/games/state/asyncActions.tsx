@@ -384,7 +384,7 @@ export function loadServerGameState() {
 
             const gameState = getState().games.gameState;
 
-            if (gameState.status === 'CREATING' && status === 'ACTIVE' && gameState.playerHash === userHash) {
+            if (gameState.status === 'CREATING' && status === 'ACTIVE' && gameState.userHash === userHash) {
                 dispatch(gameCreated(gameId));
             }
         }).catch(error => {
@@ -553,7 +553,7 @@ export function endGame() {
 
         // use previous seeds as new hashes seeds (hash chain)
         const serverHash = gameState.serverHash;
-        const userHash = gameState.playerHash;
+        const userHash = gameState.userHash;
 
         const userAddress = account;
         const gameId = gameState.gameId;
@@ -645,7 +645,7 @@ export function conflictEnd() {
             return Promise.reject(new Error(`Invalid game status ${gameState.status}! Can not conflict end!`));
         }
 
-        if (!gameState.serverHash|| !gameState.playerHash || gameId === undefined) {
+        if (!gameState.serverHash|| !gameState.userHash || gameId === undefined) {
             return Promise.reject(new Error("Invalid state!"));
         }
 
@@ -666,14 +666,14 @@ export function conflictEnd() {
             })
         } else {
             let serverHash = keccak(gameState.serverHash);
-            let userHash = keccak(gameState.playerHash);
+            let userHash = keccak(gameState.userHash);
             const value = fromGweiToWei(gameState.betValue as number);
             let balance = fromGweiToWei(oldBalance);
-            let userSeed = gameState.playerHash;
+            let userSeed = gameState.userHash;
 
             if (gameState.status === 'PLACED_BET') {
                 serverHash = gameState.serverHash;
-                userHash = gameState.playerHash;
+                userHash = gameState.userHash;
                 balance = fromGweiToWei(gameState.balance);
                 userSeed = gameState.hashChain[roundId];
             }
@@ -807,7 +807,7 @@ export function placeBet(num: number, betValue: number, gameType: number) {
 
         // use previous seeds as new hashes seeds (hash chain)
         const serverHash = gameState.serverHash;
-        const userHash = gameState.playerHash;
+        const userHash = gameState.userHash;
 
         const roundId = gameState.roundId + 1;
         const gameId = gameState.gameId;

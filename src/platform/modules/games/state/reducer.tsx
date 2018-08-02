@@ -48,9 +48,9 @@ export type State = {
     balance: number,
     oldBalance: number,
     serverHash?: string,
-    playerHash?: string,
+    userHash?: string,
     serverSig?: string,
-    playerSig?: string,
+    userSig?: string,
 };
 
 
@@ -75,7 +75,7 @@ export default function state(state: State = initialState, action: Actions): Sta
             status: 'CREATING',
             hashChain: action.hashChain,
             stake: action.value,
-            playerHash: action.hashChain[0],
+            userHash: action.hashChain[0],
             serverHash: action.serverEndHash,
             createTransactionHash: action.createTransactionHash
         };
@@ -89,9 +89,9 @@ export default function state(state: State = initialState, action: Actions): Sta
             num: 0,
             betValue: 0,
             serverHash: action.serverHash,
-            playerHash: action.userHash,
+            userHash: action.userHash,
             serverSig: action.serverSig,
-            playerSig: action.userSig,
+            userSig: action.userSig,
         };
         case types.PLACE_BET: return {...state,
             status: 'PLACED_BET',
@@ -101,14 +101,14 @@ export default function state(state: State = initialState, action: Actions): Sta
             betValue: action.bet.value,
             balance: action.bet.balance,
             serverHash: action.bet.serverHash,
-            playerHash: action.bet.userHash,
+            userHash: action.bet.userHash,
             serverSig: action.serverSig,
-            playerSig: action.userSig,
+            userSig: action.userSig,
         };
         case types.END_BET: return {...state,
             status: 'ACTIVE',
             serverHash: action.serverSeed,
-            playerHash: action.userSeed,
+            userHash: action.userSeed,
             oldBalance: state.balance,
             balance: action.balance,
         };
