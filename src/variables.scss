@@ -64,6 +64,8 @@ $primary:       $blue !default;
 
 $font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
 
+$popover-header-padding-y: 1rem;
+$popover-header-padding-x: 1rem;
 
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
