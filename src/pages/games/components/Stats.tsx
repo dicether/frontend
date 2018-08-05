@@ -56,6 +56,12 @@ class Stats extends React.Component<Props, CompState> {
         }
     }
 
+    componentWillReceiveProps(newProps: Props) {
+        if (!this.props.userAuth && newProps.userAuth) {
+            this.setState({activeTab: "myBets"});
+        }
+    }
+
     toggle = (tab: Tab) => {
         if (this.state.activeTab !== tab) {
             this.setState({
