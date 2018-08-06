@@ -3,45 +3,74 @@ import DocumentTitle from 'react-document-title';
 import {connect} from 'react-redux';
 import {GameType} from "@dicether/state-channel";
 
-import DiceUi from './DiceUi';
+import DiceUi from './components/DiceUi';
 import {placeBet, validNetwork} from '../../../platform/modules/games/state/asyncActions';
 import sounds from '../sound';
 import {State} from '../../../rootReducer';
 import {toggleHelp} from '../../../platform/modules/games/info/actions';
-import {MAX_BET_VALUE, MIN_BET_VALUE, NETWORK_NAME} from '../../../config/config';
+import {
+    HOUSE_EDGE,
+    HOUSE_EDGE_DIVISOR,
+    MAX_BET_VALUE,
+    MIN_BET_VALUE,
+    NETWORK_NAME,
+    RANGE
+} from '../../../config/config';
 import {Dispatch} from "redux";
 import {catchError} from "../../../platform/modules/utilities/asyncActions";
 import {showErrorMessage} from "../../../platform/modules/utilities/actions";
+import {changeNum, changeRollMode, changeValue} from "./actions";
+
+
+function calcChance(num: number, reversedRoll: boolean) {
+    return reversedRoll ?  (RANGE - num - 1) / RANGE : num / RANGE;
+}
+
+function calcPayOutMultiplier(num: number, reversedRoll: boolean) {
+    const houseEdgeFactor = (1 - HOUSE_EDGE / HOUSE_EDGE_DIVISOR);
+
+    return reversedRoll ? RANGE / (RANGE - num - 1) * houseEdgeFactor : RANGE / num * houseEdgeFactor;
+}
+
+
+function calcNumberFromPayOutMultiplier(multiplier: number, reversedRoll: boolean) {
+    const houseEdgeFactor = (1 - HOUSE_EDGE / HOUSE_EDGE_DIVISOR);
+    const n = RANGE / multiplier * houseEdgeFactor;
+    const num =  reversedRoll ? (RANGE - 1 - n) : n;
+    return Math.round(num);
+}
+
 
 
 const mapStateToProps = ({games, account, web3}: State) => {
-    const {gameState, info} = games;
+    const {gameState, info, dice} = games;
 
     return {
         web3Available: web3.account && web3.contract && web3.web3 && validNetwork(web3.networkId),
         gameState,
         info,
+        dice,
         loggedIn: account.jwt !== null
     }
 };
 
 const mapDispatchToProps = (dispatch: Dispatch<State>) => ({
     placeBet: (num, safeBetValue, gameType) => dispatch(placeBet(num, safeBetValue, gameType)),
+    changeNum: (num) => dispatch(changeNum(num)),
+    changeValue: (value) => dispatch(changeValue(value)),
+    changeRollMode: (reverse) => dispatch(changeRollMode(reverse)),
     toggleHelp: (t) => dispatch(toggleHelp(t)),
     catchError: (error) => catchError(error, dispatch),
     showErrorMessage: (message) => dispatch(showErrorMessage(message))
 });
 
 
-
 type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
-
 
 type DiceState = {
     result: {num: number, won: boolean},
     showResult: boolean;
 }
-
 
 class Dice extends React.Component<Props, DiceState> {
     resultTimeoutId?: number;
@@ -63,11 +92,41 @@ class Dice extends React.Component<Props, DiceState> {
         toggleHelp(!info.showHelp);
     };
 
-    onPlaceBet = (num: number, betValue: number, reversedRoll: boolean) => {
-        const {info, placeBet, catchError, web3Available, showErrorMessage, gameState, loggedIn} = this.props;
+    onNumberChange = (num: number) => {
+        const {changeNum} = this.props;
+        changeNum(num);
+    };
 
-        const safeBetValue = Math.round(betValue);
-        const gameType = reversedRoll ? GameType.DICE_HIGHER : GameType.DICE_LOWER;
+    onValueChange = (value: number) => {
+        const {changeValue} = this.props;
+        changeValue(value);
+    };
+
+    onMultiplierChange = (multiplier: number) => {
+        const {dice, changeNum} = this.props;
+        const num = calcNumberFromPayOutMultiplier(multiplier, dice.reverseRoll);
+        changeNum(num);
+    };
+
+    onChanceChange = (chance: number) => {
+        const {dice, changeNum} = this.props;
+
+        const num = dice.reverseRoll ?  RANGE - 1 - RANGE * chance : RANGE * chance;
+        changeNum(num);
+    };
+
+    onReverseRoll = () => {
+        const {dice, changeRollMode} = this.props;
+        changeRollMode(!dice.reverseRoll);
+        changeNum(RANGE - 1 - dice.num);
+    };
+
+    onPlaceBet = () => {
+        const {info, dice, placeBet, catchError, web3Available, showErrorMessage, gameState, loggedIn} = this.props;
+
+        const safeBetValue = Math.round(dice.value);
+        const num = dice.num;
+        const gameType = dice.reverseRoll ? GameType.DICE_HIGHER : GameType.DICE_LOWER;
 
         if (!loggedIn) {
             showErrorMessage("You need to login before playing!");
@@ -108,7 +167,7 @@ class Dice extends React.Component<Props, DiceState> {
 
     render() {
         const {result, showResult} = this.state;
-        const {info, gameState} = this.props;
+        const {info, gameState, dice} = this.props;
 
         let maxBetValue = MAX_BET_VALUE;
         if (gameState.status !== 'ENDED') {
@@ -119,14 +178,19 @@ class Dice extends React.Component<Props, DiceState> {
         return (
             <DocumentTitle title="Ethereum State Channel Dice - Dicether">
                 <DiceUi
-                stake={gameState.stake}
-                onBet={this.onPlaceBet}
-                result={result}
-                showResult={showResult}
-                sound={info.sound}
-                showHelp={info.showHelp}
-                onToggleHelp={this.onToggleHelp}
-                maxBetValue={maxBetValue}
+                    num={dice.num}
+                    value={dice.value}
+                    onNumberChange={this.onNumberChange}
+                    onValueChange={this.onValueChange}
+                    onReverseRoll={this.onReverseRoll}
+                    onPlaceBet={this.onPlaceBet}
+                    reverseRoll={dice.reverseRoll}
+                    result={result}
+                    showResult={showResult}
+                    sound={info.sound}
+                    showHelp={info.showHelp}
+                    onToggleHelp={this.onToggleHelp}
+                    maxBetValue={maxBetValue}
                 />
             </DocumentTitle>
         )

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import IconButton from "../../../reusable/IconButton";
+import IconButton from "../../../../reusable/IconButton";
 
 const Style = require('./ReverseRollButton.scss');
 

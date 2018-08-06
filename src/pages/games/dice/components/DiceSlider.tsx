@@ -1,9 +1,9 @@
 import * as React from 'react';
-import {Slider} from '../../../reusable/index';
-import {MAX_NUMBER_DICE_1, MIN_NUMBER_DICE_1} from '../../../config/config';
+import {Slider} from '../../../../reusable/index';
+import {MAX_NUMBER_DICE_1, MIN_NUMBER_DICE_1} from '../../../../config/config';
 import ResultSlider from './ResultSlider';
 import Ticks from './Ticks';
-import sounds from '../sound';
+import sounds from '../../sound';
 
 type Props = {
     num: number,

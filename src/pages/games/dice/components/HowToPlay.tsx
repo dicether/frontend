@@ -1,8 +1,8 @@
 import * as React from 'react';
-import {Ether} from '../../../reusable';
+import {Ether} from '../../../../reusable/index';
 
 const Style = require('./HowToPlay.scss');
-import {MAX_BET_VALUE, MAX_GAME_SESSION_VALUE, MIN_BET_VALUE, MIN_GAME_SESSION_VALUE} from '../../../config/config';
+import {MAX_BET_VALUE, MAX_GAME_SESSION_VALUE, MIN_BET_VALUE, MIN_GAME_SESSION_VALUE} from '../../../../config/config';
 
 const HowToPlay = () => (
     <div className={Style.howToPlay}>
