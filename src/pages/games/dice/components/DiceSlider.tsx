@@ -15,17 +15,10 @@ type Props = {
     onNumberChange(n: number): void,
 }
 
-type State = {
-    value: number;
-}
 
-export default class DiceSlider extends React.PureComponent<Props, State> {
+export default class DiceSlider extends React.PureComponent<Props> {
     constructor(props: Props) {
         super(props);
-
-        this.state = {
-            value: 50
-        };
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -40,10 +33,6 @@ export default class DiceSlider extends React.PureComponent<Props, State> {
                     sounds.menuDown.playFromBegin();
                 }
             }
-
-            if (this.state.value !== nextNum) {
-                this.setState({value: nextNum});
-            }
         }
     }
 
@@ -55,8 +44,7 @@ export default class DiceSlider extends React.PureComponent<Props, State> {
     };
 
     render() {
-        const {result, showResult, reversedRoll} = this.props;
-        const {value} =  this.state;
+        const {result, showResult, reversedRoll, num} = this.props;
         const lowColor = reversedRoll ? 'danger' : 'success';
         const highColor = reversedRoll ? 'success' : 'danger';
 
@@ -67,7 +55,7 @@ export default class DiceSlider extends React.PureComponent<Props, State> {
                     <Slider
                         min={0}
                         max={100}
-                        value={value}
+                        value={num}
                         onValue={this.onChange}
                         lowColor={lowColor}
                         highColor={highColor}
