@@ -6,7 +6,7 @@ const SitemapPlugin = require('sitemap-webpack-plugin').default;
 
 
 //plugins
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
@@ -64,23 +64,22 @@ const chunks = {
     ]
 };
 
+let optimization =  {
+    runtimeChunk: "single",
+    splitChunks: {
+        cacheGroups: {
+            vendor: {
+                test: /[\\/]node_modules[\\/]/,
+                name: "vendor",
+                chunks: "all"
+            }
+        }
+    }
+};
+
 // Plugins Config
 let plugins = [
-	// vendor_js contains all vendor specific packages which
-	// are used by multiple pages
-	new webpack.optimize.CommonsChunkPlugin({
-		name : "vendor",
-		minChunks : function(module) {
-            return module.context && (module.context.indexOf('node_modules') !== -1 || module.context.indexOf('vendor') !== -1);
-	    },
-	    chunks: ['index'] // add all chunks from where common vendor should be extracted
-	}),
-
-    new webpack.optimize.CommonsChunkPlugin({
-        name: 'manifest'
-    }),
-
-	new ExtractTextPlugin('[name].[chunkhash].css'),
+	new MiniCssExtractPlugin('[name].[chunkhash].css'),
     new HtmlWebpackPlugin({
         title: Title,
         filename: (process.env.DEV_SERVER === 'TRUE') ? 'index.html' : '../index.html',
@@ -155,10 +154,16 @@ if (node_env === 'development') {
         new webpack.SourceMapDevToolPlugin({
             filename: '[file].map',
         }),
-        new UglifyJsPlugin({
-            sourceMap: true
-        })
     ]);
+
+    optimization = {
+        ...optimization,
+        minimizer: [
+            new UglifyJsPlugin({
+                sourceMap: true,
+            })
+        ]
+    };
 }
 
 // the final webpack config
@@ -186,72 +191,67 @@ module.exports = {
         }
 
     },
+    optimization: optimization,
     module: {
         rules: [
             {
                 test: /\.(css|less)$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: [
-                        { loader: 'css-loader', options: { sourceMap: true } },
-                        { loader: 'postcss-loader', options: { sourceMap: true } }
-                    ]
-                })
+                use: [
+                    { loader: MiniCssExtractPlugin.loader },
+                    { loader: 'css-loader', options: { sourceMap: true } },
+                    { loader: 'postcss-loader', options: { sourceMap: true } }
+                ]
             },
             {
                 test: /glob\.scss$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: [
-                        {
-                            loader: 'css-loader', options: {
-                                sourceMap: true,
-                                modules: false,
-                            }
-                        },
-                        { loader: 'postcss-loader', options: { sourceMap: true } },
-                        { loader: 'resolve-url-loader', options: { sourceMap: true } },
-                        {
-                            loader: 'sass-loader', options: {
-                                sourceMap: true,
-                                includePath: [path.join(__dirname, 'src')]
-                            }
+                use: [
+                    { loader: MiniCssExtractPlugin.loader },
+                    {
+                        loader: 'css-loader', options: {
+                            sourceMap: true,
+                            modules: false,
                         }
-                    ]
-                })
+                    },
+                    { loader: 'postcss-loader', options: { sourceMap: true } },
+                    { loader: 'resolve-url-loader', options: { sourceMap: true } },
+                    {
+                        loader: 'sass-loader', options: {
+                            sourceMap: true,
+                            includePath: [path.join(__dirname, 'src')]
+                        }
+                    }
+                ]
             },
             {
                 test: /\.scss$/,
                 exclude: /glob\.scss$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: 'style-loader',
-                    use: [
-                        {
-                            loader: 'css-loader', options: {
-                                sourceMap: true,
-                                modules: true,
-                                localIdentName: '[hash:base64:5]__[local]',
-                                importLoaders: 1,
-                                getLocalIdent: (context, localIdentName, localName, options) => {
-                                    const request = path.relative(__dirname, context.resourcePath);
-                                    const sha = crypto.createHash('sha1');
-                                    sha.update(request);
-                                    const prefix = sha.digest('base64').slice(0, 5);
-                                    const hash =  prefix + '__' +  localName;
-                                    return hash.replace(new RegExp("[^a-zA-Z0-9\\-_\u00A0-\uFFFF]", "g"), "-").replace(/^((-?[0-9])|--)/, "_$1");
-                                }
-                            }
-                        },
-                        { loader: 'postcss-loader', options: { sourceMap: true } },
-                        { loader: 'resolve-url-loader', options: { sourceMap: true } },
-                        {
-                            loader: 'sass-loader', options: {
-                                sourceMap: true,
-                                includePath: [path.join(__dirname, 'src')]
+                use: [
+                    { loader: MiniCssExtractPlugin.loader },
+                    {
+                        loader: 'css-loader', options: {
+                            sourceMap: true,
+                            modules: true,
+                            localIdentName: '[hash:base64:5]__[local]',
+                            importLoaders: 1,
+                            getLocalIdent: (context, localIdentName, localName, options) => {
+                                const request = path.relative(__dirname, context.resourcePath);
+                                const sha = crypto.createHash('sha1');
+                                sha.update(request);
+                                const prefix = sha.digest('base64').slice(0, 5);
+                                const hash =  prefix + '__' +  localName;
+                                return hash.replace(new RegExp("[^a-zA-Z0-9\\-_\u00A0-\uFFFF]", "g"), "-").replace(/^((-?[0-9])|--)/, "_$1");
                             }
                         }
-                    ]
-                })
+                    },
+                    { loader: 'postcss-loader', options: { sourceMap: true } },
+                    { loader: 'resolve-url-loader', options: { sourceMap: true } },
+                    {
+                        loader: 'sass-loader', options: {
+                            sourceMap: true,
+                            includePath: [path.join(__dirname, 'src')]
+                        }
+                    }
+                ]
             },
 
             {
