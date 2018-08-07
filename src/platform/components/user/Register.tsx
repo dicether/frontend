@@ -1,13 +1,14 @@
 import * as React from 'react';
-import {bindActionCreators, Dispatch} from 'redux';
+import {bindActionCreators} from 'redux';
 import {connect} from "react-redux";
 
 import {Button, Form, FormGroup, FormText, Input} from '../../../reusable/index';
 import {register, authenticate} from '../../modules/account/asyncActions';
 import {BUGS_URL} from "../../../config/config";
+import {Dispatch} from "../../../util/util";
 
 
-const mapDispatchToProps = (dispatch: Dispatch<State>) => bindActionCreators({
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
     register,
     authenticate
 }, dispatch);

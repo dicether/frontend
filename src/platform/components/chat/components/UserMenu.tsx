@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators, Dispatch} from "redux";
+import {bindActionCreators} from "redux";
 
 import {Button} from '../../../../reusable/index';
 import {sendFriendRequest} from '../../../modules/friends/asyncActions';
@@ -9,6 +9,7 @@ import {mute} from '../../../modules/chat/asyncActions';
 import {getUser} from "../../../modules/account/selectors";
 import {User as UserType} from "../../../modules/account/types";
 import User from "../../user/User";
+import {Dispatch} from "../../../../util/util";
 
 const Style = require('./UserMenu.scss');
 
@@ -27,7 +28,7 @@ export const mapStateToProps = (state : State) => {
     }
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<State>) => bindActionCreators({
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
     sendFriendRequest,
     mute
 }, dispatch);

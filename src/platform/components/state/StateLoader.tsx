@@ -4,7 +4,8 @@ import {State} from '../../../rootReducer';
 import {storeGameState, syncGameState, validNetwork} from '../../modules/games/state/asyncActions';
 import {connect} from 'react-redux';
 import {getUser} from "../../modules/account/selectors";
-import {bindActionCreators, Dispatch} from "redux";
+import {bindActionCreators} from "redux";
+import {Dispatch} from "../../../util/util";
 
 
 const mapStateToProps = (state: State) => {
@@ -18,7 +19,7 @@ const mapStateToProps = (state: State) => {
     }
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<State>) => bindActionCreators({
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
     syncGameState
 }, dispatch);
 

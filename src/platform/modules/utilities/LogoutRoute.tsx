@@ -3,14 +3,25 @@ import {connect} from 'react-redux'
 import {Redirect} from 'react-router-dom'
 
 import {deauthenticate} from '../account/asyncActions'
-import {DispatchProp} from "../../../util/util";
+import {Dispatch} from "../../../util/util";
+import {Campaign} from "../../../pages/account/components/affiliate/types";
 
 
-type Props = DispatchProp
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    deauthenticate: () => dispatch(deauthenticate()),
+});
+
+type State = {
+    campaigns: Campaign[],
+    balance: number
+}
+
+type Props = ReturnType<typeof mapDispatchToProps>;
 
 class LogoutRoute extends React.Component<Props> {
     componentWillMount() {
-        this.props.dispatch(deauthenticate());
+        const {deauthenticate} = this.props;
+        deauthenticate();
     }
 
     render() {
@@ -19,4 +30,4 @@ class LogoutRoute extends React.Component<Props> {
 
 }
 
-export default connect()(LogoutRoute)
+export default connect(null, mapDispatchToProps)(LogoutRoute)

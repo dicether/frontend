@@ -3,10 +3,11 @@ import GameStats from "./GameStats";
 import GameSessions from "./GameSessions";
 import {Address, Tooltip} from "../../../../reusable";
 import {connect} from "react-redux";
-import {bindActionCreators, Dispatch} from "redux";
+import {bindActionCreators} from "redux";
 import {loadGameSessions, loadStats} from "../../../../platform/modules/account/asyncActions";
 import {State} from "../../../../rootReducer";
 import {getUser} from "../../../../platform/modules/account/selectors";
+import {Dispatch} from "../../../../util/util";
 
 const Style = require('./Stats.scss');
 
@@ -21,7 +22,7 @@ const mapStateToProps = (state: State) => {
     };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<State>) => bindActionCreators({
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
     loadStats,
 }, dispatch);
 

@@ -5,18 +5,21 @@ import Campaigns from "./Campaigns";
 import {Campaign} from "./types";
 import CreateCampaign from "./CreateCampaign";
 import {catchError} from "../../../../platform/modules/utilities/asyncActions";
-import {DispatchProp} from "../../../../util/util";
+import {Dispatch} from "../../../../util/util";
 import {connect} from "react-redux";
-import {DefinitionEntry} from "../../../../reusable";
 import Balance from "./Balance";
 
-
-type Props = DispatchProp
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    catchError: (error) => catchError(error, dispatch),
+});
 
 type State = {
     campaigns: Campaign[],
     balance: number
 }
+
+type Props = ReturnType<typeof mapDispatchToProps>;
+
 
 class Affiliate extends React.Component<Props, State> {
     constructor(props: Props) {
@@ -32,32 +35,32 @@ class Affiliate extends React.Component<Props, State> {
     }
 
     fetchData = () => {
-        const {dispatch} = this.props;
+        const {catchError} = this.props;
         axios.get('/affiliate/campaigns').then(response => {
             this.setState({
                 campaigns: response.data.campaigns,
                 balance: response.data.balance
             })
-        }).catch(error => catchError(error, dispatch));
+        }).catch(error => catchError(error));
     };
 
     createCampaign = (id: string, name: string) => {
-        const {dispatch} = this.props;
+        const {catchError} = this.props;
         axios.post('/affiliate/createCampaign', {id, name}).then(response => {
             const campaign = response.data;
             this.setState({
                 campaigns: [...this.state.campaigns, campaign]
             })
-        }).catch(error => catchError(error, dispatch));
+        }).catch(error => catchError(error));
     };
 
     withdrawBalance = () => {
-        const {dispatch} = this.props;
+        const {catchError} = this.props;
         axios.post('/affiliate/withdraw').then(() => {
             this.setState({
                 balance: 0
             })
-        }).catch(error => catchError(error, dispatch));
+        }).catch(error => catchError(error));
     };
 
     render() {
@@ -80,4 +83,4 @@ class Affiliate extends React.Component<Props, State> {
     }
 }
 
-export default connect()(Affiliate);
+export default connect(null, mapDispatchToProps)(Affiliate);

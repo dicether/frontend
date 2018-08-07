@@ -7,8 +7,8 @@ import {conflictEnd, canUserInitiateConflictEnd} from "../../modules/games/state
 import {Output} from '../../../reusable/index';
 import {State} from '../../../rootReducer';
 import ClearState from "./ClearState";
-import {Dispatch} from "redux";
 import ConflictEnd from "./ConflictEnd";
+import {Dispatch} from "../../../util/util";
 
 const Style = require('./State.scss');
 
@@ -42,7 +42,7 @@ const mapStateToProps = ({games}: State) => {
     }
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<State>) => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
     clearState: () => dispatch(clearState()),
     conflictEnd: () => dispatch(conflictEnd()),
     catchError: (error) => catchError(error, dispatch)

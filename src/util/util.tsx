@@ -31,13 +31,13 @@ export type ActionType<T extends {[id: string]: (...args: any[]) => any}> = (Ret
 export type ActionCreateType<T extends object> = (...args: any[]) => { type: $Values<T>}
 
 
-export type ThunkAction<R, S> = (dispatch: ReduxDispatch<State>, getState?: () => S) => R;
+export type ThunkAction<R, S> = (dispatch: ReduxDispatch, getState?: () => S) => R;
 
 export interface ThunkDispatch<S> {
     (asyncAction: ThunkAction<any, S>): any;
 }
 
-export type Dispatch = ReduxDispatch<State> & ThunkDispatch<State>;
+export type Dispatch = ReduxDispatch & ThunkDispatch<State>;
 
 export type DispatchProp = {
     dispatch: Dispatch;

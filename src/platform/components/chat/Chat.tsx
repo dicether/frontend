@@ -33,7 +33,7 @@ const mapStateToProps = (state : State) => {
     };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<State>) => bindActionCreators({
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
     showErrorMessage,
 
     sendMessage,

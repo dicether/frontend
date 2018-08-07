@@ -1,12 +1,13 @@
 import * as React from 'react';
 import {connect} from 'react-redux';
-import {bindActionCreators, Dispatch} from 'redux';
+import {bindActionCreators} from 'redux';
 
 import {changeFirstVisited} from '../platform/modules/account/asyncActions';
 import {Modal, ModalBody, ModalFooter, Button} from '../reusable/index';
 
 import {State} from '../rootReducer';
 import {BUGS_URL} from '../config/config';
+import {Dispatch} from "../util/util";
 
 
 const mapStateToProps = ({account}: State) => {
@@ -17,7 +18,7 @@ const mapStateToProps = ({account}: State) => {
     };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<State>) => bindActionCreators({
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
     changeFirstVisited,
 }, dispatch);
 

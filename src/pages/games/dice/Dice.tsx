@@ -16,10 +16,10 @@ import {
     NETWORK_NAME,
     RANGE
 } from '../../../config/config';
-import {Dispatch} from "redux";
 import {catchError} from "../../../platform/modules/utilities/asyncActions";
 import {showErrorMessage} from "../../../platform/modules/utilities/actions";
 import {changeNum, changeRollMode, changeValue} from "./actions";
+import {Dispatch} from "../../../util/util";
 
 
 function calcChance(num: number, reversedRoll: boolean) {
@@ -54,7 +54,7 @@ const mapStateToProps = ({games, account, web3}: State) => {
     }
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<State>) => ({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
     placeBet: (num, safeBetValue, gameType) => dispatch(placeBet(num, safeBetValue, gameType)),
     changeNum: (num) => dispatch(changeNum(num)),
     changeValue: (value) => dispatch(changeValue(value)),
