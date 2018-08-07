@@ -1,8 +1,7 @@
 import * as React from 'react';
 import ClassName from 'classnames';
-
 import FontAwesomeIcon, {Props as FontAwesomeIconProps} from './FontAwesomeIcon';
-import {IconProp} from "@fortawesome/fontawesome";
+import {IconProp} from "@fortawesome/fontawesome-svg-core";
 
 import './IconButton.scss';
 

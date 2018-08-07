@@ -1,13 +1,13 @@
 import * as React from 'react';
 import ClassNames from 'classnames';
-import fontawesome from '@fortawesome/fontawesome'
-import FontAwesomeIcon, {Props as FontAwesomeProps} from '@fortawesome/react-fontawesome';
-import freeSolid from '@fortawesome/fontawesome-free-solid'
+import {FontAwesomeIcon, Props as FontAwesomeProps} from '@fortawesome/react-fontawesome';
+import {library} from "@fortawesome/fontawesome-svg-core";
+import {fas} from '@fortawesome/free-solid-svg-icons'
 
 const Style = require('./FontAwesomeIcon.scss');
 
 
-fontawesome.library.add(freeSolid);
+library.add(fas);
 
 
 export interface Props extends FontAwesomeProps {

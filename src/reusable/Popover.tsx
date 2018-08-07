@@ -1,8 +1,8 @@
 import * as React from 'react';
-import {Popover as BootstrapPopover, PopoverBody} from 'reactstrap'
+import {Popover as BootstrapPopover, PopoverBody} from 'reactstrap';
+import {Placement} from 'popper.js';
 
 import {BaseType} from "./BaseType";
-import {Placement} from "reactstrap/lib/Popper";
 
 export interface Props extends BaseType {
     id?: string,
