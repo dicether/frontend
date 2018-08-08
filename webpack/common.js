@@ -1,187 +1,54 @@
 const crypto = require('crypto');
-const fs = require('fs');
 const path = require('path');
-const webpack = require('webpack');
-const SitemapPlugin = require('sitemap-webpack-plugin').default;
 
-
-//plugins
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
-const json = require("json-loader");
 
-// Environment detection
-const node_env = process.env.NODE_ENV || 'development';
-
-// dev server configuration
-const publicPath = (process.env.DEV_SERVER === 'TRUE') ? '/' : '/static/';
 
 // Project root
-const context = path.join(__dirname, '.');
+const context = path.join(process.cwd(), '.');
 
 // src code directory
 const contextRoot = path.join(context, 'src');
 
-// build output location
-const buildOutputPath = './dist/static';
 
 const Title = "Dicether";
 
-// Dev config
-const DevContractAddress = "0x7a1e1ded2fabcfe87af12ee7b8d7303b0e63c303";
-const DevServerAddress = "0xa8d5f39f3ccd4795b0e38feacb4f2ee22486ca44";
-const DevApiUrl = 'http://localhost:5000/api';
-const DevWebsocketUrl = 'http://localhost:5001';
-const DevChainId = 123456789;
-
-// Production and staging config
-const Domain = 'dicether.com';
-const ContractAddress = "0xbF8B9092e809DE87932B28ffaa00D520b04359aA";
-const ServerAddress = "0xcef260a5fed7a896bbe07b933b3a5c17aec094d8";
-const ApiUrl = `https://api.${Domain}/api`;
-const WebsocketUrl = `https://websocket.${Domain}`;
-const ChainId = 1;
-
-const Paths = [
-    '/',
-    '/games/dice',
-    '/faq',
-    '/hallOfFame/weekly',
-    '/hallOfFame/monthly',
-    '/hallOfFame/all',
-];
-
-
-// Different resource chunks
-const chunks = {
-    index: [
-        path.join(contextRoot, 'index.tsx'),
-        path.join(contextRoot, 'bs-theme-glob.scss'),
-    ]
-};
-
-let optimization =  {
-    runtimeChunk: "single",
-    splitChunks: {
-        cacheGroups: {
-            vendor: {
-                test: /[\\/]node_modules[\\/]/,
-                name: "vendor",
-                chunks: "all"
-            }
-        }
-    }
-};
-
-// Plugins Config
-let plugins = [
-	new MiniCssExtractPlugin('[name].[chunkhash].css'),
-    new HtmlWebpackPlugin({
-        title: Title,
-        filename: (process.env.DEV_SERVER === 'TRUE') ? 'index.html' : '../index.html',
-        template: 'root.ejs',
-        favicon: 'assets/images/favicon.png',
-        inject: 'body'
-    }),
-    new CircularDependencyPlugin({
-        // exclude detection of files based on a RegExp
-        exclude: /a\.js|node_modules/,
-        // add errors to webpack instead of warnings
-        failOnError: true,
-        // set the current working directory for displaying module paths
-        cwd: process.cwd(),
-    })
-];
-
-// Production environment only plugins.
-if (node_env === 'development') {
-    plugins = plugins.concat([
-        new webpack.DefinePlugin({
-            'process.env': {
-                'NODE_ENV': JSON.stringify('development'),
-                'SENTRY_LOGGING': false,
-                'REDUX_LOGGING': true,
-                'CONTRACT_ADDRESS': JSON.stringify(DevContractAddress),
-                'SERVER_ADDRESS': JSON.stringify(DevServerAddress),
-                "API_URL": JSON.stringify(DevApiUrl),
-                'SOCKET_URL': JSON.stringify(DevWebsocketUrl),
-                'CHAIN_ID': JSON.stringify(DevChainId)
-            }
-        })
-    ]);
-} else if (node_env === 'staging') {
-    plugins = plugins.concat([
-        new CopyWebpackPlugin([
-            {from: 'assets/robots-staging.txt', to: (process.env.DEV_SERVER === 'TRUE') ? './' : '../robots.txt'},
-            {from: 'headers', to: (process.env.DEV_SERVER === 'TRUE') ? './' : '../'}
-        ]),
-        new webpack.DefinePlugin({
-            'process.env': {
-                'NODE_ENV': JSON.stringify('staging'),
-                'SENTRY_LOGGING': true,
-                'REDUX_LOGGING': true,
-                'CONTRACT_ADDRESS': JSON.stringify(ContractAddress),
-                'SERVER_ADDRESS': JSON.stringify(ServerAddress),
-                'API_URL': JSON.stringify(ApiUrl),
-                'SOCKET_URL': JSON.stringify(WebsocketUrl),
-                'CHAIN_ID': JSON.stringify(ChainId)
-            }
-        })
-    ]);
-} else  if (node_env === 'production') {
-    plugins = plugins.concat([
-        new CopyWebpackPlugin([
-            {from: 'assets/robots.txt', to: (process.env.DEV_SERVER === 'TRUE') ? './' : '../robots.txt'},
-            {from: 'headers', to: (process.env.DEV_SERVER === 'TRUE') ? './' : '../'}
-        ]),
-        new webpack.DefinePlugin({
-            'process.env': {
-                'NODE_ENV': JSON.stringify('production'),
-                'SENTRY_LOGGING': true,
-                'REDUX_LOGGING': false,
-                'CONTRACT_ADDRESS': JSON.stringify(ContractAddress),
-                'SERVER_ADDRESS': JSON.stringify(ServerAddress),
-                'API_URL': JSON.stringify(ApiUrl),
-                'SOCKET_URL': JSON.stringify(WebsocketUrl),
-                'CHAIN_ID': JSON.stringify(ChainId)
-            }
-        }),
-        new SitemapPlugin(`https://${Domain}`, Paths, {skipGzip: true}),
-        new webpack.SourceMapDevToolPlugin({
-            filename: '[file].map',
-        }),
-    ]);
-
-    optimization = {
-        ...optimization,
-        minimizer: [
-            new UglifyJsPlugin({
-                sourceMap: true,
-            })
-        ]
-    };
-}
 
 // the final webpack config
 module.exports = {
-	entry : chunks,
+	entry : {
+        index: [
+            path.join(contextRoot, 'index.tsx'),
+            path.join(contextRoot, 'bs-theme-glob.scss'),
+        ]
+    },
 	output : {
-		path :  __dirname + '/' + buildOutputPath,
-		publicPath : publicPath,
+		path :  context  + '/dist/static',
+		publicPath : (process.env.DEV_SERVER === 'TRUE') ? '/' : '/static/',
 		filename : '[name].[chunkhash].js',
 	},
 	resolve : {
 		//Allow requiring files without supplying the extension.
 		extensions: ['.tsx', '.ts', '.js', '.css', '.scss'],
-		modules: [path.join(__dirname, 'src'), "node_modules"],
+		modules: [contextRoot, "node_modules"],
         alias: {
-		    assets: path.resolve(__dirname, 'assets')
+		    assets: path.resolve(context, 'assets')
         }
 	},
+    optimization: {
+        runtimeChunk: "single",
+        splitChunks: {
+            cacheGroups: {
+                vendor: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: "vendor",
+                    chunks: "all"
+                }
+            }
+        }
+    },
     devServer: {
         historyApiFallback: {
             index: '/index.html'
@@ -189,9 +56,7 @@ module.exports = {
         proxy: {
             historyApiFallback: true,
         }
-
     },
-    optimization: optimization,
     module: {
         rules: [
             {
@@ -234,7 +99,7 @@ module.exports = {
                             localIdentName: '[hash:base64:5]__[local]',
                             importLoaders: 1,
                             getLocalIdent: (context, localIdentName, localName, options) => {
-                                const request = path.relative(__dirname, context.resourcePath);
+                                const request = path.relative(contextRoot, context.resourcePath);
                                 const sha = crypto.createHash('sha1');
                                 sha.update(request);
                                 const prefix = sha.digest('base64').slice(0, 5);
@@ -321,5 +186,22 @@ module.exports = {
             },
         ]
     },
-	plugins : plugins,
+	plugins: [
+        new MiniCssExtractPlugin('[name].[chunkhash].css'),
+        new HtmlWebpackPlugin({
+            title: Title,
+            filename: (process.env.DEV_SERVER === 'TRUE') ? 'index.html' : '../index.html',
+            template: 'root.ejs',
+            favicon: 'assets/images/favicon.png',
+            inject: 'body'
+        }),
+        new CircularDependencyPlugin({
+            // exclude detection of files based on a RegExp
+            exclude: /a\.js|node_modules/,
+            // add errors to webpack instead of warnings
+            failOnError: true,
+            // set the current working directory for displaying module paths
+            cwd: process.cwd(),
+        })
+    ]
 };

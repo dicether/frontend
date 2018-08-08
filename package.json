@@ -4,10 +4,9 @@
   "description": "Dicether frontend",
   "main": "config.js",
   "scripts": {
-    "start": "DEV_SERVER=TRUE webpack-dev-server -d --config webpack.config.js --progress --colors --port 2992",
-    "start-production": "DEV_SERVER=TRUE webpack-dev-server --config webpack.config.js -p --progress --colors --port 2992",
-    "build-staging": "NODE_ENV=staging webpack -d --config webpack.config.js --progress --profile --colors",
-    "build-production": "NODE_ENV=production webpack --config webpack.config.js --progress --profile --colors",
+    "start": "DEV_SERVER=TRUE webpack-dev-server --config webpack/dev.js --progress --port 2992",
+    "build-staging": "webpack --config webpack/staging.js --progress --profile",
+    "build-production": "webpack --config webpack/prod.js --progress --profile ",
     "lint": "tslint -p ./"
   },
   "author": "Dicether",
@@ -109,6 +108,7 @@
     "webpack": "^4.16.5",
     "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.1.5",
+    "webpack-merge": "^4.1.4",
     "webpack-vendor-chunk-plugin": "^1.0.0",
     "what-input": "^5.0.5"
   },
