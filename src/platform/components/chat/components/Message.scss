@@ -15,13 +15,13 @@
 
 .username {
   font-weight: bold;
-  color: $gray-darker;
+  @include  color($gray-700);
   margin-right: 0.5rem;
   cursor: pointer;
 }
 
 .username_friend {
-  color: $info;
+  @include color($info);
 }
 
 .message {

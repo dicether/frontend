@@ -33,7 +33,7 @@ import {Dispatch} from "../util/util";
 export const mapStateToProps = (state: RootState) => {
     const {account, app, web3, games} = state;
     const {gameState} = games;
-    const {notification} = app;
+    const {notification, nightMode} = app;
     const jwt = account.jwt;
 
 
@@ -42,6 +42,7 @@ export const mapStateToProps = (state: RootState) => {
         userAuth: getUser(state),
         defaultAccount: web3.account,
         notification,
+        nightMode,
         gameState,
         web3: web3.web3
     };
@@ -89,6 +90,14 @@ class App extends React.Component<Props, State> {
         if (nextProps.web3 !== this.props.web3) {
             // web3 changes => reload account network config
             nextProps.fetchAllWeb3();
+        }
+
+        if (nextProps.nightMode !== this.props.nightMode) {
+            if (nextProps.nightMode) {
+                document.body.classList.add("night");
+            } else {
+                document.body.classList.remove("night");
+            }
         }
     }
 

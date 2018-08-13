@@ -33,7 +33,7 @@ export default class Notification extends React.Component<Props> {
             <ToastContainer
                 toastClassName={Style.notification}
                 position="top-left"
-                autoClose={5000}
+                autoClose={500000}
                 hideProgressBar={true}
                 closeOnClick
                 pauseOnHover={false}

@@ -1,0 +1,46 @@
+@import "~variables";
+@import "~bootstrap/scss/buttons";
+
+.night {
+  .btn {
+    &:focus,
+    &.focus {
+      outline: 0;
+      box-shadow: $btn-focus-box-shadow--night;
+    }
+
+    &:not(:disabled):not(.disabled):active,
+    &:not(:disabled):not(.disabled).active {
+      @include box-shadow($btn-active-box-shadow--night);
+
+      &:focus {
+        @include box-shadow($btn-focus-box-shadow--night, $btn-active-box-shadow--night);
+      }
+    }
+  }
+
+  @each $color, $value in $theme-colors--night {
+    .btn-#{$color} {
+      @include button-variant($value, $value);
+    }
+  }
+
+  @each $color, $value in $theme-colors--night {
+    .btn-outline-#{$color} {
+      @include button-outline-variant($value);
+    }
+  }
+
+  .btn-link {
+    color: $link-color--night;
+
+    @include hover {
+      color: $link-hover-color--night;
+    }
+
+    &:disabled,
+    &.disabled {
+      color: $btn-link-disabled-color--night;
+    }
+  }
+}

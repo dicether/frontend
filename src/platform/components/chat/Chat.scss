@@ -9,8 +9,12 @@
   width: $chat-width;
   display: flex;
   flex-direction: column;
-  @extend .border-left;
+  @include border-left;
   z-index: $zindex-dropdown - 1;
+}
+
+:global(.night) .chat {
+  background-color: $gray-900;
 }
 
 @include media-breakpoint-down(md) {

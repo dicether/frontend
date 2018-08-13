@@ -1,0 +1,45 @@
+@import "~variables";
+@import "~bootstrap/scss/tooltip";
+
+
+.night {
+  .bs-tooltip-top {
+    .arrow {
+      &::before {
+        top: 0;
+        border-top-color: $tooltip-arrow-color--night;
+      }
+    }
+  }
+
+  .bs-tooltip-right {
+    .arrow {
+      &::before {
+        border-right-color: $tooltip-arrow-color--night;
+      }
+    }
+  }
+
+  .bs-tooltip-bottom {
+    .arrow {
+      &::before {
+        border-bottom-color: $tooltip-arrow-color--night;
+      }
+    }
+  }
+
+  .bs-tooltip-left {
+    .arrow {
+      &::before {
+        border-left-color: $tooltip-arrow-color--night;
+      }
+    }
+  }
+
+  // Wrapper for the tooltip content
+  .tooltip-inner {
+    color: $tooltip-color--night;
+    background-color: $tooltip-bg--night;
+  }
+}
+

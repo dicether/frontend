@@ -7,25 +7,118 @@
 @import "~bootstrap/scss/transitions";
 @import "~bootstrap/scss/grid";
 @import "~bootstrap/scss/print";
-@import "~bootstrap/scss/close";
-@import "~bootstrap/scss/reboot";
-@import "~bootstrap/scss/nav";
-@import "~bootstrap/scss/navbar";
 @import "~bootstrap/scss/type";
 @import "~bootstrap/scss/utilities";
+@import "~bootstrap/scss/reboot";
 
-@import "~bootstrap/scss/buttons";
+@import "~bootstrap/scss/close";
+@import "~bootstrap/scss/nav";
+@import "~bootstrap/scss/navbar";
 @import "~bootstrap/scss/button-group";
 @import "~bootstrap/scss/code";
-@import "~bootstrap/scss/forms";
 @import "~bootstrap/scss/input-group";
-@import "~bootstrap/scss/modal";
-@import "~bootstrap/scss/popover";
-@import "~bootstrap/scss/progress";
-@import "~bootstrap/scss/tables";
-@import "~bootstrap/scss/tooltip";
-@import "~bootstrap/scss/dropdown";
+@import "~bootstrap/scss/forms";
 
+
+
+.night body,
+body.night {
+  color: $body-color--night !important;
+  background-color: $body-bg--night !important;
+}
+
+.night .close {
+  color: $close-color--night;
+  text-shadow: $close-text-shadow--night;
+
+  &:not(:disabled):not(.disabled) {
+    @include hover-focus {
+      color: $close-color--night;
+    }
+  }
+}
+
+
+// background
+.night {
+  @each $color, $value in $theme-colors--night {
+    @include bg-variant(".bg-#{$color}", $value);
+  }
+
+  @if $enable-gradients {
+    @each $color, $value in $theme-colors--night {
+      @include bg-gradient-variant(".bg-gradient-#{$color}", $value);
+    }
+  }
+
+  .bg-white {
+    background-color: $white--night !important;
+  }
+
+  .bg-transparen {
+    background-color: transparent !important;
+  }
+
+  .bg-dark {
+    background-color: $gray-900 !important; // header background
+  }
+}
+
+.night a {
+  color: $link-color--night;
+
+  @include hover {
+    color: $link-hover-color--night;
+  }
+}
+
+// nav
+
+.night {
+  .nav-link {
+    // Disabled state lightens text
+    &.disabled {
+      color: $nav-link-disabled-color--night;
+    }
+  }
+
+  //
+  // Tabs
+  //
+
+  .nav-tabs {
+    border-bottom-color: $nav-tabs-border-color--night;
+
+    .nav-link {
+      border: $nav-tabs-border-width solid transparent;
+
+      @include hover-focus {
+        border-color: $nav-tabs-link-hover-border-color--night;
+      }
+
+      &.disabled {
+        color: $nav-link-disabled-color--night;
+        background-color: transparent;
+        border-color: transparent;
+      }
+    }
+
+    .nav-link.active,
+    .nav-item.show .nav-link {
+      color: $nav-tabs-link-active-color--night;
+      background-color: $nav-tabs-link-active-bg--night;
+      border-color: $nav-tabs-link-active-border-color--night;
+    }
+  }
+
+  .nav-pills {
+    .nav-link.active,
+    .show > .nav-link {
+      color: $nav-pills-link-active-color--night;
+      background-color: $nav-pills-link-active-bg--night;
+    }
+  }
+}
 
 // sticky footer
 #app {
@@ -122,7 +215,6 @@ td {
 }
 
 .games__form-group {
-  @extend .form-group;
   width: 100%;
 }
 

@@ -4,3 +4,7 @@
   font-family: inherit !important;
   background: $danger !important;
 }
+
+.night .notification {
+  background: $danger--night;
+}

@@ -8,3 +8,7 @@ export const showErrorMessage = ca((message: string) => {
     const notification = {message, type: 'error'};
     return {type: types.CHANGE_NOTIFICATION, notification};
 });
+
+export const toggleTheme = ca((nightMode: boolean) => {
+    return {type: types.TOGGLE_THEME, nightMode};
+});

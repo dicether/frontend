@@ -1,5 +1,7 @@
 import * as React from "react";
-import {Dropdown as BootstrapDropdown, DropdownMenu, DropdownToggle, UncontrolledDropdown} from "reactstrap";
+import {Dropdown as BootstrapDropdown, DropdownMenu, DropdownToggle} from "reactstrap";
+
+import "./Dropdown.scss";
 
 export type Props = {
     button: React.ReactNode,

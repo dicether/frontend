@@ -3,6 +3,8 @@ import {Button as BootstrapButton} from 'reactstrap';
 
 import {BaseType} from "./BaseType";
 
+import "./Button.scss";
+
 export interface Props extends BaseType {
     children: React.ReactNode,
     size?: 'lg' | 'sm',

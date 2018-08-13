@@ -10,6 +10,19 @@ $gray-800: #343a40 !default;
 $gray-900: #212529 !default;
 $black:    #000 !default;
 
+$white--night:    $gray-900 !default;
+$gray-100--night: #212529 !default;
+$gray-200--night: #343a40 !default;
+$gray-300--night: #495057 !default;
+$gray-400--night: #868e96 !default;
+$gray-500--night: #adb5bd !default;
+$gray-600--night: #ced4da !default;
+$gray-700--night: #dee2e6 !default;
+$gray-800--night: #e9ecef !default;
+$gray-900--night: #f7f7fa !default;
+$black--night:    #fff !default;
+
+
 $grays: () !default;
 $grays: map-merge((
   "100": $gray-100,
@@ -22,6 +35,19 @@ $grays: map-merge((
   "800": $gray-800,
   "900": $gray-900
 ), $grays);
+
+$grays--night: () !default;
+$grays--night: map-merge((
+  "100": $gray-100--night,
+  "200": $gray-200--night,
+  "300": $gray-300--night,
+  "400": $gray-400--night,
+  "500": $gray-500--night,
+  "600": $gray-600--night,
+  "700": $gray-700--night,
+  "800": $gray-800--night,
+  "900": $gray-900--night
+), $grays--night);
 
 $blue:    #3498db !default;
 $indigo:  #6610f2 !default;
@@ -51,6 +77,37 @@ $colors: map-merge((
   "gray-dark":  $gray-800
 ), $colors);
 
+$darken: 10%;
+
+$blue--night:    darken($blue, $darken) !default;
+$indigo--night:  darken($indigo, $darken) !default;
+$purple--night:  darken($purple, $darken) !default;
+$pink--night:    darken($pink, $darken) !default;
+$red--night:     darken($red, $darken) !default;
+$orange--night:  darken($orange, $darken) !default;
+$yellow--night:  darken($yellow, $darken) !default;
+$green--night:   darken($green, $darken) !default;
+$teal--night:    darken($teal, $darken) !default;
+$cyan--night:    darken($cyan, $darken) !default;
+
+$colors--night: () !default;
+$colors--night: map-merge((
+  "blue":       $blue--night,
+  "indigo":     $indigo--night,
+  "purple":     $purple--night,
+  "pink":       $pink--night,
+  "red":        $red--night,
+  "orange":     $orange--night,
+  "yellow":     $yellow--night,
+  "green":      $green--night,
+  "teal":       $teal--night,
+  "cyan":       $cyan--night,
+  "white":      $white--night,
+  "gray":       $gray-600--night,
+  "gray-dark":  $gray-800--night
+), $colors--night);
+
+
 
 $secondary:     $gray-600 !default;
 $success:       $green !default;
@@ -61,6 +118,46 @@ $light:         $gray-100 !default;
 $dark:          $gray-800 !default;
 $primary:       $blue !default;
 
+$secondary--night:     $gray-600--night !default;
+$success--night:       $green--night !default;
+$info--night:          $cyan--night !default;
+$warning--night:       $orange--night !default;
+$danger--night:        $red--night !default;
+$light--night:         $gray-100--night !default;
+$dark--night:          $gray-800--night !default;
+$primary--night:       $blue--night !default;
+
+$theme-colors: () !default;
+// stylelint-disable-next-line scss/dollar-variable-default
+$theme-colors: map-merge(
+  (
+    "primary":    $primary,
+    "secondary":  $secondary,
+    "success":    $success,
+    "info":       $info,
+    "warning":    $warning,
+    "danger":     $danger,
+    "light":      $light,
+    "dark":       $dark
+  ),
+  $theme-colors
+);
+
+$theme-colors--night: () !default;
+// stylelint-disable-next-line scss/dollar-variable-default
+$theme-colors--night: map-merge(
+  (
+    "primary":    $primary--night,
+    "secondary":  $secondary--night,
+    "success":    $success--night,
+    "info":       $info--night,
+    "warning":    $warning--night,
+    "danger":     $danger--night,
+    "light":      $light--night,
+    "dark":       $dark--night
+  ),
+  $theme-colors--night
+);
 
 $font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
 
@@ -68,18 +165,60 @@ $popover-header-padding-y: 1rem;
 $popover-header-padding-x: 1rem;
 
 @import '~bootstrap/scss/functions';
+
+@function map-collect($maps...) {
+  $collection: ();
+
+  @each $map in $maps {
+    $collection: map-merge($collection, $map);
+  }
+  @return $collection;
+}
+
+@mixin themify($property, $color) {
+  #{$property}: map-get(map-collect($theme-colors, $colors, $grays), $color);
+  :global(.night) & {
+    // Output the declaration
+    #{$property}: map-get(map-collect($theme-colors--night, $colors--night, $grays--night), $color);
+  }
+}
+
+@mixin color($arguments...) {
+  @include themify('color', $arguments...);
+}
+
+@mixin border-color($arguments...) {
+  @include themify('border-color', $arguments...);
+}
+
+@mixin background-color($arguments...) {
+  @include themify('background-color', $arguments...);
+}
+
+
+// Variables for used bootstrap components
+// You normally don't need to edit this file
+@import './componentVariables';
+
+
 @import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins';
 @import '~bootstrap/scss/utilities/borders';
 @import '~bootstrap/scss/utilities/background';
 
 
-.border-left {
+@mixin border-left {
   border-left: $border-width solid $border-color;
+  :global(.night) & {
+    border-left: $border-width solid $border-color--night
+  }
 }
 
-.border-bottom {
+@mixin border-bottom {
   border-bottom: $border-width solid $border-color;
+  :global(.night) & {
+    border-bottom: $border-width solid $border-color--night;
+  }
 }
 
 
@@ -92,6 +231,6 @@ $chat-width: 400px;
 
 @mixin label-header {
   font-weight: 500;
-  color: $gray-800;
+  @include color("800");
 }
 

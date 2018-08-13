@@ -20,7 +20,7 @@ const Modal = ({isOpen, toggle, children, title, ...rest}: Props) => (
             <button type="button" className="close" aria-label="Close" onClick={toggle}>
                 <span aria-hidden="true">&times;</span>
             </button>
-            <div className={Style.wrapper}>
+            <div className={Style.modalWrapper}>
                 {children}
             </div>
         </ModalBody>

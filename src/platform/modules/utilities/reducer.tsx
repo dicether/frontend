@@ -6,20 +6,22 @@ import * as actions from './actions';
 export type Actions = ActionType<typeof actions>;
 
 export type State = {
-    notification: string|null;
+    notification: {message: string, type: string}|null,
+    nightMode: boolean
 }
 
 const initialState = {
-    notification: null
+    notification: null,
+    nightMode: false
 };
 
 
 export default function reducer(state = initialState, action: Actions): State {
     switch (action.type) {
         case types.CHANGE_NOTIFICATION:
-            return Object.assign({}, state, {
-                notification: action.notification
-            });
+            return {...state, notification: action.notification};
+        case types.TOGGLE_THEME:
+            return {...state, nightMode: action.nightMode};
         default:
             return state;
     }

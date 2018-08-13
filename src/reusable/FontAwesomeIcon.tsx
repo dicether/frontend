@@ -21,9 +21,7 @@ const Icon = ({color, ...rest}: Props) => {
     );
 
     return (
-        <span className={className}>
-            <FontAwesomeIcon {...rest}/>
-        </span>
+        <FontAwesomeIcon {...rest} className={className}/>
     );
 };
 

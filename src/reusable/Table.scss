@@ -1,5 +1,55 @@
+@import "~variables";
+@import "~bootstrap/scss/tables";
+
+
 .noBorders {
   td, th {
     border: none !important;
+  }
+}
+
+.night {
+  .table {
+    background-color: $table-bg--night;
+
+    th,
+    td {
+      border-top-color: $table-border-color--night;
+    }
+
+    thead th {
+      border-bottom-color: $table-border-color--night;
+    }
+
+    tbody + tbody {
+      border-top-color: $table-border-color--night;
+    }
+
+    .table {
+      background-color: $body-bg--night;
+    }
+  }
+
+  .table-bordered {
+    border-color: $table-border-color--night;
+
+    th,
+    td {
+      border-color: $table-border-color--night;
+    }
+  }
+
+  .table-striped {
+    tbody tr:nth-of-type(#{$table-striped-order}) {
+      background-color: $table-accent-bg--night;
+    }
+  }
+
+  .table-hover {
+    tbody tr {
+      @include hover {
+        background-color: $table-hover-bg--night;
+      }
+    }
   }
 }

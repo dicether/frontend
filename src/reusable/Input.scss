@@ -1,14 +1,15 @@
-:global .input-group > .input {
+
+.input-group > .input {
   position: relative;
   flex: 1 1 auto;
   width: 1%;
 }
 
-:global .input {
+.input {
   position: relative;
 }
 
-:global .input-group .input:not(:last-child) input {
+.input-group .input:not(:last-child) input {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }

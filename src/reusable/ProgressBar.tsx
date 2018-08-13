@@ -2,6 +2,7 @@ import * as React from 'react';
 import {Progress} from 'reactstrap';
 import {BaseType} from "./BaseType";
 
+import "./ProgressBar.scss";
 
 export interface Props extends BaseType {
     value: number,

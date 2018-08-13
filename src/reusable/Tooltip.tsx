@@ -3,6 +3,8 @@ import {UncontrolledTooltip as BootstrapTooltip} from 'reactstrap';
 
 import {BaseType} from "./BaseType";
 
+import "./Tooltip.scss";
+
 export type Func = () => HTMLElement | string | null;
 
 export interface Props extends BaseType {

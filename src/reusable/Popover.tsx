@@ -4,6 +4,8 @@ import {Placement} from 'popper.js';
 
 import {BaseType} from "./BaseType";
 
+import "./Popover.scss";
+
 export interface Props extends BaseType {
     id?: string,
     children: React.ReactNode,

@@ -68,13 +68,17 @@ module.exports = {
                 ]
             },
             {
-                test: /glob\.scss$/,
+                test: /(glob\.scss|reusable\/\w+\.scss)$/,
                 use: [
                     { loader: MiniCssExtractPlugin.loader },
                     {
                         loader: 'css-loader', options: {
                             sourceMap: true,
-                            modules: false,
+                            modules: true,
+                            localIdentName: '',
+                            getLocalIdent: (context, localIdentName, localName, options) => {
+                                return localName;
+                            }
                         }
                     },
                     { loader: 'postcss-loader', options: { sourceMap: true } },
@@ -89,7 +93,7 @@ module.exports = {
             },
             {
                 test: /\.scss$/,
-                exclude: /glob\.scss$/,
+                exclude: /(glob\.scss|reusable\/\w+\.scss)$/,
                 use: [
                     { loader: MiniCssExtractPlugin.loader },
                     {

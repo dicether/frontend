@@ -19,17 +19,17 @@ const StaticPopover = ({placement, children, title, className}: Props) => {
         {'bs-popover-bottom': placement === 'bottom'},
         {'bs-popover-right': placement === 'right'},
         {'bs-popover-left': placement === 'left'},
-        Style.popover,
+        Style.staticPopover,
         className,
 
     );
 
     const arrowClassName = ClassNames(
         'arrow',
-        {[Style.popover__arrow_top]: placement === 'bottom'},
-        {[Style.popover__arrow_bottom]: placement === 'top'},
-        {[Style.popover__arrow_right]: placement === 'left'},
-        {[Style.popover__arrow_left]: placement === 'right'},
+        {[Style.staticPopover__arrow_top]: placement === 'bottom'},
+        {[Style.staticPopover__arrow_bottom]: placement === 'top'},
+        {[Style.staticPopover__arrow_right]: placement === 'left'},
+        {[Style.staticPopover__arrow_left]: placement === 'right'},
 
     );
 

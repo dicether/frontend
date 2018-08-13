@@ -1,0 +1,28 @@
+@import "~variables";
+
+
+.night {
+  .form-control {
+    color: $input-color;
+    background-color: $gray-100;
+    border-color: $input-border-color;
+
+    @include box-shadow($input-box-shadow--night);
+
+    // Placeholder
+    &::placeholder {
+      color: $input-placeholder-color;
+    }
+
+    &[readonly] {
+      background-color: $input-disabled-bg;
+    }
+  }
+
+  .select.form-control {
+    &:focus::-ms-value {
+      color: $input-color;
+      background-color: $input-bg;
+    }
+  }
+}

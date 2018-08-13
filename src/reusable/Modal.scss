@@ -1,3 +1,28 @@
-.wrapper {
+@import "~variables";
+@import "~bootstrap/scss/modal";
+
+
+.modalWrapper {
   padding: 1rem 1rem 0 1rem;
+}
+
+.night {
+  // Actual modal
+  .modal-content {
+    background-color: $modal-content-bg--night;
+    border-color: $modal-content-border-color--night;
+  }
+
+  // Modal background
+  .modal-backdrop {
+    background-color: $modal-backdrop-bg--night;
+  }
+
+  .modal-header {
+    border-bottom-color: $modal-header-border-color--night;
+  }
+
+  .modal-footer {
+    border-top-color: $modal-footer-border-color--night;
+  }
 }

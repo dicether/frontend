@@ -7,30 +7,38 @@ import Footer from './Footer';
 import Header from './Header';
 import {authenticate, register} from '../platform/modules/account/asyncActions';
 import {State} from "../rootReducer";
-import {DispatchProp} from "../util/util";
 import {RouteComponentProps} from "react-router";
 import {toggleChat} from '../platform/modules/chat/actions';
+import {toggleTheme} from "../platform/modules/utilities/actions";
+import {bindActionCreators, Dispatch} from "redux";
 
 
-const mapStateToProps = ({chat, account}: State) => {
+const mapStateToProps = ({chat, account, app}: State) => {
     const show = chat.show;
     const jwt = account.jwt;
 
     return {
         showChat: show,
-        authenticated: jwt !== null
+        authenticated: jwt !== null,
+        nightMode: app.nightMode
     };
 };
+
+const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
+    toggleChat,
+    authenticate,
+    toggleTheme
+}, dispatch);
 
 type OtherProps = {
     children: React.ReactNode
 }
 
-type ReduxProps = ReturnType<typeof mapStateToProps>;
+type ReduxProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
-type Props = RouteComponentProps<any> & ReduxProps & DispatchProp & OtherProps;
+type Props = RouteComponentProps<any> & ReduxProps & OtherProps;
 
-const Layout = ({children, dispatch, showChat, authenticated} : Props) => {
+const Layout = ({children, showChat, authenticated, nightMode, toggleChat, authenticate, toggleTheme} : Props) => {
     const className = showChat ? 'chat-open' : '';
 
     return (
@@ -38,12 +46,15 @@ const Layout = ({children, dispatch, showChat, authenticated} : Props) => {
             <Header
                 showChat={showChat}
                 authenticated={authenticated}
-                toggleChat={() => dispatch(toggleChat(true))}
-                authenticate={ () => { dispatch(authenticate()) }}/>
+                nightMode={nightMode}
+                toggleChat={() => toggleChat(true)}
+                authenticate={authenticate}
+                toggleTheme={toggleTheme}
+            />
             {children}
             <Footer showChat={showChat} />
         </div>
     );
 };
 
-export default withRouter(connect(mapStateToProps)(Layout));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Layout));

@@ -4,7 +4,7 @@ import {NavLink as RRNavLink} from 'react-router-dom';
 import ClassName from 'classnames';
 
 import Register from '../platform/components/user/Register';
-import {Popover} from '../reusable/index';
+import {IconButton, Popover} from '../reusable/index';
 import {CONTRACT_URL} from "../config/config";
 
 const Style = require('./Header.scss');
@@ -45,8 +45,10 @@ class RegisterNavItem extends React.Component<{}, {showRegister: boolean}> {
 type Props = {
     authenticated: boolean,
     showChat: boolean,
+    nightMode: boolean,
     toggleChat(show: boolean): void,
     authenticate(): void,
+    toggleTheme(nightMode: boolean): void
 }
 
 type State = {
@@ -74,8 +76,13 @@ class Header extends React.Component<Props, State> {
         toggleChat(!showChat);
     };
 
+    onToggleTheme = () => {
+        const {nightMode, toggleTheme} = this.props;
+        toggleTheme(!nightMode);
+    };
+
     render () {
-        const {authenticated, showChat} = this.props;
+        const {authenticated, showChat, nightMode} = this.props;
         const {isOpen} = this.state;
 
         const className = ClassName({
@@ -105,6 +112,11 @@ class Header extends React.Component<Props, State> {
                                 </NavItem>
                             </Nav>
                             <Nav className="ml-auto" navbar>
+                                <NavItem>
+                                    <NavLink>
+                                        <IconButton icon={"lightbulb"} color={nightMode ? "yellow" : "secondary"} onClick={this.onToggleTheme}/>
+                                    </NavLink>
+                                </NavItem>
                                 {authenticated ? [
                                     <NavItem key="1">
                                         <NavLink tag={RRNavLink} to="/account">Account</NavLink>
