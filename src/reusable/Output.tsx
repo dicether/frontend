@@ -11,8 +11,8 @@ export interface Props extends BaseType {
 
 const Output = ({id, value, className}: Props) => {
     const classNames = ClassNames(
-        className,
-        'form-control'
+        'form-control',
+        className
     );
 
     return (

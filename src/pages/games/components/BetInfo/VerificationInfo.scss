@@ -8,6 +8,7 @@
   }
 
   &__value {
+    height: auto !important;
     font-family: monospace;
     font-size: 0.75rem;
     overflow: auto;
