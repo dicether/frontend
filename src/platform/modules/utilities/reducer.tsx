@@ -12,7 +12,7 @@ export type State = {
 
 const initialState = {
     notification: null,
-    nightMode: false
+    nightMode: localStorage.getItem("night") === "night"
 };
 
 
@@ -21,6 +21,7 @@ export default function reducer(state = initialState, action: Actions): State {
         case types.CHANGE_NOTIFICATION:
             return {...state, notification: action.notification};
         case types.TOGGLE_THEME:
+            localStorage.setItem("night", action.nightMode ? "night" : "day");
             return {...state, nightMode: action.nightMode};
         default:
             return state;

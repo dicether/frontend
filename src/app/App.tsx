@@ -71,6 +71,14 @@ class App extends React.Component<Props, State> {
         this.state = {web3Timer: null};
     }
 
+    setTheme = (nightMode) => {
+        if (nightMode) {
+            document.body.classList.add("night");
+        } else {
+            document.body.classList.remove("night");
+        }
+    };
+
     componentWillMount() {
         const {jwt, fetchAllWeb3, initUser, initSockets, loadDefaultData} = this.props;
 
@@ -84,6 +92,8 @@ class App extends React.Component<Props, State> {
         fetchAllWeb3();
         const timer = window.setInterval(() => fetchAllWeb3(), WEB3_POLL_INTERVAL);
         this.setState({web3Timer: timer});
+
+        this.setTheme(this.props.nightMode);
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -93,11 +103,7 @@ class App extends React.Component<Props, State> {
         }
 
         if (nextProps.nightMode !== this.props.nightMode) {
-            if (nextProps.nightMode) {
-                document.body.classList.add("night");
-            } else {
-                document.body.classList.remove("night");
-            }
+            this.setTheme(nextProps.nightMode);
         }
     }
 
