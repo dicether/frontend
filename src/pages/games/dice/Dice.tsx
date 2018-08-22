@@ -1,7 +1,7 @@
 import * as React from 'react';
 import DocumentTitle from 'react-document-title';
 import {connect} from 'react-redux';
-import {GameType} from "@dicether/state-channel";
+import {GameType, maxBet} from "@dicether/state-channel";
 
 import DiceUi from './components/DiceUi';
 import {placeBet, validNetwork} from '../../../platform/modules/games/state/asyncActions';
@@ -11,7 +11,7 @@ import {toggleHelp} from '../../../platform/modules/games/info/actions';
 import {
     HOUSE_EDGE,
     HOUSE_EDGE_DIVISOR,
-    MAX_BET_VALUE,
+    MAX_BET_VALUE, MIN_BANKROLL,
     MIN_BET_VALUE,
     NETWORK_NAME,
     RANGE
@@ -85,6 +85,18 @@ class Dice extends React.Component<Props, DiceState> {
 
     componentWillUnmount() {
         window.clearTimeout(this.resultTimeoutId);
+    }
+
+    componentWillReceiveProps(nextProps: Props) {
+        const {gameState, dice, changeValue} = this.props;
+
+        if (gameState.balance !== nextProps.gameState.balance) {
+            // if the balance changes, we need to check if user has enough funds for current bet value
+            const leftStake = nextProps.gameState.stake + nextProps.gameState.balance;
+            if (dice.value > leftStake) {
+                changeValue(Math.max(leftStake, MIN_BET_VALUE));
+            }
+        }
     }
 
     onToggleHelp = () => {
@@ -169,9 +181,9 @@ class Dice extends React.Component<Props, DiceState> {
         const {result, showResult} = this.state;
         const {info, gameState, dice} = this.props;
 
-        let maxBetValue = MAX_BET_VALUE;
+        let maxBetValue = maxBet(dice.reverseRoll ? 2 : 1, dice.num, MIN_BANKROLL);
         if (gameState.status !== 'ENDED') {
-            const max = Math.min(gameState.stake + gameState.balance, MAX_BET_VALUE);
+            const max = Math.min(gameState.stake + gameState.balance, maxBetValue);
             maxBetValue = Math.max(max, MIN_BET_VALUE);
         }
 
