@@ -6,6 +6,7 @@ import {TransactionReceipt} from "web3/types";
 import {Dispatch, GetState} from "../../../util/util";
 import {CONTRACT_ADDRESS, FROM_WEI_TO_BASE} from "../../../config/config";
 import {changeAccount, changeBalance, changeContract, changeNetworkId, changeWeb3} from "./actions";
+import {typedDataHash} from "@dicether/eip712";
 
 const stateChannelContractAbi =  require('assets/json/GameChannelContract.json');
 
@@ -104,24 +105,25 @@ export function getTransactionReceipt(web3: Web3, transactionHash: string): Prom
 }
 
 export function signTypedData(web3: Web3, from: string, typedData: any): Promise<string> {
-    const params = [JSON.stringify(typedData), from];
-    const method = 'eth_signTypedData';
-
-    return new Promise(function (resolve, reject) {
-        (web3.currentProvider as any).sendAsync({
-            method,
-            params,
-            from
-
-        }, (error, result) => {
-            if (error) {
-                reject(new Error(error));
-            } else if (result.error) {
-                reject(new Error(result.error.message));
-            } else {
-                const res: string = result.result;
-                resolve(res);
-            }
-        });
-    });
+    return web3.eth.sign(ethUtil.bufferToHex(typedDataHash(typedData)), from);
+    // const params = [JSON.stringify(typedData), from];
+    // const method = 'eth_signTypedData';
+    //
+    // return new Promise(function (resolve, reject) {
+    //     (web3.currentProvider as any).sendAsync({
+    //         method,
+    //         params,
+    //         from
+    //
+    //     }, (error, result) => {
+    //         if (error) {
+    //             reject(new Error(error));
+    //         } else if (result.error) {
+    //             reject(new Error(result.error.message));
+    //         } else {
+    //             const res: string = result.result;
+    //             resolve(res);
+    //         }
+    //     });
+    // });
 }
