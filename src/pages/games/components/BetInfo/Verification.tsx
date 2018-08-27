@@ -3,7 +3,7 @@ import {calcResultNumber, verifySeed, verifySignature} from '@dicether/state-cha
 
 import {Bet} from '../../../../platform/modules/bets/types';
 import {FontAwesomeIcon} from "../../../../reusable";
-import {CHAIN_ID, SERVER_ADDRESS, SIGNATURE_VERSION} from "../../../../config/config";
+import {CHAIN_ID, NEW_EIP_GAME_ID, SERVER_ADDRESS, SIGNATURE_VERSION} from "../../../../config/config";
 
 const Style = require('./Verification.scss');
 
@@ -31,8 +31,10 @@ class Verification extends React.PureComponent<Props> {
 
         const validUserSeed = verifySeed(bet.userSeed, bet.userHash);
         const validServerSeed = verifySeed(bet.serverSeed, bet.serverHash);
-        const validUserSig = verifySignature(bet, CHAIN_ID, bet.contractAddress, bet.userSig, bet.user.address, SIGNATURE_VERSION);
-        const validServerSig = verifySignature(bet, CHAIN_ID, bet.contractAddress, bet.serverSig, SERVER_ADDRESS, SIGNATURE_VERSION);
+
+        const signatureVersion = bet.gameId < NEW_EIP_GAME_ID ? SIGNATURE_VERSION - 1 : SIGNATURE_VERSION;
+        const validUserSig = verifySignature(bet, CHAIN_ID, bet.contractAddress, bet.userSig, bet.user.address, signatureVersion);
+        const validServerSig = verifySignature(bet, CHAIN_ID, bet.contractAddress, bet.serverSig, SERVER_ADDRESS, signatureVersion);
 
         const resultNum = calcResultNumber(bet.gameType, bet.serverSeed, bet.userSeed);
 

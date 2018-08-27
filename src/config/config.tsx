@@ -5,6 +5,7 @@ export const NAME = "Dicether";
 export const CONTRACT_ADDRESS = ethUtil.toChecksumAddress(process.env.CONTRACT_ADDRESS || '');
 export const CHAIN_ID = Number.parseInt(process.env.CHAIN_ID || "");
 export const SIGNATURE_VERSION = 2;
+export const NEW_EIP_GAME_ID = 572;
 
 export const SERVER_ADDRESS =  ethUtil.toChecksumAddress(process.env.SERVER_ADDRESS || '');
 
