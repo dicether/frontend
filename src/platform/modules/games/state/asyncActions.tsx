@@ -481,10 +481,6 @@ export function createGame(stake: number, userSeed: string) {
             return Promise.reject(new Error(`Invalid game status: ${status}! Can not create game!`));
         }
 
-        if ((web3State.web3.currentProvider as any).isTrust) {
-            return Promise.reject(new Error("Trust wallet is currently not supported!"));
-        }
-
         const createGame = contract.methods.createGame;
         const hashChain = createHashChain(userSeed);
 
