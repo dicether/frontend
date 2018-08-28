@@ -11,7 +11,7 @@ import {toggleHelp} from '../../../platform/modules/games/info/actions';
 import {
     HOUSE_EDGE,
     HOUSE_EDGE_DIVISOR,
-    MAX_BET_VALUE, MIN_BANKROLL,
+    MIN_BANKROLL,
     MIN_BET_VALUE,
     NETWORK_NAME,
     RANGE
