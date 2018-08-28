@@ -191,7 +191,9 @@ module.exports = {
         ]
     },
 	plugins: [
-        new MiniCssExtractPlugin('[name].[chunkhash].css'),
+        new MiniCssExtractPlugin({
+            filename: '[name].[hash].css'
+        }),
         new HtmlWebpackPlugin({
             title: Title,
             filename: (process.env.DEV_SERVER === 'TRUE') ? 'index.html' : '../index.html',
