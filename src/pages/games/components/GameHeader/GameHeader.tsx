@@ -140,7 +140,7 @@ export default class GameHeader extends React.Component<Props, State> {
                         <span className={Style.gameHeader__entryHeader} key="2">Funds left</span>
                         <Ether gwei={gameState.stake + gameState.balance}/>
                     </div>,
-                    <div key="2" className={Style.gameHeader__entry}>
+                    <div key="2" className={"hidden-xs-down " + Style.gameHeader__entry}>
                         <span className={Style.gameHeader__entryHeader} key="2">Balance</span>
                         <Ether gwei={gameState.balance}/>
                     </div>

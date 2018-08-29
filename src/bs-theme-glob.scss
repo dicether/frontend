@@ -308,3 +308,22 @@ em {
   outline: none !important;
   box-shadow: none !important;
 }
+
+// Restore Bootstrap 3 "hidden" utility classes.
+@each $bp in map-keys($grid-breakpoints) {
+  .hidden-#{$bp}-up {
+    @include media-breakpoint-up($bp) {
+      display: none !important;
+    }
+  }
+  .hidden-#{$bp}-down {
+    @include media-breakpoint-down($bp) {
+      display: none !important;
+    }
+  }
+  .hidden-#{$bp}-only{
+    @include media-breakpoint-only($bp){
+      display:none !important;
+    }
+  }
+}

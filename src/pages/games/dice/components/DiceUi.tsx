@@ -131,7 +131,7 @@ export default class DiceUi extends React.Component<Props> {
                             />
                         </FormGroup>
                     </Col>
-                    <Col xs={6} sm={4}>
+                    <Col xs={6} sm={4} className="hidden-xs-down">
                         <FormGroup className="games__form-group">
                             <Label>PayOut</Label>
                             <NumericInput
@@ -144,7 +144,7 @@ export default class DiceUi extends React.Component<Props> {
                             />
                         </FormGroup>
                     </Col>
-                    <Col xs={6} sm={4}>
+                    <Col xs={6} sm={4} className="hidden-xs-down">
                         <FormGroup className="games__form-group">
                             <Label>Win chance</Label>
                             <NumericInput
