@@ -4,7 +4,7 @@ import {NavLink as RRNavLink} from 'react-router-dom';
 import ClassName from 'classnames';
 
 import Register from '../platform/components/user/Register';
-import {IconButton, Popover} from '../reusable/index';
+import {IconButton, Modal} from '../reusable/index';
 import {CONTRACT_URL} from "../config/config";
 
 const Style = require('./Header.scss');
@@ -33,9 +33,9 @@ class RegisterNavItem extends React.Component<{}, {showRegister: boolean}> {
                 <NavLink id="register" href="#" onClick={this.toggleRegister}>
                     Register
                 </NavLink>
-                <Popover isOpen={showRegister} toggle={this.toggleRegister} target="register">
-                    <Register/>
-                </Popover>
+                <Modal isOpen={this.state.showRegister} toggle={this.toggleRegister}>
+                        <Register/>
+                </Modal>
             </div>
         )
     }
