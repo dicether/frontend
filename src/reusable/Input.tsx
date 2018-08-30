@@ -60,7 +60,6 @@ export default class Input extends React.Component<Props, State> {
         if (onValue && (validate === undefined || validate(val).valid)) {
             onValue(val);
         }
-        this.setState({inputValue: value, isValid: true});
         this.isFocus = false;
     };
 
