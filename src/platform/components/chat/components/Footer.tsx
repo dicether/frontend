@@ -17,7 +17,7 @@ const Footer = ({message, numUsers, onMessageChange, onMessageSend} : Props) => 
             <div className={Style.footer}>
                 <div className="form-group">
                     <Textarea
-                        className={Style.textarea}
+                        className={"form-control " + Style.textarea}
                         value={message}
                         onChange={e => onMessageChange(e.target.value)}
                         onKeyDown={e => {
