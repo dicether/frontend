@@ -92,7 +92,7 @@ class Chat extends React.Component<Props, ChatState> {
         }
 
         if (!userAuth) {
-            showErrorMessage("You need to log in to chat! Login is possible after playing one game!");
+            showErrorMessage("You need to log in to chat!");
             return;
 
         }
