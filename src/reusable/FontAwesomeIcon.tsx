@@ -14,14 +14,16 @@ export interface Props extends FontAwesomeProps {
     color?: string;
 }
 
-const Icon = ({color, ...rest}: Props) => {
-    const className = ClassNames({
+const Icon = ({color, className, ...rest}: Props) => {
+    const classNames = ClassNames(
+        className,
+        {
             [Style[`icon-${color}`]]: color !== undefined
         }
     );
 
     return (
-        <FontAwesomeIcon {...rest} className={className}/>
+        <FontAwesomeIcon {...rest} className={classNames}/>
     );
 };
 
