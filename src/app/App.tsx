@@ -64,6 +64,7 @@ export type State = {
     web3Timer: number|null
 }
 
+const DynamicIndex = ({userAuth, ...rest}) => userAuth ? <Redirect {...rest} to="/games/dice"/> : <Index {...rest}/>;
 
 class App extends React.Component<Props, State> {
     constructor(props: Props) {
@@ -121,14 +122,13 @@ class App extends React.Component<Props, State> {
         const {userAuth, notification, defaultAccount, gameState} = this.props;
 
         const logout = (userAuth !== null && (userAuth.address !== defaultAccount && defaultAccount !== null));
-        const index = () => (userAuth ? <Redirect to="/games/dice"/> : <Index/>);
 
         return (
             <DocumentTitle title="Dicether">
                 <Layout>
                     {logout && <Redirect to="/logout"/>}
                     <Switch>
-                        <Route exact path="/" component={index}/>
+                        <Route userAuth={userAuth} exact path="/" render={ props => <DynamicIndex userAuth={userAuth} {...props}/> }/>
                         <Route exact path="/faq" component={Faq}/>
                         <Route path="/hallOfFame" component={HallOfFame}/>
                         <Route exact path="/termsOfUse" component={TermsOfUse}/>
