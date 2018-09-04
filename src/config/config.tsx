@@ -4,8 +4,9 @@ export const NAME = "Dicether";
 
 export const CONTRACT_ADDRESS = ethUtil.toChecksumAddress(process.env.CONTRACT_ADDRESS || '');
 export const CHAIN_ID = Number.parseInt(process.env.CHAIN_ID || "");
-export const SIGNATURE_VERSION = 2;
+export const SIGNATURE_VERSION = 1;
 export const NEW_EIP_GAME_ID = 572;
+export const OLD_EIP_GAME_ID = 700;
 
 export const SERVER_ADDRESS =  ethUtil.toChecksumAddress(process.env.SERVER_ADDRESS || '');
 
@@ -21,7 +22,7 @@ export const GITHUB_URL = "https://github.com/dicether";
 export const API_URL = process.env.API_URL || '';
 export const SOCKET_URL = process.env.SOCKET_URL || '';
 
-export const REALM = 'Dicether';
+export const REALM = 'dicether.com';
 
 export const WEB3_POLL_INTERVAL = 1000;
 
