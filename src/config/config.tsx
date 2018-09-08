@@ -6,7 +6,7 @@ export const CONTRACT_ADDRESS = ethUtil.toChecksumAddress(process.env.CONTRACT_A
 export const CHAIN_ID = Number.parseInt(process.env.CHAIN_ID || "");
 export const SIGNATURE_VERSION = 1;
 export const NEW_EIP_GAME_ID = 572;
-export const OLD_EIP_GAME_ID = 700;
+export const OLD_EIP_GAME_ID = 638;
 
 export const SERVER_ADDRESS =  ethUtil.toChecksumAddress(process.env.SERVER_ADDRESS || '');
 
