@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" prefix="og: http://ogp.me/ns#">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,6 +8,10 @@
     <meta name="description" content="Dicether is an Ethereum based dice game. It uses a smart contract based state channel implementation to provide a fast, secure and fair gambling experience.">
     <meta name="keywords" content="Ethereum, Gambling, Fair, State Channel">
     <meta name="author" content="Dicether">
+    <meta property="og:title" content="Dicether" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://dicether.com" />
+    <meta property="og:image" content="https://dicether.com<%= require('./assets/images/logo.png') %>" />
     <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
 <body>
