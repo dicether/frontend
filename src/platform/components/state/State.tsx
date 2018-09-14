@@ -61,6 +61,7 @@ const State = ({gameState, clearState, conflictEnd, catchError}: Props) => {
             </div>
             <Entry id={'gameState_status'} name="Status" data={gameState.status}/>
             <Entry id={'gameState_reasonEnded'} name="Reason Ended" data={gameState.reasonEnded}/>
+            <Entry id={'gameState_createTransactionHash'} name="Create Transaction Hash" data={gameState.createTransactionHash}/>
             <Entry id={'gameState_endTransactionHash'} name="End Transaction Hash" data={gameState.endTransactionHash}/>
             <Entry id={'gameState_gameId'} name="Game Id" data={gameState.gameId}/>
             <Entry id={'gameState_roundId'} name="Round Id" data={gameState.roundId}/>
