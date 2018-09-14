@@ -34,12 +34,12 @@ export const NETWORK_NAME = "Main";
 
 
 export const MIN_GAME_SESSION_VALUE = 1e7;
-export const MAX_GAME_SESSION_VALUE = 1e9;
+export const MAX_GAME_SESSION_VALUE = 5e9;
 export const HOUSE_EDGE = 150;
 export const HOUSE_EDGE_DIVISOR = 10000;
 
 export const MIN_BET_VALUE = 1e4;
-export const MAX_BET_VALUE = 11e7;
+export const MAX_BET_VALUE = 5e9;
 export const MIN_BANKROLL = 15e9;
 
 export const RANGE = 100;

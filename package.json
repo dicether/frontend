@@ -13,7 +13,7 @@
   "license": "AGPL-3.0-only",
   "dependencies": {
     "@dicether/eip712": "0.0.2",
-    "@dicether/state-channel": "^1.0.0-alpha.4",
+    "@dicether/state-channel": "^1.0.0-alpha.5",
     "@fortawesome/fontawesome-svg-core": "^1.2.2",
     "@fortawesome/free-solid-svg-icons": "^5.2.0",
     "@fortawesome/react-fontawesome": "0.1.1",
