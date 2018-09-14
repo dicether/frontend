@@ -31,9 +31,17 @@ export function loadMyBets(address: string) {
 
 export function addNewBet(bet: Bet) {
     return function (dispatch: Dispatch, getState: GetState) {
+        const state = getState();
         const user = getUser(getState());
+        const bets = state.bets.allBets;
 
-        dispatch(addBet(bet));
+        if (bets.length > 0 && bet.id !== bets[0].id + 1) {
+            // we missed some bets => reload bets
+            dispatch(loadBets());
+        } else {
+            dispatch(addBet(bet));
+        }
+
         if (user !== null && user.address === bet.user.address) {
             dispatch(addMyBet(bet));
         }
