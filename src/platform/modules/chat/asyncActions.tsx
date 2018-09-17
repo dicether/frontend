@@ -1,7 +1,8 @@
-import {Dispatch} from "../../../util/util";
+import {Dispatch, GetState} from "../../../util/util";
 import axios from "axios";
 import {catchError} from "../utilities/asyncActions";
-import {changeMessages} from "./actions";
+import {addMessage, changeMessages} from "./actions";
+import {Message} from "./types";
 
 
 export function loadMessages() {
@@ -26,5 +27,17 @@ export function mute(address: string) {
         axios.post('muteUser', {
             address
         }).catch(error => catchError(error, dispatch));
+    }
+}
+
+export function addNewMessage(message: Message) {
+    return function (dispatch: Dispatch, getState: GetState) {
+        const messages = getState().chat.messages;
+        if (messages.length > 0 && messages[messages.length - 1].id + 1 !== message.id) {
+            dispatch(loadMessages());
+        } else {
+            // TODO: add notification!
+            dispatch(addMessage(message));
+        }
     }
 }

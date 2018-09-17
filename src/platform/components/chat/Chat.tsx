@@ -56,22 +56,6 @@ class Chat extends React.Component<Props, ChatState> {
         this.state = {message: '', showFriends: false};
     }
 
-    addBotMessage = (messageString: string) => {
-        const {addMessage} = this.props;
-
-        const message: MessageType = {
-            user: {
-                userType: 'BOT',
-                username: 'FriendBot',
-                address: ''
-            },
-            message: messageString,
-            timestamp: Date.now()
-        };
-
-        addMessage(message);
-    };
-
     toggleFriends = (showFriends: boolean) => {
         this.setState({showFriends});
     };

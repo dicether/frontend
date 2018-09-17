@@ -1,13 +1,14 @@
 import {Dispatch} from "../../../util/util";
-import {addMessage, changeUsersOnline} from "./actions";
+import {changeUsersOnline} from "./actions";
 import {Message} from "./types";
+import {addNewMessage} from "./asyncActions";
 
 const listeners = {
     usersOnline: (dispatch: Dispatch) => (numUsers: {numUsers: number}) => {
         dispatch(changeUsersOnline(numUsers.numUsers));
     },
     message: (dispatch: Dispatch) => (message: Message) => {
-      dispatch(addMessage(message));
+      dispatch(addNewMessage(message));
     }
 };
 
