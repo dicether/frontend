@@ -3,7 +3,7 @@ import axios from "axios";
 
 import {Bet} from "../../platform/modules/bets/types";
 import {RouteComponentProps} from "react-router";
-import BetsList from "../games/components/BetsList";
+import BetsList from "../../platform/components/bet/BetsList";
 import User from "../../platform/components/user/User";
 import {User as UserType} from '../../platform/modules/account/types';
 import Ether from "../../reusable/Ether";

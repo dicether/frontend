@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import BetsList from './BetsList';
 import {Dispatch} from '../../../util/util';
 import {State} from '../../../rootReducer';
-import {getUser} from "../../../platform/modules/account/selectors";
-import {loadBets, loadMyBets} from '../../../platform/modules/bets/asyncActions';
-import {addBet, addMyBet} from "../../../platform/modules/bets/actions";
+import {getUser} from "../../modules/account/selectors";
+import {loadBets, loadMyBets} from '../../modules/bets/asyncActions';
+import {addBet, addMyBet} from "../../modules/bets/actions";
 import {bindActionCreators} from "redux";
 
 

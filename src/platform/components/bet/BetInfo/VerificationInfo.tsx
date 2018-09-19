@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {Bet} from '../../../../platform/modules/bets/types';
+import {Bet} from '../../../modules/bets/types';
 import {Collapse, Output} from '../../../../reusable/index';
 import CollapseButton from './CollapseButton';
 import {FROM_BASE_TO_WEI} from '../../../../config/config';

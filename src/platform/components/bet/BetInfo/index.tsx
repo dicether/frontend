@@ -4,7 +4,7 @@ import DiceBetInfo from './DiceBetInfo';
 import VerificationInfo from './VerificationInfo';
 import Overview from './Overview';
 
-import {Bet} from '../../../../platform/modules/bets/types';
+import {Bet} from '../../../modules/bets/types';
 
 
 type Props = {

@@ -1,8 +1,8 @@
 import * as React from 'react';
 import {calcResultNumber, verifySeed, verifySignature} from '@dicether/state-channel';
 
-import {Bet} from '../../../../platform/modules/bets/types';
-import {FontAwesomeIcon} from "../../../../reusable";
+import {Bet} from '../../../modules/bets/types';
+import {FontAwesomeIcon} from "../../../../reusable/index";
 import {CHAIN_ID, NEW_EIP_GAME_ID, OLD_EIP_GAME_ID, SERVER_ADDRESS, SIGNATURE_VERSION} from "../../../../config/config";
 
 const Style = require('./Verification.scss');

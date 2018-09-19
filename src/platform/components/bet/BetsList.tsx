@@ -1,10 +1,10 @@
 import * as React from 'react';
 import moment from 'moment';
 
-import {Button, Ether, Modal, Table} from '../../../reusable';
-import {Bet} from '../../../platform/modules/bets/types';
+import {Button, Ether, Modal, Table} from '../../../reusable/index';
+import {Bet} from '../../modules/bets/types';
 import BetInfo from './BetInfo/index';
-import User from "../../../platform/components/user/User";
+import User from "../user/User";
 
 const Style = require('./BetList.scss');
 

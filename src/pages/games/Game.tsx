@@ -3,7 +3,7 @@ import {Route} from 'react-router-dom'
 import {connect} from 'react-redux';
 
 import Dice from './dice/Dice';
-import Stats from './components/Stats';
+import Stats from '../../platform/components/bet/Stats';
 import GameHeader from './components/GameHeader';
 import GameFooter from './components/GameFooter'
 import {toggleExpertView, toggleHelp, toggleSound} from '../../platform/modules/games/info/actions';

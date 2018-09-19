@@ -1,9 +1,9 @@
 import * as React from 'react';
 import moment from 'moment';
 
-import {Bet} from '../../../../platform/modules/bets/types';
-import {Ether} from '../../../../reusable';
-import User from "../../../../platform/components/user/User";
+import {Bet} from '../../../modules/bets/types';
+import {Ether} from '../../../../reusable/index';
+import User from "../../user/User";
 
 const Style = require('./Overview.scss');
 
