@@ -20,8 +20,12 @@ function processMessage(message: string) {
     const betRegex = /Bet:(\d+)/;
     const linkRegex = /(https?:\/\/\S+)/;
 
-    return reactStringReplace(message, betRegex, (match) => (
+    const res1 = reactStringReplace(message, betRegex, (match) => (
         <Bet betId={match}/>
+    ));
+
+    return reactStringReplace(res1, linkRegex, (match) => (
+        <a href={match}>{match}</a>
     ));
 }
 
