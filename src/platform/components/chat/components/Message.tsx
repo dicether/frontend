@@ -6,12 +6,24 @@ import moment from 'moment';
 import {Dropdown, Popover} from '../../../../reusable/index';
 import UserType from './UserType';
 import UserToolTip from './UserMenu';
+import Bet from '../../bet/Bet';
 
 import {Message as MessageType} from '../../../modules/chat/types';
 import {Friend} from '../../../modules/friends/types';
 
+const reactStringReplace = require('react-string-replace');
 const Style = require('./Message.scss');
 const emojioneImage = require('assets/images/emojione-3.1.2-64x64.png');
+
+
+function processMessage(message: string) {
+    const betRegex = /Bet:(\d+)/;
+    const linkRegex = /(https?:\/\/\S+)/;
+
+    return reactStringReplace(message, betRegex, (match) => (
+        <Bet betId={match}/>
+    ));
+}
 
 
 export type Props = {
@@ -69,13 +81,13 @@ class Message extends React.Component<Props, State> {
                             <span className={usernameClass}>{user.username}:</span>
                         }
                     </div>
-                    <span className={messageClass}>{emojify(message.message, {
+                    <span className={messageClass}>{processMessage(emojify(message.message, {
                         style: {
                             backgroundImage: `url(${emojioneImage})`,
                             height: '20px',
                             width: '20px'
                         }
-                    })}</span>
+                    }))}</span>
                 </div>
                 <span className={Style.time}>
                 {moment(message.timestamp).format('HH:mm')}

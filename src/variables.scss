@@ -233,3 +233,10 @@ $chat-width: 400px;
   @include color("800");
 }
 
+@mixin remove-default-button-style {
+  padding: 0;
+  border-style: none;
+  border-radius: 0;
+  background: none;
+}
+

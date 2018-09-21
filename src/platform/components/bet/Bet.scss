@@ -1,0 +1,13 @@
+@import "~variables";
+
+.bet {
+  @include remove-default-button-style();
+
+  font-weight: bold;
+  text-decoration: underline;
+  transition: transform 100ms ease 0s;
+
+  &:active {
+    transform: scale(0.97);
+  }
+}
