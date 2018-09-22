@@ -12,7 +12,7 @@ export interface Props extends BaseType {
     isOpen: boolean,
     placement?: Placement,
     container?: any,
-    target: string
+    target: string | HTMLElement
 
     toggle(): void,
 }

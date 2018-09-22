@@ -3,7 +3,7 @@
 .bet {
   @include remove-default-button-style();
 
-  font-weight: bold;
+  color: inherit;
   text-decoration: underline;
   transition: transform 100ms ease 0s;
 
