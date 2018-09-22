@@ -16,21 +16,22 @@ const Style = require('./Message.scss');
 const emojioneImage = require('assets/images/emojione-3.1.2-64x64.png');
 
 
-function processMessage(message: string) {
-    const betRegex = /Bet:(\d+)/;
-    const linkRegex = /(https?:\/\/\S+)/;
-    const host = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
-    const localLinkRegex = new RegExp(`${host}/(\\S+)`);
+const BET_REGEX = /Bet:(\d+)/;
+const LINK_REGEX = /(https?:\/\/\S+)/;
+const HOST = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
+const LOCAL_LINK_REGEX = new RegExp(`${HOST}/(\\S+)`);
 
-    const res1 = reactStringReplace(message, betRegex, (match) => (
+
+function processMessage(message: string) {
+    const res1 = reactStringReplace(message, BET_REGEX, (match) => (
         <Bet betId={match}/>
     ));
 
-    const res2 = reactStringReplace(res1, localLinkRegex, (match) => (
-        <Link to={match}>{`${host}/${match}`}</Link>
+    const res2 = reactStringReplace(res1, LOCAL_LINK_REGEX, (match) => (
+        <Link to={match}>{`${HOST}/${match}`}</Link>
     ));
 
-    return reactStringReplace(res2, linkRegex, (match) => (
+    return reactStringReplace(res2, LINK_REGEX, (match) => (
         <a href={match}>{match}</a>
     ));
 }
