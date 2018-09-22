@@ -18,7 +18,8 @@ const emojioneImage = require('assets/images/emojione-3.1.2-64x64.png');
 
 const BET_REGEX = /Bet:(\d+)/;
 const LINK_REGEX = /(https?:\/\/\S+)/;
-const HOST = `${window.location.protocol}//${window.location.hostname}:${window.location.port}`;
+const PORT = window.location.port ? `:${window.location.port}` : "";
+const HOST = `${window.location.protocol}//${window.location.hostname}${PORT}`;
 const LOCAL_LINK_REGEX = new RegExp(`${HOST}/(\\S+)`);
 
 
