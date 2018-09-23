@@ -29,7 +29,7 @@ function processMessage(message: string) {
     ));
 
     const res2 = reactStringReplace(res1, LOCAL_LINK_REGEX, (match) => (
-        <Link to={match}>{`${HOST}/${match}`}</Link>
+        <Link to={`/${match}`}>{`${HOST}/${match}`}</Link>
     ));
 
     return reactStringReplace(res2, LINK_REGEX, (match) => (
