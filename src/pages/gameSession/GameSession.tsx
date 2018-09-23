@@ -1,5 +1,4 @@
 import * as React from "react";
-import axios from "axios";
 
 import {Bet} from "../../platform/modules/bets/types";
 import {RouteComponentProps} from "react-router";
@@ -7,7 +6,7 @@ import BetsList from "../../platform/components/bet/BetsList";
 import User from "../../platform/components/user/User";
 import {User as UserType} from '../../platform/modules/account/types';
 import Ether from "../../reusable/Ether";
-import {Container} from "../../reusable";
+import {Container, DataLoader} from "../../reusable";
 
 const Style = require('./GameSession.scss');
 
@@ -20,61 +19,38 @@ interface Props extends RouteComponentProps<MatchParams> {
 }
 
 type GameState = {
+    status: string,
     user: UserType
     balance: number,
+    roundId: number
 
 }
 
-type State = {
-    bets: Bet[],
-    gameState?: GameState
-}
-
-class GameSession extends React.Component<Props, State> {
+class GameSession extends React.Component<Props> {
     constructor(props: Props){
         super(props);
-
-        this.state = {
-            bets: [],
-            gameState: undefined
-        }
     }
-
-    componentWillMount() {
-        const gameId = this.props.match.params.gameId;
-        this.fetchData(gameId);
-    }
-
-    fetchData = (gameId: number) => {
-        axios.get(`/gameState/${gameId}`).then(response => {
-            const gameState = response.data;
-            this.setState({gameState});
-        }).catch(console.log);
-
-        axios.get(`/bets/${gameId}`).then(response => {
-            const bets = response.data.bets;
-            this.setState({bets});
-        }).catch(console.log);
-    };
-
 
     render() {
-        const {bets, gameState} = this.state;
-        const numBets = bets.length;
-
-        if (!gameState) {
-            return null;
-        }
+        const gameId = this.props.match.params.gameId;
 
         return (
             <Container>
-                <div className={Style.header}>
-                    <h3>Game session:{this.props.match.params.gameId}</h3>
-                    <span> Created by <User user={gameState.user}/></span>
-                    <span>{numBets} Bets</span>
-                    <Ether colored gwei={gameState.balance}/>
-                </div>
-                <BetsList bets={bets} showUser={false}/>
+                <DataLoader<GameState>
+                    url={`/gameState/${gameId}`}
+                    success={gameState => (
+                        <div className={Style.header}>
+                            <h3>Game session:{this.props.match.params.gameId}</h3>
+                            <span> Created by <User user={gameState.user}/></span>
+                            <span>{gameState.status === "ENDED" ? gameState.roundId - 1 : gameState.roundId} Bets</span>
+                            <Ether colored gwei={gameState.balance}/>
+                        </div>
+                    )}
+                />
+                <DataLoader<{bets: Bet[]}>
+                    url={`/bets/${gameId}`}
+                    success={data => <BetsList bets={data.bets} showUser={false}/>}
+                />
             </Container>
         )
     }
