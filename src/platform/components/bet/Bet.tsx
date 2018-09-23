@@ -1,7 +1,8 @@
 import * as React from 'react';
 
-import {Button, Modal, ModalBody} from "../../../reusable";
-import BetLoader from "./BetLoader";
+import {DataLoader, Modal} from "../../../reusable";
+import BetInfo from "./BetInfo";
+import {Bet as BetType} from "../../modules/bets/types";
 
 const Style = require('./Bet.scss');
 
@@ -35,7 +36,7 @@ class  Bet extends React.Component<Props, State> {
                 { betButton ? betButton : `Bet:${betId}` }
             </button>,
             <Modal key={2} isOpen={this.state.showModal} toggle={this.onToggleModal}>
-                <BetLoader betId={betId}/>
+                <DataLoader<BetType> url={`/bet/${betId}`} success={(bet) => <BetInfo bet={bet}/>}/>
             </Modal>
         ])
     }
