@@ -3,72 +3,45 @@ import DocumentTitle from 'react-document-title';
 import {NavLink as RRNavLink} from 'react-router-dom';
 import {NavItem, NavLink, Nav} from 'reactstrap';
 
-import {Row, Col, Container} from '../../reusable/index'
+import {Row, Col, Container, DataLoader} from '../../reusable/index'
 import StatsTable from './StatsTable'
-import {Stats} from "./types";
-import axios from "axios";
 import {Redirect, Route, RouteComponentProps, Switch} from "react-router";
-import {lstatSync} from "fs";
 
 const Style = require('./HallOfFame.scss');
 
 
-const StatsEntry = ({stats}) => (
-    <Row>
-        <Col md={6}>
-            <StatsTable title="Most Wagered" name="Wagered" data={stats.mostWagered}/>
-        </Col>
-        <Col md={6}>
-            <StatsTable title="Most Profit" name="Profit" data={stats.mostProfit}/>
-        </Col>
-    </Row>
+
+const StatsEntry = ({timeSpan}) => (
+    <DataLoader
+        url={`/stats/${timeSpan}`}
+        success={ stats => (
+            <Row>
+                <Col md={6}>
+                    <StatsTable title="Most Wagered" name="Wagered" data={stats.mostWagered}/>
+                </Col>
+                <Col md={6}>
+                    <StatsTable title="Most Profit" name="Profit" data={stats.mostProfit}/>
+                </Col>
+            </Row>
+        )}
+    />
 );
 
 
 
 type Props = RouteComponentProps<any>;
 
-type State = {
-    stats: Stats
-}
-
-const defaultEntry = {
-    mostWagered: [],
-    mostProfit: [],
-};
-
-class HallOfFame extends React.Component<Props, State> {
+class HallOfFame extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
-        this.state = {
-            stats: {
-                all: defaultEntry,
-                day: defaultEntry,
-                week: defaultEntry,
-                month: defaultEntry
-            }
-        }
     }
-
-    componentWillMount() {
-        this.fetchData();
-    }
-
-    fetchData = () => {
-        axios.get('stats').then(response => {
-            const stats = response.data;
-            this.setState({stats});
-        }).catch(console.log);
-    };
-
 
     render() {
-        const {stats} = this.state;
         const {match} = this.props;
 
-        const weekEntry = () =>  <StatsEntry stats={stats.week}/>;
-        const monthEntry = () =>  <StatsEntry stats={stats.month}/>;
-        const allEntry = () =>  <StatsEntry stats={stats.all}/>;
+        const weekEntry = () =>  <StatsEntry timeSpan="week"/>;
+        const monthEntry = () =>  <StatsEntry timeSpan="month"/>;
+        const allEntry = () =>  <StatsEntry timeSpan="all"/>;
 
         return (
             <DocumentTitle title="Hall of Fame - Dicether">
