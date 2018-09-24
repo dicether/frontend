@@ -24,7 +24,14 @@ export default class Notification extends React.Component<Props> {
 
     componentWillReceiveProps(nextProps: Props) {
         if (nextProps.notification !== this.props.notification && nextProps.notification !== null) {
-            toast.error(<div style={{width: '285px', wordWrap: 'break-word'}}>{nextProps.notification.message}</div>);
+            const notification = nextProps.notification;
+            if (notification.type === "success") {
+                toast.success(<div style={{width: '285px', wordWrap: 'break-word'}}>{notification.message}</div>);
+            } else if (notification.type === "info") {
+                toast.info(<div style={{width: '285px', wordWrap: 'break-word'}}>{notification.message}</div>);
+            } else {
+                toast.error(<div style={{width: '285px', wordWrap: 'break-word'}}>{notification.message}</div>);
+            }
         }
     }
 

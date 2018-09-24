@@ -2,9 +2,18 @@
 
 .notification {
   font-family: inherit !important;
-  background: $danger !important;
 }
 
-.night .notification {
-  background: $danger--night;
+:global {
+  .Toastify__toast--error {
+    @include background-color("danger");
+  }
+
+  .Toastify__toast--success {
+    @include background-color("success");
+  }
+
+  .Toastify__toast--info {
+    @include background-color("info");
+  }
 }
