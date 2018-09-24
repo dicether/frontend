@@ -87,19 +87,25 @@ class Message extends React.Component<Props, State> {
                         <UserType userType={user.userType}/>
                         {user.userType !== 'BOT' ?
                             <Dropdown button={<span className={usernameClass}>{user.username}:</span>}>
-                                <UserToolTip user={user}/>
+                                <UserToolTip user={user} messageId={message.id}/>
                             </Dropdown>
                             :
                             <span className={usernameClass}>{user.username}:</span>
                         }
                     </div>
-                    <span className={messageClass}>{processMessage(emojify(message.message, {
-                        style: {
-                            backgroundImage: `url(${emojioneImage})`,
-                            height: '20px',
-                            width: '20px'
-                        }
-                    }))}</span>
+                    {!message.deleted ?
+                        <span className={messageClass}>{
+                            processMessage(emojify(message.message, {
+                                style: {
+                                    backgroundImage: `url(${emojioneImage})`,
+                                    height: '20px',
+                                    width: '20px'
+                                }
+                            }))
+                        }</span>
+                        :
+                        <span>[removed]</span>
+                    }
                 </div>
                 <span className={Style.time}>
                 {moment(message.timestamp).format('HH:mm')}

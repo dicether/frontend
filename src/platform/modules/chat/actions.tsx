@@ -21,6 +21,12 @@ export const addMessage = ca((message: Message) => {
 });
 
 
+export const deleteMessage = ca((messageId: number) => {
+    return {type: types.DELETE_MESSAGE, messageId};
+
+});
+
+
 export const changeUsersOnline = ca((numUsers: number) => {
     return {type: types.CHANGE_USERS_ONLINE, numUsers};
 });

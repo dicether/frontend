@@ -11,7 +11,7 @@ export type Bet = {
     chance: number
 };
 
-export type UserType = 'ADM' | 'MOD' | 'VIP' | 'BOT' | 'USR';
+export type UserType = 'ADM' | 'DEV' | 'MOD' | 'VIP' | 'BOT' | 'USR';
 
 export interface User {
     address: string,

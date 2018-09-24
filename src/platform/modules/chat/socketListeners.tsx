@@ -1,5 +1,5 @@
 import {Dispatch} from "../../../util/util";
-import {changeUsersOnline} from "./actions";
+import {changeUsersOnline, deleteMessage} from "./actions";
 import {Message} from "./types";
 import {addNewMessage} from "./asyncActions";
 
@@ -9,6 +9,9 @@ const listeners = {
     },
     message: (dispatch: Dispatch) => (message: Message) => {
       dispatch(addNewMessage(message));
+    },
+    deleteMessage: (dispatch: Dispatch) => (messageId: number) => {
+        dispatch(deleteMessage(messageId))
     }
 };
 

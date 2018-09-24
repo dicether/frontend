@@ -42,6 +42,8 @@ export default function chat(state : State = initialState, action : Actions): St
             return Object.assign({}, state, {
                 numUsers: action.numUsers
             });
+        case types.DELETE_MESSAGE:
+            return {...state, messages: state.messages.map(m => m.id === action.messageId ? {...m, deleted: true} : m)};
         default:
             assertNever(action);
             return state;

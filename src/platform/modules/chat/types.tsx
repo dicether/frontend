@@ -4,5 +4,6 @@ export interface Message {
     id: number,
     user: User
     message: string,
-    timestamp: number
+    timestamp: number,
+    deleted?: boolean
 }

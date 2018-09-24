@@ -30,6 +30,14 @@ export function mute(address: string) {
     }
 }
 
+export function deleteMessage(messageId: number) {
+      return function (dispatch: Dispatch) {
+        axios.post('deleteMessage', {
+            messageId
+        }).catch(error => catchError(error, dispatch));
+    }
+}
+
 export function addNewMessage(message: Message) {
     return function (dispatch: Dispatch, getState: GetState) {
         const messages = getState().chat.messages;

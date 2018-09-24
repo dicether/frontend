@@ -5,7 +5,7 @@ import {bindActionCreators} from "redux";
 import {Button} from '../../../../reusable/index';
 import {sendFriendRequest} from '../../../modules/friends/asyncActions';
 import {State} from "../../../../rootReducer";
-import {mute} from '../../../modules/chat/asyncActions';
+import {mute, deleteMessage} from '../../../modules/chat/asyncActions';
 import {getUser} from "../../../modules/account/selectors";
 import {User as UserType} from "../../../modules/account/types";
 import User from "../../user/User";
@@ -30,12 +30,14 @@ export const mapStateToProps = (state : State) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
     sendFriendRequest,
+    deleteMessage,
     mute
 }, dispatch);
 
 
 export type OtherProps = {
-    user: UserType
+    user: UserType,
+    messageId: number
 };
 
 
@@ -67,8 +69,13 @@ class UserMenu extends React.Component<Props> {
         mute(address);
     };
 
+    deleteMessage = (messageId: number) => {
+        const deleteMessage = this.props.deleteMessage;
+        deleteMessage(messageId);
+    };
+
     render() {
-        const {user, userAuth} = this.props;
+        const {user, userAuth, messageId} = this.props;
         const {address} = user;
         const isInvitable = this.isInvitable(address);
 
@@ -80,9 +87,14 @@ class UserMenu extends React.Component<Props> {
                         Send Friend Invitation
                     </Button>
                 }
-                {userAuth !== null && userAuth.userType === 'MOD' &&
+                {userAuth !== null && (userAuth.userType === 'MOD' || userAuth.userType === 'DEV' || userAuth.userType === 'ADM') &&
                     <Button size="sm" variant="dropdown" onClick={() => this.mute(address)}>
                         Mute User
+                    </Button>
+                }
+                {userAuth !== null && (userAuth.userType === 'MOD' || userAuth.userType === 'DEV' || userAuth.userType === 'ADM') &&
+                    <Button size="sm" variant="dropdown" onClick={() => this.deleteMessage(messageId)}>
+                        Delete Message
                     </Button>
                 }
             </div>
