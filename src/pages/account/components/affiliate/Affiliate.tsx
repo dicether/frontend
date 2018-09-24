@@ -8,9 +8,11 @@ import {catchError} from "../../../../platform/modules/utilities/asyncActions";
 import {Dispatch} from "../../../../util/util";
 import {connect} from "react-redux";
 import Balance from "./Balance";
+import {showSuccessMessage} from "../../../../platform/modules/utilities/actions";
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
     catchError: (error) => catchError(error, dispatch),
+    showSuccessMessage: (message) => dispatch(showSuccessMessage(message))
 });
 
 type State = {
@@ -30,7 +32,7 @@ class Affiliate extends React.Component<Props, State> {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.fetchData();
     }
 
@@ -45,21 +47,23 @@ class Affiliate extends React.Component<Props, State> {
     };
 
     createCampaign = (id: string, name: string) => {
-        const {catchError} = this.props;
+        const {catchError, showSuccessMessage} = this.props;
         axios.post('/affiliate/createCampaign', {id, name}).then(response => {
             const campaign = response.data;
             this.setState({
                 campaigns: [...this.state.campaigns, campaign]
-            })
+            });
+            showSuccessMessage(`Created new campaign ${name}!`);
         }).catch(error => catchError(error));
     };
 
     withdrawBalance = () => {
-        const {catchError} = this.props;
+        const {catchError, showSuccessMessage} = this.props;
         axios.post('/affiliate/withdraw').then(() => {
             this.setState({
                 balance: 0
-            })
+            });
+            showSuccessMessage("Balance withdrawn!");
         }).catch(error => catchError(error));
     };
 
