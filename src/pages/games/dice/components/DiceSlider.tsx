@@ -21,25 +21,18 @@ export default class DiceSlider extends React.PureComponent<Props> {
         super(props);
     }
 
-    componentWillReceiveProps(nextProps: Props) {
-        const {num: curNum, sound} = this.props;
-        const nextNum = nextProps.num;
+    onChange = (newNum: number) => {
+        if (newNum >= MIN_NUMBER_DICE_1 && newNum <= MAX_NUMBER_DICE_1) {
+            const {sound, num} = this.props;
 
-        if (curNum !== nextNum) {
             if (sound) {
-                if (nextNum > curNum) {
+                if (newNum > num) {
                     sounds.menuUp.playFromBegin();
-                } else {
+                } else if (newNum < num) {
                     sounds.menuDown.playFromBegin();
                 }
             }
-        }
-    }
-
-    onChange = (newValue: number) => {
-        if (newValue >= MIN_NUMBER_DICE_1 && newValue <= MAX_NUMBER_DICE_1) {
-            this.setState({value: newValue});
-            this.props.onNumberChange(newValue);
+            this.props.onNumberChange(newNum);
         }
     };
 
