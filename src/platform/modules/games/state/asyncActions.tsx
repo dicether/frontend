@@ -485,10 +485,9 @@ export function createGame(stake: number, userSeed: string) {
         const hashChain = createHashChain(userSeed);
 
         try {
-             // TODO: Move to canCreateGame???
             const finished = await checkIfEndTransactionFinished(web3State.web3, gameState.endTransactionHash);
             if (!finished) {
-                return Promise.reject(new Error("You need to wait until transaction ending game session in mined!"));
+                return Promise.reject(new Error("You need to wait until transaction ending game session is mined!"));
             }
 
             const response = await axios.post('/createGame');
