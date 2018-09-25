@@ -74,6 +74,7 @@ type DiceState = {
 
 class Dice extends React.Component<Props, DiceState> {
     resultTimeoutId?: number;
+    loadedSounds = false;
 
     constructor(props: Props) {
         super(props);
@@ -139,6 +140,13 @@ class Dice extends React.Component<Props, DiceState> {
         const safeBetValue = Math.round(dice.value);
         const num = dice.num;
         const gameType = dice.reverseRoll ? GameType.DICE_HIGHER : GameType.DICE_LOWER;
+
+        if (!this.loadedSounds) {
+            // workaround for sound playback on mobile browsers: load sounds in user gesture handler
+            sounds.win.load();
+            sounds.lose.load();
+            this.loadedSounds = true;
+        }
 
         if (!loggedIn) {
             showErrorMessage("You need to login before playing!");
