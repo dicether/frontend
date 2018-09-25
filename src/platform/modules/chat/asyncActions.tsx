@@ -3,6 +3,7 @@ import axios from "axios";
 import {catchError} from "../utilities/asyncActions";
 import {addMessage, changeMessages} from "./actions";
 import {Message} from "./types";
+import {showSuccessMessage} from "../utilities/actions";
 
 
 export function loadMessages() {
@@ -26,6 +27,8 @@ export function mute(address: string) {
     return function (dispatch: Dispatch) {
         axios.post('muteUser', {
             address
+        }).then(() => {
+            dispatch(showSuccessMessage("Muted player!"));
         }).catch(error => catchError(error, dispatch));
     }
 }
