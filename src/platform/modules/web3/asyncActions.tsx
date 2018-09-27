@@ -1,9 +1,9 @@
+import {typedDataHash} from "@dicether/eip712";
 import BN from "bn.js";
 import ethUtil from "ethereumjs-util";
 import Web3 from "web3";
 import {TransactionReceipt} from "web3/types"; // tslint:disable-line:no-submodule-imports
 
-import {typedDataHashOld} from "@dicether/eip712";
 import {CONTRACT_ADDRESS, FROM_WEI_TO_BASE} from "../../../config/config";
 import {Dispatch, GetState} from "../../../util/util";
 import {changeAccount, changeBalance, changeContract, changeNetworkId, changeWeb3} from "./actions";
@@ -108,10 +108,10 @@ export function getTransactionReceipt(web3: Web3, transactionHash: string): Prom
 
 export function signTypedData(web3: Web3, from: string, typedData: any): Promise<string> {
     if (!(web3.currentProvider as any).isMetaMask) {
-        return web3.eth.sign(ethUtil.bufferToHex(typedDataHashOld(typedData)), from);
+        return web3.eth.sign(ethUtil.bufferToHex(typedDataHash(typedData)), from);
     } else {
-        const params = [typedData, from];
-        const method = "eth_signTypedData";
+        const params = [from, JSON.stringify(typedData)];
+        const method = "eth_signTypedData_v3";
 
         return new Promise((resolve, reject) => {
             (web3.currentProvider as any).sendAsync(

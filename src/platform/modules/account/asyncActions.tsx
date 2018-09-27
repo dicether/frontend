@@ -16,6 +16,27 @@ import {signTypedData} from "../web3/asyncActions";
 import {changeFirstVisitedS, changeJWTS, changeMyGameSessions, changeMyStats} from "./actions";
 import {User} from "./types";
 
+const authenticateTypes = {
+    EIP712Domain: [
+        {name: 'name', type: 'string'},
+    ],
+    Authenticate: [
+        {name: 'address', type: 'address'},
+        {name: 'nonce', type: 'uint64'}
+    ],
+};
+
+const registerTypes = {
+    EIP712Domain: [
+        {name: 'name', type: 'string'},
+    ],
+    Register: [
+        {name: 'address', type: 'address'},
+        {name: 'username', type: 'string'}
+    ],
+};
+
+
 export function changeFirstVisited(firstVisited: boolean) {
     return (dispatch: Dispatch) => {
         if (isLocalStorageAvailable()) {
@@ -71,45 +92,32 @@ export function authenticate() {
         }
 
         let nonce = "";
-        return axios
-            .post("/auth/authenticationNonce", {
-                address: web3Account,
-            })
-            .then(response => {
-                nonce = response.data.nonce;
-                const typedData = [
-                    {
-                        type: "string",
-                        name: "Realm",
-                        value: REALM,
-                    },
-                    {
-                        type: "address",
-                        name: "Account Address",
-                        value: web3Account,
-                    },
-                    {
-                        type: "uint64",
-                        name: "Nonce",
-                        value: response.data.nonce,
-                    },
-                ];
+        return axios.post("/auth/authenticationNonce", {
+            address: web3Account
+        }).then(response => {
+            nonce = response.data.nonce;
+            const typedData = {
+                types: authenticateTypes,
+                primaryType: "Authenticate",
+                domain: {name: REALM},
+                message: {address: web3Account, nonce}
+            };
 
-                return signTypedData(web3, web3Account, typedData);
-            })
-            .then(result => {
-                return axios.post("/auth/authenticate", {
-                    realm: REALM,
-                    address: web3Account,
-                    nonce,
-                    signature: result,
-                });
-            })
-            .then(response => {
-                dispatch(hideRegisterModal());
-                initUser(dispatch, response.data.jwt);
-            })
-            .catch(error => catchError(error, dispatch));
+            return signTypedData(web3, web3Account, typedData);
+        })
+        .then(result => {
+            return axios.post("/auth/authenticate", {
+                realm: REALM,
+                address: web3Account,
+                nonce,
+                signature: result,
+            });
+        })
+        .then(response => {
+            dispatch(hideRegisterModal());
+            initUser(dispatch, response.data.jwt);
+        })
+        .catch(error => catchError(error, dispatch));
     };
 }
 
@@ -123,23 +131,12 @@ export function register(username: string) {
             return undefined;
         }
 
-        const typedData = [
-            {
-                type: "string",
-                name: "Realm",
-                value: REALM,
-            },
-            {
-                type: "address",
-                name: "Account Address",
-                value: web3Account,
-            },
-            {
-                type: "string",
-                name: "Username",
-                value: username,
-            },
-        ];
+        const typedData = {
+                types: registerTypes,
+                primaryType: "Register",
+                domain: {name: REALM},
+                message: {address: web3Account, username}
+        };
 
         const referredBy = localStorage.getItem("referral");
 
