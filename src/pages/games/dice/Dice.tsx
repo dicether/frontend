@@ -174,6 +174,11 @@ class Dice extends React.Component<Props, DiceState> {
             return;
         }
 
+        if (gameState.stake + gameState.balance < MIN_BET_VALUE) {
+            showErrorMessage("You funds are to low! You need to end the game session and start a new one!");
+            return;
+        }
+
         placeBet(num, safeBetValue, gameType).then(result => {
             this.setState({result, showResult: true});
             clearTimeout(this.resultTimeoutId);
