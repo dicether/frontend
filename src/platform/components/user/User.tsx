@@ -1,13 +1,14 @@
 import * as React from 'react';
 import {User as UserType} from "../../modules/account/types";
 import UserInfo from "./UserInfo";
-import {Button, Modal, ModalBody} from "../../../reusable";
+import {Button, DataLoader, Modal, ModalBody} from "../../../reusable";
 
 const Style = require('./User.scss');
 
 export type Props = {
-    user: UserType
-    userButton?: React.ReactNode
+    userName?: string
+    user?: UserType
+    button?: React.ReactElement<any>
 }
 
 export type State = {
@@ -28,19 +29,27 @@ class  User extends React.Component<Props, State> {
     };
 
     render() {
-        const {user, userButton} = this.props;
+        const {user, userName, button} = this.props;
+        const name = user ? user.username : userName;
 
-        return (
-            <span>
-                <span className={Style.name} onClick={this.onToggleModal}>{
-                    userButton ? userButton : user.username
-                }</span>
-
-                <Modal isOpen={this.state.showModal} toggle={this.onToggleModal}>
-                    <UserInfo user={user}/>
-                </Modal>
-            </span>
-        )
+        return [
+            button ?
+                React.cloneElement(
+                    button,
+                    {onClick: this.onToggleModal}
+                )
+                :
+                <button className={Style.name} onClick={this.onToggleModal}>{name}</button>,
+            <Modal isOpen={this.state.showModal} toggle={this.onToggleModal}>
+                {!user ? <DataLoader
+                    url={`/user/name/${userName}`}
+                    success={(user) => <UserInfo user={user}/>}
+                />
+                    :
+                <UserInfo user={user}/>
+                }
+            </Modal>
+        ];
     }
 }
 

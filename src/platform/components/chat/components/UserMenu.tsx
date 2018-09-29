@@ -81,7 +81,7 @@ class UserMenu extends React.Component<Props> {
 
         return (
             <div>
-                <User user={user} userButton={<Button size="sm" variant="dropdown">View Profil</Button>}/>
+                <User user={user} button={<Button size="sm" variant="dropdown">View Profil</Button>}/>
                 {isInvitable &&
                     <Button size="sm" variant="dropdown" onClick={ () => this.sendInvite(address) }>
                         Send Friend Invitation

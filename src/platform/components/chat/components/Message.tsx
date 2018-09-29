@@ -10,6 +10,7 @@ import UserToolTip from './UserMenu';
 import Bet from '../../bet/Bet';
 import {Message as MessageType} from '../../../modules/chat/types';
 import {Friend} from '../../../modules/friends/types';
+import User from "../../user/User";
 
 const reactStringReplace = require('react-string-replace');
 const Style = require('./Message.scss');
@@ -37,6 +38,10 @@ const ChatButton = ({name, onClick}: ChatButtonProps) => (
 function processMessage(message: string) {
     let res = reactStringReplace(message, BET_REGEX, (match) => (
         <Bet betId={match} button={<ChatButton name={`Bet:${match}`}/>}/>
+    ));
+
+    res = reactStringReplace(res, USER_REGEX, (match) => (
+        <User userName={match} button={<ChatButton name={`User:${match}`}/>} />
     ));
 
     res = reactStringReplace(res, LOCAL_LINK_REGEX, (match) => (
