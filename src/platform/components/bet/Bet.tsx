@@ -8,7 +8,7 @@ const Style = require('./Bet.scss');
 
 export type Props = {
     betId: number,
-    betButton?: React.ReactNode
+    button?: React.ReactElement<any>
 }
 
 export type State = {
@@ -29,12 +29,18 @@ class  Bet extends React.Component<Props, State> {
     };
 
     render() {
-        const {betId, betButton} = this.props;
+        const {betId, button} = this.props;
 
         return ([
-            <button key={1} className={Style.bet} onClick={this.onToggleModal}>
-                { betButton ? betButton : `Bet:${betId}` }
-            </button>,
+            button ?
+                React.cloneElement(
+                    button,
+                    {onClick: this.onToggleModal}
+                )
+                :
+                <button key={1} className={Style.bet} onClick={this.onToggleModal}>
+                    {`Bet:${betId}`}
+                </button>,
             <Modal key={2} isOpen={this.state.showModal} toggle={this.onToggleModal}>
                 <DataLoader<BetType> url={`/bet/${betId}`} success={(bet) => <BetInfo bet={bet}/>}/>
             </Modal>

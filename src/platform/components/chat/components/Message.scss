@@ -44,3 +44,8 @@
   z-index: 20000;
   max-width: 100rem;
 }
+
+.message_button {
+  @include remove-default-button-style();
+  text-decoration: underline;
+}

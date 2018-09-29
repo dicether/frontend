@@ -17,22 +17,33 @@ const emojioneImage = require('assets/images/emojione-3.1.2-64x64.png');
 
 
 const BET_REGEX = /Bet:(\d+)/;
+const USER_REGEX = /User:(\S+)/;
 const LINK_REGEX = /(https?:\/\/\S+)/;
 const PORT = window.location.port ? `:${window.location.port}` : "";
 const HOST = `${window.location.protocol}//${window.location.hostname}${PORT}`;
 const LOCAL_LINK_REGEX = new RegExp(`${HOST}/(\\S+)`);
 
 
+type ChatButtonProps = {
+    name: string,
+    onClick?: any
+}
+
+const ChatButton = ({name, onClick}: ChatButtonProps) => (
+    <button className={Style.message_button} onClick={onClick}>{name}</button>
+);
+
+
 function processMessage(message: string) {
-    const res1 = reactStringReplace(message, BET_REGEX, (match) => (
-        <Bet betId={match}/>
+    let res = reactStringReplace(message, BET_REGEX, (match) => (
+        <Bet betId={match} button={<ChatButton name={`Bet:${match}`}/>}/>
     ));
 
-    const res2 = reactStringReplace(res1, LOCAL_LINK_REGEX, (match) => (
+    res = reactStringReplace(res, LOCAL_LINK_REGEX, (match) => (
         <Link to={`/${match}`}>{`${HOST}/${match}`}</Link>
     ));
 
-    return reactStringReplace(res2, LINK_REGEX, (match) => (
+    return reactStringReplace(res, LINK_REGEX, (match) => (
         <a href={match}>{match}</a>
     ));
 }
