@@ -3,4 +3,5 @@
 .name {
   @include remove-default-button-style();
   font-weight: bold;
+  color: inherit;
 }

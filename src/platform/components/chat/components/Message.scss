@@ -48,4 +48,5 @@
 .message_button {
   @include remove-default-button-style();
   text-decoration: underline;
+  color: inherit;
 }
