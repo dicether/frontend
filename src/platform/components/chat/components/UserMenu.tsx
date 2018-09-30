@@ -2,7 +2,7 @@ import * as React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from "redux";
 
-import {Button} from '../../../../reusable/index';
+import {Button, Dropdown} from '../../../../reusable/index';
 import {sendFriendRequest} from '../../../modules/friends/asyncActions';
 import {State} from "../../../../rootReducer";
 import {mute, deleteMessage} from '../../../modules/chat/asyncActions';
@@ -37,16 +37,23 @@ const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
 
 export type OtherProps = {
     user: UserType,
-    messageId: number
+    messageId: number,
+    button: React.ReactNode
 };
 
+export type UserMenuState = {
+    dropDownIsOpen?: boolean
+};
 
 export type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps> & OtherProps;
 
 
-class UserMenu extends React.Component<Props> {
+class UserMenu extends React.Component<Props, UserMenuState> {
     constructor(props: Props) {
         super(props);
+        this.state = {
+            dropDownIsOpen: undefined
+        }
     }
 
     isInvitable = (address: string): boolean => {
@@ -74,14 +81,18 @@ class UserMenu extends React.Component<Props> {
         deleteMessage(messageId);
     };
 
+    onToggleUserModal = (isOpen) => {
+        this.setState({dropDownIsOpen: isOpen ? isOpen : undefined});
+    };
+
     render() {
-        const {user, userAuth, messageId} = this.props;
+        const {button, user, userAuth, messageId} = this.props;
         const {address} = user;
         const isInvitable = this.isInvitable(address);
 
         return (
-            <div>
-                <User user={user} button={<Button size="sm" variant="dropdown">View Profil</Button>}/>
+            <Dropdown isOpen={this.state.dropDownIsOpen} button={button}>
+                <User onToggle={this.onToggleUserModal} user={user} button={<Button size="sm" variant="dropdown">View Profil</Button>}/>
                 {isInvitable &&
                     <Button size="sm" variant="dropdown" onClick={ () => this.sendInvite(address) }>
                         Send Friend Invitation
@@ -97,7 +108,7 @@ class UserMenu extends React.Component<Props> {
                         Delete Message
                     </Button>
                 }
-            </div>
+            </Dropdown>
         );
     }
 }

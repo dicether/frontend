@@ -4,9 +4,8 @@ import {Link} from "react-router-dom";
 import ClassNames from 'classnames';
 import moment from 'moment';
 
-import {Dropdown, Popover} from '../../../../reusable/index';
 import UserType from './UserType';
-import UserToolTip from './UserMenu';
+import UserMenu from './UserMenu';
 import Bet from '../../bet/Bet';
 import {Message as MessageType} from '../../../modules/chat/types';
 import {Friend} from '../../../modules/friends/types';
@@ -96,17 +95,17 @@ class Message extends React.Component<Props, State> {
             }
         );
 
+        const userName = <span className={usernameClass}>{user.username}:</span>;
+
         return (
             <div id={`messageEntry${message.timestamp}`} className={Style.messageEntry}>
                 <div style={{minWidth: 0}}>
                     <div className={Style.user}>
                         <UserType userType={user.userType}/>
                         {user.userType !== 'BOT' ?
-                            <Dropdown button={<span className={usernameClass}>{user.username}:</span>}>
-                                <UserToolTip user={user} messageId={message.id}/>
-                            </Dropdown>
+                            <UserMenu user={user} messageId={message.id} button={userName}/>
                             :
-                            <span className={usernameClass}>{user.username}:</span>
+                            {userName}
                         }
                     </div>
                     {!message.deleted ?

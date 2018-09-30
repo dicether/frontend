@@ -9,6 +9,7 @@ export type Props = {
     userName?: string
     user?: UserType
     button?: React.ReactElement<any>
+    onToggle?(open: boolean)
 }
 
 export type State = {
@@ -25,7 +26,12 @@ class  User extends React.Component<Props, State> {
     }
 
     onToggleModal = () => {
+        const {onToggle} = this.props;
+        if (onToggle) {
+            onToggle(!this.state.showModal);
+        }
         this.setState({showModal: !this.state.showModal});
+
     };
 
     render() {

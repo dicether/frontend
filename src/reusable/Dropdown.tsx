@@ -5,7 +5,8 @@ import "./Dropdown.scss";
 
 export type Props = {
     button: React.ReactNode,
-    children: any
+    children: any,
+    isOpen?: boolean
 }
 
 type State = {
@@ -28,10 +29,10 @@ class Dropdown extends React.Component<Props, State> {
     };
 
     render() {
-        const {button, children} = this.props;
+        const {button, children, isOpen} = this.props;
 
         return (
-            <BootstrapDropdown isOpen={this.state.isOpen} toggle={this.toggle}>
+            <BootstrapDropdown isOpen={isOpen ? isOpen : this.state.isOpen} toggle={this.toggle}>
                 <DropdownToggle tag="span" onClick={this.toggle} aria-expanded={this.state.isOpen} data-toggle="dropdown">
                     {button}
                 </DropdownToggle>
