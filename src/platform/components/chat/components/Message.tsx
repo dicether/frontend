@@ -35,20 +35,20 @@ const ChatButton = ({name, onClick}: ChatButtonProps) => (
 
 
 function processMessage(message: string) {
-    let res = reactStringReplace(message, BET_REGEX, (match) => (
-        <Bet betId={match} button={<ChatButton name={`Bet:${match}`}/>}/>
+    let res = reactStringReplace(message, BET_REGEX, (match, i) => (
+        <Bet key={match + i} betId={match} button={<ChatButton name={`Bet:${match}`}/>}/>
     ));
 
-    res = reactStringReplace(res, USER_REGEX, (match) => (
-        <User userName={match} button={<ChatButton name={`User:${match}`}/>} />
+    res = reactStringReplace(res, USER_REGEX, (match, i) => (
+        <User key={match + i} userName={match} button={<ChatButton name={`User:${match}`}/>} />
     ));
 
-    res = reactStringReplace(res, LOCAL_LINK_REGEX, (match) => (
-        <Link to={`/${match}`}>{`${HOST}/${match}`}</Link>
+    res = reactStringReplace(res, LOCAL_LINK_REGEX, (match, i) => (
+        <Link key={match + i} to={`/${match}`}>{`${HOST}/${match}`}</Link>
     ));
 
-    return reactStringReplace(res, LINK_REGEX, (match) => (
-        <a href={match}>{match}</a>
+    return reactStringReplace(res, LINK_REGEX, (match, i) => (
+        <a key={match + i} href={match}>{match}</a>
     ));
 }
 
@@ -123,8 +123,8 @@ class Message extends React.Component<Props, State> {
                     }
                 </div>
                 <span className={Style.time}>
-                {moment(message.timestamp).format('HH:mm')}
-            </span>
+                    {moment(message.timestamp).format('HH:mm')}
+                </span>
             </div>
         );
     }
