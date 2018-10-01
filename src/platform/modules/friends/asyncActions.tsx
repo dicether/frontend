@@ -10,7 +10,7 @@ import {Friend} from "./types";
 
 export function sendFriendRequest(address: string) {
     return function (dispatch: Dispatch) {
-        return axios.post('sendFriendRequest', {
+        return axios.post('/chat/sendFriendRequest', {
             address
         }).then(
             response => dispatch(addSentFriendRequest(response.data))
@@ -20,7 +20,7 @@ export function sendFriendRequest(address: string) {
 
 export function declineFriendRequest(address: string) {
     return function (dispatch: Dispatch) {
-        return axios.post('declineFriendRequest', {
+        return axios.post('/chat/declineFriendRequest', {
                 address
             }
         ).then(
@@ -45,7 +45,7 @@ export function declinedFriendRequest(address: string) {
 
 export function cancelFriendRequest(address: string) {
     return function (dispatch: Dispatch) {
-        return axios.post('cancelFriendRequest', {
+        return axios.post('/chat/cancelFriendRequest', {
                 address
             }
         ).then(
@@ -56,7 +56,7 @@ export function cancelFriendRequest(address: string) {
 
 export function acceptFriendRequest(address: string) {
     return function (dispatch: Dispatch) {
-        return axios.post('acceptFriendRequest', {
+        return axios.post('/chat/acceptFriendRequest', {
                 address
             }
         ).then(response => {
@@ -68,7 +68,7 @@ export function acceptFriendRequest(address: string) {
 
 export function loadFriendRequests(address: string) {
     return function (dispatch: Dispatch) {
-        return axios.get('friendRequests').then(response => {
+        return axios.get('/chat/friendRequests').then(response => {
             const data = response.data;
             dispatch(changeSentFriendRequests(data.sentFriendRequests));
             dispatch(changeReceivedFriendRequests(data.receivedFriendRequests));
@@ -79,7 +79,7 @@ export function loadFriendRequests(address: string) {
 
 export function loadFriends(address: string) {
     return function (dispatch: Dispatch) {
-        return axios.get('friends').then(
+        return axios.get('/chat/friends').then(
             response => dispatch(changeFriends(response.data))
         ).catch(error => catchError(error, dispatch));
     }

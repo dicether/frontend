@@ -376,7 +376,7 @@ export function loadServerGameState() {
             return Promise.resolve();
         }
 
-        return axios.get('activeGameState').then(result => {
+        return axios.get('stateChannel/activeGameState').then(result => {
             const data = result.data;
             const status = data.status;
             const gameId = data.gameId;
@@ -490,7 +490,7 @@ export function createGame(stake: number, userSeed: string) {
                 return Promise.reject(new Error("You need to wait until transaction ending game session is mined!"));
             }
 
-            const response = await axios.post('/createGame');
+            const response = await axios.post('stateChannel/createGame');
             const data = response.data;
             const serverEndHash = data.serverEndHash;
             const previousGameId = data.previousGameId;
@@ -590,7 +590,7 @@ export function endGame() {
         const typedData = createTypedData(bet, CHAIN_ID, CONTRACT_ADDRESS, SIGNATURE_VERSION);
         return signTypedData(web3, account, typedData).then(result => {
             userSig = result;
-            return axios.post('endGame', {
+            return axios.post('stateChannel/endGame', {
                 bet,
                 'contractAddress': CONTRACT_ADDRESS,
                 'userSig': userSig
@@ -745,7 +745,7 @@ export function forceEnd() {
 
 async function revealSeedRequest(gameId, roundId, userSeed) {
     return retry(() => {
-        return axios.post('revealSeed', {
+        return axios.post('stateChannel/revealSeed', {
             'gameId': gameId,
             'roundId': roundId,
             'userSeed': userSeed,
@@ -851,7 +851,7 @@ export function placeBet(num: number, betValue: number, gameType: number) {
 
         return signTypedData(web3, account, typedData).then(result => {
             userSig = result;
-            return axios.post('placeBet', {
+            return axios.post('stateChannel/placeBet', {
                 bet,
                 'contractAddress': CONTRACT_ADDRESS,
                 'userSig': userSig

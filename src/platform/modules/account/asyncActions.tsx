@@ -65,7 +65,7 @@ export function authenticate() {
         }
 
         let nonce = '';
-        return axios.post('authenticationNonce', {
+        return axios.post('/auth/authenticationNonce', {
             address: web3Account
         }).then(response => {
             nonce = response.data.nonce;
@@ -89,7 +89,7 @@ export function authenticate() {
 
             return signTypedData(web3, web3Account, typedData);
         }).then(result => {
-            return axios.post('authenticate', {
+            return axios.post('/auth/authenticate', {
                 realm: REALM,
                 address: web3Account,
                 nonce,
@@ -132,7 +132,7 @@ export function register(username: string) {
         const referredBy = localStorage.getItem("referral");
 
         return signTypedData(web3, web3Account, typedData).then(result => {
-            return axios.post('register', {
+            return axios.post('/auth/register', {
                 realm: REALM,
                 address: web3Account,
                 username,
@@ -160,7 +160,7 @@ export function deauthenticate() {
 
 export function loadStats(address: string) {
     return function (dispatch: Dispatch) {
-        return axios.get(`userStats/${address}`).then(
+        return axios.get(`/stats/user/${address}`).then(
             result => dispatch(changeMyStats(result.data))
         ).catch(
             error => catchError(error, dispatch)
@@ -170,7 +170,7 @@ export function loadStats(address: string) {
 
 export function loadGameSessions(address: string) {
     return function (dispatch: Dispatch) {
-        return axios.get(`userGameSessions/${address}`).then(
+        return axios.get(`/gameSessions/${address}`).then(
             result => dispatch(changeMyGameSessions(result.data))
         ).catch(
             error => catchError(error, dispatch)

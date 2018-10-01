@@ -42,7 +42,7 @@ class  Bet extends React.Component<Props, State> {
                     {`Bet:${betId}`}
                 </button>,
             <Modal key="3" isOpen={this.state.showModal} toggle={this.onToggleModal}>
-                <DataLoader<BetType> url={`/bets/${betId}`} success={(bet) => <BetInfo bet={bet}/>}/>
+                <DataLoader<BetType> url={`/bets/bet/${betId}`} success={(bet) => <BetInfo bet={bet}/>}/>
             </Modal>
         ])
     }

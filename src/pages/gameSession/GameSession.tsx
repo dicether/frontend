@@ -37,7 +37,7 @@ class GameSession extends React.Component<Props> {
         return (
             <Container>
                 <DataLoader<GameState>
-                    url={`/gameState/${gameId}`}
+                    url={`/stateChannel/gameState/${gameId}`}
                     success={gameState => (
                         <div className={Style.header}>
                             <h3>Game session:{this.props.match.params.gameId}</h3>
@@ -48,7 +48,7 @@ class GameSession extends React.Component<Props> {
                     )}
                 />
                 <DataLoader<{bets: Bet[]}>
-                    url={`/bets/${gameId}`}
+                    url={`/bets/gameId/${gameId}`}
                     success={data => <BetsList bets={data.bets} showUser={false}/>}
                 />
             </Container>

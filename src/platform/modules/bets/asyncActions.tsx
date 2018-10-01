@@ -9,7 +9,7 @@ import {getUser} from "../account/selectors";
 
 export function loadBets() {
     return function (dispatch: Dispatch) {
-        axios.get('/lastBets').then(response => {
+        axios.get('/bets/lastBets').then(response => {
             const bets = response.data.bets;
             return dispatch(changeBets(bets));
         }).catch(error => {
@@ -20,7 +20,7 @@ export function loadBets() {
 
 export function loadMyBets(address: string) {
     return function (dispatch: Dispatch) {
-        axios.get(`/myLastBets`).then(response => {
+        axios.get(`/bets/myLastBets`).then(response => {
             const myBets = response.data.bets;
             return dispatch(changeMyBets(myBets));
         }).catch(error => {

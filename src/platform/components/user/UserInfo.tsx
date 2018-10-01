@@ -26,7 +26,7 @@ export default class UserInfo extends React.PureComponent<Props> {
                 </h3>
                 <Address address={user.address} />
                 <DataLoader<StatsType>
-                    url={`/userStats/${user.address}`}
+                    url={`/stats/user/${user.address}`}
                     success={(stats) => <GameStats stats={stats} />}
                 />
             </div>

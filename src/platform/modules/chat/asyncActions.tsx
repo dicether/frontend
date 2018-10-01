@@ -8,7 +8,7 @@ import {showSuccessMessage} from "../utilities/actions";
 
 export function loadMessages() {
     return function (dispatch: Dispatch) {
-        axios.get('messages').then(response => {
+        axios.get('/chat/messages').then(response => {
             const messages = response.data;
             dispatch(changeMessages(messages));
         }).catch(error => catchError(error, dispatch));
@@ -17,7 +17,7 @@ export function loadMessages() {
 
 export function sendMessage(message: string) {
     return function (dispatch: Dispatch) {
-        axios.post('sendMessage', {
+        axios.post('/chat/sendMessage', {
             message
         }).catch(error => catchError(error, dispatch));
     }
@@ -25,7 +25,7 @@ export function sendMessage(message: string) {
 
 export function mute(address: string) {
     return function (dispatch: Dispatch) {
-        axios.post('muteUser', {
+        axios.post('/chat/muteUser', {
             address
         }).then(() => {
             dispatch(showSuccessMessage("Muted player!"));
@@ -35,7 +35,7 @@ export function mute(address: string) {
 
 export function deleteMessage(messageId: number) {
       return function (dispatch: Dispatch) {
-        axios.post('deleteMessage', {
+        axios.post('/chat/deleteMessage', {
             messageId
         }).catch(error => catchError(error, dispatch));
     }
