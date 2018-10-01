@@ -55,7 +55,7 @@ class MessageList extends React.PureComponent<Props> {
         return (
             <div ref={(ref) => this.messageList = ref} className={Style.messageList}>
                 {messages.slice().map(message =>
-                    <Message key={`${message.user.username}_${message.timestamp}`} message={message} friends={friends}/>
+                    <Message key={message.id} message={message} friends={friends}/>
                 )}
             </div>
         )
