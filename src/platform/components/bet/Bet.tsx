@@ -35,14 +35,14 @@ class  Bet extends React.Component<Props, State> {
             button ?
                 React.cloneElement(
                     button,
-                    {onClick: this.onToggleModal}
+                    {onClick: this.onToggleModal, key: "1"}
                 )
                 :
-                <button key={1} className={Style.bet} onClick={this.onToggleModal}>
+                <button key="2" className={Style.bet} onClick={this.onToggleModal}>
                     {`Bet:${betId}`}
                 </button>,
-            <Modal key={2} isOpen={this.state.showModal} toggle={this.onToggleModal}>
-                <DataLoader<BetType> url={`/bet/${betId}`} success={(bet) => <BetInfo bet={bet}/>}/>
+            <Modal key="3" isOpen={this.state.showModal} toggle={this.onToggleModal}>
+                <DataLoader<BetType> url={`/bets/${betId}`} success={(bet) => <BetInfo bet={bet}/>}/>
             </Modal>
         ])
     }

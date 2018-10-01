@@ -42,11 +42,11 @@ class  User extends React.Component<Props, State> {
             button ?
                 React.cloneElement(
                     button,
-                    {onClick: this.onToggleModal}
+                    {onClick: this.onToggleModal, key: "1"}
                 )
                 :
-                <button className={Style.name} onClick={this.onToggleModal}>{name}</button>,
-            <Modal isOpen={this.state.showModal} toggle={this.onToggleModal}>
+                <button key="2" className={Style.name} onClick={this.onToggleModal}>{name}</button>,
+            <Modal key="3" isOpen={this.state.showModal} toggle={this.onToggleModal}>
                 {!user ? <DataLoader
                     url={`/user/name/${userName}`}
                     success={(user) => <UserInfo user={user}/>}
