@@ -104,14 +104,22 @@ function regularEndGameEvent(roundId: number, serverHash: string, userHash: stri
 }
 
 
-function canActivateGame(gameState: GameState, serverEndHash?: string) {
+function canActivateGame(gameState: GameState) {
     const status = gameState.status;
-    return status === "CREATING" && (!serverEndHash || gameState.serverHash === serverEndHash);
+    return status === "CREATING"
 }
 
-function activateGameEvent(gameId: number) {
+function activateGameEvent(gameId: number, serverHash: string, userHash: string) {
     return function (dispatch: Dispatch, getState: GetState) {
-        if (canActivateGame(getState().games.gameState)) {
+        const gameState = getState().games.gameState;
+        if (canActivateGame(gameState)) {
+            if (serverHash !== gameState.serverHash) {
+                throw Error(`Unexpectd serverHash: ${serverHash}, expected ${gameState.serverHash}`);
+            }
+            if (userHash !== gameState.userHash) {
+                throw Error(`Unexpectd userHash: ${userHash}, expected ${gameState.userHash}`);
+            }
+
             dispatch((gameCreated(gameId)));
         } else {
              Raven.captureMessage("Unexpected activateGameEvent");
@@ -359,7 +367,11 @@ export function loadContractGameState() {
 
             const logCreated = await getLogGameCreated(web3, contract, gameState.serverHash);
             if (logCreated) {
-                dispatch(activateGameEvent(logCreated.returnValues.gameId));
+                const gameId = logCreated.returnValues.gameId;
+                const serverHash = logCreated.returnValues.serverEndHash;
+                const userHash = logCreated.returnValues.userEndHash;
+
+                dispatch(activateGameEvent(gameId, serverHash, userHash));
                 return dispatch(loadContractStateCreatedGame());
             }
         } else if (gameState.status !== 'ENDED') {
@@ -436,23 +448,14 @@ export function syncGameState(address: string) {
 
 
 // TODO: improve, check contract state???
-export function serverActiveGame(gameId: number, serverHash: string) {
+export function serverActiveGame(gameId: number, serverHash: string, userHash: string) {
     return function (dispatch: Dispatch, getState: GetState) {
-        const {games} = getState();
-
-        const gameState = games.gameState;
-        const status = gameState.status;
         if (status === 'ACTIVE') {
             // already active => do nothing
             return;
         }
 
-        if (status !== 'CREATING' || gameState.serverHash !== serverHash) {
-            dispatch(showErrorMessage("Unexpected gameAccepted message!"));
-            return;
-        }
-
-        return dispatch(gameCreated(gameId));
+        dispatch(activateGameEvent(gameId, serverHash, userHash));
     }
 }
 
@@ -522,8 +525,10 @@ export function createGame(stake: number, userSeed: string) {
                             reject(new Error("Create game transaction failed!"));
                         } else {
                             const gameId = (event.returnValues as any).gameId;
+                            const serverHash = (event.returnValues as any).serverEndHash;
+                            const userHash = (event.returnValues as any).userEndHash;
                             if (getState().games.gameState.status !== "ACTIVE") {
-                                dispatch(activateGameEvent(gameId));
+                                dispatch(activateGameEvent(gameId, serverHash, userHash));
                             }
                             resolve();
                         }
