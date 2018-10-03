@@ -17,6 +17,8 @@ export const CONTACT_URL = "contact@dicether.com";
 export const BUGS_URL = "bugs@dicether.com";
 export const TWITTER_URL = "https://twitter.com/dicether";
 export const METAMASK_URL = "https://metamask.io";
+export const TRUST_WALLET_URL = "https://trustwalletapp.com";
+export const COINBASE_WALLET_URL = "https://wallet.coinbase.com";
 export const GITHUB_URL = "https://github.com/dicether";
 
 export const API_URL = process.env.API_URL || '';

@@ -1,7 +1,15 @@
 import * as React from 'react';
 import DocumentTitle from 'react-document-title';
 
-import {CONTACT_URL, BUGS_URL, METAMASK_URL, NAME, GITHUB_URL} from '../../config/config';
+import {
+    CONTACT_URL,
+    BUGS_URL,
+    METAMASK_URL,
+    NAME,
+    GITHUB_URL,
+    TRUST_WALLET_URL,
+    COINBASE_WALLET_URL
+} from '../../config/config';
 import {Container} from "../../reusable";
 
 const Style = require('./Faq.scss');
@@ -48,13 +56,15 @@ const Faq = () => (
                 <h5 className={Style.subheading}>How to register?</h5>
                 <p>
                     To register you only need to set a username. No password is needed as we
-                    use <a href={METAMASK_URL}>Metamask</a> for authentication.
+                    use your ethereum wallet for authentication.
                 </p>
             </div>
             <div className={Style.entry}>
                 <h5 className={Style.subheading}> Why can't I place a bet?</h5>
                 <p>
-                    To play you need to be logged in and  need to have <a href={METAMASK_URL}>Metamask</a> installed.
+                    To play you need to be logged in and you need to have <a href={METAMASK_URL}>Metamask</a>,
+                    {" "}<a href={TRUST_WALLET_URL}>Trust Wallet</a> or
+                    {" "}<a href={COINBASE_WALLET_URL}>Coinbase Wallet (Toshi)</a>.
                 </p>
             </div>
             <div className={Style.entry}>
