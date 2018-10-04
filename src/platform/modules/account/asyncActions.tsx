@@ -60,7 +60,12 @@ export function authenticate() {
         const web3 = web3State.web3;
         const web3Account = web3State.account;
         if (web3 === null || web3Account === null) {
-            dispatch(showErrorMessage("Error: You need metamask/mist to authenticate!"));
+            dispatch(showErrorMessage("Error: You need to have MetaMask installed or use Trust Wallet or Coinbase Wallet!"));
+            return undefined;
+        }
+
+        if (web3Account === null) {
+            dispatch(showErrorMessage("Error: You need to log in to you wallet!"));
             return undefined;
         }
 
