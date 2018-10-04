@@ -8,7 +8,7 @@ import {
     NAME,
     GITHUB_URL,
     TRUST_WALLET_URL,
-    COINBASE_WALLET_URL
+    COINBASE_WALLET_URL, CONTRACT_URL
 } from '../../config/config';
 import {Container} from "../../reusable";
 
@@ -41,9 +41,9 @@ const Faq = () => (
                     Between you can play as many games as you want. No blockchain interaction is necessary!
                 </p>
                 <p>
-                    {/*The smart contract is verified at Etherscan and can be viewed at <a href={CONTRACT_URL}>Coming soon...</a>.*/}
-                    {/*So you can check yourself that everything is working as described.*/}
-                    To view the contract source visit our <a href={GITHUB_URL}>github</a> repository.
+                    The smart contract is verified at <a href={CONTRACT_URL}>Etherscan</a>.
+                    So you can check yourself that everything is working as described.
+                    To have a look at our front-end source code you can visit our <a href={GITHUB_URL}>github</a> repositories.
                 </p>
                 </div>
             <div className={Style.entry}>
@@ -62,8 +62,8 @@ const Faq = () => (
             <div className={Style.entry}>
                 <h5 className={Style.subheading}> Why can't I place a bet?</h5>
                 <p>
-                    To play you need to be logged in and you need to have <a href={METAMASK_URL}>Metamask</a>,
-                    {" "}<a href={TRUST_WALLET_URL}>Trust Wallet</a> or
+                    To play you need to be logged in and you need to have installed <a href={METAMASK_URL}>Metamask</a>,
+                    {" "} or use <a href={TRUST_WALLET_URL}>Trust Wallet</a> or
                     {" "}<a href={COINBASE_WALLET_URL}>Coinbase Wallet (Toshi)</a>.
                 </p>
             </div>
