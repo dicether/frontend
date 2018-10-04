@@ -5,7 +5,13 @@ import Countdown from 'react-countdown-now';
 import {State as GameState} from '../../../../platform/modules/games/state/reducer';
 import {Ether, Tooltip} from '../../../../reusable';
 import CreateGameModal from './CreateGameModal';
-import {MIN_GAME_SESSION_VALUE, MAX_GAME_SESSION_VALUE, NETWORK_NAME, SESSION_TIMEOUT} from '../../../../config/config';
+import {
+    MIN_GAME_SESSION_VALUE,
+    MAX_GAME_SESSION_VALUE,
+    NETWORK_NAME,
+    SESSION_TIMEOUT,
+    METAMASK_URL, TRUST_WALLET_URL, COINBASE_WALLET_URL
+} from '../../../../config/config';
 import {Button, FontAwesomeIcon} from '../../../../reusable/index';
 import {State as Web3State} from '../../../../platform/modules/web3/reducer';
 import {validNetwork} from "../../../../platform/modules/games/state/asyncActions";
@@ -110,10 +116,19 @@ export default class GameHeader extends React.Component<Props, State> {
 
         const spinner = <FontAwesomeIcon color="dark" icon="spinner" spin size="lg"/>;
 
-        if (!isWeb3Available) {
+        if (!web3State.web3) {
             return (
                 <div className={Style.gameHeader}>
-                    <span className="text-danger">You need a web3 enabled browser for playing (e.g. Metamask)</span>
+                    <span className="text-danger">You need a web3 enabled browser for playing
+                        (e.g. <a href={METAMASK_URL}>MetaMask</a>, <a href={TRUST_WALLET_URL}>Trust Wallet</a>
+                        {" "}or <a href={COINBASE_WALLET_URL}>Coinbase Wallet</a>)
+                    </span>
+                </div>
+            )
+        } else if (!isWeb3Available) {
+            return (
+                <div className={Style.gameHeader}>
+                    <span className="text-danger">Please log in to you Wallet!</span>
                 </div>
             )
         }
