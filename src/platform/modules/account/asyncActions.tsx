@@ -66,7 +66,7 @@ export function authenticate() {
         }
 
         if (web3Account === null) {
-            dispatch(showErrorMessage("Error: You need to log in to you wallet!"));
+            dispatch(showErrorMessage("Error: You need to log in to your web3 wallet!"));
             return undefined;
         }
 
@@ -113,7 +113,7 @@ export function register(username: string) {
         const web3 = web3State.web3;
         const web3Account = web3State.account;
         if (web3 === null || web3Account === null) {
-            dispatch(showErrorMessage("Error: You need Metamask or similar to register!"));
+            dispatch(showErrorMessage("Error: You need to log in to your web3 wallet!!"));
             return undefined;
         }
 
