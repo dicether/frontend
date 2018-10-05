@@ -128,7 +128,7 @@ export default class GameHeader extends React.Component<Props, State> {
         } else if (!isWeb3Available) {
             return (
                 <div className={Style.gameHeader}>
-                    <span className="text-danger">Please log in to you Wallet!</span>
+                    <span className="text-danger">Please log in to your Wallet!</span>
                 </div>
             )
         }
