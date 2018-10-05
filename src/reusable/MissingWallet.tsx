@@ -6,7 +6,7 @@ const Style = require("./MissingWallet.scss");
 
 const MetaMaskFox = require("assets/images/metamask-fox.svg");
 const TrustWalletLogo = require("assets/images/trustwallet-logo.svg");
-const CoinbaseWalletLogo = require("assets/images/coinbasewallet-logo.png");
+const CoinbaseWalletLogo = require("assets/images/coinbasewallet-logo.svg");
 
 
 const MissingWallet = () => (
