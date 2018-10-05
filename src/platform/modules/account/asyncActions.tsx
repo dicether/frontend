@@ -102,6 +102,7 @@ export function authenticate() {
                 signature: result
             });
         }).then(response => {
+                dispatch(hideRegisterModal());
                 initUser(dispatch, response.data.jwt);
         }).catch(error => catchError(error, dispatch));
     }
