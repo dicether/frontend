@@ -31,6 +31,10 @@ const entries = [
     {
         icon: "comments",
         text: "Chat with other users or your friends!"
+    },
+    {
+        icon: "wallet",
+        text: "Use MetaMak, Trust Wallet or Coinbase Wallet (Toshi)!"
     }
 ];
 
