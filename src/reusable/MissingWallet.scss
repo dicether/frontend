@@ -1,0 +1,21 @@
+.entry {
+  font-size: 1.5rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.mobileDevice {
+  display: flex;
+  flex-direction: column;
+}
+
+.logo {
+  margin-right: 0.25em;
+  height: 1.25em;
+}
+
+.heading {
+  margin-bottom: 2rem;
+}

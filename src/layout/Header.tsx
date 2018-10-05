@@ -3,43 +3,12 @@ import {Container, Collapse, Navbar, NavbarBrand, NavbarToggler, Nav, NavItem, N
 import {NavLink as RRNavLink} from 'react-router-dom';
 import ClassName from 'classnames';
 
-import Register from '../platform/components/user/Register';
-import {IconButton, Modal} from '../reusable/index';
+import {IconButton} from '../reusable/index';
 import {CONTRACT_URL} from "../config/config";
 
 const Style = require('./Header.scss');
 
 const logo = require ('assets/images/logoTop.svg');
-
-
-class RegisterNavItem extends React.Component<{}, {showRegister: boolean}> {
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-            showRegister: false
-        }
-    }
-
-    toggleRegister = () => {
-        this.setState({
-            showRegister: !this.state.showRegister
-        });
-    };
-
-    render() {
-        const {showRegister} = this.state;
-        return(
-            <div>
-                <NavLink id="register" href="#" onClick={this.toggleRegister}>
-                    Register
-                </NavLink>
-                <Modal isOpen={this.state.showRegister} toggle={this.toggleRegister}>
-                        <Register/>
-                </Modal>
-            </div>
-        )
-    }
-}
 
 
 type Props = {
@@ -48,6 +17,7 @@ type Props = {
     nightMode: boolean,
     toggleChat(show: boolean): void,
     authenticate(): void,
+    showRegisterModal(): void
     toggleTheme(nightMode: boolean): void
 }
 
@@ -82,7 +52,7 @@ class Header extends React.Component<Props, State> {
     };
 
     render () {
-        const {authenticated, showChat, nightMode} = this.props;
+        const {authenticated, showRegisterModal, showChat, nightMode} = this.props;
         const {isOpen} = this.state;
 
         const className = ClassName({
@@ -126,7 +96,9 @@ class Header extends React.Component<Props, State> {
                                     </NavItem>
                                 ] : [
                                     <NavItem key="1">
-                                        <RegisterNavItem/>
+                                        <NavLink id="register" href="#" onClick={showRegisterModal}>
+                                            Register
+                                        </NavLink>
                                     </NavItem>,
                                     <NavItem key="2">
                                         <NavLink href="#" onClick={this.props.authenticate}>Login</NavLink>

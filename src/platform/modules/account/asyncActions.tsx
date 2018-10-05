@@ -14,6 +14,7 @@ import {loadFriendRequests, loadFriends} from "../friends/asyncActions";
 import {loadMessages} from "../chat/asyncActions";
 import {User} from "./types";
 import {changeAxiosAuthToken} from "../../../config/apiEndpoints";
+import {showMissingWalletModal} from "../../components/modals/actions";
 
 export function changeFirstVisited(firstVisited: boolean) {
     return function (dispatch: Dispatch) {
@@ -60,7 +61,7 @@ export function authenticate() {
         const web3 = web3State.web3;
         const web3Account = web3State.account;
         if (web3 === null || web3Account === null) {
-            dispatch(showErrorMessage("Error: You need to have MetaMask installed or use Trust Wallet or Coinbase Wallet!"));
+            dispatch(showMissingWalletModal());
             return undefined;
         }
 

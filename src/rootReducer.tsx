@@ -1,4 +1,5 @@
 import {combineReducers, Reducer} from 'redux'
+import { reducer as modal } from 'redux-modal';
 
 import account, {State as AccountState} from './platform/modules/account/reducer'
 import chat, {State as ChatState} from './platform/modules/chat/reducer'
@@ -25,7 +26,8 @@ const appReducer: Reducer<State> = combineReducers({
     web3,
     app,
     games,
-    bets
+    bets,
+    modal
 });
 
 function rootReducer(state: State, action: any): State {

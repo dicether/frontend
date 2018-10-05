@@ -4,6 +4,7 @@ import {Redirect, Route, Switch, withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 
 import Layout from '../layout/Layout';
+import Modals from '../platform/components/modals/Modals';
 import Game from '../pages/games/Game';
 import Faq from '../pages/faq/Faq';
 import Index from '../pages/index/Index';
@@ -140,6 +141,7 @@ class App extends React.Component<Props, State> {
                     </Switch>
                     <Chat/>
                     {/*<TermsOfUseModal/>*/}
+                    <Modals/>
                     <BeforeUnload gameState={gameState}/>
                     <Notification notification={notification}/>
                     <StateLoader/>

@@ -1,7 +1,8 @@
 import * as React from 'react';
-import {Container} from 'reactstrap';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router-dom';
+import {bindActionCreators, Dispatch} from "redux";
+
 
 import Footer from './Footer';
 import Header from './Header';
@@ -10,7 +11,7 @@ import {State} from "../rootReducer";
 import {RouteComponentProps} from "react-router";
 import {toggleChat} from '../platform/modules/chat/actions';
 import {toggleTheme} from "../platform/modules/utilities/actions";
-import {bindActionCreators, Dispatch} from "redux";
+import {showRegisterModal} from "../platform/components/modals/actions";
 
 
 const mapStateToProps = ({chat, account, app}: State) => {
@@ -27,7 +28,8 @@ const mapStateToProps = ({chat, account, app}: State) => {
 const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
     toggleChat,
     authenticate,
-    toggleTheme
+    toggleTheme,
+    showRegisterModal
 }, dispatch);
 
 type OtherProps = {
@@ -38,7 +40,7 @@ type ReduxProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDisp
 
 type Props = RouteComponentProps<any> & ReduxProps & OtherProps;
 
-const Layout = ({children, showChat, authenticated, nightMode, toggleChat, authenticate, toggleTheme} : Props) => {
+const Layout = ({children, showChat, authenticated, nightMode, toggleChat, authenticate, toggleTheme, showRegisterModal} : Props) => {
     const className = showChat ? 'chat-open' : '';
 
     return (
@@ -50,6 +52,7 @@ const Layout = ({children, showChat, authenticated, nightMode, toggleChat, authe
                 toggleChat={() => toggleChat(true)}
                 authenticate={authenticate}
                 toggleTheme={toggleTheme}
+                showRegisterModal={showRegisterModal}
             />
             {children}
             <Footer showChat={showChat} />
