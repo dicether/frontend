@@ -48,7 +48,7 @@ function processMessage(message: string) {
     ));
 
     return reactStringReplace(res, LINK_REGEX, (match, i) => (
-        <a key={match + i} href={match}>{match}</a>
+        <a key={match + i} target="_blank" href={match}>{match}</a>
     ));
 }
 
