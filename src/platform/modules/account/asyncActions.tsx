@@ -60,7 +60,7 @@ export function authenticate() {
         const web3State = getState().web3;
         const web3 = web3State.web3;
         const web3Account = web3State.account;
-        if (web3 === null || web3Account === null) {
+        if (web3 === null) {
             dispatch(showMissingWalletModal());
             return undefined;
         }
