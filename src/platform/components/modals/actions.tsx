@@ -1,4 +1,4 @@
-import { show } from 'redux-modal'
+import {show, hide} from "redux-modal"
 
 import {Dispatch, GetState} from "../../../util/util";
 
@@ -7,9 +7,19 @@ export function showMissingWalletModal() {
     return show("missingWallet");
 }
 
+export function hideMissingWalletModal() {
+    return hide("missingWallet");
+}
+
+
 function showRegisterModalInternal() {
     return show("register");
 }
+
+export function hideRegisterModal() {
+    return hide("register");
+}
+
 
 export function showRegisterModal() {
     return function(dispatch: Dispatch, getState: GetState) {

@@ -14,7 +14,7 @@ import {loadFriendRequests, loadFriends} from "../friends/asyncActions";
 import {loadMessages} from "../chat/asyncActions";
 import {User} from "./types";
 import {changeAxiosAuthToken} from "../../../config/apiEndpoints";
-import {showMissingWalletModal} from "../../components/modals/actions";
+import {hideRegisterModal, showMissingWalletModal} from "../../components/modals/actions";
 
 export function changeFirstVisited(firstVisited: boolean) {
     return function (dispatch: Dispatch) {
@@ -146,6 +146,7 @@ export function register(username: string) {
                 referredBy: referredBy ? referredBy : undefined
             });
         }).then(response => {
+                dispatch(hideRegisterModal());
                 initUser(dispatch, response.data.jwt);
             }
         ).catch(error => catchError(error, dispatch));
