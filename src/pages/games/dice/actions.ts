@@ -1,5 +1,5 @@
-import * as types from './constants';
 import {ActionCreateType} from "../../../util/util";
+import * as types from "./constants";
 
 
 const ca = <T extends ActionCreateType<typeof types>>(a: T) => a;

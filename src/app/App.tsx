@@ -1,42 +1,39 @@
-import * as React from 'react';
-import DocumentTitle from 'react-document-title';
-import {Redirect, Route, Switch, withRouter} from 'react-router-dom';
-import {connect} from 'react-redux';
+import * as React from "react";
+import DocumentTitle from "react-document-title";
+import {connect} from "react-redux";
+import {Redirect, Route, Switch, withRouter} from "react-router-dom";
 
-import Layout from '../layout/Layout';
-import Modals from '../platform/components/modals/Modals';
-import Game from '../pages/games/Game';
-import Faq from '../pages/faq/Faq';
-import Index from '../pages/index/Index';
-import HallOfFame from '../pages/hallOfFame/HallOfFame';
-import TermsOfUseModal from './TermsOfUseModal';
-import TermsOfUse from '../termsOfUse/TermsOfUse';
-import Chat from '../platform/components/chat/Chat';
-import Account from '../pages/account/Account';
-import PathNotFound from './PathNotFound';
-import {fetchAllWeb3} from '../platform/modules/web3/asyncActions';
-import AuthenticatedRoute from './AuthenticatedRoute';
-import LogoutRoute from '../platform/modules/utilities/LogoutRoute';
-import Notification from './Notification';
-import {WEB3_POLL_INTERVAL} from '../config/config';
-import {bindActionCreators} from "redux";
-import {State as RootState} from "../rootReducer";
 import {RouteComponentProps} from "react-router";
-import {getUser} from "../platform/modules/account/selectors";
-import {init as initSockets, unInit as unInitSockets} from '../platform/sockets';
-import {initUser, loadDefaultData} from "../platform/modules/account/asyncActions";
-import StateLoader from '../platform/components/state/StateLoader';
-import BeforeUnload from "./BeforeUnload";
+import {bindActionCreators} from "redux";
+import {WEB3_POLL_INTERVAL} from "../config/config";
+import Layout from "../layout/Layout";
+import Account from "../pages/account/Account";
+import Faq from "../pages/faq/Faq";
+import Game from "../pages/games/Game";
 import GameSession from "../pages/gameSession/GameSession";
+import HallOfFame from "../pages/hallOfFame/HallOfFame";
+import Index from "../pages/index/Index";
+import Chat from "../platform/components/chat/Chat";
+import Modals from "../platform/components/modals/Modals";
+import StateLoader from "../platform/components/state/StateLoader";
+import {initUser, loadDefaultData} from "../platform/modules/account/asyncActions";
+import {getUser} from "../platform/modules/account/selectors";
+import LogoutRoute from "../platform/modules/utilities/LogoutRoute";
+import {fetchAllWeb3} from "../platform/modules/web3/asyncActions";
+import {init as initSockets, unInit as unInitSockets} from "../platform/sockets";
+import {State as RootState} from "../rootReducer";
+import TermsOfUse from "../termsOfUse/TermsOfUse";
 import {Dispatch} from "../util/util";
-
+import AuthenticatedRoute from "./AuthenticatedRoute";
+import BeforeUnload from "./BeforeUnload";
+import Notification from "./Notification";
+import PathNotFound from "./PathNotFound";
 
 export const mapStateToProps = (state: RootState) => {
     const {account, app, web3, games} = state;
     const {gameState} = games;
     const {notification, nightMode} = app;
     const jwt = account.jwt;
-
 
     return {
         jwt,
@@ -45,7 +42,7 @@ export const mapStateToProps = (state: RootState) => {
         notification,
         nightMode,
         gameState,
-        web3: web3.web3
+        web3: web3.web3,
     };
 };
 
@@ -54,18 +51,19 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     initSockets: () => initSockets(dispatch),
     unInitSockets: () => unInitSockets(dispatch),
     initUser: (address: string) => initUser(dispatch, address),
-    loadDefaultData: () => loadDefaultData(dispatch)
+    loadDefaultData: () => loadDefaultData(dispatch),
 });
 
-
-
-export type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps> & RouteComponentProps<any>;
+export type Props = ReturnType<typeof mapStateToProps> &
+    ReturnType<typeof mapDispatchToProps> &
+    RouteComponentProps<any>;
 
 export type State = {
-    web3Timer: number|null
-}
+    web3Timer: number | null;
+};
 
-const DynamicIndex = ({userAuth, ...rest}) => userAuth ? <Redirect {...rest} to="/games/dice"/> : <Index {...rest}/>;
+const DynamicIndex = ({userAuth, ...rest}) =>
+    userAuth ? <Redirect {...rest} to="/games/dice" /> : <Index {...rest} />;
 
 class App extends React.Component<Props, State> {
     constructor(props: Props) {
@@ -73,13 +71,13 @@ class App extends React.Component<Props, State> {
         this.state = {web3Timer: null};
     }
 
-    setTheme = (nightMode) => {
+    setTheme = nightMode => {
         if (nightMode) {
             document.body.classList.add("night");
         } else {
             document.body.classList.remove("night");
         }
-    };
+    }
 
     componentWillMount() {
         const {jwt, fetchAllWeb3, initUser, initSockets, loadDefaultData} = this.props;
@@ -122,33 +120,43 @@ class App extends React.Component<Props, State> {
     render() {
         const {userAuth, notification, defaultAccount, gameState} = this.props;
 
-        const logout = (userAuth !== null && (userAuth.address !== defaultAccount && defaultAccount !== null));
+        const logout = userAuth !== null && (userAuth.address !== defaultAccount && defaultAccount !== null);
 
         return (
             <DocumentTitle title="Dicether">
                 <Layout>
-                    {logout && <Redirect to="/logout"/>}
+                    {logout && <Redirect to="/logout" />}
                     <Switch>
-                        <Route userAuth={userAuth} exact path="/" render={ props => <DynamicIndex userAuth={userAuth} {...props}/> }/>
-                        <Route exact path="/faq" component={Faq}/>
-                        <Route path="/hallOfFame" component={HallOfFame}/>
-                        <Route exact path="/termsOfUse" component={TermsOfUse}/>
-                        <Route exact path="/logout" component={LogoutRoute}/>
-                        <Route exact path="/games/dice" component={Game}/>
-                        <AuthenticatedRoute authenticated={userAuth !== null} path="/account" component={Account}/>
-                        <Route exact path="/gameSession/:gameId(\d+)" component={GameSession}/>
-                        <Route component={PathNotFound}/>
+                        <Route
+                            userAuth={userAuth}
+                            exact
+                            path="/"
+                            render={props => <DynamicIndex userAuth={userAuth} {...props} />}
+                        />
+                        <Route exact path="/faq" component={Faq} />
+                        <Route path="/hallOfFame" component={HallOfFame} />
+                        <Route exact path="/termsOfUse" component={TermsOfUse} />
+                        <Route exact path="/logout" component={LogoutRoute} />
+                        <Route exact path="/games/dice" component={Game} />
+                        <AuthenticatedRoute authenticated={userAuth !== null} path="/account" component={Account} />
+                        <Route exact path="/gameSession/:gameId(\d+)" component={GameSession} />
+                        <Route component={PathNotFound} />
                     </Switch>
-                    <Chat/>
+                    <Chat />
                     {/*<TermsOfUseModal/>*/}
-                    <Modals/>
-                    <BeforeUnload gameState={gameState}/>
-                    <Notification notification={notification}/>
-                    <StateLoader/>
+                    <Modals />
+                    <BeforeUnload gameState={gameState} />
+                    <Notification notification={notification} />
+                    <StateLoader />
                 </Layout>
             </DocumentTitle>
         );
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+export default withRouter(
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )(App)
+);

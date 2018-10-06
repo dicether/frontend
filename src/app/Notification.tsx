@@ -1,21 +1,18 @@
-import * as React from 'react';
-import {ToastContainer, toast} from 'react-toastify';
+import * as React from "react";
+import {toast, ToastContainer} from "react-toastify";
 
-const Style = require('./Notification.scss');
-import 'react-toastify/dist/ReactToastify.css';
-
+const Style = require("./Notification.scss");
+import "react-toastify/dist/ReactToastify.css"; // tslint:disable-line:no-submodule-imports
 
 const CloseButton = () => (
-    <button type="button" className="close" aria-label="Close" style={{color: '#fff', alignSelf: 'flex-start'}}>
+    <button type="button" className="close" aria-label="Close" style={{color: "#fff", alignSelf: "flex-start"}}>
         <span aria-hidden="true">&times;</span>
     </button>
 );
 
-
 export type Props = {
-    notification: any
-}
-
+    notification: any;
+};
 
 export default class Notification extends React.Component<Props> {
     constructor(props: Props) {
@@ -26,11 +23,11 @@ export default class Notification extends React.Component<Props> {
         if (nextProps.notification !== this.props.notification && nextProps.notification !== null) {
             const notification = nextProps.notification;
             if (notification.type === "success") {
-                toast.success(<div style={{width: '285px', wordWrap: 'break-word'}}>{notification.message}</div>);
+                toast.success(<div style={{width: "285px", wordWrap: "break-word"}}>{notification.message}</div>);
             } else if (notification.type === "info") {
-                toast.info(<div style={{width: '285px', wordWrap: 'break-word'}}>{notification.message}</div>);
+                toast.info(<div style={{width: "285px", wordWrap: "break-word"}}>{notification.message}</div>);
             } else {
-                toast.error(<div style={{width: '285px', wordWrap: 'break-word'}}>{notification.message}</div>);
+                toast.error(<div style={{width: "285px", wordWrap: "break-word"}}>{notification.message}</div>);
             }
         }
     }
@@ -44,8 +41,8 @@ export default class Notification extends React.Component<Props> {
                 hideProgressBar={true}
                 closeOnClick
                 pauseOnHover={false}
-                closeButton={<CloseButton/>}
+                closeButton={<CloseButton />}
             />
-        )
+        );
     }
 }

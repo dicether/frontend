@@ -1,12 +1,11 @@
-import * as React from 'react';
+import * as React from "react";
 
-import {State} from '../../../rootReducer';
-import {storeGameState, syncGameState, validNetwork} from '../../modules/games/state/asyncActions';
-import {connect} from 'react-redux';
-import {getUser} from "../../modules/account/selectors";
+import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
+import {State} from "../../../rootReducer";
 import {Dispatch} from "../../../util/util";
-
+import {getUser} from "../../modules/account/selectors";
+import {storeGameState, syncGameState, validNetwork} from "../../modules/games/state/asyncActions";
 
 const mapStateToProps = (state: State) => {
     const {games, web3} = state;
@@ -15,20 +14,22 @@ const mapStateToProps = (state: State) => {
     return {
         gameState,
         userAuth: getUser(state),
-        web3
-    }
+        web3,
+    };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
-    syncGameState
-}, dispatch);
-
+const mapDispatchToProps = (dispatch: Dispatch) =>
+    bindActionCreators(
+        {
+            syncGameState,
+        },
+        dispatch
+    );
 
 export type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
-
 class StateLoader extends React.Component<Props> {
-    constructor(props: Props)  {
+    constructor(props: Props) {
         super(props);
     }
 
@@ -44,11 +45,16 @@ class StateLoader extends React.Component<Props> {
         const {syncGameState, userAuth: nextUserAuth, gameState: nextState, web3: nextWeb3State} = nextProps;
         const {userAuth: curUserAuth, gameState: curState, web3: curWeb3State} = this.props;
 
-        if (nextUserAuth !== null
-            && nextWeb3State.web3 && nextWeb3State.account && nextWeb3State.contract && validNetwork(nextWeb3State.networkId)
-            && (nextUserAuth !== curUserAuth
-                || nextWeb3State.account !== curWeb3State.account
-                || nextWeb3State.networkId !== curWeb3State.networkId)) {
+        if (
+            nextUserAuth !== null &&
+            nextWeb3State.web3 &&
+            nextWeb3State.account &&
+            nextWeb3State.contract &&
+            validNetwork(nextWeb3State.networkId) &&
+            (nextUserAuth !== curUserAuth ||
+                nextWeb3State.account !== curWeb3State.account ||
+                nextWeb3State.networkId !== curWeb3State.networkId)
+        ) {
             syncGameState(nextUserAuth.address);
         }
 
@@ -62,4 +68,7 @@ class StateLoader extends React.Component<Props> {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(StateLoader);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(StateLoader);

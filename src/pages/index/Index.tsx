@@ -1,26 +1,25 @@
 import * as React from "react";
-import DocumentTitle from 'react-document-title';
+import DocumentTitle from "react-document-title";
 
-import Overview from "./components/Overview";
-import BigFeatures from "./components/BigFeatures";
-import SmallFeatures from "./components/SmallFeatures";
-import Games from "./components/Games";
 import Stats from "../../platform/components/bet/Stats";
 import {Container, Section} from "../../reusable";
-
+import BigFeatures from "./components/BigFeatures";
+import Games from "./components/Games";
+import Overview from "./components/Overview";
+import SmallFeatures from "./components/SmallFeatures";
 
 const Index = () => (
     <DocumentTitle title="Dicether">
         <div>
-            <Overview/>
-            <SmallFeatures/>
-            <Games/>
+            <Overview />
+            <SmallFeatures />
+            <Games />
             <Section>
                 <Container>
-                    <Stats showMyBets={false}/>
+                    <Stats showMyBets={false} />
                 </Container>
             </Section>
-            <BigFeatures/>
+            <BigFeatures />
         </div>
     </DocumentTitle>
 );

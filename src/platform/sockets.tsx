@@ -1,22 +1,21 @@
-import betSocketListener from './modules/bets/socketListeners';
-import friendSocketListener from './modules/friends/socketListeners';
-import chatSocketListener from './modules/chat/socketListeners';
 import {SOCKET} from "../config/sockets";
 import {Dispatch} from "../util/util";
-
+import betSocketListener from "./modules/bets/socketListeners";
+import chatSocketListener from "./modules/chat/socketListeners";
+import friendSocketListener from "./modules/friends/socketListeners";
 
 const defaultListeners = {...betSocketListener, ...friendSocketListener, ...chatSocketListener};
 
 type ListenersType = {[id: string]: (dispatch: Dispatch) => (...args: any[]) => void};
 
-export function addListeners(listeners: ListenersType , dispatch: Dispatch) {
+export function addListeners(listeners: ListenersType, dispatch: Dispatch) {
     for (const event of Object.keys(listeners)) {
         SOCKET.on(event, listeners[event](dispatch));
     }
 }
 
 export function removeListeners(listeners: ListenersType, dispatch: Dispatch) {
-     for (const event of Object.keys(listeners)) {
+    for (const event of Object.keys(listeners)) {
         SOCKET.removeListener(event);
     }
 }

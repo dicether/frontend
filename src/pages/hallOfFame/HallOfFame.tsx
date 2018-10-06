@@ -1,33 +1,29 @@
-import * as React from 'react'
-import DocumentTitle from 'react-document-title';
-import {NavLink as RRNavLink} from 'react-router-dom';
-import {NavItem, NavLink, Nav} from 'reactstrap';
+import * as React from "react";
+import DocumentTitle from "react-document-title";
+import {NavLink as RRNavLink} from "react-router-dom";
+import {Nav, NavItem, NavLink} from "reactstrap";
 
-import {Row, Col, Container, DataLoader} from '../../reusable/index'
-import StatsTable from './StatsTable'
 import {Redirect, Route, RouteComponentProps, Switch} from "react-router";
+import {Col, Container, DataLoader, Row} from "../../reusable/index";
+import StatsTable from "./StatsTable";
 
-const Style = require('./HallOfFame.scss');
-
-
+const Style = require("./HallOfFame.scss");
 
 const StatsEntry = ({timeSpan}) => (
     <DataLoader
         url={`/stats/${timeSpan}`}
-        success={ stats => (
+        success={stats => (
             <Row>
                 <Col md={6}>
-                    <StatsTable title="Most Wagered" name="Wagered" data={stats.mostWagered}/>
+                    <StatsTable title="Most Wagered" name="Wagered" data={stats.mostWagered} />
                 </Col>
                 <Col md={6}>
-                    <StatsTable title="Most Profit" name="Profit" data={stats.mostProfit}/>
+                    <StatsTable title="Most Profit" name="Profit" data={stats.mostProfit} />
                 </Col>
             </Row>
         )}
     />
 );
-
-
 
 type Props = RouteComponentProps<any>;
 
@@ -43,9 +39,9 @@ class HallOfFame extends React.Component<Props> {
     render() {
         const {match} = this.props;
 
-        const weekEntry = () =>  <StatsEntry timeSpan="week"/>;
-        const monthEntry = () =>  <StatsEntry timeSpan="month"/>;
-        const allEntry = () =>  <StatsEntry timeSpan="all"/>;
+        const weekEntry = () => <StatsEntry timeSpan="week" />;
+        const monthEntry = () => <StatsEntry timeSpan="month" />;
+        const allEntry = () => <StatsEntry timeSpan="all" />;
 
         return (
             <DocumentTitle title="Hall of Fame - Dicether">
@@ -69,10 +65,10 @@ class HallOfFame extends React.Component<Props> {
                         </NavItem>
                     </Nav>
                     <Switch>
-                        <Route exact path={`${match.path}`} render={() => <Redirect to={`${match.path}/weekly`}/>}/>
-                        <Route exact path={`${match.path}/weekly`} component={weekEntry}/>
-                        <Route exact path={`${match.path}/monthly`} component={monthEntry}/>
-                        <Route exact path={`${match.path}/all`} component={allEntry}/>
+                        <Route exact path={`${match.path}`} render={() => <Redirect to={`${match.path}/weekly`} />} />
+                        <Route exact path={`${match.path}/weekly`} component={weekEntry} />
+                        <Route exact path={`${match.path}/monthly`} component={monthEntry} />
+                        <Route exact path={`${match.path}/all`} component={allEntry} />
                     </Switch>
                 </Container>
             </DocumentTitle>

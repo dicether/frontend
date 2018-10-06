@@ -1,7 +1,6 @@
-const win = require('assets/sound/win.wav');
-const lose = require('assets/sound/lose.wav');
-const click =require('assets/sound/click.wav');
-
+const win = require("assets/sound/win.wav");
+const lose = require("assets/sound/lose.wav");
+const click = require("assets/sound/click.wav");
 
 export default {
     win: new Audio(win),

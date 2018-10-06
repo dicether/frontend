@@ -1,33 +1,31 @@
-import * as React from 'react';
-import ClassNames from 'classnames';
+import ClassNames from "classnames";
+import * as React from "react";
 
-const Style = require('./Input.scss');
+const Style = require("./Input.scss");
 import {BaseType} from "./BaseType";
 
-
 export interface Props extends BaseType {
-    value: string,
-    suffix?: React.ReactNode,
-    disabled?: boolean,
-    readOnly?: boolean,
-    placeholder?: string,
-    showValidation?: boolean,
-    isValid?: boolean
+    value: string;
+    suffix?: React.ReactNode;
+    disabled?: boolean;
+    readOnly?: boolean;
+    placeholder?: string;
+    showValidation?: boolean;
+    isValid?: boolean;
 
-    validate?(value: string): {valid: boolean, message?: string},
-    onValue?(value: string): void,
+    validate?(value: string): {valid: boolean; message?: string};
+    onValue?(value: string): void;
 }
 
 export type State = {
-    inputValue: string,
-    isValid?: boolean
+    inputValue: string;
+    isValid?: boolean;
 };
-
 
 export default class Input extends React.Component<Props, State> {
     static defaultProps = {
         disabled: false,
-        showValidation: false
+        showValidation: false,
     };
 
     isFocus: boolean;
@@ -36,14 +34,14 @@ export default class Input extends React.Component<Props, State> {
         super(props);
 
         if (props.isValid !== undefined && props.validate !== undefined) {
-            console.error("isValid and validate cant't be used at the same time!")
+            console.error("isValid and validate cant't be used at the same time!");
         }
 
         this.isFocus = false;
 
         this.state = {
             inputValue: this.props.value,
-        }
+        };
     }
 
     componentWillReceiveProps(nextProps: Props) {
@@ -62,11 +60,11 @@ export default class Input extends React.Component<Props, State> {
             onValue(val);
             this.setState({inputValue: value});
         }
-    };
+    }
 
     onFocus = () => {
         this.isFocus = true;
-    };
+    }
 
     onChange = (event: React.FormEvent<HTMLInputElement>) => {
         const val = (event.target as HTMLInputElement).value;
@@ -77,7 +75,7 @@ export default class Input extends React.Component<Props, State> {
         if (onValue && valid !== false) {
             onValue(val);
         }
-    };
+    }
 
     render() {
         const {inputValue, isValid: isValidState} = this.state;
@@ -91,31 +89,31 @@ export default class Input extends React.Component<Props, State> {
         }
 
         const className = ClassNames(
-            'form-control',
+            "form-control",
             Style.input__input,
-            {'is-valid': isValid === true && showValidation},
-            {'is-invalid': isValid === false && showValidation},
+            {"is-valid": isValid === true && showValidation},
+            {"is-invalid": isValid === false && showValidation}
         );
 
         return (
             <div className="input">
-                <input placeholder={placeholder}
-                       className={className}
-                       disabled={disabled}
-                       readOnly={readOnly}
-                       value={inputValue}
-                       onBlur={this.onBlur}
-                       onChange={this.onChange}
-                       onFocus={this.onFocus}
+                <input
+                    placeholder={placeholder}
+                    className={className}
+                    disabled={disabled}
+                    readOnly={readOnly}
+                    value={inputValue}
+                    onBlur={this.onBlur}
+                    onChange={this.onChange}
+                    onFocus={this.onFocus}
                 />
-                {suffix &&
-                <div className="input__suffix">
-                    <span style={{color: 'transparent'}}>{inputValue}</span>
-                    {suffix}
-                </div>
-                }
-
+                {suffix && (
+                    <div className="input__suffix">
+                        <span style={{color: "transparent"}}>{inputValue}</span>
+                        {suffix}
+                    </div>
+                )}
             </div>
-        )
+        );
     }
 }

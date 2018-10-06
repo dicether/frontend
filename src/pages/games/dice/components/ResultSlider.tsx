@@ -1,14 +1,12 @@
-import * as React from 'react';
-import ClassNames from 'classnames';
+import ClassNames from "classnames";
+import * as React from "react";
 
-const Style = require('./ResultSlider.scss');
-
+const Style = require("./ResultSlider.scss");
 
 type Props = {
-    result: {num: number, won: boolean},
-    showResult: boolean
-}
-
+    result: {num: number; won: boolean};
+    showResult: boolean;
+};
 
 export default class ResultSlider extends React.Component<Props> {
     constructor(props: Props) {
@@ -23,25 +21,17 @@ export default class ResultSlider extends React.Component<Props> {
             Style.resultSlider,
             {[Style.resultSlider_visible]: showResult},
             {[Style.resultSlider_hidden]: !showResult}
-
         );
 
-        const classNamesWrapper = ClassNames(
-            Style.resultWrapper,
-            {[Style.resultWrapper_hidden]: !showResult}
-        );
+        const classNamesWrapper = ClassNames(Style.resultWrapper, {[Style.resultWrapper_hidden]: !showResult});
 
-        const classNamesResult = ClassNames(
-            Style.result,
-            {[Style.result_won]: won},
-            {[Style.result_lost]: !won},
-        );
+        const classNamesResult = ClassNames(Style.result, {[Style.result_won]: won}, {[Style.result_lost]: !won});
 
         return (
             <div className={classNames} style={{transform: `translate(${num}%, -50%)`}}>
                 <div className={classNamesWrapper}>
-                        <div className={Style.image} />
-                        <span className={classNamesResult}>{num}</span>
+                    <div className={Style.image} />
+                    <span className={classNamesResult}>{num}</span>
                 </div>
             </div>
         );

@@ -1,27 +1,25 @@
-import * as React from 'react';
-import RcSlider from 'rc-slider';
+import RcSlider from "rc-slider";
+import * as React from "react";
 
 const SliderHandle = require("./SliderHandle").default;
 import {BaseType} from "./BaseType";
 
-import 'rc-slider/assets/index.css';
-import './Slider.scss';
-const Style = require('./Slider.scss');
-
+import "rc-slider/assets/index.css"; // tslint:disable-line:no-submodule-imports
+import "./Slider.scss";
+const Style = require("./Slider.scss");
 
 export interface Props extends BaseType {
-    value: number,
-    min: number,
-    max: number,
-    step?: number,
-    vertical?: boolean,
-    disabled?: boolean,
-    lowColor?: string,
-    highColor?: string,
+    value: number;
+    min: number;
+    max: number;
+    step?: number;
+    vertical?: boolean;
+    disabled?: boolean;
+    lowColor?: string;
+    highColor?: string;
 
-    onValue(value: number): void,
+    onValue(value: number): void;
 }
-
 
 const Slider = ({lowColor, highColor, onValue, ...props}: Props) => {
     let trackStyle = {};
@@ -39,17 +37,16 @@ const Slider = ({lowColor, highColor, onValue, ...props}: Props) => {
 
     return (
         <RcSlider
-            ref={(ref) => node = ref}
+            ref={ref => (node = ref)}
             onChange={onValue}
             {...props}
             trackStyle={trackStyle}
             railStyle={railStyle}
             onBeforeChange={() => node.focus()}
             handle={({index, ...restProps}) => {
-                    delete restProps.dragging;
-                    return <SliderHandle {...restProps} key={index}/>;
-                }
-            }
+                delete restProps.dragging;
+                return <SliderHandle {...restProps} key={index} />;
+            }}
         />
     );
 };

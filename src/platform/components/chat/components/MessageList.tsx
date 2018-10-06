@@ -1,17 +1,16 @@
-import * as React from 'react';
+import * as React from "react";
 
-import Message from './Message'
+import Message from "./Message";
 
-const Style = require('./MessageList.scss');
+const Style = require("./MessageList.scss");
 
-import {Message as MessageType} from '../../../modules/chat/types'
-import {Friend} from '../../../modules/friends/types';
+import {Message as MessageType} from "../../../modules/chat/types";
+import {Friend} from "../../../modules/friends/types";
 
 export type Props = {
-    messages: Array<MessageType>,
-    friends: Array<Friend>
+    messages: MessageType[];
+    friends: Friend[];
 };
-
 
 class MessageList extends React.PureComponent<Props> {
     shouldScrollBottom: boolean;
@@ -31,7 +30,7 @@ class MessageList extends React.PureComponent<Props> {
                 node.scrollTop = node.scrollHeight;
             }
         });
-    };
+    }
 
     componentDidMount() {
         this.scrollToBottom();
@@ -53,12 +52,12 @@ class MessageList extends React.PureComponent<Props> {
     render() {
         const {messages, friends} = this.props;
         return (
-            <div ref={(ref) => this.messageList = ref} className={Style.messageList}>
-                {messages.slice().map(message =>
-                    <Message key={message.id} message={message} friends={friends}/>
-                )}
+            <div ref={ref => (this.messageList = ref)} className={Style.messageList}>
+                {messages.slice().map(message => (
+                    <Message key={message.id} message={message} friends={friends} />
+                ))}
             </div>
-        )
+        );
     }
 }
 

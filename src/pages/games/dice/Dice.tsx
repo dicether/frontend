@@ -1,46 +1,25 @@
-import * as React from 'react';
-import DocumentTitle from 'react-document-title';
-import {connect} from 'react-redux';
 import {GameType, maxBet} from "@dicether/state-channel";
+import * as React from "react";
+import DocumentTitle from "react-document-title";
+import {connect} from "react-redux";
 
-import DiceUi from './components/DiceUi';
-import {placeBet, validNetwork} from '../../../platform/modules/games/state/asyncActions';
-import sounds from '../sound';
-import {State} from '../../../rootReducer';
-import {toggleHelp} from '../../../platform/modules/games/info/actions';
-import {
-    HOUSE_EDGE,
-    HOUSE_EDGE_DIVISOR,
-    MIN_BANKROLL,
-    MIN_BET_VALUE,
-    NETWORK_NAME,
-    RANGE
-} from '../../../config/config';
-import {catchError} from "../../../platform/modules/utilities/asyncActions";
+import {HOUSE_EDGE, HOUSE_EDGE_DIVISOR, MIN_BANKROLL, MIN_BET_VALUE, NETWORK_NAME, RANGE} from "../../../config/config";
+import {toggleHelp} from "../../../platform/modules/games/info/actions";
+import {placeBet, validNetwork} from "../../../platform/modules/games/state/asyncActions";
 import {showErrorMessage} from "../../../platform/modules/utilities/actions";
-import {changeNum, changeRollMode, changeValue} from "./actions";
+import {catchError} from "../../../platform/modules/utilities/asyncActions";
+import {State} from "../../../rootReducer";
 import {Dispatch} from "../../../util/util";
-
-
-function calcChance(num: number, reversedRoll: boolean) {
-    return reversedRoll ?  (RANGE - num - 1) / RANGE : num / RANGE;
-}
-
-function calcPayOutMultiplier(num: number, reversedRoll: boolean) {
-    const houseEdgeFactor = (1 - HOUSE_EDGE / HOUSE_EDGE_DIVISOR);
-
-    return reversedRoll ? RANGE / (RANGE - num - 1) * houseEdgeFactor : RANGE / num * houseEdgeFactor;
-}
-
+import sounds from "../sound";
+import {changeNum, changeRollMode, changeValue} from "./actions";
+import DiceUi from "./components/DiceUi";
 
 function calcNumberFromPayOutMultiplier(multiplier: number, reversedRoll: boolean) {
-    const houseEdgeFactor = (1 - HOUSE_EDGE / HOUSE_EDGE_DIVISOR);
-    const n = RANGE / multiplier * houseEdgeFactor;
-    const num =  reversedRoll ? (RANGE - 1 - n) : n;
+    const houseEdgeFactor = 1 - HOUSE_EDGE / HOUSE_EDGE_DIVISOR;
+    const n = (RANGE / multiplier) * houseEdgeFactor;
+    const num = reversedRoll ? RANGE - 1 - n : n;
     return Math.round(num);
 }
-
-
 
 const mapStateToProps = ({games, account, web3}: State) => {
     const {gameState, info, dice} = games;
@@ -50,27 +29,26 @@ const mapStateToProps = ({games, account, web3}: State) => {
         gameState,
         info,
         dice,
-        loggedIn: account.jwt !== null
-    }
+        loggedIn: account.jwt !== null,
+    };
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
     placeBet: (num, safeBetValue, gameType) => dispatch(placeBet(num, safeBetValue, gameType)),
-    changeNum: (num) => dispatch(changeNum(num)),
-    changeValue: (value) => dispatch(changeValue(value)),
-    changeRollMode: (reverse) => dispatch(changeRollMode(reverse)),
-    toggleHelp: (t) => dispatch(toggleHelp(t)),
-    catchError: (error) => catchError(error, dispatch),
-    showErrorMessage: (message) => dispatch(showErrorMessage(message))
+    changeNum: num => dispatch(changeNum(num)),
+    changeValue: value => dispatch(changeValue(value)),
+    changeRollMode: reverse => dispatch(changeRollMode(reverse)),
+    toggleHelp: t => dispatch(toggleHelp(t)),
+    catchError: error => catchError(error, dispatch),
+    showErrorMessage: message => dispatch(showErrorMessage(message)),
 });
-
 
 type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
 type DiceState = {
-    result: {num: number, won: boolean},
+    result: {num: number; won: boolean};
     showResult: boolean;
-}
+};
 
 class Dice extends React.Component<Props, DiceState> {
     resultTimeoutId?: number;
@@ -80,7 +58,7 @@ class Dice extends React.Component<Props, DiceState> {
         super(props);
         this.state = {
             showResult: false,
-            result: {num: 1, won: false}
+            result: {num: 1, won: false},
         };
     }
 
@@ -103,36 +81,36 @@ class Dice extends React.Component<Props, DiceState> {
     onToggleHelp = () => {
         const {toggleHelp, info} = this.props;
         toggleHelp(!info.showHelp);
-    };
+    }
 
     onNumberChange = (num: number) => {
         const {changeNum} = this.props;
         changeNum(num);
-    };
+    }
 
     onValueChange = (value: number) => {
         const {changeValue} = this.props;
         changeValue(value);
-    };
+    }
 
     onMultiplierChange = (multiplier: number) => {
         const {dice, changeNum} = this.props;
         const num = calcNumberFromPayOutMultiplier(multiplier, dice.reverseRoll);
         changeNum(num);
-    };
+    }
 
     onChanceChange = (chance: number) => {
         const {dice, changeNum} = this.props;
 
-        const num = dice.reverseRoll ?  RANGE - 1 - RANGE * chance : RANGE * chance;
+        const num = dice.reverseRoll ? RANGE - 1 - RANGE * chance : RANGE * chance;
         changeNum(num);
-    };
+    }
 
     onReverseRoll = () => {
         const {dice, changeRollMode} = this.props;
         changeRollMode(!dice.reverseRoll);
         changeNum(RANGE - 1 - dice.num);
-    };
+    }
 
     onPlaceBet = () => {
         const {info, dice, placeBet, catchError, web3Available, showErrorMessage, gameState, loggedIn} = this.props;
@@ -154,7 +132,10 @@ class Dice extends React.Component<Props, DiceState> {
         }
 
         if (!web3Available) {
-            showErrorMessage(`You need to have a web3 enabled browser (e.g. Metamask) for playing and select network: ${NETWORK_NAME}!`);
+            showErrorMessage(
+                "You need to have a web3 enabled browser (e.g. Metamask)" +
+                    `for playing and select network: ${NETWORK_NAME}!`
+            );
             return;
         }
 
@@ -164,8 +145,10 @@ class Dice extends React.Component<Props, DiceState> {
         }
 
         if (gameState.status === "PLACED_BET") {
-            showErrorMessage("Your seed isn't revealed! Should normally work without your interaction." +
-                " To manually reveal it You can click \"request seed\"!");
+            showErrorMessage(
+                "Your seed isn't revealed! Should normally work without your interaction." +
+                    ' To manually reveal it You can click "request seed"!'
+            );
             return;
         }
 
@@ -179,23 +162,25 @@ class Dice extends React.Component<Props, DiceState> {
             return;
         }
 
-        placeBet(num, safeBetValue, gameType).then(result => {
-            this.setState({result, showResult: true});
-            clearTimeout(this.resultTimeoutId);
-            this.resultTimeoutId = window.setTimeout(() => this.setState({showResult: false}), 5000);
+        placeBet(num, safeBetValue, gameType)
+            .then(result => {
+                this.setState({result, showResult: true});
+                clearTimeout(this.resultTimeoutId);
+                this.resultTimeoutId = window.setTimeout(() => this.setState({showResult: false}), 5000);
 
-            if (info.sound) {
-                setTimeout(() => result.won ? sounds.win.playFromBegin() : sounds.lose.playFromBegin(), 500);
-            }
-        }).catch(error => catchError(error));
-    };
+                if (info.sound) {
+                    setTimeout(() => (result.won ? sounds.win.playFromBegin() : sounds.lose.playFromBegin()), 500);
+                }
+            })
+            .catch(error => catchError(error));
+    }
 
     render() {
         const {result, showResult} = this.state;
         const {info, gameState, dice} = this.props;
 
         let maxBetValue = maxBet(dice.reverseRoll ? 2 : 1, dice.num, MIN_BANKROLL);
-        if (gameState.status !== 'ENDED') {
+        if (gameState.status !== "ENDED") {
             const max = Math.min(gameState.stake + gameState.balance, maxBetValue);
             maxBetValue = Math.max(max, MIN_BET_VALUE);
         }
@@ -218,8 +203,11 @@ class Dice extends React.Component<Props, DiceState> {
                     maxBetValue={maxBetValue}
                 />
             </DocumentTitle>
-        )
+        );
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Dice);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Dice);

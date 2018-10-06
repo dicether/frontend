@@ -1,62 +1,62 @@
 import axios from "axios";
-import jwtDecode from 'jwt-decode';
+import jwtDecode from "jwt-decode";
 import Raven from "raven-js";
 
-import {Dispatch, GetState, isLocalStorageAvailable} from "../../../util/util";
-import {showErrorMessage} from "../utilities/actions";
-import {REALM} from "../../../config/config";
-import {signTypedData} from "../web3/asyncActions";
-import {catchError} from "../utilities/asyncActions";
-import {changeFirstVisitedS, changeJWTS, changeMyGameSessions, changeMyStats} from "./actions";
-import {SOCKET} from "../../../config/sockets";
-import {loadBets, loadMyBets} from "../bets/asyncActions";
-import {loadFriendRequests, loadFriends} from "../friends/asyncActions";
-import {loadMessages} from "../chat/asyncActions";
-import {User} from "./types";
 import {changeAxiosAuthToken} from "../../../config/apiEndpoints";
+import {REALM} from "../../../config/config";
+import {SOCKET} from "../../../config/sockets";
+import {Dispatch, GetState, isLocalStorageAvailable} from "../../../util/util";
 import {hideRegisterModal, showMissingWalletModal} from "../../components/modals/actions";
+import {loadBets, loadMyBets} from "../bets/asyncActions";
+import {loadMessages} from "../chat/asyncActions";
+import {loadFriendRequests, loadFriends} from "../friends/asyncActions";
+import {showErrorMessage} from "../utilities/actions";
+import {catchError} from "../utilities/asyncActions";
+import {signTypedData} from "../web3/asyncActions";
+import {changeFirstVisitedS, changeJWTS, changeMyGameSessions, changeMyStats} from "./actions";
+import {User} from "./types";
 
 export function changeFirstVisited(firstVisited: boolean) {
-    return function (dispatch: Dispatch) {
+    return (dispatch: Dispatch) => {
         if (isLocalStorageAvailable()) {
-            localStorage.setItem('visited', String(firstVisited));
+            localStorage.setItem("visited", String(firstVisited));
         }
         dispatch(changeFirstVisitedS(firstVisited));
-    }
+    };
 }
 
 export function changeJWT(jwt: string | null) {
-    return function (dispatch: Dispatch) {
+    return (dispatch: Dispatch) => {
         changeAxiosAuthToken(jwt);
         if (jwt === null) {
-            sessionStorage.removeItem('jwt');
+            sessionStorage.removeItem("jwt");
         } else {
-            sessionStorage.setItem('jwt', jwt);
+            sessionStorage.setItem("jwt", jwt);
         }
         dispatch(changeJWTS(jwt));
-    }
+    };
 }
 
 export function authenticateSocket() {
-    return function (dispatch: Dispatch, getState: GetState) {
+    return (dispatch: Dispatch, getState: GetState) => {
         const jwt = getState().account.jwt;
         if (jwt !== null) {
-            SOCKET.emit('authenticate', jwt);
+            SOCKET.emit("authenticate", jwt);
         }
-    }
+    };
 }
 
 export function deAuthenticateSocket() {
-    return function (dispatch: Dispatch, getState: GetState) {
+    return (dispatch: Dispatch, getState: GetState) => {
         const jwt = getState().account.jwt;
         if (jwt !== null) {
-            SOCKET.emit('deauthenticate', jwt);
+            SOCKET.emit("deauthenticate", jwt);
         }
-    }
+    };
 }
 
 export function authenticate() {
-    return function (dispatch: Dispatch, getState: GetState) {
+    return (dispatch: Dispatch, getState: GetState) => {
         const web3State = getState().web3;
         const web3 = web3State.web3;
         const web3Account = web3State.account;
@@ -70,46 +70,51 @@ export function authenticate() {
             return undefined;
         }
 
-        let nonce = '';
-        return axios.post('/auth/authenticationNonce', {
-            address: web3Account
-        }).then(response => {
-            nonce = response.data.nonce;
-            const typedData = [
-                {
-                    type: 'string',
-                    name: 'Realm',
-                    value: REALM
-                },
-                {
-                    type: 'address',
-                    name: 'Account Address',
-                    value: web3Account
-                },
-                {
-                    type: 'uint64',
-                    name: 'Nonce',
-                    value: response.data.nonce
-                }
-            ];
-
-            return signTypedData(web3, web3Account, typedData);
-        }).then(result => {
-            return axios.post('/auth/authenticate', {
-                realm: REALM,
+        let nonce = "";
+        return axios
+            .post("/auth/authenticationNonce", {
                 address: web3Account,
-                nonce,
-                signature: result
-            });
-        }).then(response => {
+            })
+            .then(response => {
+                nonce = response.data.nonce;
+                const typedData = [
+                    {
+                        type: "string",
+                        name: "Realm",
+                        value: REALM,
+                    },
+                    {
+                        type: "address",
+                        name: "Account Address",
+                        value: web3Account,
+                    },
+                    {
+                        type: "uint64",
+                        name: "Nonce",
+                        value: response.data.nonce,
+                    },
+                ];
+
+                return signTypedData(web3, web3Account, typedData);
+            })
+            .then(result => {
+                return axios.post("/auth/authenticate", {
+                    realm: REALM,
+                    address: web3Account,
+                    nonce,
+                    signature: result,
+                });
+            })
+            .then(response => {
                 dispatch(hideRegisterModal());
                 initUser(dispatch, response.data.jwt);
-        }).catch(error => catchError(error, dispatch));
-    }
+            })
+            .catch(error => catchError(error, dispatch));
+    };
 }
 
 export function register(username: string) {
-    return function (dispatch: Dispatch, getState: GetState) {
+    return (dispatch: Dispatch, getState: GetState) => {
         const web3State = getState().web3;
         const web3 = web3State.web3;
         const web3Account = web3State.account;
@@ -120,70 +125,70 @@ export function register(username: string) {
 
         const typedData = [
             {
-                type: 'string',
-                name: 'Realm',
-                value: REALM
+                type: "string",
+                name: "Realm",
+                value: REALM,
             },
             {
-                type: 'address',
-                name: 'Account Address',
-                value: web3Account
+                type: "address",
+                name: "Account Address",
+                value: web3Account,
             },
             {
-                type: 'string',
-                name: 'Username',
-                value: username
-            }
+                type: "string",
+                name: "Username",
+                value: username,
+            },
         ];
 
         const referredBy = localStorage.getItem("referral");
 
-        return signTypedData(web3, web3Account, typedData).then(result => {
-            return axios.post('/auth/register', {
-                realm: REALM,
-                address: web3Account,
-                username,
-                signature: result,
-                referredBy: referredBy ? referredBy : undefined
-            });
-        }).then(response => {
+        return signTypedData(web3, web3Account, typedData)
+            .then(result => {
+                return axios.post("/auth/register", {
+                    realm: REALM,
+                    address: web3Account,
+                    username,
+                    signature: result,
+                    referredBy: referredBy ? referredBy : undefined,
+                });
+            })
+            .then(response => {
                 dispatch(hideRegisterModal());
                 initUser(dispatch, response.data.jwt);
-            }
-        ).catch(error => catchError(error, dispatch));
+            })
+            .catch(error => catchError(error, dispatch));
     };
 }
 
 export function deauthenticate() {
-    return function (dispatch: Dispatch, getState: GetState) {
+    return (dispatch: Dispatch, getState: GetState) => {
         if (getState().account.jwt !== null) {
             dispatch(changeJWT(null));
-            dispatch({type: 'USER_LOGOUT'});
+            dispatch({type: "USER_LOGOUT"});
             dispatch(deAuthenticateSocket());
             loadDefaultData(dispatch);
             Raven.setUserContext();
         }
-    }
+    };
 }
 
 export function loadStats(address: string) {
-    return function (dispatch: Dispatch) {
-        return axios.get(`/stats/user/${address}`).then(
-            result => dispatch(changeMyStats(result.data))
-        ).catch(
-            error => catchError(error, dispatch)
-        )
-    }
+    return (dispatch: Dispatch) => {
+        return axios
+            .get(`/stats/user/${address}`)
+            .then(result => dispatch(changeMyStats(result.data)))
+            .catch(error => catchError(error, dispatch));
+    };
 }
 
 export function loadGameSessions(address: string) {
-    return function (dispatch: Dispatch) {
-        return axios.get(`/gameSessions/${address}`).then(
-            result => dispatch(changeMyGameSessions(result.data))
-        ).catch(
-            error => catchError(error, dispatch)
-        )
-    }
+    return (dispatch: Dispatch) => {
+        return axios
+            .get(`/gameSessions/${address}`)
+            .then(result => dispatch(changeMyGameSessions(result.data)))
+            .catch(error => catchError(error, dispatch));
+    };
 }
 
 export function initUser(dispatch: Dispatch, jwt: string) {
@@ -197,12 +202,12 @@ export function initUser(dispatch: Dispatch, jwt: string) {
     dispatch(authenticateSocket());
     Raven.setUserContext({
         username,
-        address
+        address,
     });
 }
 
 export function loadDefaultData(dispatch: Dispatch) {
     dispatch(loadBets());
     dispatch(loadMessages());
-    SOCKET.emit('getUsersOnline');
+    SOCKET.emit("getUsersOnline");
 }

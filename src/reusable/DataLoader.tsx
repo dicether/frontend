@@ -1,14 +1,13 @@
-import * as React from "react";
 import axios from "axios";
+import * as React from "react";
 
 import Icon from "./FontAwesomeIcon";
 
 const Style = require("./DataLoader.scss");
 
-
 const Loading = () => (
     <div className={Style.info}>
-        <Icon icon="spinner" spin size="lg"/>
+        <Icon icon="spinner" spin size="lg" />
     </div>
 );
 
@@ -24,29 +23,24 @@ const NotFound = () => (
     </div>
 );
 
-
-
-
 type Props<T> = {
-    url: string,
-    success(data: T): React.ReactNode,
-    loading?(): React.ReactNode,
-    notFound?(): React.ReactNode,
-    failure?(): React.ReactNode,
+    url: string;
+    success(data: T): React.ReactNode;
+    loading?(): React.ReactNode;
+    notFound?(): React.ReactNode;
+    failure?(): React.ReactNode;
 };
 
-
 type State<T> = {
-    data: T|undefined,
-    error: any
-}
-
+    data: T | undefined;
+    error: any;
+};
 
 class DataLoader<T = any> extends React.Component<Props<T>, State<T>> {
     static defaultProps = {
-        loading: () => <Loading/>,
-        notFound: () => <NotFound/>,
-        failure: () => <Failure/>
+        loading: () => <Loading />,
+        notFound: () => <NotFound />,
+        failure: () => <Failure />,
     };
 
     constructor(props: Props<T>) {
@@ -54,19 +48,22 @@ class DataLoader<T = any> extends React.Component<Props<T>, State<T>> {
 
         this.state = {
             data: undefined,
-            error: undefined
-        }
+            error: undefined,
+        };
     }
 
     componentDidMount() {
         const {url} = this.props;
 
-        axios.get<T>(url).then(response => {
-            const data = response.data;
-            this.setState({data});
-        }).catch(error => {
-            this.setState({error})
-        });
+        axios
+            .get<T>(url)
+            .then(response => {
+                const data = response.data;
+                this.setState({data});
+            })
+            .catch(error => {
+                this.setState({error});
+            });
     }
 
     render() {
@@ -77,9 +74,7 @@ class DataLoader<T = any> extends React.Component<Props<T>, State<T>> {
             return success(data);
         } else if (error) {
             if (error.response && error.response.status === 404) {
-                const status = error.response.status;
                 return notFound!();
-
             } else {
                 return failure!();
             }

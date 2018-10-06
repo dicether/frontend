@@ -1,15 +1,14 @@
-import * as React from 'react';
+import * as React from "react";
 
-import DiceBetInfo from './DiceBetInfo';
-import VerificationInfo from './VerificationInfo';
-import Overview from './Overview';
+import DiceBetInfo from "./DiceBetInfo";
+import Overview from "./Overview";
+import VerificationInfo from "./VerificationInfo";
 
-import {Bet} from '../../../modules/bets/types';
-
+import {Bet} from "../../../modules/bets/types";
 
 type Props = {
-    bet: Bet
-}
+    bet: Bet;
+};
 
 class BetInfo extends React.Component<Props> {
     constructor(props: Props) {
@@ -21,11 +20,11 @@ class BetInfo extends React.Component<Props> {
 
         return (
             <div>
-                <Overview bet={bet}/>
-                <DiceBetInfo betId={bet.id} betNum={bet.num} resultNum={bet.resultNum} gameType={bet.gameType}/>
-                <VerificationInfo bet={bet}/>
+                <Overview bet={bet} />
+                <DiceBetInfo betId={bet.id} betNum={bet.num} resultNum={bet.resultNum} gameType={bet.gameType} />
+                <VerificationInfo bet={bet} />
             </div>
-        )
+        );
     }
 }
 

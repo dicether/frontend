@@ -1,18 +1,16 @@
-import * as React from 'react';
-import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom';
+import * as React from "react";
+import {connect} from "react-redux";
+import {withRouter} from "react-router-dom";
 import {bindActionCreators, Dispatch} from "redux";
 
-
-import Footer from './Footer';
-import Header from './Header';
-import {authenticate, register} from '../platform/modules/account/asyncActions';
-import {State} from "../rootReducer";
 import {RouteComponentProps} from "react-router";
-import {toggleChat} from '../platform/modules/chat/actions';
-import {toggleTheme} from "../platform/modules/utilities/actions";
 import {showRegisterModal} from "../platform/components/modals/actions";
-
+import {authenticate} from "../platform/modules/account/asyncActions";
+import {toggleChat} from "../platform/modules/chat/actions";
+import {toggleTheme} from "../platform/modules/utilities/actions";
+import {State} from "../rootReducer";
+import Footer from "./Footer";
+import Header from "./Header";
 
 const mapStateToProps = ({chat, account, app}: State) => {
     const show = chat.show;
@@ -21,27 +19,40 @@ const mapStateToProps = ({chat, account, app}: State) => {
     return {
         showChat: show,
         authenticated: jwt !== null,
-        nightMode: app.nightMode
+        nightMode: app.nightMode,
     };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
-    toggleChat,
-    authenticate,
-    toggleTheme,
-    showRegisterModal
-}, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) =>
+    bindActionCreators(
+        {
+            toggleChat,
+            authenticate,
+            toggleTheme,
+            showRegisterModal,
+        },
+        dispatch
+    );
 
 type OtherProps = {
-    children: React.ReactNode
-}
+    children: React.ReactNode;
+};
 
 type ReduxProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
 type Props = RouteComponentProps<any> & ReduxProps & OtherProps;
 
-const Layout = ({children, showChat, authenticated, nightMode, toggleChat, authenticate, toggleTheme, showRegisterModal} : Props) => {
-    const className = showChat ? 'chat-open' : '';
+const Layout = ({
+    children,
+    showChat,
+    authenticated,
+    nightMode,
+    toggleChat,
+    authenticate,
+    toggleTheme,
+    showRegisterModal,
+}: Props) => {
+    const className = showChat ? "chat-open" : "";
 
     return (
         <div id="app" className={className}>
@@ -60,4 +71,9 @@ const Layout = ({children, showChat, authenticated, nightMode, toggleChat, authe
     );
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Layout));
+export default withRouter(
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )(Layout)
+);

@@ -1,29 +1,34 @@
-import * as React from 'react';
-import moment from 'moment';
+import moment from "moment";
+import * as React from "react";
 
-import {Bet} from '../../../modules/bets/types';
-import {CopyToClipBoard, Ether} from '../../../../reusable/index';
+import {CopyToClipBoard, Ether} from "../../../../reusable/index";
+import {Bet} from "../../../modules/bets/types";
 import User from "../../user/User";
 
-const Style = require('./Overview.scss');
+const Style = require("./Overview.scss");
 
 type Props = {
-    bet: Bet
-}
+    bet: Bet;
+};
 
 const Overview = ({bet}: Props) => (
     <div className={Style.overview}>
-        <h3>Dice:{bet.id} <CopyToClipBoard message={"Copied! Paste in Chat!"} content={`Bet:${bet.id}`} /></h3>
-        <span>{moment(bet.timestamp).format('lll')}</span>
-        <span>Placed by <User user={bet.user}/></span>
+        <h3>
+            Dice:
+            {bet.id} <CopyToClipBoard message={"Copied! Paste in Chat!"} content={`Bet:${bet.id}`} />
+        </h3>
+        <span>{moment(bet.timestamp).format("lll")}</span>
+        <span>
+            Placed by <User user={bet.user} />
+        </span>
         <div className={Style.overview__stats}>
             <div className={Style.overview__statEntry}>
                 <span className={Style.overview__entryHeader}>Wagered</span>
-                <Ether gwei={bet.value}/>
+                <Ether gwei={bet.value} />
             </div>
             <div className={Style.overview__statEntry}>
                 <span className={Style.overview__entryHeader}>Profit</span>
-                <Ether colored gwei={bet.profit}/>
+                <Ether colored gwei={bet.profit} />
             </div>
         </div>
     </div>

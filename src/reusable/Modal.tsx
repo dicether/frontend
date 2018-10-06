@@ -1,17 +1,17 @@
-import * as React from 'react';
-import {Modal as BootstrapModal, ModalBody} from 'reactstrap';
+import * as React from "react";
+import {Modal as BootstrapModal, ModalBody} from "reactstrap";
 
 import {BaseType} from "./BaseType";
 
-const Style = require('./Modal.scss');
+const Style = require("./Modal.scss");
 
 export interface Props extends BaseType {
-    isOpen: boolean,
-    children: React.ReactNode,
-    title?: string,
-    fade?: boolean,
+    isOpen: boolean;
+    children: React.ReactNode;
+    title?: string;
+    fade?: boolean;
 
-    toggle?(): void,
+    toggle?(): void;
 }
 
 const Modal = ({isOpen, toggle, children, title, ...rest}: Props) => (
@@ -20,9 +20,7 @@ const Modal = ({isOpen, toggle, children, title, ...rest}: Props) => (
             <button type="button" className="close" aria-label="Close" onClick={toggle}>
                 <span aria-hidden="true">&times;</span>
             </button>
-            <div className={Style.modalWrapper}>
-                {children}
-            </div>
+            <div className={Style.modalWrapper}>{children}</div>
         </ModalBody>
     </BootstrapModal>
 );

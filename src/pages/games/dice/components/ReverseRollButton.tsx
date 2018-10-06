@@ -1,12 +1,12 @@
-import * as React from 'react';
+import * as React from "react";
 import IconButton from "../../../../reusable/IconButton";
 
-const Style = require('./ReverseRollButton.scss');
+const Style = require("./ReverseRollButton.scss");
 
 export type Props = {
-    reversed: boolean
-    onClick: React.MouseEventHandler<any>,
-}
+    reversed: boolean;
+    onClick: React.MouseEventHandler<any>;
+};
 
 const ReverseRollButton = ({reversed, onClick}) => (
     <span>
@@ -15,7 +15,7 @@ const ReverseRollButton = ({reversed, onClick}) => (
             className={Style.icon}
             color="primary"
             icon="exchange-alt"
-            rotation={reversed ? 180: undefined}
+            rotation={reversed ? 180 : undefined}
             onClick={onClick}
         />
     </span>

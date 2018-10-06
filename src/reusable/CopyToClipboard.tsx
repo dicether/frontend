@@ -5,13 +5,13 @@ import IconButton from "./IconButton";
 import Popover from "./Popover";
 
 type Props = {
-    content: string
+    content: string;
     message?: string;
-}
+};
 
 type State = {
-    showMessage: boolean
-}
+    showMessage: boolean;
+};
 
 class CopyToClipboard extends React.Component<Props, State> {
     ref: React.RefObject<HTMLElement>;
@@ -20,7 +20,7 @@ class CopyToClipboard extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            showMessage: false
+            showMessage: false,
         };
 
         this.ref = React.createRef();
@@ -28,14 +28,14 @@ class CopyToClipboard extends React.Component<Props, State> {
 
     toggle = () => {
         this.setState({showMessage: false});
-    };
+    }
 
     onCopy = () => {
         this.setState({showMessage: true});
         setTimeout(() => {
-            this.setState({ showMessage: false });
+            this.setState({showMessage: false});
         }, 1000);
-    };
+    }
 
     render() {
         const {showMessage} = this.state;
@@ -44,15 +44,23 @@ class CopyToClipboard extends React.Component<Props, State> {
         return (
             <span>
                 <ReactCopyToClipboard text={content} onCopy={this.onCopy}>
-                    <span ref={this.ref}> <IconButton icon="share" onClick={() => {return;}} /> </span>
+                    <span ref={this.ref}>
+                        {" "}
+                        <IconButton
+                            icon="share"
+                            onClick={() => {
+                                return;
+                            }}
+                        />{" "}
+                    </span>
                 </ReactCopyToClipboard>
-                {this.ref.current &&
+                {this.ref.current && (
                     <Popover isOpen={showMessage} target={this.ref.current} toggle={this.toggle}>
                         <span className="text-success">{message ? message : "Copied!"}</span>
                     </Popover>
-                }
+                )}
             </span>
-        )
+        );
     }
 }
 

@@ -1,22 +1,26 @@
 import * as React from "react";
-import {Table} from "../../../../reusable/index";
+import {Link} from "react-router-dom";
 import {GameSession} from "../../../../platform/modules/account/types";
 import Ether from "../../../../reusable/Ether";
-import {Link} from "react-router-dom";
+import {Table} from "../../../../reusable/index";
 
 const Style = require("./GameSessions.scss");
 
 const GameSessionRow = ({gameId, balance, roundId}: GameSession) => (
-        <tr className="text-center">
-            <td><Link to={`/gameSession/${gameId}`}>{gameId}</Link></td>
-            <td>{roundId}</td>
-            <td><Ether gwei={balance} colored showCurrencySymbol/></td>
-        </tr>
+    <tr className="text-center">
+        <td>
+            <Link to={`/gameSession/${gameId}`}>{gameId}</Link>
+        </td>
+        <td>{roundId}</td>
+        <td>
+            <Ether gwei={balance} colored showCurrencySymbol />
+        </td>
+    </tr>
 );
 
 export type Props = {
-    gameSessions: GameSession[]
-}
+    gameSessions: GameSession[];
+};
 
 const GameSessions = ({gameSessions}: Props) => (
     <div style={{marginTop: "4em"}}>
@@ -24,16 +28,16 @@ const GameSessions = ({gameSessions}: Props) => (
         <div className={Style.gameSessionsWrapper}>
             <Table hover noBorders>
                 <thead>
-                <tr className="text-center">
-                    <th>Game Id</th>
-                    <th>#Bets</th>
-                    <th>Profit(ETH)</th>
-                </tr>
+                    <tr className="text-center">
+                        <th>Game Id</th>
+                        <th>#Bets</th>
+                        <th>Profit(ETH)</th>
+                    </tr>
                 </thead>
                 <tbody className={Style.gamseSessionEntries}>
-                {gameSessions.slice().map(gameSession =>
-                    <GameSessionRow {...gameSession}/>
-                )}
+                    {gameSessions.slice().map(gameSession => (
+                        <GameSessionRow key={gameSession.gameId} {...gameSession} />
+                    ))}
                 </tbody>
             </Table>
         </div>

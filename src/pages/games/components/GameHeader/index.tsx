@@ -1,1 +1,1 @@
-export {default as default} from './GameHeader';
+export {default} from "./GameHeader";

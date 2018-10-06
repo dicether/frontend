@@ -1,26 +1,26 @@
 export type Stats = {
-    wagered: number,
-    profit: number,
-    numBets: number
+    wagered: number;
+    profit: number;
+    numBets: number;
 };
 
 export type Bet = {
-    roundId: number,
-    value: number,
-    won: number|null,
-    chance: number
+    roundId: number;
+    value: number;
+    won: number | null;
+    chance: number;
 };
 
-export type UserType = 'ADM' | 'DEV' | 'MOD' | 'VIP' | 'BOT' | 'USR';
+export type UserType = "ADM" | "DEV" | "MOD" | "VIP" | "BOT" | "USR";
 
 export interface User {
-    address: string,
-    username: string
-    userType: UserType
+    address: string;
+    username: string;
+    userType: UserType;
 }
 
 export interface GameSession {
-    gameId: number,
-    balance: number,
-    roundId: number
+    gameId: number;
+    balance: number;
+    roundId: number;
 }

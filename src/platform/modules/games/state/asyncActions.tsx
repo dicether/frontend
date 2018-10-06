@@ -1,7 +1,3 @@
-import axios from "axios";
-import Web3 from "web3";
-import retry from "async-retry";
-import Raven from "raven-js";
 import {
     Bet,
     calcNewBalance,
@@ -10,17 +6,31 @@ import {
     createHashChain,
     createTypedData,
     fromGweiToWei,
-    GameStatus as ContractStatus, hashBet,
+    GameStatus as ContractStatus,
     hasWon,
     keccak,
-    ReasonEnded as ContractReasonEnded, recoverBetSigner,
+    ReasonEnded as ContractReasonEnded,
     verifySeed,
-    verifySignature
+    verifySignature,
 } from "@dicether/state-channel";
+import retry from "async-retry";
+import axios from "axios";
+import Raven from "raven-js";
+import Web3 from "web3";
 
-import {Dispatch, GetState, isLocalStorageAvailable} from "../../../../util/util";
+import {TransactionReceipt} from "../../../../../typings/web3/types";
+import {
+    CHAIN_ID,
+    CONTRACT_ADDRESS,
+    NETWORK_ID,
+    NETWORK_NAME,
+    SERVER_ADDRESS,
+    SIGNATURE_VERSION,
+} from "../../../../config/config";
 import {getLogGameCreated, getReasonEnded} from "../../../../contractUtils";
+import {Dispatch, GetState, isLocalStorageAvailable} from "../../../../util/util";
 import {catchError} from "../../utilities/asyncActions";
+import {getTransactionReceipt, signTypedData} from "../../web3/asyncActions";
 import {
     addBet,
     creatingGame,
@@ -36,22 +46,9 @@ import {
     userInitiateConflictEnd,
     userInitiateForceEnd,
 } from "./actions";
-import {ReasonEnded, State as GameState, State} from "./reducer";
-import {
-    CHAIN_ID,
-    CONTRACT_ADDRESS,
-    NETWORK_ID,
-    NETWORK_NAME,
-    SERVER_ADDRESS,
-    SIGNATURE_VERSION
-} from "../../../../config/config";
-import {showErrorMessage} from "../../utilities/actions";
-import {TransactionReceipt} from "../../../../../typings/web3/types";
-import {getTransactionReceipt, signTypedData} from "../../web3/asyncActions";
-
+import {ReasonEnded, State, State as GameState} from "./reducer";
 
 const STORAGE_VERSION = 2;
-
 
 //
 // Event handling
@@ -61,16 +58,15 @@ function canCreateGame(gameState: GameState) {
     return status === "ENDED" || (status === "CREATING" && !gameState.createTransactionHash);
 }
 
-function createGameEvent(hashChain: Array<string>, serverEndHash: string, value: number, transactionHash?: string) {
-    return function (dispatch: Dispatch, getState: GetState) {
+function createGameEvent(hashChain: string[], serverEndHash: string, value: number, transactionHash?: string) {
+    return (dispatch: Dispatch, getState: GetState) => {
         if (canCreateGame(getState().games.gameState)) {
             dispatch(creatingGame(hashChain, serverEndHash, value, transactionHash));
         } else {
             Raven.captureMessage("Unexpected createGameEvent");
         }
-    }
+    };
 }
-
 
 function canEndGame(gameState: GameState) {
     const status = gameState.status;
@@ -78,39 +74,44 @@ function canEndGame(gameState: GameState) {
 }
 
 function endGameEvent(reason: ReasonEnded) {
-    return function(dispatch: Dispatch, getState: GetState) {
+    return (dispatch: Dispatch, getState: GetState) => {
         if (canEndGame(getState().games.gameState)) {
             dispatch(endedWithReason(reason));
         } else {
             Raven.captureMessage("Unexpected endGameEvent");
         }
-    }
+    };
 }
-
 
 function canRegularEndGame(gameState: GameState) {
     const status = gameState.status;
     return status === "ACTIVE";
 }
 
-function regularEndGameEvent(roundId: number, serverHash: string, userHash: string, serverSig: string, userSig: string, endTransactionHash: string) {
-    return function(dispatch: Dispatch, getState: GetState) {
+function regularEndGameEvent(
+    roundId: number,
+    serverHash: string,
+    userHash: string,
+    serverSig: string,
+    userSig: string,
+    endTransactionHash: string
+) {
+    return (dispatch: Dispatch, getState: GetState) => {
         if (canRegularEndGame(getState().games.gameState)) {
             dispatch(endedGame(roundId, serverHash, userHash, serverSig, userSig, endTransactionHash));
         } else {
             Raven.captureMessage("Unexpected regularEndGameEvent");
         }
-    }
+    };
 }
-
 
 function canActivateGame(gameState: GameState) {
     const status = gameState.status;
-    return status === "CREATING"
+    return status === "CREATING";
 }
 
 function activateGameEvent(gameId: number, serverHash: string, userHash: string) {
-    return function (dispatch: Dispatch, getState: GetState) {
+    return (dispatch: Dispatch, getState: GetState) => {
         const gameState = getState().games.gameState;
         if (canActivateGame(gameState)) {
             if (serverHash !== gameState.serverHash) {
@@ -120,13 +121,12 @@ function activateGameEvent(gameId: number, serverHash: string, userHash: string)
                 throw Error(`Unexpectd userHash: ${userHash}, expected ${gameState.userHash}`);
             }
 
-            dispatch((gameCreated(gameId)));
+            dispatch(gameCreated(gameId));
         } else {
-             Raven.captureMessage("Unexpected activateGameEvent");
+            Raven.captureMessage("Unexpected activateGameEvent");
         }
-    }
+    };
 }
-
 
 function canPlaceBet(gameState: GameState) {
     const status = gameState.status;
@@ -134,15 +134,14 @@ function canPlaceBet(gameState: GameState) {
 }
 
 function placeBetEvent(bet: Bet, serverSig: string, userSig: string) {
-    return function (dispatch: Dispatch, getState: GetState) {
+    return (dispatch: Dispatch, getState: GetState) => {
         if (canPlaceBet(getState().games.gameState)) {
             dispatch(addBet(bet, serverSig, userSig));
         } else {
-             Raven.captureMessage("Unexpected placeBetEvent");
+            Raven.captureMessage("Unexpected placeBetEvent");
         }
-    }
+    };
 }
-
 
 function canRevealSeed(gameState: GameState) {
     const status = gameState.status;
@@ -150,15 +149,14 @@ function canRevealSeed(gameState: GameState) {
 }
 
 function revealSeedEvent(serverSeed: string, userSeed: string, balance: number) {
-    return function (dispatch: Dispatch, getState: GetState) {
+    return (dispatch: Dispatch, getState: GetState) => {
         if (canRevealSeed(getState().games.gameState)) {
             dispatch(revealSeed(serverSeed, userSeed, balance));
         } else {
-             Raven.captureMessage("Unexpected revealSeedEvent");
+            Raven.captureMessage("Unexpected revealSeedEvent");
         }
-    }
+    };
 }
-
 
 export function canUserInitiateConflictEnd(gameState: GameState) {
     const status = gameState.status;
@@ -166,15 +164,14 @@ export function canUserInitiateConflictEnd(gameState: GameState) {
 }
 
 function userInitiateConflictEndEvent(transactionHash: string) {
-    return function (dispatch: Dispatch, getState: GetState) {
+    return (dispatch: Dispatch, getState: GetState) => {
         if (canUserInitiateConflictEnd(getState().games.gameState)) {
             dispatch(userInitiateConflictEnd(transactionHash));
         } else {
-             Raven.captureMessage("Unexpected userInitiateConflictEndEvent");
+            Raven.captureMessage("Unexpected userInitiateConflictEndEvent");
         }
-    }
+    };
 }
-
 
 function canUserConflictEnd(gameState: GameState) {
     const status = gameState.status;
@@ -182,15 +179,14 @@ function canUserConflictEnd(gameState: GameState) {
 }
 
 function userConflictEndEvent(time: Date) {
-    return function (dispatch: Dispatch, getState: GetState) {
+    return (dispatch: Dispatch, getState: GetState) => {
         if (canUserConflictEnd(getState().games.gameState)) {
             dispatch(userConflictEnd(time));
         } else {
-             Raven.captureMessage("Unexpected userConflictEndEvent");
+            Raven.captureMessage("Unexpected userConflictEndEvent");
         }
-    }
+    };
 }
-
 
 function canUserAbortConflictEnd(gameState: GameState) {
     const status = gameState.status;
@@ -198,15 +194,14 @@ function canUserAbortConflictEnd(gameState: GameState) {
 }
 
 function userAbortConflictEndEvent() {
-    return function (dispatch: Dispatch, getState: GetState) {
+    return (dispatch: Dispatch, getState: GetState) => {
         if (canUserAbortConflictEnd(getState().games.gameState)) {
             dispatch(userAbortConflictEnd());
         } else {
-             Raven.captureMessage("Unexpected userAbortConflictEndEvent");
+            Raven.captureMessage("Unexpected userAbortConflictEndEvent");
         }
-    }
+    };
 }
-
 
 function canUserInitiateForceEnd(gameState: GameState) {
     const status = gameState.status;
@@ -214,15 +209,14 @@ function canUserInitiateForceEnd(gameState: GameState) {
 }
 
 function userInitiateForceEndEvent(transactionHash: string) {
-     return function (dispatch: Dispatch, getState: GetState) {
-         if (canUserInitiateForceEnd(getState().games.gameState)) {
+    return (dispatch: Dispatch, getState: GetState) => {
+        if (canUserInitiateForceEnd(getState().games.gameState)) {
             dispatch(userInitiateForceEnd(transactionHash));
         } else {
-             Raven.captureMessage("Unexpected userInitiateForceEndEvent");
+            Raven.captureMessage("Unexpected userInitiateForceEndEvent");
         }
-     }
+    };
 }
-
 
 function canUserForceEnd(gameState: GameState) {
     const status = gameState.status;
@@ -230,60 +224,62 @@ function canUserForceEnd(gameState: GameState) {
 }
 
 function userForceEndEvent() {
-    return function (dispatch: Dispatch, getState: GetState) {
+    return (dispatch: Dispatch, getState: GetState) => {
         if (canUserForceEnd(getState().games.gameState)) {
             dispatch(endedWithReason("END_FORCED_BY_USER"));
         } else {
-             Raven.captureMessage("Unexpected userForceEndEvent");
+            Raven.captureMessage("Unexpected userForceEndEvent");
         }
-    }
+    };
 }
-
 
 function canUserAbortForceEnd(gameState: GameState) {
     const status = gameState.status;
-    return status === 'USER_INITIATED_FORCE_END';
+    return status === "USER_INITIATED_FORCE_END";
 }
 
 function userAbortForceEndEvent() {
-     return function (dispatch: Dispatch, getState: GetState) {
-         if (canUserAbortForceEnd(getState().games.gameState)) {
+    return (dispatch: Dispatch, getState: GetState) => {
+        if (canUserAbortForceEnd(getState().games.gameState)) {
             dispatch(userAbortForceEnd());
         } else {
-             Raven.captureMessage("Unexpected userAbortForceEndEvent");
+            Raven.captureMessage("Unexpected userAbortForceEndEvent");
         }
-     }
+    };
 }
-
-
 
 function canServerConflictEnd(gameState: GameState) {
     const status = gameState.status;
-    return status === "CREATING" || status === "USER_CONFLICT_ENDED" || status === "USER_INITIATED_CONFLICT_END"
-        || status === "USER_INITIATED_FORCE_END" || status === "ACTIVE" || status === "PLACED_BET";
+    return (
+        status === "CREATING" ||
+        status === "USER_CONFLICT_ENDED" ||
+        status === "USER_INITIATED_CONFLICT_END" ||
+        status === "USER_INITIATED_FORCE_END" ||
+        status === "ACTIVE" ||
+        status === "PLACED_BET"
+    );
 }
 
 function serverConflictEndEvent() {
-    return function (dispatch: Dispatch, getState: GetState) {
+    return (dispatch: Dispatch, getState: GetState) => {
         if (canServerConflictEnd(getState().games.gameState)) {
             dispatch(serverConflictEnd());
         } else {
-             Raven.captureMessage("Unexpected serverConflictEndEvent");
+            Raven.captureMessage("Unexpected serverConflictEndEvent");
         }
-    }
+    };
 }
-
 
 //
 // util functions
 //
 function isTransactionFailed(receipt: TransactionReceipt) {
-    return Number.parseInt(receipt.status) !== 1 && (receipt.status as any) !== true;
+    return Number.parseInt(receipt.status, 10) !== 1 && (receipt.status as any) !== true;
 }
 
 export const validNetwork = (networkId: number | null) => {
     // only check for null on development
-    return (networkId !== null) && (process.env.NODE_ENV === 'development' || networkId === NETWORK_ID);
+    return networkId !== null && (process.env.NODE_ENV === "development" || networkId === NETWORK_ID);
 };
 
 const checkIfEndTransactionFinished = (web3: Web3, transactionHash?: string) => {
@@ -291,14 +287,11 @@ const checkIfEndTransactionFinished = (web3: Web3, transactionHash?: string) => 
         return Promise.resolve(true);
     }
 
-    return getTransactionReceipt(web3, transactionHash).then(receipt =>
-        receipt !== null
-    )
+    return getTransactionReceipt(web3, transactionHash).then(receipt => receipt !== null);
 };
 
-
 export function loadContractStateCreatedGame() {
-    return async function (dispatch: Dispatch, getState: GetState) {
+    return async (dispatch: Dispatch, getState: GetState) => {
         const {web3: web3State, games} = getState();
         const {contract} = web3State;
         const {gameState} = games;
@@ -314,12 +307,11 @@ export function loadContractStateCreatedGame() {
         }
 
         const result = await contract.methods.gameIdGame(gameId).call();
-        const status = Number.parseInt(result.status);
+        const status = Number.parseInt(result.status, 10);
 
         if (status === ContractStatus.ENDED && canEndGame(gameState)) {
             const reasonEnded = await getReasonEnded(web3, contract, gameId);
             return dispatch(endGameEvent(ContractReasonEnded[reasonEnded] as ReasonEnded));
-
         } else if (status === ContractStatus.USER_INITIATED_END && canUserConflictEnd(gameState)) {
             return dispatch(userConflictEndEvent(new Date()));
         } else if (status === ContractStatus.SERVER_INITIATED_END && canServerConflictEnd(gameState)) {
@@ -327,13 +319,11 @@ export function loadContractStateCreatedGame() {
         } else {
             return;
         }
-
-    }
+    };
 }
 
-
 export function loadContractGameState() {
-    return async function (dispatch: Dispatch, getState: GetState) {
+    return async (dispatch: Dispatch, getState: GetState) => {
         const {web3: web3State, games} = getState();
         const {contract} = web3State;
         const {gameState} = games;
@@ -347,7 +337,7 @@ export function loadContractGameState() {
             throw new Error(`Invalid network! You need to use ${NETWORK_NAME}!`);
         }
 
-        if (gameState.status === 'CREATING') {
+        if (gameState.status === "CREATING") {
             // special case as we don't know gameId to read contract state!
             if (!gameState.serverHash) {
                 throw new Error("Invalid game state!");
@@ -374,41 +364,43 @@ export function loadContractGameState() {
                 dispatch(activateGameEvent(gameId, serverHash, userHash));
                 return dispatch(loadContractStateCreatedGame());
             }
-        } else if (gameState.status !== 'ENDED') {
+        } else if (gameState.status !== "ENDED") {
             return dispatch(loadContractStateCreatedGame());
         }
-    }
+    };
 }
-
 
 // TODO: remove???
 export function loadServerGameState() {
-    return function (dispatch: Dispatch, getState: GetState) {
-        if (getState().games.gameState.status === 'ENDED') {
+    return (dispatch: Dispatch, getState: GetState) => {
+        if (getState().games.gameState.status === "ENDED") {
             return Promise.resolve();
         }
 
-        return axios.get('stateChannel/activeGameState').then(result => {
-            const data = result.data;
-            const status = data.status;
-            const gameId = data.gameId;
-            const userHash = data.userHash;
+        return axios
+            .get("stateChannel/activeGameState")
+            .then(result => {
+                const data = result.data;
+                const status = data.status;
+                const gameId = data.gameId;
+                const userHash = data.userHash;
 
-            const gameState = getState().games.gameState;
+                const gameState = getState().games.gameState;
 
-            if (gameState.status === 'CREATING' && status === 'ACTIVE' && gameState.userHash === userHash) {
-                dispatch(gameCreated(gameId));
-            }
-        }).catch(error => {
-            if (error.response.status !== 404) {
-                catchError(error, dispatch);
-            }
-        });
-    }
+                if (gameState.status === "CREATING" && status === "ACTIVE" && gameState.userHash === userHash) {
+                    dispatch(gameCreated(gameId));
+                }
+            })
+            .catch(error => {
+                if (error.response.status !== 404) {
+                    catchError(error, dispatch);
+                }
+            });
+    };
 }
 
 export function loadLocalGameState(address: string) {
-    return function (dispatch: Dispatch) {
+    return (dispatch: Dispatch) => {
         if (!isLocalStorageAvailable()) {
             console.warn("No local storage support!");
             return Promise.resolve();
@@ -421,7 +413,7 @@ export function loadLocalGameState(address: string) {
         }
 
         return Promise.resolve();
-    }
+    };
 }
 
 export function storeGameState(address: string, gameState: State) {
@@ -432,36 +424,36 @@ export function storeGameState(address: string, gameState: State) {
     localStorage.setItem(`gameState${address}`, JSON.stringify({version: STORAGE_VERSION, gameState}));
 }
 
-
 export function syncGameState(address: string) {
-    return function (dispatch: Dispatch, getState: GetState) {
-        return dispatch(loadLocalGameState(address)).then(() => {
-            // FIXME: // check if web3 is available
-            return dispatch(loadContractGameState());
-        }).then(() => {
-            return dispatch(loadServerGameState());
-        }).catch(error => {
-            catchError(error, dispatch)
-        });
-    }
+    return (dispatch: Dispatch, getState: GetState) => {
+        return dispatch(loadLocalGameState(address))
+            .then(() => {
+                // FIXME: // check if web3 is available
+                return dispatch(loadContractGameState());
+            })
+            .then(() => {
+                return dispatch(loadServerGameState());
+            })
+            .catch(error => {
+                catchError(error, dispatch);
+            });
+    };
 }
-
 
 // TODO: improve, check contract state???
 export function serverActiveGame(gameId: number, serverHash: string, userHash: string) {
-    return function (dispatch: Dispatch, getState: GetState) {
-        if (status === 'ACTIVE') {
+    return (dispatch: Dispatch, getState: GetState) => {
+        if (status === "ACTIVE") {
             // already active => do nothing
             return;
         }
 
         dispatch(activateGameEvent(gameId, serverHash, userHash));
-    }
+    };
 }
 
-
 export function createGame(stake: number, userSeed: string) {
-    return async function (dispatch: Dispatch, getState: GetState) {
+    return async (dispatch: Dispatch, getState: GetState) => {
         const web3State = getState().web3;
         const contract = web3State.contract;
         const account = web3State.account;
@@ -469,14 +461,16 @@ export function createGame(stake: number, userSeed: string) {
         const status = gameState.status;
 
         if (!isLocalStorageAvailable()) {
-            return Promise.reject(new Error("You browser doesn't support sessionStorage/localStorage! Without playing is not possible!"));
+            return Promise.reject(
+                new Error("You browser doesn't support sessionStorage/localStorage! Without playing is not possible!")
+            );
         }
 
         if (!validNetwork(web3State.networkId)) {
             return Promise.reject(new Error(`Invalid network! You need to use ${NETWORK_NAME}!`));
         }
 
-        if (!account|| !contract || !web3State.web3) {
+        if (!account || !contract || !web3State.web3) {
             return Promise.reject(new Error("You need a web3 enabled browser (Metamask)!"));
         }
 
@@ -493,7 +487,7 @@ export function createGame(stake: number, userSeed: string) {
                 return Promise.reject(new Error("You need to wait until transaction ending game session is mined!"));
             }
 
-            const response = await axios.post('stateChannel/createGame');
+            const response = await axios.post("stateChannel/createGame");
             const data = response.data;
             const serverEndHash = data.serverEndHash;
             const previousGameId = data.previousGameId;
@@ -502,49 +496,55 @@ export function createGame(stake: number, userSeed: string) {
 
             dispatch(createGameEvent(hashChain, serverEndHash, stake, undefined));
 
-            return new Promise ((resolve, reject) => {
-                createGame(hashChain[0], previousGameId, createBefore, serverEndHash, signature).send({
-                    from: account,
-                    value: fromGweiToWei(stake).toString(),
-                    gas: 180000
-                }).on(error => {
-                    reject(error);
-                }).on('transactionHash', transactionHash => {
-                    dispatch(createGameEvent(hashChain, serverEndHash, stake, transactionHash));
-                }).on('receipt', (receipt: TransactionReceipt) => {
-                    if (isTransactionFailed(receipt)) {
-                        dispatch(endGameEvent("TRANSACTION_FAILURE"));
-                        reject(new Error("Create game transaction failed!"));
-                    }
-                }).on('confirmation', (num: number, receipt: TransactionReceipt) => {
-                    // wait for 3 confirmations
-                    if (num === 3) {
-                        const event = receipt.events ? receipt.events.LogGameCreated : null;
-                        if (isTransactionFailed(receipt) || !event) {
+            return new Promise((resolve, reject) => {
+                createGame(hashChain[0], previousGameId, createBefore, serverEndHash, signature)
+                    .send({
+                        from: account,
+                        value: fromGweiToWei(stake).toString(),
+                        gas: 180000,
+                    })
+                    .on(error => {
+                        reject(error);
+                    })
+                    .on("transactionHash", transactionHash => {
+                        dispatch(createGameEvent(hashChain, serverEndHash, stake, transactionHash));
+                    })
+                    .on("receipt", (receipt: TransactionReceipt) => {
+                        if (isTransactionFailed(receipt)) {
                             dispatch(endGameEvent("TRANSACTION_FAILURE"));
                             reject(new Error("Create game transaction failed!"));
-                        } else {
-                            const gameId = (event.returnValues as any).gameId;
-                            const serverHash = (event.returnValues as any).serverEndHash;
-                            const userHash = (event.returnValues as any).userEndHash;
-                            if (getState().games.gameState.status !== "ACTIVE") {
-                                dispatch(activateGameEvent(gameId, serverHash, userHash));
-                            }
-                            resolve();
                         }
-                    }
-                }).catch(error => {
-                    reject(error);
-                })
+                    })
+                    .on("confirmation", (num: number, receipt: TransactionReceipt) => {
+                        // wait for 3 confirmations
+                        if (num === 3) {
+                            const event = receipt.events ? receipt.events.LogGameCreated : null;
+                            if (isTransactionFailed(receipt) || !event) {
+                                dispatch(endGameEvent("TRANSACTION_FAILURE"));
+                                reject(new Error("Create game transaction failed!"));
+                            } else {
+                                const gameId = (event.returnValues as any).gameId;
+                                const serverHash = (event.returnValues as any).serverEndHash;
+                                const userHash = (event.returnValues as any).userEndHash;
+                                if (getState().games.gameState.status !== "ACTIVE") {
+                                    dispatch(activateGameEvent(gameId, serverHash, userHash));
+                                }
+                                resolve();
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        reject(error);
+                    });
             });
-        } catch(error) {
+        } catch (error) {
             return Promise.reject(error);
         }
-    }
+    };
 }
 
 export function endGame() {
-    return function (dispatch: Dispatch, getState: GetState) {
+    return (dispatch: Dispatch, getState: GetState) => {
         const state = getState();
         const gameState = state.games.gameState;
         const account = state.web3.account;
@@ -565,7 +565,7 @@ export function endGame() {
         }
 
         if (!account || !web3) {
-            return Promise.reject( new Error("You need a web3 enabled browser (Metamask)!"));
+            return Promise.reject(new Error("You need a web3 enabled browser (Metamask)!"));
         }
 
         if (!validNetwork(networkId)) {
@@ -573,10 +573,10 @@ export function endGame() {
         }
 
         if (!canRegularEndGame(gameState)) {
-            return Promise.reject(new Error(`Invalid game status ${gameState.status}! Can not end game!`))
+            return Promise.reject(new Error(`Invalid game status ${gameState.status}! Can not end game!`));
         }
 
-        if (!userHash || !serverHash|| !userAddress || !gameId) {
+        if (!userHash || !serverHash || !userAddress || !gameId) {
             return Promise.reject(new Error("Invalid state!"));
         }
 
@@ -588,36 +588,39 @@ export function endGame() {
             balance,
             serverHash,
             userHash,
-            gameId
+            gameId,
         };
 
         let userSig = "";
         const typedData = createTypedData(bet, CHAIN_ID, CONTRACT_ADDRESS, SIGNATURE_VERSION);
-        return signTypedData(web3, account, typedData).then(result => {
-            userSig = result;
-            return axios.post('stateChannel/endGame', {
-                bet,
-                'contractAddress': CONTRACT_ADDRESS,
-                'userSig': userSig
-            });
-        }).then(response => {
-            const serverSig = response.data.serverSig;
+        return signTypedData(web3, account, typedData)
+            .then(result => {
+                userSig = result;
+                return axios.post("stateChannel/endGame", {
+                    bet,
+                    contractAddress: CONTRACT_ADDRESS,
+                    userSig,
+                });
+            })
+            .then(response => {
+                const serverSig = response.data.serverSig;
 
-            if (!verifySignature(bet, CHAIN_ID, CONTRACT_ADDRESS,  serverSig, SERVER_ADDRESS, SIGNATURE_VERSION)) {
-                return Promise.reject(new Error('Invalid server signature!'));
-            }
+                if (!verifySignature(bet, CHAIN_ID, CONTRACT_ADDRESS, serverSig, SERVER_ADDRESS, SIGNATURE_VERSION)) {
+                    return Promise.reject(new Error("Invalid server signature!"));
+                }
 
-            const endTransactionHash = response.data.transactionHash;
+                const endTransactionHash = response.data.transactionHash;
 
-            dispatch(regularEndGameEvent(roundId, serverHash, userHash, serverSig, userSig, endTransactionHash));
+                dispatch(regularEndGameEvent(roundId, serverHash, userHash, serverSig, userSig, endTransactionHash));
 
-            return Promise.resolve();
-        }).catch(error => Promise.reject(error));
-    }
+                return Promise.resolve();
+            })
+            .catch(error => Promise.reject(error));
+    };
 }
 
 export function conflictEnd() {
-    return function (dispatch: Dispatch, getState: GetState) {
+    return (dispatch: Dispatch, getState: GetState) => {
         const state = getState();
         const gameState = state.games.gameState;
         const account = state.web3.account;
@@ -645,25 +648,30 @@ export function conflictEnd() {
             return Promise.reject(new Error(`Invalid game status ${gameState.status}! Can not conflict end!`));
         }
 
-        if (!gameState.serverHash|| !gameState.userHash || gameId === undefined) {
+        if (!gameState.serverHash || !gameState.userHash || gameId === undefined) {
             return Promise.reject(new Error("Invalid state!"));
         }
 
         if (roundId === 0) {
             const cancelActiveGame = contract.methods.userCancelActiveGame;
-            return cancelActiveGame(gameId).send({from: account, value: 0, gas: 120000}).on('transactionHash', transactionHash => {
-                dispatch(userInitiateConflictEndEvent(transactionHash));
-            }).on(error => {
-                return Promise.reject(error);
-            }).then((receipt: TransactionReceipt) => {
-                if (isTransactionFailed(receipt)) {
-                    dispatch(userAbortConflictEndEvent());
-                } else {
-                    dispatch(userConflictEndEvent(new Date()));
-                }
-            }).catch(error => {
-                return Promise.reject(error);
-            })
+            return cancelActiveGame(gameId)
+                .send({from: account, value: 0, gas: 120000})
+                .on("transactionHash", transactionHash => {
+                    dispatch(userInitiateConflictEndEvent(transactionHash));
+                })
+                .on(error => {
+                    return Promise.reject(error);
+                })
+                .then((receipt: TransactionReceipt) => {
+                    if (isTransactionFailed(receipt)) {
+                        dispatch(userAbortConflictEndEvent());
+                    } else {
+                        dispatch(userConflictEndEvent(new Date()));
+                    }
+                })
+                .catch(error => {
+                    return Promise.reject(error);
+                });
         } else {
             let serverHash = keccak(gameState.serverHash);
             let userHash = keccak(gameState.userHash);
@@ -671,7 +679,7 @@ export function conflictEnd() {
             let balance = fromGweiToWei(oldBalance);
             let userSeed = gameState.userHash;
 
-            if (gameState.status === 'PLACED_BET') {
+            if (gameState.status === "PLACED_BET") {
                 serverHash = gameState.serverHash;
                 userHash = gameState.userHash;
                 balance = fromGweiToWei(gameState.balance);
@@ -690,27 +698,31 @@ export function conflictEnd() {
                 gameId,
                 contractAddress,
                 serverSig,
-                userSeed,
-            ).send({from: account, gas: 200000}).on('transactionHash', transactionHash => {
-                dispatch(userInitiateConflictEndEvent(transactionHash));
-            }).on(error => {
-                return Promise.reject(error);
-            }).then((receipt: TransactionReceipt) => {
-                if (isTransactionFailed(receipt)) {
-                    dispatch(userAbortConflictEnd());
-                } else {
-                    dispatch(userConflictEndEvent(new Date()));
-                }
-            }).catch(error => {
-                return Promise.reject(error);
-            })
+                userSeed
+            )
+                .send({from: account, gas: 200000})
+                .on("transactionHash", transactionHash => {
+                    dispatch(userInitiateConflictEndEvent(transactionHash));
+                })
+                .on(error => {
+                    return Promise.reject(error);
+                })
+                .then((receipt: TransactionReceipt) => {
+                    if (isTransactionFailed(receipt)) {
+                        dispatch(userAbortConflictEnd());
+                    } else {
+                        dispatch(userConflictEndEvent(new Date()));
+                    }
+                })
+                .catch(error => {
+                    return Promise.reject(error);
+                });
         }
-    }
+    };
 }
 
-
 export function forceEnd() {
-    return function (dispatch: Dispatch, getState: GetState) {
+    return (dispatch: Dispatch, getState: GetState) => {
         const state = getState();
         const gameState = state.games.gameState;
         const account = state.web3.account;
@@ -732,34 +744,42 @@ export function forceEnd() {
         }
 
         const userForceGameEnd = contract.methods.userForceGameEnd;
-        return userForceGameEnd(gameId).send({from: account, value: 0, gas: 120000}).on('transactionHash', transactionHash => {
-            dispatch(userInitiateForceEndEvent(transactionHash));
-        }).on(error => {
-            return Promise.reject(error);
-        }).then((receipt: TransactionReceipt) => {
-            if (isTransactionFailed(receipt)) {
-                dispatch(userAbortForceEndEvent());
-            } else {
-                dispatch(userForceEndEvent());
-            }
-        }).catch(error => {
-            return Promise.reject(error);
-        });
-    }
+        return userForceGameEnd(gameId)
+            .send({from: account, value: 0, gas: 120000})
+            .on("transactionHash", transactionHash => {
+                dispatch(userInitiateForceEndEvent(transactionHash));
+            })
+            .on(error => {
+                return Promise.reject(error);
+            })
+            .then((receipt: TransactionReceipt) => {
+                if (isTransactionFailed(receipt)) {
+                    dispatch(userAbortForceEndEvent());
+                } else {
+                    dispatch(userForceEndEvent());
+                }
+            })
+            .catch(error => {
+                return Promise.reject(error);
+            });
+    };
 }
 
 async function revealSeedRequest(gameId, roundId, userSeed) {
-    return retry(() => {
-        return axios.post('stateChannel/revealSeed', {
-            'gameId': gameId,
-            'roundId': roundId,
-            'userSeed': userSeed,
-        });
-    }, {retries: 1, minTimeout: 500});
+    return retry(
+        () => {
+            return axios.post("stateChannel/revealSeed", {
+                gameId,
+                roundId,
+                userSeed,
+            });
+        },
+        {retries: 1, minTimeout: 500}
+    );
 }
 
 export function requestSeed() {
-    return function (dispatch: Dispatch, getState: GetState) {
+    return (dispatch: Dispatch, getState: GetState) => {
         const gameState = getState().games.gameState;
         const serverHash = gameState.serverHash;
 
@@ -778,29 +798,38 @@ export function requestSeed() {
             return Promise.reject(new Error("Invalid game state!"));
         }
 
-        return revealSeedRequest(gameState.gameId, gameState.roundId, userSeed).then(response => {
-            const serverSeed = response.data.serverSeed;
-            const newServerBalance = response.data.balance;
+        return revealSeedRequest(gameState.gameId, gameState.roundId, userSeed)
+            .then(response => {
+                const serverSeed = response.data.serverSeed;
+                const newServerBalance = response.data.balance;
 
-            if (!verifySeed(serverSeed, serverHash)) {
-                return Promise.reject(new Error("Invalid server seed!"));
-            }
+                if (!verifySeed(serverSeed, serverHash)) {
+                    return Promise.reject(new Error("Invalid server seed!"));
+                }
 
-            const newuserBalance = calcNewBalance(gameState.gameType, gameState.num, betValue, serverSeed, userSeed, gameState.balance);
+                const newuserBalance = calcNewBalance(
+                    gameState.gameType,
+                    gameState.num,
+                    betValue,
+                    serverSeed,
+                    userSeed,
+                    gameState.balance
+                );
 
-            if (newServerBalance !== newuserBalance) {
-                return Promise.reject(new Error("Invalid server balance!"));
-            }
+                if (newServerBalance !== newuserBalance) {
+                    return Promise.reject(new Error("Invalid server balance!"));
+                }
 
-            return Promise.resolve(dispatch(revealSeedEvent(serverSeed, userSeed, newServerBalance)));
-        }).catch(error => {
-            return Promise.reject(error);
-        });
-    }
+                return Promise.resolve(dispatch(revealSeedEvent(serverSeed, userSeed, newServerBalance)));
+            })
+            .catch(error => {
+                return Promise.reject(error);
+            });
+    };
 }
 
 export function placeBet(num: number, betValue: number, gameType: number) {
-    return function (dispatch: Dispatch, getState: GetState) {
+    return (dispatch: Dispatch, getState: GetState) => {
         const gameState = getState().games.gameState;
         const web3State = getState().web3;
         const {account, web3} = web3State;
@@ -849,52 +878,57 @@ export function placeBet(num: number, betValue: number, gameType: number) {
             balance,
             serverHash,
             userHash,
-            gameId
+            gameId,
         };
 
         const typedData = createTypedData(bet, CHAIN_ID, CONTRACT_ADDRESS, SIGNATURE_VERSION);
 
-        return signTypedData(web3, account, typedData).then(result => {
-            userSig = result;
-            return axios.post('stateChannel/placeBet', {
-                bet,
-                'contractAddress': CONTRACT_ADDRESS,
-                'userSig': userSig
+        return signTypedData(web3, account, typedData)
+            .then(result => {
+                userSig = result;
+                return axios.post("stateChannel/placeBet", {
+                    bet,
+                    contractAddress: CONTRACT_ADDRESS,
+                    userSig,
+                });
+            })
+            .then(response => {
+                const serverSig = response.data.serverSig;
+
+                if (!verifySignature(bet, CHAIN_ID, CONTRACT_ADDRESS, serverSig, SERVER_ADDRESS, SIGNATURE_VERSION)) {
+                    return Promise.reject(new Error("Error placing bet: Invalid server signature!"));
+                }
+
+                dispatch(placeBetEvent(bet, serverSig, userSig));
+
+                userSeed = gameState.hashChain[roundId];
+
+                return revealSeedRequest(gameId, roundId, userSeed);
+            })
+            .then(response => {
+                // TODO: Replace with reveal seed!!!
+                const serverSeed = response.data.serverSeed;
+                const newServerBalance = response.data.balance;
+
+                if (!verifySeed(serverSeed, serverHash)) {
+                    return Promise.reject(new Error("Invalid server seed!"));
+                }
+
+                const resNum = calcResultNumber(gameType, serverSeed, userSeed);
+                const hashWon = hasWon(gameType, bet.num, resNum);
+                const userProfit = calcUserProfit(gameType, num, betValue, hashWon);
+                const newuserBalance = balance + userProfit;
+
+                if (newServerBalance !== newuserBalance) {
+                    return Promise.reject(new Error("Invalid server balance!"));
+                }
+
+                dispatch(revealSeedEvent(serverSeed, userSeed, newServerBalance));
+
+                return Promise.resolve({num: resNum, won: userProfit > 0});
+            })
+            .catch(error => {
+                return Promise.reject(error);
             });
-        }).then(response => {
-            const serverSig = response.data.serverSig;
-
-            if (!verifySignature(bet, CHAIN_ID, CONTRACT_ADDRESS, serverSig, SERVER_ADDRESS, SIGNATURE_VERSION)) {
-                return Promise.reject(new Error("Error placing bet: Invalid server signature!"));
-            }
-
-            dispatch(placeBetEvent(bet, serverSig, userSig));
-
-            userSeed = gameState.hashChain[roundId];
-
-            return revealSeedRequest(gameId, roundId, userSeed);
-        }).then(response => { // TODO: Replace with reveal seed!!!
-            const serverSeed = response.data.serverSeed;
-            const newServerBalance = response.data.balance;
-
-            if (!verifySeed(serverSeed, serverHash)) {
-                return Promise.reject(new Error("Invalid server seed!"));
-            }
-
-            const resNum = calcResultNumber(gameType, serverSeed, userSeed);
-            const hashWon = hasWon(gameType, bet.num, resNum);
-            const userProfit = calcUserProfit(gameType, num, betValue, hashWon);
-            const newuserBalance = balance + userProfit;
-
-            if (newServerBalance !== newuserBalance) {
-                return Promise.reject(new Error("Invalid server balance!"));
-            }
-
-            dispatch(revealSeedEvent(serverSeed, userSeed, newServerBalance));
-
-            return Promise.resolve({num: resNum, won: userProfit > 0});
-        }).catch(error => {
-            return Promise.reject(error);
-        });
-    }
+    };
 }

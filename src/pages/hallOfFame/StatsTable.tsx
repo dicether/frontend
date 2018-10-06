@@ -1,15 +1,15 @@
-import * as React from 'react';
+import * as React from "react";
 
-import {Table} from '../../reusable/index'
-import StatsRow from './StatsRow'
+import {Table} from "../../reusable/index";
+import StatsRow from "./StatsRow";
 
-import {Stat} from './types';
+import {Stat} from "./types";
 
 type Props = {
-    data: Array<Stat>,
-    title: string,
-    name: string
-}
+    data: Stat[];
+    title: string;
+    name: string;
+};
 
 const StatsTable = ({data, name, title}: Props) => (
     <div>
@@ -23,9 +23,9 @@ const StatsTable = ({data, name, title}: Props) => (
                 </tr>
             </thead>
             <tbody>
-            {data.map((stat, i) =>
-                <StatsRow key={i} index={i + 1} stat={stat}/>
-            )}
+                {data.map((stat, i) => (
+                    <StatsRow key={i} index={i + 1} stat={stat} />
+                ))}
             </tbody>
         </Table>
     </div>

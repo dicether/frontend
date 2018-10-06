@@ -1,13 +1,11 @@
-import {Dispatch} from "../../../util/util";
-import {showErrorMessage} from './actions';
 import Raven from "raven-js";
-
+import {Dispatch} from "../../../util/util";
+import {showErrorMessage} from "./actions";
 
 function extractFirstLine(str: string) {
     const idx = str.indexOf("\n");
     return idx !== -1 ? str.substr(0, idx) : str;
 }
-
 
 export function catchError(error: any, dispatch: Dispatch) {
     Raven.captureException(error);
@@ -22,7 +20,7 @@ export function catchError(error: any, dispatch: Dispatch) {
 
         // do not completely show very long messages
         if (messageToShow.length > 100) {
-           messageToShow = extractFirstLine(message);
+            messageToShow = extractFirstLine(message);
         }
         dispatch(showErrorMessage(messageToShow));
     }

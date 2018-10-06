@@ -1,88 +1,44 @@
 {
   "extends": [
-    "tslint-config-standard",
-    "tslint-config-prettier"
+    "tslint:latest",
+    "tslint-react"
   ],
   "rules": {
-    // core ts-lint rules
+    "object-literal-sort-keys": false,
+    "no-var-requires": false,
+    "member-access": false,
+    "interface-over-type-literal": false,
     "await-promise": true,
-    "no-unused-variable": true,
-    "forin": true,
-    "no-bitwise": true,
+    "no-shadowed-variable": false,
+    "no-magic-numbers": false,
     "no-console": [
       true,
-      "debug",
-      "info",
-      "time",
-      "timeEnd",
-      "trace"
+     "debug",
+     "info",
+     "time",
+     "timeEnd",
+     "trace"
     ],
-    "no-construct": true,
-    "no-debugger": true,
-    "no-shadowed-variable": false,
-    "no-string-literal": true,
-    "no-inferrable-types": [
-      true
-    ],
-    "no-unnecessary-initializer": true,
-    "no-magic-numbers": false,
-    "no-require-imports": false,
-    "no-duplicate-super": true,
-    "no-boolean-literal-compare": true,
-    "no-namespace": [
+    "arrow-parens": [true, "ban-single-arg-parens"],
+    "trailing-comma": [
       true,
-      "allow-declarations"
+      {
+        "multiline": {
+          "objects": "always",
+          "arrays": "always",
+          "functions": "never",
+          "typeLiterals": "ignore"
+        },
+        "esSpecCompliant": true
+      }
     ],
-    "no-invalid-this": [
-      true,
-      "check-function-in-method"
-    ],
-    "ordered-imports": [
-      false
-    ],
-    "interface-name": [
-      false
-    ],
-    "newline-before-return": false,
-    "object-literal-shorthand": true,
-    "arrow-return-shorthand": [
-      true
-    ],
-    "unified-signatures": true,
-    "prefer-for-of": true,
-    "match-default-export-name": false,
-    "prefer-const": true,
-    "prefer-method-signature": true,
-    "ban-types": [
-      true,
-      [
-        "Object",
-        "Avoid using the `Object` type. Did you mean `object`?"
-      ],
-      [
-        "Function",
-        "Avoid using the `Function` type. Prefer a specific function type, like `() => void`."
-      ],
-      [
-        "Boolean",
-        "Avoid using the `Boolean` type. Did you mean `boolean`?"
-      ],
-      [
-        "Number",
-        "Avoid using the `Number` type. Did you mean `number`?"
-      ],
-      [
-        "String",
-        "Avoid using the `String` type. Did you mean `string`?"
-      ],
-      [
-        "Symbol",
-        "Avoid using the `Symbol` type. Did you mean `symbol`?"
-      ],
-      [
-        "Array",
-        "Avoid using the `Array<T>` type. Use 'type[]' instead."
-      ]
-    ]
+    "interface-name": false,
+    "jsx-boolean-value": false,
+    "jsx-no-lambda": false,
+    "jsx-no-multiline-js": false,
+    "jsx-space-before-trailing-slash": true,
+    "no-consecutive-blank-lines": [true, 2],
+    "no-implicit-dependencies": [true, ["assets"]],
+    "no-submodule-imports": [true, "assets"]
   }
 }

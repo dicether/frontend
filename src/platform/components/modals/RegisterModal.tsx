@@ -1,15 +1,14 @@
 import * as React from "react";
 import {connectModal, InjectedProps} from "redux-modal";
 
-import {MissingWallet, Modal} from "../../../reusable";
+import {Modal} from "../../../reusable";
 import Register from "../user/Register";
 
-
-type Props = InjectedProps
+type Props = InjectedProps;
 
 const MissingWalletModal = ({show, handleHide}: Props) => (
-    <Modal toggle={handleHide} isOpen={show} >
-        <Register/>
+    <Modal toggle={handleHide} isOpen={show}>
+        <Register />
     </Modal>
 );
 

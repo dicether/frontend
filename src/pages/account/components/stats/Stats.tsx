@@ -1,16 +1,12 @@
 import * as React from "react";
-import GameStats from "./GameStats";
-import GameSessions from "./GameSessions";
-import {Address, Tooltip} from "../../../../reusable";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import {loadGameSessions, loadStats} from "../../../../platform/modules/account/asyncActions";
-import {State} from "../../../../rootReducer";
 import {getUser} from "../../../../platform/modules/account/selectors";
+import {State} from "../../../../rootReducer";
 import {Dispatch} from "../../../../util/util";
-
-const Style = require('./Stats.scss');
-
+import GameSessions from "./GameSessions";
+import GameStats from "./GameStats";
 
 const mapStateToProps = (state: State) => {
     const {stats, gameSessions} = state.account;
@@ -22,15 +18,19 @@ const mapStateToProps = (state: State) => {
     };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch) => bindActionCreators({
-    loadStats,
-}, dispatch);
+const mapDispatchToProps = (dispatch: Dispatch) =>
+    bindActionCreators(
+        {
+            loadStats,
+        },
+        dispatch
+    );
 
 type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
 class Stats extends React.PureComponent<Props> {
     constructor(props: Props) {
-        super(props)
+        super(props);
     }
 
     componentWillMount() {
@@ -42,15 +42,18 @@ class Stats extends React.PureComponent<Props> {
     }
 
     render() {
-        const {stats, gameSessions, userAuth} = this.props;
+        const {stats, gameSessions} = this.props;
 
         return (
             <div>
-                <GameStats stats={stats}/>
-                <GameSessions gameSessions={gameSessions}/>
+                <GameStats stats={stats} />
+                <GameSessions gameSessions={gameSessions} />
             </div>
         );
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Stats);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Stats);

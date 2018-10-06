@@ -1,5 +1,5 @@
 export function round(x: number, n: number): number {
-    return Math.round(x * Math.pow(10, n)) / Math.pow(10, n)
+    return Math.round(x * Math.pow(10, n)) / Math.pow(10, n);
 }
 
 export function filterFloat(value: string): number {

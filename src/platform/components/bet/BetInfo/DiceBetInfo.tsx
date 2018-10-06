@@ -1,21 +1,20 @@
-import * as React from 'react';
 import {GameType} from "@dicether/state-channel";
+import * as React from "react";
 
-import {StaticPopover, ProgressBar} from '../../../../reusable/index';
+import {ProgressBar, StaticPopover} from "../../../../reusable/index";
 
-const Style = require('./DiceBetInfo.scss');
-
+const Style = require("./DiceBetInfo.scss");
 
 type Props = {
-    betId: number,
-    betNum: number,
-    resultNum: number,
-    gameType: number
+    betId: number;
+    betNum: number;
+    resultNum: number;
+    gameType: number;
 };
 
 const DiceBetInfo = ({betId, betNum, resultNum, gameType}: Props) => {
-    const lowColor = (gameType === GameType.DICE_LOWER) ? 'success' : 'danger';
-    const highColor = (gameType === GameType.DICE_LOWER) ? 'danger' : 'success';
+    const lowColor = gameType === GameType.DICE_LOWER ? "success" : "danger";
+    const highColor = gameType === GameType.DICE_LOWER ? "danger" : "success";
 
     return (
         <div className={Style.diceBetInfo}>
@@ -28,7 +27,7 @@ const DiceBetInfo = ({betId, betNum, resultNum, gameType}: Props) => {
                         </div>
                     </StaticPopover>
                 </div>
-                <ProgressBar id="progress" lowColor={lowColor} highColor={highColor} value={betNum}/>
+                <ProgressBar id="progress" lowColor={lowColor} highColor={highColor} value={betNum} />
                 <div className={Style.diceBetInfo__resultNum} style={{left: `${resultNum}%`}}>
                     <StaticPopover placement="bottom">
                         <div className={Style.diceBetInfo__resultEntry}>
@@ -39,7 +38,7 @@ const DiceBetInfo = ({betId, betNum, resultNum, gameType}: Props) => {
                 </div>
             </div>
         </div>
-    )
+    );
 };
 
 export default DiceBetInfo;
