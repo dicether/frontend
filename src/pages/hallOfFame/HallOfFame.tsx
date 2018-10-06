@@ -37,7 +37,7 @@ class HallOfFame extends React.Component<Props> {
     }
 
     shouldComponentUpdate(nextProps: Props) {
-        return this.props.match.path !== nextProps.match.path;
+        return this.props.location.pathname !== nextProps.location.pathname;
     }
 
     render() {
