@@ -21,12 +21,16 @@ export default class ValueInput extends React.PureComponent<Props> {
     }
 
     onValueChange = (value: number) => {
-        const {onChange, min, max} = this.props;
+        const {onChange, min, max, step} = this.props;
         let newVal = Math.round(value * ETHER_DIV);
         if (newVal < min) {
             newVal = min;
         } else if (newVal > max) {
             newVal = max;
+        }
+
+        if (step !== undefined) {
+            newVal = Math.round(newVal / step) * step;
         }
 
         onChange(newVal);
