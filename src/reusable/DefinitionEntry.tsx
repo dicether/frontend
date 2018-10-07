@@ -8,9 +8,9 @@ type Props = {
 };
 
 const DefinitionEntry = ({name, value}: Props) => (
-    <div className={Style.entry}>
-        <dt className={Style.entry__key}>{name}</dt>
-        <dd className={Style.entry__value}>{value}</dd>
+    <div className={Style.definitionEntry}>
+        <dt className={Style.definitionEntry__key}>{name}</dt>
+        <dd className={Style.definitionEntry__value}>{value}</dd>
     </div>
 );
 
