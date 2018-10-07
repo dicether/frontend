@@ -8,6 +8,7 @@ import {Dispatch} from "../../../util/util";
 import {getUser} from "../../modules/account/selectors";
 import {addBet, addMyBet} from "../../modules/bets/actions";
 import {loadBets, loadMyBets} from "../../modules/bets/asyncActions";
+import {showBetModal} from "../../modules/modals/actions";
 import BetsList from "./BetsList";
 
 const Style = require("./Stats.scss");
@@ -30,6 +31,7 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
             loadMyBets,
             addBet,
             addMyBet,
+            showBetModal,
         },
         dispatch
     );
@@ -69,7 +71,7 @@ class Stats extends React.Component<Props, CompState> {
     }
 
     render() {
-        const {allBets, myBets, showMyBets} = this.props;
+        const {allBets, myBets, showMyBets, showBetModal} = this.props;
         const {activeTab} = this.state;
 
         return (
@@ -98,10 +100,10 @@ class Stats extends React.Component<Props, CompState> {
                 )}
                 <TabContent activeTab={activeTab}>
                     <TabPane tabId="allBets">
-                        <BetsList bets={allBets} />
+                        <BetsList bets={allBets} showBetModal={bet => showBetModal({bet})} />
                     </TabPane>
                     <TabPane tabId="myBets">
-                        <BetsList bets={myBets} showUser={false} />
+                        <BetsList bets={myBets} showUser={false} showBetModal={bet => showBetModal({bet})} />
                     </TabPane>
                 </TabContent>
             </div>

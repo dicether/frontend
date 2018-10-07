@@ -49,4 +49,9 @@
   @include remove-default-button-style();
   text-decoration: underline;
   color: inherit;
+  transition: transform 100ms ease 0s;
+
+  &:active {
+    transform: scale(0.97);
+  }
 }

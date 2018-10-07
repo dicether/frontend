@@ -4,49 +4,16 @@ import * as React from "react";
 import {Button, Ether, Modal, Table} from "../../../reusable/index";
 import {Bet} from "../../modules/bets/types";
 import User from "../user/User";
-import BetInfo from "./BetInfo/index";
 
 const Style = require("./BetList.scss");
-
-type BetInfoModalProps = {
-    bet: Bet;
-};
-
-class BetInfoModal extends React.Component<BetInfoModalProps, {isOpen: boolean}> {
-    constructor(props: BetInfoModalProps) {
-        super(props);
-        this.state = {
-            isOpen: false,
-        };
-    }
-
-    toggle = () => {
-        this.setState({isOpen: !this.state.isOpen});
-    }
-
-    render() {
-        const {bet} = this.props;
-        const {isOpen} = this.state;
-
-        return (
-            <React.Fragment>
-                <Button className={Style.infoButton} key="1" color="link" onClick={this.toggle}>
-                    Show
-                </Button>
-                <Modal key="2" isOpen={isOpen} toggle={this.toggle}>
-                    <BetInfo bet={bet} />
-                </Modal>
-            </React.Fragment>
-        );
-    }
-}
 
 type LastBetRowProps = {
     bet: Bet;
     showUser: boolean;
+    showBetModal(bet: Bet);
 };
 
-const LastBetRow = ({bet, showUser}: LastBetRowProps) => {
+const LastBetRow = ({bet, showUser, showBetModal}: LastBetRowProps) => {
     const {timestamp, user, value, profit} = bet;
 
     return (
@@ -69,7 +36,9 @@ const LastBetRow = ({bet, showUser}: LastBetRowProps) => {
             </td>
             <td className={Style.center}>
                 <div className={Style.entry}>
-                    <BetInfoModal bet={bet} />
+                    <Button className={Style.infoButton} key="1" color="link" onClick={() => showBetModal(bet)}>
+                        Show
+                    </Button>
                 </div>
             </td>
             <td className={Style.center}>
@@ -84,9 +53,10 @@ const LastBetRow = ({bet, showUser}: LastBetRowProps) => {
 type Props = {
     bets: Bet[];
     showUser?: boolean;
+    showBetModal(bet: Bet);
 };
 
-const BetsList = ({bets, showUser = true}: Props) => {
+const BetsList = ({bets, showBetModal, showUser = true}: Props) => {
     return (
         <Table hover noBorders responsive>
             <thead>
@@ -100,7 +70,7 @@ const BetsList = ({bets, showUser = true}: Props) => {
             </thead>
             <tbody className={Style.entries}>
                 {bets.slice().map(bet => (
-                    <LastBetRow key={bet.id} bet={bet} showUser={showUser} />
+                    <LastBetRow key={bet.id} bet={bet} showUser={showUser} showBetModal={showBetModal} />
                 ))}
             </tbody>
         </Table>

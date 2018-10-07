@@ -33,9 +33,9 @@ const ChatButton = ({name, onClick}: ChatButtonProps) => (
     </button>
 );
 
-function processMessage(message: string) {
+function processMessage(message: string, showBetModal) {
     let res = reactStringReplace(message, BET_REGEX, (match, i) => (
-        <Bet key={match + i} betId={match} button={<ChatButton name={`Bet:${match}`} />} />
+        <ChatButton key={match + i} name={`Bet:${match}`} onClick={() => showBetModal(match)} />
     ));
 
     res = reactStringReplace(res, USER_REGEX, (match, i) => (
@@ -56,6 +56,7 @@ function processMessage(message: string) {
 export type Props = {
     message: MessageType;
     friends: Friend[];
+    showBetModal(betId: number);
 };
 
 export type State = {
@@ -77,7 +78,7 @@ class Message extends React.Component<Props, State> {
     }
 
     render() {
-        const {message, friends} = this.props;
+        const {message, friends, showBetModal} = this.props;
         const {user} = message;
 
         const messageClass = ClassNames(Style.message, {
@@ -110,7 +111,8 @@ class Message extends React.Component<Props, State> {
                                         height: "20px",
                                         width: "20px",
                                     },
-                                })
+                                }),
+                                showBetModal
                             )}
                         </span>
                     ) : (

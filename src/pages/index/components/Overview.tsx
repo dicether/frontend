@@ -2,7 +2,7 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {Jumbotron} from "reactstrap";
 import {bindActionCreators, Dispatch} from "redux";
-import {showRegisterModal} from "../../../platform/components/modals/actions";
+import {showRegisterModal} from "../../../platform/modules/modals/actions";
 import {Button, Container} from "../../../reusable";
 
 const Style = require("./Overview.scss");

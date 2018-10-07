@@ -4,9 +4,9 @@ import {withRouter} from "react-router-dom";
 import {bindActionCreators, Dispatch} from "redux";
 
 import {RouteComponentProps} from "react-router";
-import {showRegisterModal} from "../platform/components/modals/actions";
 import {authenticate} from "../platform/modules/account/asyncActions";
 import {toggleChat} from "../platform/modules/chat/actions";
+import {showRegisterModal} from "../platform/modules/modals/actions";
 import {toggleTheme} from "../platform/modules/utilities/actions";
 import {State} from "../rootReducer";
 import Footer from "./Footer";

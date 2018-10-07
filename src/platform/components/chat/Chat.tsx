@@ -6,6 +6,7 @@ import {State} from "../../../rootReducer";
 import {getUser} from "../../modules/account/selectors";
 import {addMessage, toggleChat} from "../../modules/chat/actions";
 import {sendMessage} from "../../modules/chat/asyncActions";
+import {showBetModal} from "../../modules/modals/actions";
 import {showErrorMessage} from "../../modules/utilities/actions";
 import Friends from "../friend/Friends";
 import Footer from "./components/Footer";
@@ -38,6 +39,7 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
             sendMessage,
             addMessage,
             toggleChat,
+            showBetModal,
         },
         dispatch
     );
@@ -84,7 +86,7 @@ class Chat extends React.Component<Props, ChatState> {
     }
 
     render() {
-        const {toggleChat, show, messages, numUsers, friends} = this.props;
+        const {toggleChat, show, messages, numUsers, friends, showBetModal} = this.props;
         const {showFriends} = this.state;
 
         return (
@@ -97,7 +99,15 @@ class Chat extends React.Component<Props, ChatState> {
                             }}
                             onToggleFriends={this.toggleFriends}
                         />
-                        {showFriends ? <Friends /> : <MessageList messages={messages} friends={friends} />}
+                        {showFriends ? (
+                            <Friends />
+                        ) : (
+                            <MessageList
+                                messages={messages}
+                                friends={friends}
+                                showBetModal={betId => showBetModal({betId})}
+                            />
+                        )}
                         <Footer
                             message={this.state.message}
                             numUsers={numUsers}
