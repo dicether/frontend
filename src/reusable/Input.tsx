@@ -56,10 +56,7 @@ export default class Input extends React.Component<Props, State> {
         const val = (event.target as HTMLInputElement).value;
 
         this.isFocus = false;
-        if (onValue && (validate === undefined || validate(val).valid)) {
-            onValue(val);
-            this.setState({inputValue: value});
-        }
+        this.setState({inputValue: value});
     }
 
     onFocus = () => {
