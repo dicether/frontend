@@ -2,16 +2,17 @@ import moment from "moment";
 import * as React from "react";
 
 import {CopyToClipBoard, Ether} from "../../../../reusable/index";
+import {User} from "../../../modules/account/types";
 import {Bet} from "../../../modules/bets/types";
-import User from "../../user/User";
 
 const Style = require("./Overview.scss");
 
 type Props = {
     bet: Bet;
+    showUserModal(user: User);
 };
 
-const Overview = ({bet}: Props) => (
+const Overview = ({bet, showUserModal}: Props) => (
     <div className={Style.overview}>
         <h3>
             Dice:
@@ -19,15 +20,18 @@ const Overview = ({bet}: Props) => (
         </h3>
         <span>{moment(bet.timestamp).format("lll")}</span>
         <span>
-            Placed by <User user={bet.user} />
+            Placed by{" "}
+            <button className={Style.userName} onClick={() => showUserModal(bet.user)}>
+                {bet.user.username}
+            </button>
         </span>
-        <div className={Style.overview__stats}>
-            <div className={Style.overview__statEntry}>
-                <span className={Style.overview__entryHeader}>Wagered</span>
+        <div className={Style.stats}>
+            <div className={Style.statEntry}>
+                <span className={Style.entryHeader}>Wagered</span>
                 <Ether gwei={bet.value} />
             </div>
-            <div className={Style.overview__statEntry}>
-                <span className={Style.overview__entryHeader}>Profit</span>
+            <div className={Style.statEntry}>
+                <span className={Style.entryHeader}>Profit</span>
                 <Ether colored gwei={bet.profit} />
             </div>
         </div>

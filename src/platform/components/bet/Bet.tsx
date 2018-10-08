@@ -4,8 +4,6 @@ import {DataLoader} from "../../../reusable";
 import {Bet, Bet as BetType} from "../../modules/bets/types";
 import BetInfo from "./BetInfo";
 
-const Style = require("./Bet.scss");
-
 export type Props = {
     bet?: Bet;
     betId?: number;

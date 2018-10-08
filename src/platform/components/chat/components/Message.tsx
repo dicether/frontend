@@ -6,6 +6,7 @@ import {Link} from "react-router-dom";
 
 import {Message as MessageType} from "../../../modules/chat/types";
 import {Friend} from "../../../modules/friends/types";
+import {showUserModal} from "../../../modules/modals/actions";
 import Bet from "../../bet/Bet";
 import User from "../../user/User";
 import UserMenu from "./UserMenu";
@@ -33,13 +34,13 @@ const ChatButton = ({name, onClick}: ChatButtonProps) => (
     </button>
 );
 
-function processMessage(message: string, showBetModal) {
+function processMessage(message: string, showBetModal, showUserModal) {
     let res = reactStringReplace(message, BET_REGEX, (match, i) => (
         <ChatButton key={match + i} name={`Bet:${match}`} onClick={() => showBetModal(match)} />
     ));
 
     res = reactStringReplace(res, USER_REGEX, (match, i) => (
-        <User key={match + i} userName={match} button={<ChatButton name={`User:${match}`} />} />
+        <ChatButton key={match + i} name={`User:${match}`} onClick={() => showUserModal(match)} />
     ));
 
     res = reactStringReplace(res, LOCAL_LINK_REGEX, (match, i) => (
@@ -57,6 +58,7 @@ export type Props = {
     message: MessageType;
     friends: Friend[];
     showBetModal(betId: number);
+    showUserModal(userName: string);
 };
 
 export type State = {
@@ -78,7 +80,7 @@ class Message extends React.Component<Props, State> {
     }
 
     render() {
-        const {message, friends, showBetModal} = this.props;
+        const {message, friends, showBetModal, showUserModal} = this.props;
         const {user} = message;
 
         const messageClass = ClassNames(Style.message, {
@@ -112,7 +114,8 @@ class Message extends React.Component<Props, State> {
                                         width: "20px",
                                     },
                                 }),
-                                showBetModal
+                                showBetModal,
+                                showUserModal
                             )}
                         </span>
                     ) : (

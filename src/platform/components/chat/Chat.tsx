@@ -6,7 +6,7 @@ import {State} from "../../../rootReducer";
 import {getUser} from "../../modules/account/selectors";
 import {addMessage, toggleChat} from "../../modules/chat/actions";
 import {sendMessage} from "../../modules/chat/asyncActions";
-import {showBetModal} from "../../modules/modals/actions";
+import {showBetModal, showUserModal} from "../../modules/modals/actions";
 import {showErrorMessage} from "../../modules/utilities/actions";
 import Friends from "../friend/Friends";
 import Footer from "./components/Footer";
@@ -40,6 +40,7 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
             addMessage,
             toggleChat,
             showBetModal,
+            showUserModal,
         },
         dispatch
     );
@@ -106,6 +107,7 @@ class Chat extends React.Component<Props, ChatState> {
                                 messages={messages}
                                 friends={friends}
                                 showBetModal={betId => showBetModal({betId})}
+                                showUserModal={userName => showUserModal({userName})}
                             />
                         )}
                         <Footer

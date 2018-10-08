@@ -10,6 +10,12 @@
   padding-bottom: 0 !important;
 }
 
+.userButton {
+  @include remove-default-button-style();
+  font-weight: bold;
+  color: inherit;
+}
+
 .entries {
   @include color("700");
 }

@@ -5,21 +5,27 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
 
-  &__stats {
-    margin-top: 1em;
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-  }
+.stats {
+  margin-top: 1em;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
 
-  &__statEntry {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+.statEntry {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-  &__entryHeader {
-    @include label-header;
-  }
+.entryHeader {
+  @include label-header;
+}
+
+.userName {
+  @include remove-default-button-style();
+  font-weight: bold;
+  color: inherit;
 }

@@ -6,10 +6,10 @@ import {Button, Dropdown} from "../../../../reusable/index";
 import {State} from "../../../../rootReducer";
 import {Dispatch} from "../../../../util/util";
 import {getUser} from "../../../modules/account/selectors";
-import {User as UserType} from "../../../modules/account/types";
+import {User} from "../../../modules/account/types";
 import {deleteMessage, mute} from "../../../modules/chat/asyncActions";
 import {sendFriendRequest} from "../../../modules/friends/asyncActions";
-import User from "../../user/User";
+import {showUserModal} from "../../../modules/modals/actions";
 
 export const mapStateToProps = (state: State) => {
     const {web3, friend} = state;
@@ -30,28 +30,22 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
             sendFriendRequest,
             deleteMessage,
             mute,
+            showUserModal,
         },
         dispatch
     );
 
 export type OtherProps = {
-    user: UserType;
+    user: User;
     messageId: number;
     button: React.ReactNode;
 };
 
-export type UserMenuState = {
-    dropDownIsOpen?: boolean;
-};
-
 export type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps> & OtherProps;
 
-class UserMenu extends React.Component<Props, UserMenuState> {
+class UserMenu extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
-        this.state = {
-            dropDownIsOpen: undefined,
-        };
     }
 
     isInvitable = (address: string): boolean => {
@@ -81,8 +75,9 @@ class UserMenu extends React.Component<Props, UserMenuState> {
         deleteMessage(messageId);
     }
 
-    onToggleUserModal = isOpen => {
-        this.setState({dropDownIsOpen: isOpen ? isOpen : undefined});
+    showUser = () => {
+        const {user, showUserModal} = this.props;
+        showUserModal({user});
     }
 
     render() {
@@ -93,16 +88,10 @@ class UserMenu extends React.Component<Props, UserMenuState> {
             userAuth && (userAuth.userType === "MOD" || userAuth.userType === "DEV" || userAuth.userType === "ADM");
 
         return (
-            <Dropdown isOpen={this.state.dropDownIsOpen} button={button}>
-                <User
-                    onToggle={this.onToggleUserModal}
-                    user={user}
-                    button={
-                        <Button size="sm" variant="dropdown">
-                            View Profil
-                        </Button>
-                    }
-                />
+            <Dropdown button={button}>
+                <Button size="sm" variant="dropdown" onClick={this.showUser}>
+                    View Profile
+                </Button>
                 {isInvitable && (
                     <Button size="sm" variant="dropdown" onClick={() => this.sendInvite(address)}>
                         Send Friend Invitation

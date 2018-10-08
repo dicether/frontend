@@ -1,31 +1,53 @@
 import * as React from "react";
 import DocumentTitle from "react-document-title";
+import {connect} from "react-redux";
 import {NavLink as RRNavLink} from "react-router-dom";
 import {Nav, NavItem, NavLink} from "reactstrap";
 
 import {Redirect, Route, RouteComponentProps, Switch} from "react-router";
+import {bindActionCreators} from "redux";
+import {showUserModal} from "../../platform/modules/modals/actions";
 import {Col, Container, DataLoader, Row} from "../../reusable/index";
+import {Dispatch} from "../../util/util";
 import StatsTable from "./StatsTable";
 
 const Style = require("./HallOfFame.scss");
 
-const StatsEntry = ({timeSpan}) => (
+const StatsEntry = ({timeSpan, showUserModal}) => (
     <DataLoader
         url={`/stats/${timeSpan}`}
         success={stats => (
             <Row>
                 <Col md={6}>
-                    <StatsTable title="Most Wagered" name="Wagered" data={stats.mostWagered} />
+                    <StatsTable
+                        title="Most Wagered"
+                        name="Wagered"
+                        data={stats.mostWagered}
+                        showUserModal={showUserModal}
+                    />
                 </Col>
                 <Col md={6}>
-                    <StatsTable title="Most Profit" name="Profit" data={stats.mostProfit} />
+                    <StatsTable
+                        title="Most Profit"
+                        name="Profit"
+                        data={stats.mostProfit}
+                        showUserModal={showUserModal}
+                    />
                 </Col>
             </Row>
         )}
     />
 );
 
-type Props = RouteComponentProps<any>;
+const mapDispatchToProps = (dispatch: Dispatch) =>
+    bindActionCreators(
+        {
+            showUserModal,
+        },
+        dispatch
+    );
+
+type Props = ReturnType<typeof mapDispatchToProps> & RouteComponentProps<any>;
 
 class HallOfFame extends React.Component<Props> {
     constructor(props: Props) {
@@ -37,11 +59,11 @@ class HallOfFame extends React.Component<Props> {
     }
 
     render() {
-        const {match} = this.props;
+        const {match, showUserModal} = this.props;
 
-        const weekEntry = () => <StatsEntry timeSpan="week" />;
-        const monthEntry = () => <StatsEntry timeSpan="month" />;
-        const allEntry = () => <StatsEntry timeSpan="all" />;
+        const weekEntry = () => <StatsEntry timeSpan="week" showUserModal={user => showUserModal({user})} />;
+        const monthEntry = () => <StatsEntry timeSpan="month" showUserModal={user => showUserModal({user})} />;
+        const allEntry = () => <StatsEntry timeSpan="all" showUserModal={user => showUserModal({user})} />;
 
         return (
             <DocumentTitle title="Hall of Fame - Dicether">
@@ -76,4 +98,7 @@ class HallOfFame extends React.Component<Props> {
     }
 }
 
-export default HallOfFame;
+export default connect(
+    null,
+    mapDispatchToProps
+)(HallOfFame);

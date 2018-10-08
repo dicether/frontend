@@ -1,6 +1,7 @@
 import {hide, show} from "redux-modal";
 
 import {Dispatch, GetState} from "../../../util/util";
+import {User} from "../account/types";
 import {Bet} from "../bets/types";
 
 export function showMissingWalletModal() {
@@ -25,6 +26,14 @@ export function showBetModal({bet, betId}: {bet?: Bet; betId?: number}) {
 
 export function hideBetModal() {
     hide("bet");
+}
+
+export function showUserModal({user, userName}: {user?: User; userName?: string}) {
+    return show("user", {user, userName});
+}
+
+export function hideUserModal() {
+    hide("user");
 }
 
 export function showRegisterModal() {

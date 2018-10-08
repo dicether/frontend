@@ -7,7 +7,7 @@ import BetsList from "../../platform/components/bet/BetsList";
 import User from "../../platform/components/user/User";
 import {User as UserType} from "../../platform/modules/account/types";
 import {Bet} from "../../platform/modules/bets/types";
-import {showBetModal} from "../../platform/modules/modals/actions";
+import {showBetModal, showUserModal} from "../../platform/modules/modals/actions";
 import {Container, DataLoader} from "../../reusable";
 import Ether from "../../reusable/Ether";
 import {Dispatch} from "../../util/util";
@@ -18,6 +18,7 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
     bindActionCreators(
         {
             showBetModal,
+            showUserModal,
         },
         dispatch
     );
@@ -41,7 +42,7 @@ class GameSession extends React.Component<Props> {
     }
 
     render() {
-        const {showBetModal} = this.props;
+        const {showBetModal, showUserModal} = this.props;
         const gameId = this.props.match.params.gameId;
 
         return (
@@ -55,8 +56,13 @@ class GameSession extends React.Component<Props> {
                                 {this.props.match.params.gameId}
                             </h3>
                             <span>
-                                {" "}
-                                Created by <User user={gameState.user} />
+                                Created by{" "}
+                                <button
+                                    className={Style.userButton}
+                                    onClick={() => showUserModal({user: gameState.user})}
+                                >
+                                    {gameState.user.username}
+                                </button>
                             </span>
                             <span>{gameState.status === "ENDED" ? gameState.roundId - 1 : gameState.roundId} Bets</span>
                             <Ether colored gwei={gameState.balance} />
@@ -66,7 +72,12 @@ class GameSession extends React.Component<Props> {
                 <DataLoader<{bets: Bet[]}>
                     url={`/bets/gameId/${gameId}`}
                     success={data => (
-                        <BetsList bets={data.bets} showUser={false} showBetModal={bet => showBetModal({bet})} />
+                        <BetsList
+                            bets={data.bets}
+                            showUser={false}
+                            showBetModal={bet => showBetModal({bet})}
+                            showUserModal={user => showUserModal({user})}
+                        />
                     )}
                 />
             </Container>

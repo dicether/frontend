@@ -8,7 +8,7 @@ import {Dispatch} from "../../../util/util";
 import {getUser} from "../../modules/account/selectors";
 import {addBet, addMyBet} from "../../modules/bets/actions";
 import {loadBets, loadMyBets} from "../../modules/bets/asyncActions";
-import {showBetModal} from "../../modules/modals/actions";
+import {showBetModal, showUserModal} from "../../modules/modals/actions";
 import BetsList from "./BetsList";
 
 const Style = require("./Stats.scss");
@@ -32,6 +32,7 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
             addBet,
             addMyBet,
             showBetModal,
+            showUserModal,
         },
         dispatch
     );
@@ -71,7 +72,7 @@ class Stats extends React.Component<Props, CompState> {
     }
 
     render() {
-        const {allBets, myBets, showMyBets, showBetModal} = this.props;
+        const {allBets, myBets, showMyBets, showBetModal, showUserModal} = this.props;
         const {activeTab} = this.state;
 
         return (
@@ -100,10 +101,19 @@ class Stats extends React.Component<Props, CompState> {
                 )}
                 <TabContent activeTab={activeTab}>
                     <TabPane tabId="allBets">
-                        <BetsList bets={allBets} showBetModal={bet => showBetModal({bet})} />
+                        <BetsList
+                            bets={allBets}
+                            showBetModal={bet => showBetModal({bet})}
+                            showUserModal={user => showUserModal({user})}
+                        />
                     </TabPane>
                     <TabPane tabId="myBets">
-                        <BetsList bets={myBets} showUser={false} showBetModal={bet => showBetModal({bet})} />
+                        <BetsList
+                            bets={myBets}
+                            showUser={false}
+                            showBetModal={bet => showBetModal({bet})}
+                            showUserModal={user => showUserModal({user})}
+                        />
                     </TabPane>
                 </TabContent>
             </div>

@@ -6,12 +6,12 @@ const Style = require("./MessageList.scss");
 
 import {Message as MessageType} from "../../../modules/chat/types";
 import {Friend} from "../../../modules/friends/types";
-import {showBetModal} from "../../../modules/modals/actions";
 
 export type Props = {
     messages: MessageType[];
     friends: Friend[];
     showBetModal(betId: number);
+    showUserModal(userName: string);
 };
 
 class MessageList extends React.PureComponent<Props> {
@@ -52,11 +52,17 @@ class MessageList extends React.PureComponent<Props> {
     }
 
     render() {
-        const {messages, friends, showBetModal} = this.props;
+        const {messages, friends, showBetModal, showUserModal} = this.props;
         return (
             <div ref={ref => (this.messageList = ref)} className={Style.messageList}>
                 {messages.slice().map(message => (
-                    <Message key={message.id} message={message} friends={friends} showBetModal={showBetModal} />
+                    <Message
+                        key={message.id}
+                        message={message}
+                        friends={friends}
+                        showBetModal={showBetModal}
+                        showUserModal={showUserModal}
+                    />
                 ))}
             </div>
         );

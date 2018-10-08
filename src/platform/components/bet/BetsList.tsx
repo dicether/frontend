@@ -2,8 +2,8 @@ import moment from "moment";
 import * as React from "react";
 
 import {Button, Ether, Modal, Table} from "../../../reusable/index";
+import {User} from "../../modules/account/types";
 import {Bet} from "../../modules/bets/types";
-import User from "../user/User";
 
 const Style = require("./BetList.scss");
 
@@ -11,9 +11,10 @@ type LastBetRowProps = {
     bet: Bet;
     showUser: boolean;
     showBetModal(bet: Bet);
+    showUserModal(user: User);
 };
 
-const LastBetRow = ({bet, showUser, showBetModal}: LastBetRowProps) => {
+const LastBetRow = ({bet, showUser, showBetModal, showUserModal}: LastBetRowProps) => {
     const {timestamp, user, value, profit} = bet;
 
     return (
@@ -21,8 +22,9 @@ const LastBetRow = ({bet, showUser, showBetModal}: LastBetRowProps) => {
             {showUser && (
                 <td className={Style.center}>
                     <div className={Style.entry}>
-                        {" "}
-                        <User user={user} />{" "}
+                        <button className={Style.userButton} onClick={() => showUserModal(user)}>
+                            {user.username}
+                        </button>
                     </div>
                 </td>
             )}
@@ -54,9 +56,10 @@ type Props = {
     bets: Bet[];
     showUser?: boolean;
     showBetModal(bet: Bet);
+    showUserModal(user: User);
 };
 
-const BetsList = ({bets, showBetModal, showUser = true}: Props) => {
+const BetsList = ({bets, showUser = true, showBetModal, showUserModal}: Props) => {
     return (
         <Table hover noBorders responsive>
             <thead>
@@ -70,7 +73,13 @@ const BetsList = ({bets, showBetModal, showUser = true}: Props) => {
             </thead>
             <tbody className={Style.entries}>
                 {bets.slice().map(bet => (
-                    <LastBetRow key={bet.id} bet={bet} showUser={showUser} showBetModal={showBetModal} />
+                    <LastBetRow
+                        key={bet.id}
+                        bet={bet}
+                        showUser={showUser}
+                        showBetModal={showBetModal}
+                        showUserModal={showUserModal}
+                    />
                 ))}
             </tbody>
         </Table>
