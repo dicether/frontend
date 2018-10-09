@@ -48,7 +48,7 @@ class UserMenu extends React.Component<Props> {
         super(props);
     }
 
-    isInvitable = (address: string): boolean => {
+    private isInvitable = (address: string): boolean => {
         const {friends, receivedFriendRequests, sentFriendRequests, userAuth} = this.props;
 
         return (
@@ -60,22 +60,22 @@ class UserMenu extends React.Component<Props> {
         );
     }
 
-    sendInvite = (address: string) => {
-        const sendFriendRequest = this.props.sendFriendRequest;
-        sendFriendRequest(address);
+    private sendInvite = () => {
+        const {user, sendFriendRequest} = this.props;
+        sendFriendRequest(user.address);
     }
 
-    mute = (address: string) => {
-        const mute = this.props.mute;
-        mute(address);
+    private mute = () => {
+        const {user, mute} = this.props;
+        mute(user.address);
     }
 
-    deleteMessage = (messageId: number) => {
-        const deleteMessage = this.props.deleteMessage;
+    private deleteMessage = () => {
+        const {messageId, deleteMessage} = this.props;
         deleteMessage(messageId);
     }
 
-    showUser = () => {
+    private showUser = () => {
         const {user, showUserModal} = this.props;
         showUserModal({user});
     }
@@ -93,17 +93,17 @@ class UserMenu extends React.Component<Props> {
                     View Profile
                 </Button>
                 {isInvitable && (
-                    <Button size="sm" variant="dropdown" onClick={() => this.sendInvite(address)}>
+                    <Button size="sm" variant="dropdown" onClick={this.sendInvite}>
                         Send Friend Invitation
                     </Button>
                 )}
                 {specialUser && (
-                    <Button size="sm" variant="dropdown" onClick={() => this.mute(address)}>
+                    <Button size="sm" variant="dropdown" onClick={this.mute}>
                         Mute User
                     </Button>
                 )}
                 {specialUser && (
-                    <Button size="sm" variant="dropdown" onClick={() => this.deleteMessage(messageId)}>
+                    <Button size="sm" variant="dropdown" onClick={this.deleteMessage}>
                         Delete Message
                     </Button>
                 )}
