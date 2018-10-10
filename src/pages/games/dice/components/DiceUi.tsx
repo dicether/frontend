@@ -114,7 +114,7 @@ export default class DiceUi extends React.Component<Props> {
                     <div className={"form-row"} style={{alignItems: "flex-end"}}>
                         <Col sm={6} xs={12}>
                             <FormGroup className="games__form-group">
-                                <Label>Bet Amount(ETH)</Label>
+                                <Label>Bet Amount (ETH)</Label>
                                 <ValueInput
                                     value={value}
                                     min={MIN_BET_VALUE}
@@ -126,7 +126,7 @@ export default class DiceUi extends React.Component<Props> {
                         </Col>
                         <Col sm={6} xs={6}>
                             <FormGroup className="games__form-group">
-                                <Label>Profit on Win(ETH)</Label>
+                                <Label>Profit on win (ETH)</Label>
                                 {/*<span><Ether value={payOut}/></span>*/}
                                 <Input disabled readOnly value={formatEth(profit - value)} />
                             </FormGroup>
@@ -146,7 +146,7 @@ export default class DiceUi extends React.Component<Props> {
                         </Col>
                         <Col xs={6} sm={4} className="hidden-xs-down">
                             <FormGroup className="games__form-group">
-                                <Label>PayOut</Label>
+                                <Label>Payout</Label>
                                 <NumericInput
                                     number={multiplier}
                                     suffix="x"
