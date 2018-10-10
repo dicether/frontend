@@ -109,86 +109,86 @@ export default class DiceUi extends React.Component<Props> {
         const reverseButton = <ReverseRollButton reversed={reverseRoll} onClick={onReverseRoll} />;
 
         return (
-            <div className={Style.diceUi}>
-                <div className={"form-row"} style={{alignItems: "flex-end"}}>
-                    <Col sm={6} xs={12}>
-                        <FormGroup className="games__form-group">
-                            <Label>Bet Amount(ETH)</Label>
-                            <ValueInput
-                                value={value}
-                                min={MIN_BET_VALUE}
-                                step={MIN_BET_VALUE}
-                                max={maxBetValue}
-                                onChange={onValueChange}
-                            />
-                        </FormGroup>
-                    </Col>
-                    <Col sm={6} xs={6}>
-                        <FormGroup className="games__form-group">
-                            <Label>Profit on Win(ETH)</Label>
-                            {/*<span><Ether value={payOut}/></span>*/}
-                            <Input disabled readOnly value={formatEth(profit - value)} />
-                        </FormGroup>
-                    </Col>
-                    <Col xs={6} sm={4}>
-                        <FormGroup className="games__form-group">
-                            <Label>{reverseRoll ? "Bet over" : "Bet under"}</Label>
-                            <NumericInput
-                                number={num}
-                                step={1}
-                                min={MIN_NUMBER_DICE_1}
-                                max={MAX_NUMBER_DICE_1}
-                                onNumber={this.onNumberChange}
-                                suffix={reverseButton}
-                            />
-                        </FormGroup>
-                    </Col>
-                    <Col xs={6} sm={4} className="hidden-xs-down">
-                        <FormGroup className="games__form-group">
-                            <Label>PayOut</Label>
-                            <NumericInput
-                                number={multiplier}
-                                suffix="x"
-                                precision={3}
-                                min={minPayoutMultiplier}
-                                max={maxPayoutMultiplier}
-                                onNumber={this.onMultiplierChange}
-                            />
-                        </FormGroup>
-                    </Col>
-                    <Col xs={6} sm={4} className="hidden-xs-down">
-                        <FormGroup className="games__form-group">
-                            <Label>Win chance</Label>
-                            <NumericInput
-                                number={chance * 100}
-                                suffix="%"
-                                precision={0}
-                                min={MIN_NUMBER_DICE_1}
-                                max={MAX_NUMBER_DICE_1}
-                                step={1}
-                                onNumber={num => this.onChanceChange(num / 100)}
-                            />
-                        </FormGroup>
-                    </Col>
+            <div className={Style.dice}>
+                <div className={Style.ui}>
+                    <div className={"form-row"} style={{alignItems: "flex-end"}}>
+                        <Col sm={6} xs={12}>
+                            <FormGroup className="games__form-group">
+                                <Label>Bet Amount(ETH)</Label>
+                                <ValueInput
+                                    value={value}
+                                    min={MIN_BET_VALUE}
+                                    step={MIN_BET_VALUE}
+                                    max={maxBetValue}
+                                    onChange={onValueChange}
+                                />
+                            </FormGroup>
+                        </Col>
+                        <Col sm={6} xs={6}>
+                            <FormGroup className="games__form-group">
+                                <Label>Profit on Win(ETH)</Label>
+                                {/*<span><Ether value={payOut}/></span>*/}
+                                <Input disabled readOnly value={formatEth(profit - value)} />
+                            </FormGroup>
+                        </Col>
+                        <Col xs={6} sm={4}>
+                            <FormGroup className="games__form-group">
+                                <Label>{reverseRoll ? "Bet over" : "Bet under"}</Label>
+                                <NumericInput
+                                    number={num}
+                                    step={1}
+                                    min={MIN_NUMBER_DICE_1}
+                                    max={MAX_NUMBER_DICE_1}
+                                    onNumber={this.onNumberChange}
+                                    suffix={reverseButton}
+                                />
+                            </FormGroup>
+                        </Col>
+                        <Col xs={6} sm={4} className="hidden-xs-down">
+                            <FormGroup className="games__form-group">
+                                <Label>PayOut</Label>
+                                <NumericInput
+                                    number={multiplier}
+                                    suffix="x"
+                                    precision={3}
+                                    min={minPayoutMultiplier}
+                                    max={maxPayoutMultiplier}
+                                    onNumber={this.onMultiplierChange}
+                                />
+                            </FormGroup>
+                        </Col>
+                        <Col xs={6} sm={4} className="hidden-xs-down">
+                            <FormGroup className="games__form-group">
+                                <Label>Win chance</Label>
+                                <NumericInput
+                                    number={chance * 100}
+                                    suffix="%"
+                                    precision={0}
+                                    min={MIN_NUMBER_DICE_1}
+                                    max={MAX_NUMBER_DICE_1}
+                                    step={1}
+                                    onNumber={num => this.onChanceChange(num / 100)}
+                                />
+                            </FormGroup>
+                        </Col>
+                    </div>
+                    <Row noGutters>
+                        <Button block color="success" onClick={onPlaceBet}>
+                            Roll Dice
+                        </Button>
+                    </Row>
+                    <Modal isOpen={showHelp} toggle={onToggleHelp}>
+                        <HowToPlay />
+                    </Modal>
                 </div>
-                <Row noGutters>
-                    <DiceSlider
-                        num={num}
-                        onNumberChange={this.onNumberChange}
-                        showResult={showResult}
-                        result={result}
-                        sound={sound}
-                        reversedRoll={reverseRoll}
-                    />
-                </Row>
-                <Row noGutters>
-                    <Button block color="primary" onClick={onPlaceBet}>
-                        Roll Dice
-                    </Button>
-                </Row>
-                <Modal isOpen={showHelp} toggle={onToggleHelp}>
-                    <HowToPlay />
-                </Modal>
+                <DiceSlider
+                    num={num}
+                    onNumberChange={this.onNumberChange}
+                    showResult={showResult}
+                    result={result}
+                    sound={sound}
+                    reversedRoll={reverseRoll}
+                />
             </div>
         );
     }

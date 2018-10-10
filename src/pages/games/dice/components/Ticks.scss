@@ -3,8 +3,8 @@
 $ticks-color: $gray-400 !default;
 
 .ticks {
-  position: absolute;
-  top: -2rem;
+  position: relative;
+  top: -4rem;
   left: 0;
   width: 100%;
 }

@@ -9,7 +9,7 @@ $result-slider-width: 6rem;
   pointer-events: none;
   touch-action: none;
 
-  position: absolute;
+  position: relative;
   transition: all 0.5s;
   left: -($result-slider-width / 2);
   top: 50%; // transform: translateY(-50%) in style see ResultSlider!

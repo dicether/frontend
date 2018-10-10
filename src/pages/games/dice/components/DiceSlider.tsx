@@ -1,9 +1,12 @@
 import * as React from "react";
+
 import {MAX_NUMBER_DICE_1, MIN_NUMBER_DICE_1} from "../../../../config/config";
 import {Slider} from "../../../../reusable/index";
 import sounds from "../../sound";
 import ResultSlider from "./ResultSlider";
 import Ticks from "./Ticks";
+
+const Style = require("./DiceSlider.scss");
 
 type Props = {
     num: number;
@@ -42,18 +45,24 @@ export default class DiceSlider extends React.PureComponent<Props> {
 
         return (
             <div style={{position: "relative", width: "100%", marginTop: "3em", marginBottom: "1em"}}>
-                <Ticks />
-                <div style={{width: "100%", position: "relative", left: "0%"}}>
-                    <Slider
-                        min={0}
-                        max={100}
-                        value={num}
-                        onValue={this.onChange}
-                        lowColor={lowColor}
-                        highColor={highColor}
-                    />
+                <div className={Style.wrapper}>
+                    <Ticks />
                 </div>
-                <ResultSlider result={result} showResult={showResult} />
+                <div className={Style.sliderWrapper1}>
+                    <div className={Style.sliderWrapper2}>
+                        <Slider
+                            min={0}
+                            max={100}
+                            value={num}
+                            onValue={this.onChange}
+                            lowColor={lowColor}
+                            highColor={highColor}
+                        />
+                    </div>
+                </div>
+                <div className={Style.wrapper}>
+                    <ResultSlider result={result} showResult={showResult} />
+                </div>
             </div>
         );
     }

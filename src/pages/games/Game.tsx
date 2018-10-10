@@ -126,9 +126,7 @@ class Game extends React.Component<Props> {
                                 />
                             )}
                             <div className={Style.gameWrapper}>
-                                <div className={Style.game}>
-                                    <Route exact path="/games/dice" component={Dice} />
-                                </div>
+                                <Route exact path="/games/dice" component={Dice} />
                             </div>
                             <GameFooter
                                 showHelp={showHelp}
