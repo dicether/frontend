@@ -187,6 +187,13 @@ footer {
   min-height: 100vh;
 }
 
+// navbar link
+.navbar-nav {
+  .nav-link {
+    font-weight: 500;
+  }
+}
+
 
 .text-overflow-dynamic-container {
     position: relative;
