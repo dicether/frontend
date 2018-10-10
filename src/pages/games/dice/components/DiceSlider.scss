@@ -24,4 +24,6 @@ $padding-wrapper2: 0.25rem;
   top: 50%;
   padding-left: $padding-wrapper1 + $padding-wrapper2;
   padding-right: $padding-wrapper1 + $padding-wrapper2;
+  pointer-events: none;
+  touch-action: none;
 }
