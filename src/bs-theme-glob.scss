@@ -317,6 +317,13 @@ em {
 
 }
 
+@each $color, $value in $theme-colors {
+  [data-whatintent='touch'] .btn-#{$color}:focus {
+    background-color: $value;
+    border-color: $value;
+  }
+}
+
 // Restore Bootstrap 3 "hidden" utility classes.
 @each $bp in map-keys($grid-breakpoints) {
   .hidden-#{$bp}-up {
