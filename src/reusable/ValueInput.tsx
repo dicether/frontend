@@ -75,10 +75,10 @@ export default class ValueInput extends React.PureComponent<Props> {
                     onNumber={this.onValueChange}
                 />
                 <InputGroupAddon addonType="append">
-                    <Button color="secondary" onClick={() => this.onValueHalf(value)}>
+                    <Button color="primary" onClick={() => this.onValueHalf(value)}>
                         1/2
                     </Button>
-                    <Button color="secondary" onClick={() => this.onValueDouble(value)}>
+                    <Button color="primary" onClick={() => this.onValueDouble(value)}>
                         2X
                     </Button>
                 </InputGroupAddon>
