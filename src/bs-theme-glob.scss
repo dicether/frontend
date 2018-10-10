@@ -324,6 +324,14 @@ em {
   }
 }
 
+.betButton {
+  height: 4rem;
+}
+
+label {
+  font-size: 0.9em;
+}
+
 // Restore Bootstrap 3 "hidden" utility classes.
 @each $bp in map-keys($grid-breakpoints) {
   .hidden-#{$bp}-up {

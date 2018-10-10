@@ -10,31 +10,40 @@
   justify-content: space-around;
 }
 
-.gamesListEntry {
-  flex: 1 1 0;
-  margin-top: 1rem;
+.gameLink {
+  flex: 1 1 33%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: calc(0.25rem + 0.5vw);
-  padding: 1rem;
+  justify-content: center;
+  @include color("dark");
 
-  &_disabled {
-    opacity: 0.25;
+  &:hover {
+    @include color("dark");
+    text-decoration: none;
   }
 
-  &__link {
-    transition: all .2s ease-in-out;
-    &:hover {
+  &_active {
+    &:hover > img {
+      @include color("dark");
       text-decoration: none;
-      transform: scale(1.05);
+      transform: translateY(-2%);
     }
   }
 
-  &__img {
-    margin-bottom: 1rem;
+  &_disabled {
+    opacity: 0.2;
   }
-  &__text {
-    text-align: center;
-  }
+}
+
+.text {
+  font-size: calc(0.5rem + 0.75vw);
+}
+
+
+.img {
+  transition: all .2s ease-in-out;
+  margin-bottom: 1rem;
+  max-width: 7.5rem;
+  width: 80%;
 }

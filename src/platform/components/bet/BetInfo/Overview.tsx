@@ -15,7 +15,7 @@ type Props = {
 const Overview = ({bet, showUserModal}: Props) => (
     <div className={Style.overview}>
         <h3>
-            Dice:
+            Bet:
             {bet.id} <CopyToClipBoard message={"Copied! Paste in Chat!"} content={`Bet:${bet.id}`} />
         </h3>
         <span>{moment(bet.timestamp).format("lll")}</span>

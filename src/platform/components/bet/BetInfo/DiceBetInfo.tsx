@@ -6,13 +6,12 @@ import {ProgressBar, StaticPopover} from "../../../../reusable/index";
 const Style = require("./DiceBetInfo.scss");
 
 type Props = {
-    betId: number;
     betNum: number;
     resultNum: number;
     gameType: number;
 };
 
-const DiceBetInfo = ({betId, betNum, resultNum, gameType}: Props) => {
+const DiceBetInfo = ({betNum, resultNum, gameType}: Props) => {
     const lowColor = gameType === GameType.DICE_LOWER ? "success" : "danger";
     const highColor = gameType === GameType.DICE_LOWER ? "danger" : "success";
 

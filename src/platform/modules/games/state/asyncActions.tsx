@@ -7,7 +7,6 @@ import {
     createTypedData,
     fromGweiToWei,
     GameStatus as ContractStatus,
-    hasWon,
     keccak,
     ReasonEnded as ContractReasonEnded,
     verifySeed,
@@ -818,7 +817,9 @@ export function requestSeed() {
                 );
 
                 if (newServerBalance !== newuserBalance) {
-                    return Promise.reject(new Error("Invalid server balance!"));
+                    return Promise.reject(
+                        new Error(`Invalid server balance! Expected ${newuserBalance} got ${newServerBalance}`)
+                    );
                 }
 
                 return Promise.resolve(dispatch(revealSeedEvent(serverSeed, userSeed, newServerBalance)));
@@ -915,13 +916,14 @@ export function placeBet(num: number, betValue: number, gameType: number) {
                     return Promise.reject(new Error("Invalid server seed!"));
                 }
 
-                const resNum = calcResultNumber(gameType, serverSeed, userSeed);
-                const hashWon = hasWon(gameType, bet.num, resNum);
-                const userProfit = calcUserProfit(gameType, num, betValue, hashWon);
+                const resNum = calcResultNumber(gameType, serverSeed, userSeed, num);
+                const userProfit = calcUserProfit(gameType, num, betValue, resNum);
                 const newuserBalance = balance + userProfit;
 
                 if (newServerBalance !== newuserBalance) {
-                    return Promise.reject(new Error("Invalid server balance!"));
+                    return Promise.reject(
+                        new Error(`Invalid server balance! Expected ${newuserBalance} got ${newServerBalance}`)
+                    );
                 }
 
                 dispatch(revealSeedEvent(serverSeed, userSeed, newServerBalance));

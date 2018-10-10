@@ -132,17 +132,12 @@ class App extends React.Component<Props, State> {
                 <Layout>
                     {logout && <Redirect to="/logout" />}
                     <Switch>
-                        <Route
-                            userAuth={userAuth}
-                            exact
-                            path="/"
-                            render={props => <DynamicIndex loggedIn={loggedIn} {...props} />}
-                        />
+                        <Route userAuth={userAuth} exact path="/" component={Index} />
                         <Route exact path="/faq" component={Faq} />
                         <Route path="/hallOfFame" component={HallOfFame} />
                         <Route exact path="/termsOfUse" component={TermsOfUse} />
                         <Route exact path="/logout" component={LogoutRoute} />
-                        <Route exact path="/games/dice" component={Game} />
+                        <Route exact path="/games/(dice|chooseFrom12)" component={Game} />
                         <AuthenticatedRoute authenticated={userAuth !== null} path="/account" component={Account} />
                         <Route exact path="/gameSession/:gameId(\d+)" component={GameSession} />
                         <Route component={PathNotFound} />

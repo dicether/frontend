@@ -12,6 +12,7 @@ import {addListeners, removeListeners} from "../../platform/sockets";
 import {Container, Section} from "../../reusable";
 import {State} from "../../rootReducer";
 import {Dispatch} from "../../util/util";
+import ChooseFrom12 from "./chooseFrom12/ChooseFrom12";
 import GameFooter from "./components/GameFooter";
 import GameHeader from "./components/GameHeader";
 import Dice from "./dice/Dice";
@@ -127,6 +128,7 @@ class Game extends React.Component<Props> {
                             )}
                             <div className={Style.gameWrapper}>
                                 <Route exact path="/games/dice" component={Dice} />
+                                <Route exact path="/games/chooseFrom12" component={ChooseFrom12} />
                             </div>
                             <GameFooter
                                 showHelp={showHelp}

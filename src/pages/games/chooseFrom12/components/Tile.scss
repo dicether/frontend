@@ -1,0 +1,59 @@
+@import "~variables";
+
+
+.button {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  @include remove-default-button-style;
+  transition: all .2s ease-in-out;
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.button::before {
+  content: '';
+  display: block;
+  padding-top: 100%;
+}
+
+
+.tile {
+  width: 100%;
+}
+
+.numContent {
+  position: absolute;
+  border-radius: 0.5rem;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  @include background-color("white");
+  box-shadow: $gray-400 0 0.2rem 0;
+  :global(.night) & {
+      box-shadow: $gray-400--night 0 0.2rem 0;
+  }
+}
+
+.numContent_selected {
+  @include background-color("primary");
+}
+
+.numContent_won {
+  @include background-color("success");
+}
+
+.numContent_lost {
+  @include background-color("danger");
+}
+
+.num {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  @include color("300");
+  font-size: 1.25rem;
+}

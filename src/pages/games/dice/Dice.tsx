@@ -6,11 +6,13 @@ import {connect} from "react-redux";
 import {HOUSE_EDGE, HOUSE_EDGE_DIVISOR, MIN_BANKROLL, MIN_BET_VALUE, NETWORK_NAME, RANGE} from "../../../config/config";
 import {toggleHelp} from "../../../platform/modules/games/info/actions";
 import {placeBet, validNetwork} from "../../../platform/modules/games/state/asyncActions";
+import {State as GameState} from "../../../platform/modules/games/state/reducer";
 import {showErrorMessage} from "../../../platform/modules/utilities/actions";
 import {catchError} from "../../../platform/modules/utilities/asyncActions";
 import {State} from "../../../rootReducer";
 import {Dispatch} from "../../../util/util";
 import sounds from "../sound";
+import {canPlaceBet} from "../utilities";
 import {changeNum, changeRollMode, changeValue} from "./actions";
 import DiceUi from "./components/DiceUi";
 
@@ -23,9 +25,10 @@ function calcNumberFromPayOutMultiplier(multiplier: number, reversedRoll: boolea
 
 const mapStateToProps = ({games, account, web3}: State) => {
     const {gameState, info, dice} = games;
+    const web3Available = web3.account && web3.contract && web3.web3 && validNetwork(web3.networkId);
 
     return {
-        web3Available: web3.account && web3.contract && web3.web3 && validNetwork(web3.networkId),
+        web3Available: web3Available === true,
         gameState,
         info,
         dice,
@@ -34,7 +37,7 @@ const mapStateToProps = ({games, account, web3}: State) => {
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-    placeBet: (num: number, safeBetValue: number, gameType: number) => dispatch(placeBet(num, safeBetValue, gameType)),
+    placeBet: (num: number, value: number, gameType: number) => dispatch(placeBet(num, value, gameType)),
     changeNum: (num: number) => dispatch(changeNum(num)),
     changeValue: (value: number) => dispatch(changeValue(value)),
     changeRollMode: (reverse: boolean) => dispatch(changeRollMode(reverse)),
@@ -113,7 +116,7 @@ class Dice extends React.Component<Props, DiceState> {
     }
 
     onPlaceBet = () => {
-        const {info, dice, placeBet, catchError, web3Available, showErrorMessage, gameState, loggedIn} = this.props;
+        const {info, dice, placeBet, catchError, showErrorMessage, web3Available, gameState, loggedIn} = this.props;
 
         const safeBetValue = Math.round(dice.value);
         const num = dice.num;
@@ -126,53 +129,22 @@ class Dice extends React.Component<Props, DiceState> {
             this.loadedSounds = true;
         }
 
-        if (!loggedIn) {
-            showErrorMessage("You need to login before playing!");
-            return;
+        const canBet = canPlaceBet(gameType, num, safeBetValue, loggedIn, web3Available, gameState);
+        if (canBet.canPlaceBet) {
+            placeBet(num, safeBetValue, gameType)
+                .then(result => {
+                    this.setState({result, showResult: true});
+                    clearTimeout(this.resultTimeoutId);
+                    this.resultTimeoutId = window.setTimeout(() => this.setState({showResult: false}), 5000);
+
+                    if (info.sound) {
+                        setTimeout(() => (result.won ? sounds.win.playFromBegin() : sounds.lose.playFromBegin()), 500);
+                    }
+                })
+                .catch(error => catchError(error));
+        } else {
+            showErrorMessage(canBet.errorMessage);
         }
-
-        if (!web3Available) {
-            showErrorMessage(
-                "You need to have a web3 enabled browser (e.g. Metamask)" +
-                    `for playing and select network: ${NETWORK_NAME}!`
-            );
-            return;
-        }
-
-        if (gameState.status === "ENDED") {
-            showErrorMessage("You need to create a game session before playing!");
-            return;
-        }
-
-        if (gameState.status === "PLACED_BET") {
-            showErrorMessage(
-                "Your seed isn't revealed! Should normally work without your interaction." +
-                    ' To manually reveal it You can click "request seed"!'
-            );
-            return;
-        }
-
-        if (gameState.status !== "ACTIVE") {
-            showErrorMessage("Can not place bet! You game session must be active to create bets!");
-            return;
-        }
-
-        if (gameState.stake + gameState.balance < MIN_BET_VALUE) {
-            showErrorMessage("You funds are to low! You need to end the game session and start a new one!");
-            return;
-        }
-
-        placeBet(num, safeBetValue, gameType)
-            .then(result => {
-                this.setState({result, showResult: true});
-                clearTimeout(this.resultTimeoutId);
-                this.resultTimeoutId = window.setTimeout(() => this.setState({showResult: false}), 5000);
-
-                if (info.sound) {
-                    setTimeout(() => (result.won ? sounds.win.playFromBegin() : sounds.lose.playFromBegin()), 500);
-                }
-            })
-            .catch(error => catchError(error));
     }
 
     render() {

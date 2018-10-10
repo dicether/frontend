@@ -44,7 +44,7 @@ class Verification extends React.PureComponent<Props> {
             signatureVersion
         );
 
-        const resultNum = calcResultNumber(bet.gameType, bet.serverSeed, bet.userSeed);
+        const resultNum = calcResultNumber(bet.gameType, bet.serverSeed, bet.userSeed, bet.num);
 
         const validResultNum = bet.resultNum === resultNum;
 
