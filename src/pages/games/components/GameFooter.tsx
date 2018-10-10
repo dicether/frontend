@@ -41,12 +41,7 @@ export default class GameFooter extends React.Component<Props, State> {
         return (
             <div className={Style.gameFooter}>
                 <ButtonToolbar>
-                    <IconButton
-                        color="secondary"
-                        id="settingsPopover"
-                        icon="cog"
-                        onClick={this.toggleSettingsPopover}
-                    />
+                    <IconButton color="primary" id="settingsPopover" icon="cog" onClick={this.toggleSettingsPopover} />
                     <Popover
                         target="settingsPopover"
                         placement="top"
@@ -64,7 +59,7 @@ export default class GameFooter extends React.Component<Props, State> {
                             </li>
                         </ul>
                     </Popover>
-                    <IconButton color="secondary" icon="question" onClick={() => onToggleHelp(!showHelp)} />
+                    <IconButton color="primary" icon="question" onClick={() => onToggleHelp(!showHelp)} />
                 </ButtonToolbar>
                 {showExpertView && (
                     <div className={Style.state}>
