@@ -77,7 +77,7 @@ $colors: map-merge((
   "gray-dark":  $gray-800
 ), $colors);
 
-$darken: 10%;
+$darken: 2.5%;
 
 $blue--night:    darken($blue, $darken) !default;
 $indigo--night:  darken($indigo, $darken) !default;
