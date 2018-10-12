@@ -44,7 +44,7 @@ export default class DiceSlider extends React.PureComponent<Props> {
         const highColor = reversedRoll ? "success" : "danger";
 
         return (
-            <div style={{position: "relative", width: "100%", marginTop: "3em", marginBottom: "1em"}}>
+            <div style={{position: "relative", width: "100%", marginTop: "3em"}}>
                 <div className={Style.wrapper}>
                     <Ticks />
                 </div>
