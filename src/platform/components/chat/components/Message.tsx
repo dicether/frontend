@@ -6,9 +6,6 @@ import {Link} from "react-router-dom";
 
 import {Message as MessageType} from "../../../modules/chat/types";
 import {Friend} from "../../../modules/friends/types";
-import {showUserModal} from "../../../modules/modals/actions";
-import Bet from "../../bet/Bet";
-import User from "../../user/User";
 import UserMenu from "./UserMenu";
 import UserType from "./UserType";
 
@@ -106,16 +103,17 @@ class Message extends React.Component<Props, State> {
                     </div>
                     {!message.deleted ? (
                         <span className={messageClass}>
-                            {processMessage(
-                                emojify(message.message, {
-                                    style: {
-                                        backgroundImage: `url(${emojioneImage})`,
-                                        height: "20px",
-                                        width: "20px",
-                                    },
-                                }),
-                                showBetModal,
-                                showUserModal
+                            {processMessage(message.message, showBetModal, showUserModal).map(
+                                x =>
+                                    typeof x === "string"
+                                        ? emojify(x, {
+                                              style: {
+                                                  backgroundImage: `url(${emojioneImage})`,
+                                                  height: "20px",
+                                                  width: "20px",
+                                              },
+                                          })
+                                        : x
                             )}
                         </span>
                     ) : (
