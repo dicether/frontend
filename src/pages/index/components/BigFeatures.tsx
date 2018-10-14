@@ -34,7 +34,12 @@ const entries = [
     },
 ];
 
-const Entry = ({idx, entry}) => {
+type EntryProps = {
+    idx: number;
+    entry: typeof entries[0];
+};
+
+const Entry = ({idx, entry}: EntryProps) => {
     const classNameImgCol = ClassNames("text-center mb-4 mb-sm-0", {"order-sm-last": idx % 2 === 0});
 
     return (

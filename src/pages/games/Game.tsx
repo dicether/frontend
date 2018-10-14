@@ -38,12 +38,12 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
         },
         dispatch
     ),
-    createGame: (value, seed) => dispatch(createGame(value, seed)),
+    createGame: (value: number, seed: string) => dispatch(createGame(value, seed)),
     endGame: () => dispatch(endGame()),
     requestSeed: () => dispatch(requestSeed()),
     conflictEnd: () => dispatch(conflictEnd()),
     forceEnd: () => dispatch(forceEnd()),
-    catchError: error => catchError(error, dispatch),
+    catchError: (error: Error) => catchError(error, dispatch),
     addStateListeners: () => addListeners(listeners, dispatch),
     removeStateListeners: () => removeListeners(listeners, dispatch),
 });

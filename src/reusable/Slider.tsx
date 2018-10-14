@@ -33,7 +33,7 @@ const Slider = ({lowColor, highColor, onValue, ...props}: Props) => {
         railStyle = {backgroundColor: Style[highColor]};
     }
 
-    let node;
+    let node: any;
 
     return (
         <RcSlider

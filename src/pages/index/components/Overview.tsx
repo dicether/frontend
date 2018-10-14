@@ -15,7 +15,9 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
         dispatch
     );
 
-const Overview = ({showRegisterModal}) => (
+export type Props = ReturnType<typeof mapDispatchToProps>;
+
+const Overview = ({showRegisterModal}: Props) => (
     <div className={Style.overview}>
         <Container>
             <Jumbotron className={Style.jumbotron}>

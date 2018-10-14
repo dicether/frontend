@@ -19,22 +19,15 @@ import CreateGameModal from "./CreateGameModal";
 
 const Style = require("./GameHeader.scss");
 
-type Props = {
-    gameState: GameState;
-    web3State: Web3State;
-
-    onStartGame(value: number, seed: string): void;
-    onSeedRequest(): void;
-    onEndGame(): void;
-    onConflictEnd(): void;
+type ForceEndRenderProps = {
+    hours: number;
+    minutes: number;
+    seconds: number;
+    completed: number;
     onForceEnd(): void;
 };
 
-type State = {
-    modalIsOpen: boolean;
-};
-
-const ForceEndRender = ({hours, minutes, seconds, completed, onForceEnd}) => {
+const ForceEndRender = ({hours, minutes, seconds, completed, onForceEnd}: ForceEndRenderProps) => {
     if (completed) {
         return (
             <div>
@@ -56,12 +49,35 @@ const ForceEndRender = ({hours, minutes, seconds, completed, onForceEnd}) => {
     }
 };
 
-const ForceEnd = ({endTime, onForceEnd}) => {
+type ForceEndProps = {
+    endTime: Date;
+    onForceEnd(): void;
+};
+
+const ForceEnd = ({endTime, onForceEnd}: ForceEndProps) => {
     const sessionTimeout = SESSION_TIMEOUT * 3600 * 1000 + new Date(endTime).getTime(); // convert to milliseconds
 
     return (
-        <Countdown renderer={props => <ForceEndRender {...props} onForceEnd={onForceEnd} />} date={sessionTimeout} />
+        <Countdown
+            renderer={(props: any) => <ForceEndRender {...props} onForceEnd={onForceEnd} />}
+            date={sessionTimeout}
+        />
     );
+};
+
+type Props = {
+    gameState: GameState;
+    web3State: Web3State;
+
+    onStartGame(value: number, seed: string): void;
+    onSeedRequest(): void;
+    onEndGame(): void;
+    onConflictEnd(): void;
+    onForceEnd(): void;
+};
+
+type State = {
+    modalIsOpen: boolean;
 };
 
 export default class GameHeader extends React.Component<Props, State> {
@@ -136,7 +152,10 @@ export default class GameHeader extends React.Component<Props, State> {
             <div className={Style.gameHeader}>
                 {isConflictEnding && <span>Conflict Ending... {spinner}</span>}
                 {isForceEnding && <span>Force Ending... {spinner}</span>}
-                {isUserConflictEnded && <ForceEnd endTime={gameState.conflictEndTime} onForceEnd={onForceEnd} />}
+                {isUserConflictEnded &&
+                    gameState.conflictEndTime && (
+                        <ForceEnd endTime={gameState.conflictEndTime} onForceEnd={onForceEnd} />
+                    )}
                 {placedBet && (
                     <Button size="sm" color="primary" onClick={onSeedRequest}>
                         Request seed!

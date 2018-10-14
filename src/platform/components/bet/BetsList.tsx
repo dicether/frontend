@@ -10,8 +10,8 @@ const Style = require("./BetList.scss");
 type LastBetRowProps = {
     bet: Bet;
     showUser: boolean;
-    showBetModal(bet: Bet);
-    showUserModal(user: User);
+    showBetModal(bet: Bet): void;
+    showUserModal(user: User): void;
 };
 
 const LastBetRow = ({bet, showUser, showBetModal, showUserModal}: LastBetRowProps) => {
@@ -55,8 +55,8 @@ const LastBetRow = ({bet, showUser, showBetModal, showUserModal}: LastBetRowProp
 type Props = {
     bets: Bet[];
     showUser?: boolean;
-    showBetModal(bet: Bet);
-    showUserModal(user: User);
+    showBetModal(bet: Bet): void;
+    showUserModal(user: User): void;
 };
 
 const BetsList = ({bets, showUser = true, showBetModal, showUserModal}: Props) => {

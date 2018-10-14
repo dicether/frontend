@@ -410,6 +410,7 @@ export function loadLocalGameState(address: string) {
         if (storedState !== null) {
             const state = JSON.parse(storedState);
             dispatch(restoreState(state.gameState));
+            return Promise.resolve();
         }
 
         return Promise.resolve();
@@ -434,7 +435,7 @@ export function syncGameState(address: string) {
             .then(() => {
                 return dispatch(loadServerGameState());
             })
-            .catch(error => {
+            .catch((error: Error) => {
                 catchError(error, dispatch);
             });
     };
@@ -503,10 +504,10 @@ export function createGame(stake: number, userSeed: string) {
                         value: fromGweiToWei(stake).toString(),
                         gas: 180000,
                     })
-                    .on(error => {
+                    .on((error: Error) => {
                         reject(error);
                     })
-                    .on("transactionHash", transactionHash => {
+                    .on("transactionHash", (transactionHash: string) => {
                         dispatch(createGameEvent(hashChain, serverEndHash, stake, transactionHash));
                     })
                     .on("receipt", (receipt: TransactionReceipt) => {
@@ -533,7 +534,7 @@ export function createGame(stake: number, userSeed: string) {
                             }
                         }
                     })
-                    .catch(error => {
+                    .catch((error: Error) => {
                         reject(error);
                     });
             });
@@ -656,10 +657,10 @@ export function conflictEnd() {
             const cancelActiveGame = contract.methods.userCancelActiveGame;
             return cancelActiveGame(gameId)
                 .send({from: account, value: 0, gas: 120000})
-                .on("transactionHash", transactionHash => {
+                .on("transactionHash", (transactionHash: string) => {
                     dispatch(userInitiateConflictEndEvent(transactionHash));
                 })
-                .on(error => {
+                .on((error: Error) => {
                     return Promise.reject(error);
                 })
                 .then((receipt: TransactionReceipt) => {
@@ -669,7 +670,7 @@ export function conflictEnd() {
                         dispatch(userConflictEndEvent(new Date()));
                     }
                 })
-                .catch(error => {
+                .catch((error: Error) => {
                     return Promise.reject(error);
                 });
         } else {
@@ -701,10 +702,10 @@ export function conflictEnd() {
                 userSeed
             )
                 .send({from: account, gas: 200000})
-                .on("transactionHash", transactionHash => {
+                .on("transactionHash", (transactionHash: string) => {
                     dispatch(userInitiateConflictEndEvent(transactionHash));
                 })
-                .on(error => {
+                .on((error: Error) => {
                     return Promise.reject(error);
                 })
                 .then((receipt: TransactionReceipt) => {
@@ -714,7 +715,7 @@ export function conflictEnd() {
                         dispatch(userConflictEndEvent(new Date()));
                     }
                 })
-                .catch(error => {
+                .catch((error: Error) => {
                     return Promise.reject(error);
                 });
         }
@@ -746,10 +747,10 @@ export function forceEnd() {
         const userForceGameEnd = contract.methods.userForceGameEnd;
         return userForceGameEnd(gameId)
             .send({from: account, value: 0, gas: 120000})
-            .on("transactionHash", transactionHash => {
+            .on("transactionHash", (transactionHash: string) => {
                 dispatch(userInitiateForceEndEvent(transactionHash));
             })
-            .on(error => {
+            .on("error", (error: Error) => {
                 return Promise.reject(error);
             })
             .then((receipt: TransactionReceipt) => {
@@ -759,13 +760,13 @@ export function forceEnd() {
                     dispatch(userForceEndEvent());
                 }
             })
-            .catch(error => {
+            .catch((error: Error) => {
                 return Promise.reject(error);
             });
     };
 }
 
-async function revealSeedRequest(gameId, roundId, userSeed) {
+async function revealSeedRequest(gameId: number, roundId: number, userSeed: string) {
     return retry(
         () => {
             return axios.post("stateChannel/revealSeed", {
@@ -794,7 +795,7 @@ export function requestSeed() {
         const betValue = gameState.betValue;
         const userSeed = gameState.hashChain[gameState.roundId];
 
-        if (betValue === undefined || serverHash === undefined) {
+        if (betValue === undefined || gameState.gameId === undefined || !serverHash) {
             return Promise.reject(new Error("Invalid game state!"));
         }
 
@@ -829,7 +830,7 @@ export function requestSeed() {
 }
 
 export function placeBet(num: number, betValue: number, gameType: number) {
-    return (dispatch: Dispatch, getState: GetState) => {
+    return (dispatch: Dispatch, getState: GetState): Promise<{num: number; won: boolean}> => {
         const gameState = getState().games.gameState;
         const web3State = getState().web3;
         const {account, web3} = web3State;

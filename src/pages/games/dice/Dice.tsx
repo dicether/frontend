@@ -34,13 +34,13 @@ const mapStateToProps = ({games, account, web3}: State) => {
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-    placeBet: (num, safeBetValue, gameType) => dispatch(placeBet(num, safeBetValue, gameType)),
-    changeNum: num => dispatch(changeNum(num)),
-    changeValue: value => dispatch(changeValue(value)),
-    changeRollMode: reverse => dispatch(changeRollMode(reverse)),
-    toggleHelp: t => dispatch(toggleHelp(t)),
-    catchError: error => catchError(error, dispatch),
-    showErrorMessage: message => dispatch(showErrorMessage(message)),
+    placeBet: (num: number, safeBetValue: number, gameType: number) => dispatch(placeBet(num, safeBetValue, gameType)),
+    changeNum: (num: number) => dispatch(changeNum(num)),
+    changeValue: (value: number) => dispatch(changeValue(value)),
+    changeRollMode: (reverse: boolean) => dispatch(changeRollMode(reverse)),
+    toggleHelp: (t: boolean) => dispatch(toggleHelp(t)),
+    catchError: (error: Error) => catchError(error, dispatch),
+    showErrorMessage: (message: string) => dispatch(showErrorMessage(message)),
 });
 
 type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;

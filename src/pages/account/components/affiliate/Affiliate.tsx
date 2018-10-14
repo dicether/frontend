@@ -11,8 +11,8 @@ import CreateCampaign from "./CreateCampaign";
 import {Campaign} from "./types";
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-    catchError: error => catchError(error, dispatch),
-    showSuccessMessage: message => dispatch(showSuccessMessage(message)),
+    catchError: (error: Error) => catchError(error, dispatch),
+    showSuccessMessage: (message: string) => dispatch(showSuccessMessage(message)),
 });
 
 type State = {

@@ -42,7 +42,7 @@ const mapStateToProps = ({games}: State) => {
 const mapDispatchToProps = (dispatch: Dispatch) => ({
     clearState: () => dispatch(clearState()),
     conflictEnd: () => dispatch(conflictEnd()),
-    catchError: error => catchError(error, dispatch),
+    catchError: (error: Error) => catchError(error, dispatch),
 });
 
 type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;

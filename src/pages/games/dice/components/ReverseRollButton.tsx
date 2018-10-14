@@ -5,10 +5,10 @@ const Style = require("./ReverseRollButton.scss");
 
 export type Props = {
     reversed: boolean;
-    onClick: React.MouseEventHandler<any>;
+    onClick: React.MouseEventHandler;
 };
 
-const ReverseRollButton = ({reversed, onClick}) => (
+const ReverseRollButton = ({reversed, onClick}: Props) => (
     <span>
         <IconButton
             buttonClassName={Style.reverseRollButton}

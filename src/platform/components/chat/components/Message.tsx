@@ -9,7 +9,7 @@ import {Friend} from "../../../modules/friends/types";
 import UserMenu from "./UserMenu";
 import UserType from "./UserType";
 
-const reactStringReplace = require("react-string-replace");
+import reactStringReplace from "react-string-replace";
 const Style = require("./Message.scss");
 const emojioneImage = require("assets/images/emojione-3.1.2-64x64.png");
 
@@ -31,9 +31,13 @@ const ChatButton = ({name, onClick}: ChatButtonProps) => (
     </button>
 );
 
-function processMessage(message: string, showBetModal, showUserModal) {
+function processMessage(
+    message: string,
+    showBetModal: (betId: number) => void,
+    showUserModal: (userName: string) => void
+) {
     let res = reactStringReplace(message, BET_REGEX, (match, i) => (
-        <ChatButton key={match + i} name={`Bet:${match}`} onClick={() => showBetModal(match)} />
+        <ChatButton key={match + i} name={`Bet:${match}`} onClick={() => showBetModal(Number.parseInt(match, 10))} />
     ));
 
     res = reactStringReplace(res, USER_REGEX, (match, i) => (
@@ -54,8 +58,8 @@ function processMessage(message: string, showBetModal, showUserModal) {
 export type Props = {
     message: MessageType;
     friends: Friend[];
-    showBetModal(betId: number);
-    showUserModal(userName: string);
+    showBetModal(betId: number): void;
+    showUserModal(userName: string): void;
 };
 
 export type State = {

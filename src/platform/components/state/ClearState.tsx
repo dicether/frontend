@@ -3,7 +3,7 @@ import * as React from "react";
 import {Button, Modal} from "../../../reusable";
 
 export type Props = {
-    clearState();
+    clearState(): void;
 };
 
 export type State = {

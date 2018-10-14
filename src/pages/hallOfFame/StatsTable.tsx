@@ -9,7 +9,7 @@ type Props = {
     data: Stat[];
     title: string;
     name: string;
-    showUserModal(user: User);
+    showUserModal(user: User): void;
 };
 
 const StatsTable = ({data, name, title, showUserModal}: Props) => (

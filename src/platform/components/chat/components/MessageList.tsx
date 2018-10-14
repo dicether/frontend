@@ -10,8 +10,8 @@ import {Friend} from "../../../modules/friends/types";
 export type Props = {
     messages: MessageType[];
     friends: Friend[];
-    showBetModal(betId: number);
-    showUserModal(userName: string);
+    showBetModal(betId: number): void;
+    showUserModal(userName: string): void;
 };
 
 class MessageList extends React.PureComponent<Props> {

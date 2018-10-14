@@ -24,23 +24,23 @@ class CreateCampaign extends React.Component<Props, State> {
         };
     }
 
-    onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    private onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         const {onCreateCampaign} = this.props;
         onCreateCampaign(this.state.id, this.state.name);
         e.preventDefault();
     }
 
-    onName = (name: string) => {
+    private onName = (name: string) => {
         const isNameValid = this.validateName(name);
         this.setState({name, isNameValid});
     }
 
-    onId = (id: string) => {
+    private onId = (id: string) => {
         const isIdValid = this.validateName(id);
         this.setState({id, isIdValid});
     }
 
-    validateName = (name: string) => {
+    private validateName = (name: string) => {
         if (name.length <= 15 && name.length >= 3 && /^[a-z0-9]+$/i.test(name)) {
             return true;
         } else if (name.length === 0) {

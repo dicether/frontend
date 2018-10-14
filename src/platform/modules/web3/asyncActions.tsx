@@ -120,9 +120,9 @@ export function signTypedData(web3: Web3, from: string, typedData: any): Promise
                     params,
                     from,
                 },
-                (error, result) => {
+                (error: Error, result: {error?: {message: string}; result: string}) => {
                     if (error) {
-                        reject(new Error(error));
+                        reject(error);
                     } else if (result.error) {
                         reject(new Error(result.error.message));
                     } else {

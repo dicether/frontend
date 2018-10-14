@@ -1,17 +1,12 @@
+import {IconProp} from "@fortawesome/fontawesome-svg-core";
 import * as React from "react";
+
 import {Col, Container, Row, Section} from "../../../reusable";
 import Icon from "../../../reusable/FontAwesomeIcon";
 
 const Style = require("./SmallFeatures.scss");
 
-const Entry = ({text, icon}) => (
-    <Col sm={6} className={Style.entry}>
-        <Icon size="lg" fixedWidth color="yellow" icon={icon} className={Style.entry__icon} />
-        <span>{text}</span>
-    </Col>
-);
-
-const entries = [
+const entries: Array<{icon: IconProp; text: string}> = [
     {
         icon: "balance-scale",
         text: "Secure & Provable Fair!",
@@ -37,6 +32,18 @@ const entries = [
         text: "Use MetaMak, Trust Wallet or Coinbase Wallet (Toshi)!",
     },
 ];
+
+type EntryProps = {
+    text: string;
+    icon: IconProp;
+};
+
+const Entry = ({text, icon}: EntryProps) => (
+    <Col sm={6} className={Style.entry}>
+        <Icon size="lg" fixedWidth color="yellow" icon={icon} className={Style.entry__icon} />
+        <span>{text}</span>
+    </Col>
+);
 
 const SmallFeatures = () => (
     <Section className={Style.smallFeatures}>

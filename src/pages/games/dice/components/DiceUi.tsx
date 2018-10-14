@@ -44,9 +44,9 @@ type Props = {
     result: {num: number; won: boolean};
 
     onToggleHelp(): void;
-    onNumberChange(num: number);
-    onValueChange(value: number);
-    onReverseRoll();
+    onNumberChange(num: number): void;
+    onValueChange(value: number): void;
+    onReverseRoll(): void;
     onPlaceBet(): void;
 };
 

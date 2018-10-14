@@ -4,7 +4,7 @@ import {SESSION_TIMEOUT} from "../../../config/config";
 import {Button, Modal} from "../../../reusable";
 
 export type Props = {
-    conflictEnd();
+    conflictEnd(): void;
 };
 
 export type State = {

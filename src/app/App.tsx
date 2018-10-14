@@ -62,21 +62,17 @@ export type State = {
     web3Timer: number | null;
 };
 
-const DynamicIndex = ({userAuth, ...rest}) =>
-    userAuth ? <Redirect {...rest} to="/games/dice" /> : <Index {...rest} />;
+type DynamicIndexProps = {
+    loggedIn: boolean;
+};
+
+const DynamicIndex = ({loggedIn, ...rest}: DynamicIndexProps) =>
+    loggedIn ? <Redirect {...rest} to="/games/dice" /> : <Index {...rest} />;
 
 class App extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {web3Timer: null};
-    }
-
-    setTheme = nightMode => {
-        if (nightMode) {
-            document.body.classList.add("night");
-        } else {
-            document.body.classList.remove("night");
-        }
     }
 
     componentWillMount() {
@@ -117,9 +113,18 @@ class App extends React.Component<Props, State> {
         }
     }
 
+    private setTheme = (nightMode: boolean) => {
+        if (nightMode) {
+            document.body.classList.add("night");
+        } else {
+            document.body.classList.remove("night");
+        }
+    }
+
     render() {
         const {userAuth, notification, defaultAccount, gameState} = this.props;
 
+        const loggedIn = userAuth !== null;
         const logout = userAuth !== null && (userAuth.address !== defaultAccount && defaultAccount !== null);
 
         return (
@@ -131,7 +136,7 @@ class App extends React.Component<Props, State> {
                             userAuth={userAuth}
                             exact
                             path="/"
-                            render={props => <DynamicIndex userAuth={userAuth} {...props} />}
+                            render={props => <DynamicIndex loggedIn={loggedIn} {...props} />}
                         />
                         <Route exact path="/faq" component={Faq} />
                         <Route path="/hallOfFame" component={HallOfFame} />

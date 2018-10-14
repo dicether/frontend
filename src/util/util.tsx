@@ -26,9 +26,9 @@ export type ActionType<T extends {[id: string]: (...args: any[]) => any}> = Retu
 
 export type ActionCreateType<T extends object> = (...args: any[]) => {type: $Values<T>};
 
-export type ThunkAction<R, S> = (dispatch: ReduxDispatch, getState?: () => S) => R;
+export type ThunkAction<R, S> = (dispatch: Dispatch, getState?: () => S) => R;
 
-export type ThunkDispatch<S> = (asyncAction: ThunkAction<any, S>) => any;
+export type ThunkDispatch<S> = <R>(asyncAction: ThunkAction<R, S>) => R;
 
 export type Dispatch = ReduxDispatch & ThunkDispatch<State>;
 

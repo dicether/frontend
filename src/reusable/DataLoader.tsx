@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, {AxiosError} from "axios";
 import * as React from "react";
 
 import Icon from "./FontAwesomeIcon";
@@ -33,7 +33,7 @@ type Props<T> = {
 
 type State<T> = {
     data: T | undefined;
-    error: any;
+    error: AxiosError | undefined;
 };
 
 class DataLoader<T = any> extends React.Component<Props<T>, State<T>> {

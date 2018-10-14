@@ -47,7 +47,7 @@ export default class CreateGameModal extends React.Component<Props, State> {
         }
     }
 
-    createGame = e => {
+    private createGame = (e: React.FormEvent) => {
         const {onCreateGame, onClose} = this.props;
         const {value, seed} = this.state;
 
@@ -56,7 +56,7 @@ export default class CreateGameModal extends React.Component<Props, State> {
         e.preventDefault();
     }
 
-    onValueChange = (value: number) => {
+    private onValueChange = (value: number) => {
         this.setState({value});
     }
 

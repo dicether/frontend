@@ -9,7 +9,7 @@ const Style = require("./Overview.scss");
 
 type Props = {
     bet: Bet;
-    showUserModal(user: User);
+    showUserModal(user: User): void;
 };
 
 const Overview = ({bet, showUserModal}: Props) => (

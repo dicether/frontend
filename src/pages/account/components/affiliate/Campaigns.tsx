@@ -1,7 +1,12 @@
 import * as React from "react";
 import {DefinitionEntry, Ether} from "../../../../reusable";
+import {Campaign} from "./types";
 
-const Campaign = ({campaign}) => (
+type CampaignProps = {
+    campaign: Campaign;
+};
+
+const Campaign = ({campaign}: CampaignProps) => (
     <div>
         <h4 style={{marginTop: "1rem"}}>
             {campaign.name} ({`https://dicether.com/?ref=${campaign.id}`})
@@ -15,7 +20,11 @@ const Campaign = ({campaign}) => (
     </div>
 );
 
-const Campaigns = ({campaigns}) => (
+export type Props = {
+    campaigns: Campaign[];
+};
+
+const Campaigns = ({campaigns}: Props) => (
     <div style={{marginTop: "2rem"}}>
         <h3>Campaigns</h3>
         <div>

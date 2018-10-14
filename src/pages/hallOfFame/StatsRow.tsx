@@ -9,7 +9,7 @@ const Style = require("./StatsRow.scss");
 type Props = {
     index: number;
     stat: Stat;
-    showUserModal(user: User);
+    showUserModal(user: User): void;
 };
 
 const StatsRow = ({index, stat, showUserModal}: Props) => {

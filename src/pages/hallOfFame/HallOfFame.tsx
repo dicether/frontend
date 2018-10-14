@@ -1,11 +1,12 @@
 import * as React from "react";
 import DocumentTitle from "react-document-title";
 import {connect} from "react-redux";
+import {Redirect, Route, RouteComponentProps, Switch} from "react-router";
 import {NavLink as RRNavLink} from "react-router-dom";
 import {Nav, NavItem, NavLink} from "reactstrap";
-
-import {Redirect, Route, RouteComponentProps, Switch} from "react-router";
 import {bindActionCreators} from "redux";
+
+import {User} from "../../platform/modules/account/types";
 import {showUserModal} from "../../platform/modules/modals/actions";
 import {Col, Container, DataLoader, Row} from "../../reusable/index";
 import {Dispatch} from "../../util/util";
@@ -13,7 +14,12 @@ import StatsTable from "./StatsTable";
 
 const Style = require("./HallOfFame.scss");
 
-const StatsEntry = ({timeSpan, showUserModal}) => (
+type StatsEntryProps = {
+    timeSpan: string;
+    showUserModal(user: User): void;
+};
+
+const StatsEntry = ({timeSpan, showUserModal}: StatsEntryProps) => (
     <DataLoader
         url={`/stats/${timeSpan}`}
         success={stats => (
