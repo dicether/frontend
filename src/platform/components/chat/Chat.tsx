@@ -87,7 +87,7 @@ class Chat extends React.Component<Props, ChatState> {
     }
 
     render() {
-        const {toggleChat, show, messages, numUsers, friends, showBetModal} = this.props;
+        const {toggleChat, show, messages, numUsers, friends, showBetModal, showUserModal} = this.props;
         const {showFriends} = this.state;
 
         return (

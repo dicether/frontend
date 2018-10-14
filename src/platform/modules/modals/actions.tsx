@@ -25,7 +25,7 @@ export function showBetModal({bet, betId}: {bet?: Bet; betId?: number}) {
 }
 
 export function hideBetModal() {
-    hide("bet");
+    return hide("bet");
 }
 
 export function showUserModal({user, userName}: {user?: User; userName?: string}) {
@@ -33,7 +33,7 @@ export function showUserModal({user, userName}: {user?: User; userName?: string}
 }
 
 export function hideUserModal() {
-    hide("user");
+    return hide("user");
 }
 
 export function showRegisterModal() {
