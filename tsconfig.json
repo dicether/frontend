@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "strictFunctionTypes": false,
+    "strictFunctionTypes": true,
     "moduleResolution": "node",
     "module": "es6",
     "allowSyntheticDefaultImports": true,

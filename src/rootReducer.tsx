@@ -1,4 +1,4 @@
-import {combineReducers, Reducer} from "redux";
+import {AnyAction, combineReducers, Reducer} from "redux";
 import {reducer as modal} from "redux-modal";
 
 import account, {State as AccountState} from "./platform/modules/account/reducer";
@@ -17,9 +17,10 @@ export type State = {
     app: AppState;
     games: GamesState;
     bets: BetsState;
+    modal: any;
 };
 
-const appReducer: Reducer<State> = combineReducers({
+const appReducer = combineReducers<State, any>({
     account,
     chat,
     friend,
@@ -30,7 +31,7 @@ const appReducer: Reducer<State> = combineReducers({
     modal,
 });
 
-function rootReducer(state: State, action: any): State {
+function rootReducer(state: State | undefined, action: any): State {
     if (action.type === "USER_LOGOUT") {
         (state as any) = undefined;
     }

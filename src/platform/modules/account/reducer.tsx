@@ -12,7 +12,19 @@ export type State = {
     gameSessions: GameSession[];
 };
 
-export default function account(state: State, action: Actions): State {
+function initialState(): State {
+    // tslint:disable-line strict-type-predicates
+    const jwt = isSessionStorageAvailable() ? sessionStorage.getItem("jwt") : null;
+    const firstVisited = isLocalStorageAvailable() ? localStorage.getItem("visited") : null;
+    return {
+        firstVisited: firstVisited === null,
+        jwt: jwt === null ? null : jwt,
+        stats: {profit: 0, wagered: 0, numBets: 0},
+        gameSessions: [],
+    };
+}
+
+export default function account(state = initialState(), action: Actions): State {
     switch (action.type) {
         case types.CHANGE_FIRST_VISITED:
             return {...state, firstVisited: action.firstVisited};
@@ -25,18 +37,6 @@ export default function account(state: State, action: Actions): State {
             return {...state, gameSessions: action.gameSessions};
         default:
             assertNever(action);
-            if (state === undefined) {
-                // tslint:disable-line strict-type-predicates
-                const jwt = isSessionStorageAvailable() ? sessionStorage.getItem("jwt") : null;
-                const firstVisited = isLocalStorageAvailable() ? localStorage.getItem("visited") : null;
-                return {
-                    firstVisited: firstVisited === null,
-                    jwt: jwt === null ? null : jwt,
-                    stats: {profit: 0, wagered: 0, numBets: 0},
-                    gameSessions: [],
-                };
-            } else {
-                return state;
-            }
+            return state;
     }
 }

@@ -9,7 +9,7 @@ export type State = {
     nightMode: boolean;
 };
 
-const initialState = {
+const initialState: State = {
     notification: null,
     nightMode: localStorage.getItem("night") === "night",
 };

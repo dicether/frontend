@@ -1,4 +1,4 @@
-import {Dispatch as ReduxDispatch} from "redux";
+import {Action, AnyAction, Dispatch as ReduxDispatch} from "redux";
 
 import {State} from "../rootReducer";
 
@@ -26,11 +26,16 @@ export type ActionType<T extends {[id: string]: (...args: any[]) => any}> = Retu
 
 export type ActionCreateType<T extends object> = (...args: any[]) => {type: $Values<T>};
 
-export type ThunkAction<R, S> = (dispatch: Dispatch, getState?: () => S) => R;
+export type ThunkAction1<R, S> = (dispatch: Dispatch, getState: () => S) => R;
 
-export type ThunkDispatch<S> = <R>(asyncAction: ThunkAction<R, S>) => R;
+export type ThunkAction2<R, S> = (dispatch: Dispatch) => R;
 
-export type Dispatch = ReduxDispatch & ThunkDispatch<State>;
+export type ThunkAction<R, S> = ThunkAction1<R, S> | ThunkAction2<R, S>;
+
+export interface Dispatch<A extends Action = AnyAction> {
+    <T extends A>(action: T): T;
+    <R>(asyncAction: ThunkAction<R, State>): R;
+}
 
 export type DispatchProp = {
     dispatch: Dispatch;
