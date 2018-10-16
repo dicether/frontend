@@ -1,6 +1,9 @@
 import axios from "axios";
+import jwtDecode from "jwt-decode";
 import {Dispatch, GetState} from "../../../util/util";
-import {showSuccessMessage} from "../utilities/actions";
+import {getUser} from "../account/selectors";
+import {User} from "../account/types";
+import {showInfoMessage, showSuccessMessage} from "../utilities/actions";
 import {catchError} from "../utilities/asyncActions";
 import {addMessage, changeMessages} from "./actions";
 import {Message} from "./types";
@@ -54,10 +57,20 @@ export function addNewMessage(message: Message) {
     return (dispatch: Dispatch, getState: GetState) => {
         const messages = getState().chat.messages;
         if (messages.length > 0 && messages[messages.length - 1].id + 1 !== message.id) {
-            dispatch(loadMessages());
-        } else {
-            // TODO: add notification!
-            dispatch(addMessage(message));
+            return dispatch(loadMessages());
         }
+
+        const jwt = getState().account.jwt;
+        const userName = jwt ? jwtDecode<User>(jwt).username : undefined;
+        const msg = message.message;
+
+        if (
+            message.user.username !== userName &&
+            (msg.includes("@everybody") || (userName && msg.includes(`@${userName}`)))
+        ) {
+            dispatch(showInfoMessage(`You were mentioned by ${message.user.username} in the chat!`));
+        }
+
+        dispatch(addMessage(message));
     };
 }
