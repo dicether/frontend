@@ -24,7 +24,7 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
     );
 
 type MatchParams = {
-    gameId: number;
+    gameId: string;
 };
 
 type Props = ReturnType<typeof mapDispatchToProps> & RouteComponentProps<MatchParams>;
