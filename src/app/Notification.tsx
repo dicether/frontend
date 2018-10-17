@@ -1,8 +1,8 @@
 import * as React from "react";
-import {toast, ToastContainer} from "react-toastify";
+import {toast, ToastContainer, ToastPosition} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // tslint:disable-line:no-submodule-imports
 
 const Style = require("./Notification.scss");
-import "react-toastify/dist/ReactToastify.css"; // tslint:disable-line:no-submodule-imports
 
 const CloseButton = () => (
     <button type="button" className="close" aria-label="Close" style={{color: "#fff", alignSelf: "flex-start"}}>
@@ -36,7 +36,7 @@ export default class Notification extends React.Component<Props> {
         return (
             <ToastContainer
                 toastClassName={Style.notification}
-                position="top-left"
+                position={ToastPosition.TOP_LEFT}
                 autoClose={5000}
                 hideProgressBar={true}
                 closeOnClick
