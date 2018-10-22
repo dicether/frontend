@@ -1,3 +1,6 @@
+import {Bet, keccak} from "@dicether/state-channel";
+import Raven from "raven-js";
+
 import {ActionType, assertNever} from "../../../../util/util";
 import * as actions from "./actions";
 import * as types from "./constants";
@@ -65,6 +68,43 @@ const initialState: State = {
     oldBalance: 0,
 };
 
+function placeBet(state: State, bet: Bet, serverSig: string, userSig: string): State {
+    if (state.status === "ACTIVE" && state.roundId + 1 === bet.roundId) {
+        return {
+            ...state,
+            status: "PLACED_BET",
+            roundId: bet.roundId,
+            gameType: bet.gameType,
+            num: bet.num,
+            betValue: bet.value,
+            balance: bet.balance,
+            serverHash: bet.serverHash,
+            userHash: bet.userHash,
+            serverSig,
+            userSig,
+        };
+    } else {
+        Raven.captureMessage("Unexpected place bet in reducer!");
+        return state;
+    }
+}
+
+function revealSeed(state: State, serverSeed: string, userSeed: string, balance: number): State {
+    if (state.status === "PLACED_BET" && state.userHash === keccak(userSeed)) {
+        return {
+            ...state,
+            status: "ACTIVE",
+            serverHash: serverSeed,
+            userHash: userSeed,
+            oldBalance: state.balance,
+            balance,
+        };
+    } else {
+        Raven.captureMessage("Unexpected reveal seed in reducer!");
+        return state;
+    }
+}
+
 export default function state(state: State = initialState, action: Actions): State {
     switch (action.type) {
         case types.CREATING_GAME:
@@ -95,28 +135,9 @@ export default function state(state: State = initialState, action: Actions): Sta
                 userSig: action.userSig,
             };
         case types.PLACE_BET:
-            return {
-                ...state,
-                status: "PLACED_BET",
-                roundId: action.bet.roundId,
-                gameType: action.bet.gameType,
-                num: action.bet.num,
-                betValue: action.bet.value,
-                balance: action.bet.balance,
-                serverHash: action.bet.serverHash,
-                userHash: action.bet.userHash,
-                serverSig: action.serverSig,
-                userSig: action.userSig,
-            };
+            return placeBet(state, action.bet, action.serverSig, action.userSig);
         case types.END_BET:
-            return {
-                ...state,
-                status: "ACTIVE",
-                serverHash: action.serverSeed,
-                userHash: action.userSeed,
-                oldBalance: state.balance,
-                balance: action.balance,
-            };
+            return revealSeed(state, action.serverSeed, action.userSeed, action.balance);
         case types.ENDED_WITH_REASON:
             return {...state, status: "ENDED", reasonEnded: action.reason};
         case types.USER_INITIATE_CONFLICT_END:
