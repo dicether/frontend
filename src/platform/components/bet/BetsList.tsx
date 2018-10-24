@@ -61,8 +61,8 @@ type Props = {
 
 const BetsList = ({bets, showUser = true, showBetModal, showUserModal}: Props) => {
     return (
-        <Table hover noBorders responsive>
-            <thead>
+        <Table className={Style.table} hover noBorders responsive>
+            <thead className={Style.head}>
                 <tr className="text-center">
                     {showUser && <th className={Style.center}>User</th>}
                     <th className={Style.center}>Time</th>

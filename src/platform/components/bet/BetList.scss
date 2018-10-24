@@ -16,24 +16,82 @@
   color: inherit;
 }
 
+.table {
+  position: relative;
+  z-index: 1;
+}
+
+.head {
+  position: relative;
+  z-index: 2;
+
+  & > tr > th {
+    position: relative;
+    z-index: 2;
+  }
+}
+
 .entries {
   @include color("700");
+
+  tr:nth-child(n) {
+      animation: 500ms ease-out forwards;
+  }
+
+  tr:first-child {
+    animation-name: slideIn
+  }
+
+  tr:nth-child(2n) {
+    animation-name: slide1;
+  }
+
+  tr:nth-child(2n + 3) {
+    animation-name: slide2;
+  }
+
+  &:before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 2rem;
+    @include background-color("white");
+    width: 100%;
+    z-index: 1;
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 2rem;
+    height: 1rem;
+    background: linear-gradient($white, transparent);
+    :global(.night) & {
+      background: linear-gradient($white--night, transparent);
+    }
+    width: 100%;
+    z-index: 1;
+  }
+
 }
 
-@keyframes expand {
+@keyframes slideIn {
   from {
-    opacity: 0;
-    max-height: 0;
-  }
-
-  to {
-    opacity: 1;
-    max-height: 2rem;
+    transform: translateY(-100%);
   }
 }
 
 
-.entry {
-  will-change: margin, max-height;
-  animation: expand 250ms ease-out forwards;
+@keyframes slide1 {
+  from {
+    transform: translateY(-100%);
+  }
+}
+
+@keyframes slide2 {
+  from {
+    transform: translateY(-100%);
+  }
 }
