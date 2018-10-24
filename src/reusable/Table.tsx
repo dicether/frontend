@@ -1,3 +1,4 @@
+import ClassNames from "classnames";
 import * as React from "react";
 import {Table as BootstrapTable} from "reactstrap";
 
@@ -22,17 +23,23 @@ const Table = ({
     dark = false,
     hover = false,
     noBorders = false,
+    className,
     ...rest
-}: Props) => (
-    <BootstrapTable
-        className={noBorders ? Style.noBorders : undefined}
-        children={children}
-        bordered={bordered}
-        striped={striped}
-        dark={dark}
-        hover={hover}
-        {...rest}
-    />
-);
+}: Props) => {
+    const classNames = ClassNames(className, {
+        [Style.noBorders]: noBorders,
+    });
+    return (
+        <BootstrapTable
+            className={classNames}
+            children={children}
+            bordered={bordered}
+            striped={striped}
+            dark={dark}
+            hover={hover}
+            {...rest}
+        />
+    );
+};
 
 export default Table;
