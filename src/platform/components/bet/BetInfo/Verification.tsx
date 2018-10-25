@@ -1,7 +1,7 @@
 import {calcResultNumber, verifySeed, verifySignature} from "@dicether/state-channel";
 import * as React from "react";
 
-import {CHAIN_ID, NEW_EIP_GAME_ID, OLD_EIP_GAME_ID, SERVER_ADDRESS} from "../../../../config/config";
+import {CHAIN_ID, NEW_EIP_GAME_ID, NEW_EIP_GAME_ID_2, OLD_EIP_GAME_ID, SERVER_ADDRESS} from "../../../../config/config";
 import {FontAwesomeIcon} from "../../../../reusable/index";
 import {Bet} from "../../../modules/bets/types";
 
@@ -25,7 +25,8 @@ class Verification extends React.PureComponent<Props> {
         const validUserSeed = verifySeed(bet.userSeed, bet.userHash);
         const validServerSeed = verifySeed(bet.serverSeed, bet.serverHash);
 
-        const signatureVersion = bet.gameId < NEW_EIP_GAME_ID || bet.gameId >= OLD_EIP_GAME_ID ? 1 : 2;
+        const signatureVersion =
+            bet.gameId < NEW_EIP_GAME_ID || (bet.gameId >= OLD_EIP_GAME_ID && bet.gameId < NEW_EIP_GAME_ID_2) ? 1 : 2;
         const validUserSig = verifySignature(
             bet,
             CHAIN_ID,
