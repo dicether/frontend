@@ -61,9 +61,19 @@ const Faq = () => (
             <div className={Style.entry}>
                 <h5 className={Style.subheading}> Why can't I place a bet?</h5>
                 <p>
-                    To play you need to be logged in and you need to have installed{" "}
-                    <a href={METAMASK_URL}>Metamask</a>, or use <a href={TRUST_WALLET_URL}>Trust Wallet</a> or{" "}
+                    To play you need to be logged in and you need to have installed <a href={METAMASK_URL}>Metamask</a>,
+                    or use <a href={TRUST_WALLET_URL}>Trust Wallet</a> or{" "}
                     <a href={COINBASE_WALLET_URL}>Coinbase Wallet (Toshi)</a>.
+                </p>
+            </div>
+            <div className={Style.entry}>
+                <h5 className={Style.subheading}> How to become an affiliate / refer friends?</h5>
+                <p>
+                    We have created a short article describing, how to generate referral links. See{" "}
+                    <a href="https://medium.com/@dicether/how-to-create-a-dicether-affiliate-campaign-705f4be06c54">
+                        How to generate a affiliate campaign
+                    </a>{" "}
+                    for a short description.
                 </p>
             </div>
             <div className={Style.entry}>
