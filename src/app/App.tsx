@@ -137,7 +137,7 @@ class App extends React.Component<Props, State> {
                         <Route path="/hallOfFame" component={HallOfFame} />
                         <Route exact path="/termsOfUse" component={TermsOfUse} />
                         <Route exact path="/logout" component={LogoutRoute} />
-                        <Route exact path="/games/(dice|chooseFrom12)" component={Game} />
+                        <Route exact path="/games/(dice|chooseFrom12|flipACoin)" component={Game} />
                         <AuthenticatedRoute authenticated={userAuth !== null} path="/account" component={Account} />
                         <Route exact path="/gameSession/:gameId(\d+)" component={GameSession} />
                         <Route component={PathNotFound} />

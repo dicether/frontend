@@ -1,0 +1,54 @@
+@import "~variables";
+
+.coins {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding-bottom: 2rem;
+}
+
+.button {
+  @include remove-default-button-style;
+}
+
+.coin {
+  width: 40%;
+  max-width: 6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  & :global(.coin) {
+    fill: $gray-300;
+  }
+
+  :global(.night) & :global(.coin) {
+    fill: $gray-300--night;
+  }
+
+
+  &_selected :global(.coin) {
+    fill: $primary;
+  }
+
+  &_won :global(.coin) {
+    fill: $success;
+  }
+
+  &_lost :global(.coin) {
+    fill: $danger;
+  }
+
+  :global(.night) &_selected :global(.coin) {
+    fill: $primary--night;
+  }
+
+  :global(.night) &_won :global(.coin) {
+    fill: $success--night;
+  }
+
+  :global(.night) &_lost :global(.coin) {
+    fill: $danger--night;
+  }
+}
+

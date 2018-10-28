@@ -8,6 +8,7 @@ import {Bet} from "../../../modules/bets/types";
 import {showUserModal} from "../../../modules/modals/actions";
 import ChooseFrom12BetInfo from "./ChooseFrom12BetInfo";
 import DiceBetInfo from "./DiceBetInfo";
+import FlipACoinBetInfo from "./FlipACoinBetInfo";
 import Overview from "./Overview";
 import VerificationInfo from "./VerificationInfo";
 
@@ -24,6 +25,8 @@ const GameSpecificInfo = ({gameType, betNum, resultNum}: GameSpecificInfoProps) 
             return <DiceBetInfo betNum={betNum} resultNum={resultNum} gameType={gameType} />;
         case GameType.CHOOSE_FROM_12:
             return <ChooseFrom12BetInfo betNum={betNum} resultNum={resultNum} />;
+        case GameType.FLIP_A_COIN:
+            return <FlipACoinBetInfo betNum={betNum} resultNum={resultNum} />;
         default:
             return null;
     }

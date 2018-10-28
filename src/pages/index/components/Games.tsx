@@ -6,6 +6,7 @@ import {Container, Section} from "../../../reusable";
 const DiceLogo = require("assets/images/diceLogo.svg");
 const ChooseFrom12Logo = require("assets/images/chooseFrom12Logo.svg");
 const Question = require("assets/images/question.svg");
+const FlipACoinLogo = require("assets/images/flipACoinLogo.svg");
 
 const Style = require("./Games.scss");
 
@@ -22,10 +23,14 @@ const Games = () => (
                     <img src={ChooseFrom12Logo} className={Style.img} />
                     <h5 className={Style.text}>Choose from 12</h5>
                 </Link>
-                <div className={Style.gameLink + " " + Style.gameLink_disabled}>
-                    <img src={Question} className={Style.img} />
-                    <h5 className={Style.text}>More Coming Soon</h5>
-                </div>
+                <Link to="/games/flipACoin" className={Style.gameLink + " " + Style.gameLink_active}>
+                    <img src={FlipACoinLogo} className={Style.img} />
+                    <h5 className={Style.text}>Flip a Coin</h5>
+                </Link>
+                {/*<div className={Style.gameLink + " " + Style.gameLink_disabled}>*/}
+                {/*<img src={Question} className={Style.img} />*/}
+                {/*<h5 className={Style.text}>More Coming Soon</h5>*/}
+                {/*</div>*/}
             </div>
         </Container>
     </Section>
