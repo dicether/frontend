@@ -11,7 +11,7 @@ type Props = {
 const Header = ({onClose, onToggleFriends}: Props) => (
     <div className={Style.header}>
         <span className={Style.toggleFriends} onClick={() => onToggleFriends(true)}>
-            <FontAwesomeIcon icon="user" />
+            <FontAwesomeIcon icon="user-friends" />
         </span>
         <span className={Style.title} onClick={() => onToggleFriends(false)}>
             <FontAwesomeIcon icon="comments" />
