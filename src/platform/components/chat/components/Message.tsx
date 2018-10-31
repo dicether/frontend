@@ -14,7 +14,8 @@ const Style = require("./Message.scss");
 const emojioneImage = require("assets/images/emojione-3.1.2-64x64.png");
 
 const BET_REGEX = /Bet:(\d+)/;
-const USER_REGEX = /User:(\S+)/;
+const USER_REGEX = /(?:User:(\S+))/;
+const USER_MENTION_REGEX = /(?:^|\s)@(\S+)/;
 const LINK_REGEX = /(https?:\/\/\S+)/;
 const PORT = window.location.port ? `:${window.location.port}` : "";
 const HOST = `${window.location.protocol}//${window.location.hostname}${PORT}`;
@@ -43,6 +44,14 @@ function processMessage(
     res = reactStringReplace(res, USER_REGEX, (match, i) => (
         <ChatButton key={match + i} name={`User:${match}`} onClick={() => showUserModal(match)} />
     ));
+
+    res = reactStringReplace(res, USER_MENTION_REGEX, (match, i, offset) => {
+        if (offset === 0) {
+            return <ChatButton key={match + i} name={`@${match}`} onClick={() => showUserModal(match)} />;
+        } else {
+            return [" ", <ChatButton key={match + i} name={`@${match}`} onClick={() => showUserModal(match)} />];
+        }
+    });
 
     res = reactStringReplace(res, LOCAL_LINK_REGEX, (match, i) => (
         <Link key={match + i} to={`/${match}`}>{`${HOST}/${match}`}</Link>
