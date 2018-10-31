@@ -1,0 +1,12 @@
+.chatCommandInfo {
+  margin-bottom: 0.5rem;
+  flex: 1 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.command {
+  display: flex;
+  justify-content: space-between;
+}

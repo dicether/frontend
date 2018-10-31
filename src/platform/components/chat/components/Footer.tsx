@@ -1,6 +1,7 @@
 import * as React from "react";
 import Textarea from "react-textarea-autosize";
 import {Button} from "../../../../reusable/index";
+import ChatCommandInfo from "./ChatCommandInfo";
 
 const Style = require("./Footer.scss");
 
@@ -14,6 +15,7 @@ type Props = {
 const Footer = ({message, numUsers, onMessageChange, onMessageSend}: Props) => {
     return (
         <div className={Style.footer}>
+            <ChatCommandInfo message={message} />
             <div className="form-group">
                 <Textarea
                     className={"form-control " + Style.textarea}
