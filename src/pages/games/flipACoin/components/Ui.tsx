@@ -59,7 +59,7 @@ class Ui extends React.Component<Props> {
                                 />
                             </FormGroup>
                         </Col>
-                        <Col sm={6} xs={6}>
+                        <Col sm={6} xs={12}>
                             <FormGroup className="games__form-group">
                                 <Label>Profit on win (ETH)</Label>
                                 <Input disabled readOnly value={formatEth(payout - value)} />
