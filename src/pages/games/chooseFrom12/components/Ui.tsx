@@ -78,7 +78,7 @@ class Ui extends React.PureComponent<Props> {
                                 <Label>Profit on win (ETH)</Label>
                                 <Input disabled readOnly value={formatEth(payout - value)} />
                             </FormGroup>
-                            <FormGroup className="games__form-group">
+                            <FormGroup className="games__form-group hidden-xs-down">
                                 <Label>Win chance</Label>
                                 <Input disabled readOnly value={Math.round(chance * 100).toString()} suffix="%" />
                             </FormGroup>
