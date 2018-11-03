@@ -24,6 +24,7 @@
 }
 
 .numContent {
+  transition: background-color 250ms ease-in-out;
   position: absolute;
   border-radius: 0.5rem;
   top: 0;
