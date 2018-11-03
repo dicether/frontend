@@ -11,6 +11,20 @@
   @include remove-default-button-style;
 }
 
+@keyframes boxShadow {
+  0% {
+    box-shadow: transparent 0 0 0 0;
+  }
+
+  50% {
+    box-shadow: 0 0 1rem 0.25rem;
+  }
+
+  100% {
+    box-shadow: transparent 0 0 0 0;
+  }
+}
+
 .coin {
   width: 40%;
   max-width: 6rem;
@@ -18,7 +32,9 @@
   align-items: center;
   justify-content: center;
 
+
   & :global(.coin) {
+    transition: fill 250ms ease-in-out;
     fill: $gray-300;
   }
 
@@ -31,24 +47,40 @@
     fill: $primary;
   }
 
-  &_won :global(.coin) {
-    fill: $success;
+  &_won {
+    border-radius: 50%;
+    color: $success;
+    animation: boxShadow 1000ms linear forwards;
+    & :global(.coin) {
+      fill: $success;
+    }
   }
 
-  &_lost :global(.coin) {
-    fill: $danger;
+  &_lost {
+    border-radius: 50%;
+    color: $danger;
+    animation: boxShadow 1000ms linear forwards;
+    & :global(.coin) {
+      fill: $danger;
+    }
   }
 
   :global(.night) &_selected :global(.coin) {
     fill: $primary--night;
   }
 
-  :global(.night) &_won :global(.coin) {
-    fill: $success--night;
+  :global(.night) &_won {
+    color: $success--night;
+    & :global(.coin) {
+      fill: $success--night;
+    }
   }
 
-  :global(.night) &_lost :global(.coin) {
-    fill: $danger--night;
+  :global(.night) &_lost {
+    color: $danger--night;
+    & :global(.coin) {
+      fill: $danger--night;
+    }
   }
 }
 

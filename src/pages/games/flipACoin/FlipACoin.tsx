@@ -102,6 +102,7 @@ class FlipACoin extends React.PureComponent<Props, OneDiceState> {
 
         const canBet = canPlaceBet(gameType, num, safeBetValue, loggedIn, web3Available, gameState);
         if (canBet.canPlaceBet) {
+            this.setState({showResult: false});
             placeBet(num, safeBetValue, gameType)
                 .then(result => {
                     this.setState({result, showResult: true});
