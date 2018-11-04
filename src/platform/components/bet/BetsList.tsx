@@ -41,15 +41,15 @@ const LastBetRow = ({bet, showUser, showBetModal, showUserModal}: LastBetRowProp
                     </div>
                 </td>
             )}
-            <td className={Style.center}>
+            <td className={Style.center + " hidden-xs-down"}>
                 <div className={Style.entry}>{moment(timestamp).format("LT")}</div>
             </td>
-            <td className={Style.center}>
+            <td className={Style.center + " hidden-xs-down"}>
                 <div className={Style.entry}>
                     <Ether gwei={value} showCurrencySymbol />
                 </div>
             </td>
-            <td className={Style.center}>
+            <td className={Style.profit}>
                 <div className={Style.entry}>
                     <Ether gwei={profit} showCurrencySymbol colored />
                 </div>
@@ -72,9 +72,9 @@ const BetsList = ({bets, showUser = true, showBetModal, showUserModal}: Props) =
                 <tr>
                     <th>Game</th>
                     {showUser && <th className={Style.center}>User</th>}
-                    <th className={Style.center}>Time</th>
-                    <th className={Style.center}>Bet</th>
-                    <th className={Style.center}>Profit</th>
+                    <th className={Style.center + " hidden-xs-down"}>Time</th>
+                    <th className={Style.center + " hidden-xs-down"}>Bet</th>
+                    <th className={Style.profitHeader}>Profit</th>
                 </tr>
             </thead>
             <tbody className={Style.entries}>

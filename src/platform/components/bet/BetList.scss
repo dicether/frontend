@@ -29,6 +29,9 @@
 .table {
   position: relative;
   z-index: 1;
+  @include media-breakpoint-down("xs") {
+    font-size: 0.75rem;
+  }
 }
 
 .head {
@@ -98,6 +101,14 @@
   flex-direction: column;
   justify-content: center;
   align-items: start;
+}
+
+.profitHeader {
+  text-align: right;
+}
+
+.profit {
+  text-align: right;
 }
 
 @keyframes slideIn {
