@@ -6,12 +6,22 @@
 }
 
 .infoButton {
+  @include remove-default-button-style();
   padding-top: 0 !important;
   padding-bottom: 0 !important;
+  @include color("600");
+  font-size: 0.9rem;
+}
+
+.gameLink {
+  @include color("700");
+  font-weight: bold;
 }
 
 .userButton {
   @include remove-default-button-style();
+  margin-left: 0 !important;
+  padding-left: 0 !important;
   font-weight: bold;
   color: inherit;
 }
@@ -75,6 +85,19 @@
     z-index: 1;
   }
 
+}
+
+.tdGameType {
+  padding-top: 0.25rem !important;
+  padding-bottom: 0 !important;
+}
+
+.gameType {
+  line-height: normal;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
 }
 
 @keyframes slideIn {

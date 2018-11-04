@@ -1,9 +1,11 @@
 import moment from "moment";
 import * as React from "react";
+import {Link} from "react-router-dom";
 
-import {Button, Ether, Modal, Table} from "../../../reusable/index";
+import {Button, Ether, Table} from "../../../reusable/index";
 import {User} from "../../modules/account/types";
 import {Bet} from "../../modules/bets/types";
+import {gameTypeToLink, gameTypeToName} from "./util";
 
 const Style = require("./BetList.scss");
 
@@ -16,9 +18,20 @@ type LastBetRowProps = {
 
 const LastBetRow = ({bet, showUser, showBetModal, showUserModal}: LastBetRowProps) => {
     const {timestamp, user, value, profit} = bet;
+    const {gameType} = bet;
 
     return (
         <tr>
+            <td className={Style.tdGameType}>
+                <div className={Style.gameType}>
+                    <Link className={Style.gameLink} to={gameTypeToLink(gameType)}>
+                        {gameTypeToName(gameType)}
+                    </Link>
+                    <button className={Style.infoButton} key="1" color="link" onClick={() => showBetModal(bet)}>
+                        Info
+                    </button>
+                </div>
+            </td>
             {showUser && (
                 <td className={Style.center}>
                     <div className={Style.entry}>
@@ -34,13 +47,6 @@ const LastBetRow = ({bet, showUser, showBetModal, showUserModal}: LastBetRowProp
             <td className={Style.center}>
                 <div className={Style.entry}>
                     <Ether gwei={value} showCurrencySymbol />
-                </div>
-            </td>
-            <td className={Style.center}>
-                <div className={Style.entry}>
-                    <Button className={Style.infoButton} key="1" color="link" onClick={() => showBetModal(bet)}>
-                        Show
-                    </Button>
                 </div>
             </td>
             <td className={Style.center}>
@@ -63,11 +69,11 @@ const BetsList = ({bets, showUser = true, showBetModal, showUserModal}: Props) =
     return (
         <Table className={Style.table} hover noBorders responsive>
             <thead className={Style.head}>
-                <tr className="text-center">
+                <tr>
+                    <th>Game</th>
                     {showUser && <th className={Style.center}>User</th>}
                     <th className={Style.center}>Time</th>
                     <th className={Style.center}>Bet</th>
-                    <th className={Style.center}>Info</th>
                     <th className={Style.center}>Profit</th>
                 </tr>
             </thead>

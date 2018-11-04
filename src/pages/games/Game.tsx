@@ -1,6 +1,6 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {Route} from "react-router-dom";
+import {Route, RouteProps} from "react-router-dom";
 
 import {bindActionCreators} from "redux";
 import Stats from "../../platform/components/bet/Stats";
@@ -50,11 +50,17 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     removeStateListeners: () => removeListeners(listeners, dispatch),
 });
 
-type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
+type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps> & RouteProps;
 
 class Game extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
+    }
+
+    componentDidUpdate(prevProps: Props) {
+        if (this.props.location !== prevProps.location) {
+            window.scrollTo(0, 0);
+        }
     }
 
     componentWillMount() {

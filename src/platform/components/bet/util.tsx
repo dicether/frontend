@@ -1,0 +1,29 @@
+import {GameType} from "@dicether/state-channel";
+
+export function gameTypeToName(gameType: number) {
+    switch (gameType) {
+        case GameType.DICE_LOWER:
+        case GameType.DICE_HIGHER:
+            return "Dice";
+        case GameType.CHOOSE_FROM_12:
+            return "Choose From 12";
+        case GameType.FLIP_A_COIN:
+            return "Flip A Coin";
+        default:
+            return "Unknown";
+    }
+}
+
+export function gameTypeToLink(gameType: number) {
+    switch (gameType) {
+        case GameType.DICE_LOWER:
+        case GameType.DICE_HIGHER:
+            return "/games/dice";
+        case GameType.CHOOSE_FROM_12:
+            return "/games/chooseFrom12";
+        case GameType.FLIP_A_COIN:
+            return "/games/flipACoin";
+        default:
+            return "/unknown";
+    }
+}
