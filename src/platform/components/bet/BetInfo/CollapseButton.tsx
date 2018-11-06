@@ -1,6 +1,7 @@
 import ClassNames from "classnames";
 import * as React from "react";
 
+import Icon from "../../../../reusable/FontAwesomeIcon";
 import {Button} from "../../../../reusable/index";
 
 const Style = require("./CollapsButton.scss");
@@ -21,7 +22,8 @@ const CollapseButton = ({name, isOpen, onClick}: Props) => {
 
     return (
         <Button color="link" block onClick={onClick}>
-            {name} <i className={classNames} aria-hidden="true" />
+            <span>{name}</span>
+            <Icon className={Style.arrow} icon="angle-down" size="lg" rotation={isOpen ? 180 : undefined} />
         </Button>
     );
 };

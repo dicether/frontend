@@ -1,8 +1,5 @@
 @import '~variables';
 
-.friendList {
-}
-
 .list {
   list-style: none;
 }
@@ -13,20 +10,16 @@
   height: 8px;
   border-radius: 50%;
   margin-right: 0.25em;
-}
 
-.onlineStatus_online {
-  @extend .bg-success
-}
+  &_online {
+    @include background-color("success");
+  }
 
-.onlineStatus_offline {
-  @extend .bg-danger
+  &_offline {
+    @include background-color("danger");
+  }
 }
 
 .friend {
   margin-left: 1em;
-}
-
-.friend_online {
-
 }

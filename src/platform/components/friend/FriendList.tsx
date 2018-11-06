@@ -16,7 +16,7 @@ const FriendList = ({friends}: Props) => {
     const offlineFriendClass = ClassNames(Style.onlineStatus, Style.onlineStatus_offline);
 
     return (
-        <div className={Style.friendList}>
+        <div>
             <h5>Friends Online ({friendsOnline.length})</h5>
             <ul className={Style.list}>
                 {friendsOnline.map(friend => (

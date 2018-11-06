@@ -21,7 +21,7 @@ const FriendRequests = ({
     onDeclineFriendRequest,
     onCancelFriendRequest,
 }: Props) => (
-    <div className={Style.friendRequests}>
+    <div>
         <h5>Sent friend requests ({sentFriendRequests.length})</h5>
         <ul className={Style.list}>
             {sentFriendRequests.map(friendRequest => (

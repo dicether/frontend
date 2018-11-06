@@ -1,0 +1,15 @@
+{
+  "extends": "stylelint-config-recommended-scss",
+  "plugins": [
+    "stylelint-scss"
+  ],
+  "rules": {
+    "selector-pseudo-class-no-unknown": [true, {
+      "ignorePseudoClasses": ["global"]
+    }],
+    "scss/at-rule-no-unknown": [true, {
+      "ignoreAtRules": ["value"]
+    }],
+    "no-descending-specificity": false
+  }
+}

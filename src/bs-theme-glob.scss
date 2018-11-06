@@ -38,7 +38,6 @@ body.night {
   }
 }
 
-
 // background
 .night {
   @each $color, $value in $theme-colors--night {
@@ -62,19 +61,15 @@ body.night {
   .bg-dark {
     background-color: $gray-900 !important; // header background
   }
-}
 
-.night a {
-  color: $link-color--night;
-
-  @include hover {
-    color: $link-hover-color--night;
+  a {
+    color: $link-color--night;
+    @include hover {
+      color: $link-hover-color--night;
+    }
   }
-}
 
-// nav
-
-.night {
+  // nav
   .nav-link {
     // Disabled state lightens text
     &.disabled {
@@ -177,14 +172,11 @@ body.night {
 #app {
   display:flex;
   flex-direction: column;
+  min-height: 100vh;
 }
 
 footer {
   margin-top: auto;
-}
-
-#app {
-  min-height: 100vh;
 }
 
 // navbar link

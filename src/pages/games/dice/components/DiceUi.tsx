@@ -109,7 +109,7 @@ export default class DiceUi extends React.Component<Props> {
         const reverseButton = <ReverseRollButton reversed={reverseRoll} onClick={onReverseRoll} />;
 
         return (
-            <div className={Style.dice}>
+            <div>
                 <div className={Style.ui}>
                     <div className={"form-row"} style={{alignItems: "flex-end"}}>
                         <Col sm={6} xs={12}>
