@@ -19,6 +19,10 @@
       "prettier --write",
       "tslint --fix",
       "git add"
+    ],
+    "*.{scss}": [
+      "stylelint --fix",
+      "git add"
     ]
   },
   "author": "Dicether",
