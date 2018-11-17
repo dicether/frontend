@@ -42,7 +42,7 @@ export default class Handle extends React.Component {
 
   render() {
     const {
-      vertical, offset, style, disabled, min, max, value, tabIndex, ...restProps,
+      vertical, offset, style, disabled, min, max, value, tabIndex, ...restProps
     } = this.props;
 
     const className = classNames(

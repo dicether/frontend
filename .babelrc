@@ -1,13 +1,13 @@
 {
   "presets": [
-        ["env", {
-            "useBuiltIns": true,
+        ["@babel/preset-env", {
+            "useBuiltIns": "entry",
             "targets": {
                 "browsers": [">1%", "last 2 versions"]
             },
             "debug": true
         }],
-        "react",
-        "flow"],
-    "plugins": ["babel-plugin-transform-object-rest-spread", "transform-class-properties"]
+        "@babel/preset-react"
+  ],
+  "plugins": ["@babel/plugin-proposal-object-rest-spread", "@babel/plugin-proposal-class-properties"]
 }

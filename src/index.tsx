@@ -1,4 +1,4 @@
-import "babel-polyfill";
+import "@babel/polyfill";
 import Raven from "raven-js";
 import * as React from "react";
 import {render} from "react-dom";
