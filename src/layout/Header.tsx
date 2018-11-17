@@ -62,7 +62,9 @@ class Header extends React.Component<Props, State> {
             <Navbar id="header" expand="md" dark color="dark">
                 <Container className={className}>
                     <NavbarBrand tag={RRNavLink} to="/">
-                        <img className={Style.brandImage} src={logo} />
+                        <div className={Style.brandImageContainer}>
+                            <img className={Style.brandImage} src={logo} />
+                        </div>
                     </NavbarBrand>
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={isOpen} navbar>
