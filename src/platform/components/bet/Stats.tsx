@@ -53,7 +53,7 @@ class Stats extends React.Component<Props, CompState> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            activeTab: "allBets",
+            activeTab: "myBets",
         };
     }
 
@@ -74,6 +74,7 @@ class Stats extends React.Component<Props, CompState> {
     render() {
         const {allBets, myBets, showMyBets, showBetModal, showUserModal} = this.props;
         const {activeTab} = this.state;
+        const curActiveTab = showMyBets ? activeTab : "allBets";
 
         return (
             <div className={Style.stats}>
@@ -99,7 +100,7 @@ class Stats extends React.Component<Props, CompState> {
                         </NavItem>
                     </Nav>
                 )}
-                <TabContent activeTab={activeTab}>
+                <TabContent activeTab={curActiveTab}>
                     <TabPane tabId="allBets">
                         <BetsList
                             bets={allBets}
