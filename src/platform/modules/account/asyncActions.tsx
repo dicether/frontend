@@ -12,30 +12,19 @@ import {loadFriendRequests, loadFriends} from "../friends/asyncActions";
 import {hideRegisterModal, showMissingWalletModal} from "../modals/actions";
 import {showErrorMessage} from "../utilities/actions";
 import {catchError} from "../utilities/asyncActions";
-import {signTypedData} from "../web3/asyncActions";
+import {requestAccounts, signTypedData} from "../web3/asyncActions";
 import {changeFirstVisitedS, changeJWTS, changeMyGameSessions, changeMyStats} from "./actions";
 import {User} from "./types";
 
 const authenticateTypes = {
-    EIP712Domain: [
-        {name: 'name', type: 'string'},
-    ],
-    Authenticate: [
-        {name: 'address', type: 'address'},
-        {name: 'nonce', type: 'uint64'}
-    ],
+    EIP712Domain: [{name: "name", type: "string"}],
+    Authenticate: [{name: "address", type: "address"}, {name: "nonce", type: "uint64"}],
 };
 
 const registerTypes = {
-    EIP712Domain: [
-        {name: 'name', type: 'string'},
-    ],
-    Register: [
-        {name: 'address', type: 'address'},
-        {name: 'username', type: 'string'}
-    ],
+    EIP712Domain: [{name: "name", type: "string"}],
+    Register: [{name: "address", type: "address"}, {name: "username", type: "string"}],
 };
-
 
 export function changeFirstVisited(firstVisited: boolean) {
     return (dispatch: Dispatch) => {
@@ -77,65 +66,79 @@ export function deAuthenticateSocket() {
 }
 
 export function authenticate() {
-    return (dispatch: Dispatch, getState: GetState) => {
+    return async (dispatch: Dispatch, getState: GetState) => {
         const web3State = getState().web3;
         const web3 = web3State.web3;
-        const web3Account = web3State.account;
         if (web3 === null) {
             dispatch(showMissingWalletModal());
             return undefined;
         }
 
+        if (web3State.account === null) {
+            await requestAccounts(dispatch);
+        }
+        const web3Account = getState().web3.account;
         if (web3Account === null) {
-            dispatch(showErrorMessage("Error: You need to log in to your web3 wallet!"));
-            return undefined;
+            dispatch(showErrorMessage("Error: You need to log in to your web3 wallet!!"));
+            return;
         }
 
         let nonce = "";
-        return axios.post("/auth/authenticationNonce", {
-            address: web3Account
-        }).then(response => {
-            nonce = response.data.nonce;
-            const typedData = {
-                types: authenticateTypes,
-                primaryType: "Authenticate",
-                domain: {name: REALM},
-                message: {address: web3Account, nonce}
-            };
-
-            return signTypedData(web3, web3Account, typedData);
-        })
-        .then(result => {
-            return axios.post("/auth/authenticate", {
-                realm: REALM,
+        return axios
+            .post("/auth/authenticationNonce", {
                 address: web3Account,
-                nonce,
-                signature: result,
-            });
-        })
-        .then(response => {
-            dispatch(hideRegisterModal());
-            initUser(dispatch, response.data.jwt);
-        })
-        .catch(error => catchError(error, dispatch));
+            })
+            .then(response => {
+                nonce = response.data.nonce;
+                const typedData = {
+                    types: authenticateTypes,
+                    primaryType: "Authenticate",
+                    domain: {name: REALM},
+                    message: {address: web3Account, nonce},
+                };
+
+                return signTypedData(web3, web3Account, typedData);
+            })
+            .then(result => {
+                return axios.post("/auth/authenticate", {
+                    realm: REALM,
+                    address: web3Account,
+                    nonce,
+                    signature: result,
+                });
+            })
+            .then(response => {
+                dispatch(hideRegisterModal());
+                initUser(dispatch, response.data.jwt);
+            })
+            .catch(error => catchError(error, dispatch));
     };
 }
 
 export function register(username: string) {
-    return (dispatch: Dispatch, getState: GetState) => {
+    return async (dispatch: Dispatch, getState: GetState) => {
         const web3State = getState().web3;
         const web3 = web3State.web3;
-        const web3Account = web3State.account;
-        if (web3 === null || web3Account === null) {
-            dispatch(showErrorMessage("Error: You need to log in to your web3 wallet!!"));
+
+        if (web3 === null) {
+            dispatch(showMissingWalletModal());
             return undefined;
         }
 
+        if (web3State.account === null) {
+            await requestAccounts(dispatch);
+        }
+        const web3Account = getState().web3.account;
+        if (web3Account === null) {
+            dispatch(showErrorMessage("Error: You need to log in to your web3 wallet!!"));
+            return;
+        }
+
         const typedData = {
-                types: registerTypes,
-                primaryType: "Register",
-                domain: {name: REALM},
-                message: {address: web3Account, username}
+            types: registerTypes,
+            primaryType: "Register",
+            domain: {name: REALM},
+            message: {address: web3Account, username},
         };
 
         const referredBy = localStorage.getItem("referral");

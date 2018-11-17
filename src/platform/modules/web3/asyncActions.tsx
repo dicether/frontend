@@ -45,11 +45,11 @@ export function fetchWeb3() {
 }
 
 export function fetchAccount() {
-    return (dispatch: Dispatch, getState: GetState) => {
+    return async (dispatch: Dispatch, getState: GetState) => {
         const web3 = getState().web3.web3;
         const curAccount = getState().web3.account;
         if (web3 !== null) {
-            web3.eth
+            return web3.eth
                 .getAccounts()
                 .then(accounts => {
                     if (accounts.length === 0) {
@@ -104,6 +104,15 @@ export function fetchAllWeb3() {
 
 export function getTransactionReceipt(web3: Web3, transactionHash: string): Promise<TransactionReceipt | null> {
     return web3.eth.getTransactionReceipt(transactionHash);
+}
+
+export async function requestAccounts(dispatch: Dispatch) {
+    try {
+        await (window as any).ethereum.enable();
+        await dispatch(fetchAccount());
+    } catch (error) {
+        console.log(error.message);
+    }
 }
 
 export function signTypedData(web3: Web3, from: string, typedData: any): Promise<string> {
