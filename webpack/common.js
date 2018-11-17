@@ -148,19 +148,6 @@ module.exports = {
                 exclude: /(node_modules|bower_components)/,
                 use: {
                     loader: 'babel-loader',
-                    options: {
-                        presets: [
-                            ['env', {
-                                useBuiltIns: true,
-                                targets: {
-                                    browsers: ['>1%', 'last 2 versions'],
-                                },
-                                debug: true
-                            }],
-                            'react',
-                            'flow'],
-                        plugins: ['babel-plugin-transform-object-rest-spread', 'transform-class-properties']
-                    }
                 }
             },
             {
@@ -169,19 +156,6 @@ module.exports = {
                 use: [
                     {
                         loader: 'babel-loader',
-                        options: {
-                            presets: [
-                                ['env', {
-                                    useBuiltIns: true,
-                                    targets: {
-                                        browsers: ['>1%', 'last 2 versions'],
-                                    },
-                                    debug: true
-                                }],
-                                'react',
-                                'flow'],
-                            plugins: ['babel-plugin-transform-object-rest-spread', 'transform-class-properties']
-                        }
                     },
                     {
                         loader: 'ts-loader'
