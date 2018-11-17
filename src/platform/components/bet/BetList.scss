@@ -80,9 +80,9 @@
     left: 0;
     top: 2rem;
     height: 1rem;
-    background: linear-gradient($white, transparent);
+    background: linear-gradient($white, rgba(255, 255, 255, 0));
     :global(.night) & {
-      background: linear-gradient($white--night, transparent);
+      background: linear-gradient($white--night, rgba(255 , 255, 255, 0));
     }
     width: 100%;
     z-index: 1;
