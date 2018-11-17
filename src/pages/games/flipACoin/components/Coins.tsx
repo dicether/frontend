@@ -5,10 +5,10 @@ const Style = require("./Coins.scss");
 
 // @ts-ignore
 // tslint:disable-next-line
-import CoinHead from "!!react-svg-loader!assets/images/coinHead.svg";
+import CoinHead from "!!babel-loader!react-svg-loader!assets/images/coinHead.svg";
 // @ts-ignore
 // tslint:disable-next-line
-import CoinNumber from "!!react-svg-loader!assets/images/coinNumber.svg";
+import CoinNumber from "!!babel-loader!react-svg-loader!assets/images/coinNumber.svg";
 
 const coins = [<CoinHead key={1} width="100%" heigth="auto" />, <CoinNumber key={2} width="100%" heigth="auto" />];
 
