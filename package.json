@@ -83,7 +83,7 @@
     "node-sass": "^4.5.3",
     "popper.js": "^1.14.4",
     "postcss-loader": "^2.0.6",
-    "query-string": "^6.1.0",
+    "query-string": "^5.1.1",
     "raven-for-redux": "^1.1.1",
     "raven-js": "^3.18.1",
     "rc-slider": "^8.6.1",
