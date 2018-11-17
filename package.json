@@ -45,7 +45,7 @@
     "@types/redux-logger": "^3.0.5",
     "@types/socket.io-client": "^1.4.32",
     "@types/underscore": "^1.8.8",
-    "async-retry": "^1.2.1",
+    "async-retry": "^1.2.3",
     "autoprefixer": "^9.1.0",
     "axios": "^0.18.0",
     "babel-core": "^6.18.2",
