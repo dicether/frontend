@@ -2,7 +2,7 @@ import * as React from "react";
 import {connect} from "react-redux";
 
 import {GameType, maxBet} from "@dicether/state-channel";
-import {MIN_BANKROLL, MIN_BET_VALUE} from "../../../config/config";
+import {KELLY_FACTOR, MIN_BANKROLL, MIN_BET_VALUE} from "../../../config/config";
 import {toggleHelp} from "../../../platform/modules/games/info/actions";
 import {placeBet, validNetwork} from "../../../platform/modules/games/state/asyncActions";
 import {showErrorMessage} from "../../../platform/modules/utilities/actions";
@@ -124,7 +124,7 @@ class FlipACoin extends React.PureComponent<Props, OneDiceState> {
         const {num, value} = flipACoin;
         const {result, showResult} = this.state;
 
-        let maxBetValue = maxBet(GameType.FLIP_A_COIN, num, MIN_BANKROLL);
+        let maxBetValue = maxBet(GameType.FLIP_A_COIN, num, MIN_BANKROLL, KELLY_FACTOR);
         if (gameState.status !== "ENDED") {
             const max = Math.min(gameState.stake + gameState.balance, maxBetValue);
             maxBetValue = Math.max(max, MIN_BET_VALUE);

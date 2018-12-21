@@ -1,7 +1,7 @@
 import * as types from "./constants";
 
 import {maxBet} from "@dicether/state-channel";
-import {MIN_BANKROLL, MIN_BET_VALUE} from "../../../config/config";
+import {KELLY_FACTOR, MIN_BANKROLL, MIN_BET_VALUE} from "../../../config/config";
 import {ActionType, assertNever} from "../../../util/util";
 import * as actions from "./actions";
 
@@ -20,7 +20,7 @@ const initialState = {
 };
 
 function updateNum(state: State, num: number) {
-    const maxBetValue = maxBet(state.reverseRoll ? 2 : 1, num, MIN_BANKROLL);
+    const maxBetValue = maxBet(state.reverseRoll ? 2 : 1, num, MIN_BANKROLL, KELLY_FACTOR);
     const value = Math.min(maxBetValue, state.value);
 
     return {...state, value, num};
