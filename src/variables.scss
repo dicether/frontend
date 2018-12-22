@@ -7,11 +7,11 @@ $gray-500: #adb5bd !default;
 $gray-600: #868e96 !default;
 $gray-700: #495057 !default;
 $gray-800: #343a40 !default;
-$gray-900: #212529 !default;
+$gray-900: #1A2B38 !default;
 $black:    #000 !default;
 
 $white--night:    $gray-900 !default;
-$gray-100--night: #212529 !default;
+$gray-100--night: #1A2B38 !default;
 $gray-200--night: #343a40 !default;
 $gray-300--night: #495057 !default;
 $gray-400--night: #868e96 !default;
@@ -74,7 +74,7 @@ $colors: map-merge((
   "cyan":       $cyan,
   "white":      $white,
   "gray":       $gray-600,
-  "gray-dark":  $gray-800
+  "gray-dark":  $gray-900
 ), $colors);
 
 $darken: 2.5%;
@@ -115,7 +115,7 @@ $info:          $cyan !default;
 $warning:       $orange !default;
 $danger:        $red !default;
 $light:         $gray-100 !default;
-$dark:          $gray-800 !default;
+$dark:          $gray-900 !default;
 $primary:       $blue !default;
 
 $secondary--night:     $gray-600--night !default;
@@ -124,7 +124,7 @@ $info--night:          $cyan--night !default;
 $warning--night:       $orange--night !default;
 $danger--night:        $red--night !default;
 $light--night:         $gray-100--night !default;
-$dark--night:          $gray-800--night !default;
+$dark--night:          $gray-900--night !default;
 $primary--night:       $blue--night !default;
 
 $theme-colors: () !default;
