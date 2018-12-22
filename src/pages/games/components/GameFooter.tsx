@@ -2,7 +2,7 @@ import * as React from "react";
 
 import {ButtonToolbar} from "reactstrap"; // FIXME: Remove
 import GameState from "../../../platform/components/state/State";
-import {IconButton, Popover, Switch} from "../../../reusable/index";
+import {FancyIconButton, Popover, Switch} from "../../../reusable/index";
 
 const Style = require("./GameFooter.scss");
 
@@ -41,7 +41,7 @@ export default class GameFooter extends React.Component<Props, State> {
         return (
             <div className={Style.gameFooter}>
                 <ButtonToolbar>
-                    <IconButton color="primary" id="settingsPopover" icon="cog" onClick={this.toggleSettingsPopover} />
+                    <FancyIconButton color="400" id="settingsPopover" icon="cog" onClick={this.toggleSettingsPopover} />
                     <Popover
                         target="settingsPopover"
                         placement="top"
@@ -59,7 +59,7 @@ export default class GameFooter extends React.Component<Props, State> {
                             </li>
                         </ul>
                     </Popover>
-                    <IconButton color="primary" icon="question" onClick={() => onToggleHelp(!showHelp)} />
+                    <FancyIconButton color="400" icon="question" onClick={() => onToggleHelp(!showHelp)} />
                 </ButtonToolbar>
                 {showExpertView && (
                     <div className={Style.state}>
