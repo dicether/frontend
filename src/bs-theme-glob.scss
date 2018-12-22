@@ -322,7 +322,16 @@ em {
 }
 
 label {
-  font-size: 0.9em;
+  font-size: 0.85em;
+  font-weight: 500;
+  color: $gray-600;
+}
+
+.form-control {
+  &:disabled,
+  &[readonly] {
+    border-color: $input-disabled-bg;
+  }
 }
 
 // Restore Bootstrap 3 "hidden" utility classes.
