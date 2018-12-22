@@ -173,7 +173,7 @@ export default class DiceUi extends React.Component<Props> {
                         </Col>
                     </div>
                     <Row noGutters>
-                        <Button block color="success" onClick={onPlaceBet}>
+                        <Button className="betButton" block color="success" onClick={onPlaceBet}>
                             Roll Dice
                         </Button>
                     </Row>

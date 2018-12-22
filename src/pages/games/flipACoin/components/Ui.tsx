@@ -67,7 +67,7 @@ class Ui extends React.Component<Props> {
                         </Col>
                     </div>
                     <Row noGutters>
-                        <Button block color="success" onClick={onPlaceBet}>
+                        <Button className="betButton" block color="success" onClick={onPlaceBet}>
                             Flip the coin
                         </Button>
                     </Row>
