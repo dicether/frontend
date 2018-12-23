@@ -36,7 +36,7 @@ export const NETWORK_ID = 1;
 export const NETWORK_NAME = "Main";
 
 export const MIN_GAME_SESSION_VALUE = 1e7;
-export const MAX_GAME_SESSION_VALUE = 5e9;
+export const MAX_GAME_SESSION_VALUE = 30e9;
 export const HOUSE_EDGE = 150;
 export const HOUSE_EDGE_DIVISOR = 10000;
 
