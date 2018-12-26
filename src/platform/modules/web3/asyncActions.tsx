@@ -1,6 +1,7 @@
-import {typedDataHash} from "@dicether/eip712";
+import {hashTypedData, recoverTypedData} from "@dicether/eip712";
 import BN from "bn.js";
 import ethUtil from "ethereumjs-util";
+import Raven from "raven-js";
 import Web3 from "web3";
 import {TransactionReceipt} from "web3/types"; // tslint:disable-line:no-submodule-imports
 
@@ -115,14 +116,20 @@ export async function requestAccounts(dispatch: Dispatch) {
     }
 }
 
-export function signTypedData(web3: Web3, from: string, typedData: any): Promise<string> {
+export async function signTypedData(web3: Web3, from: string, typedData: any): Promise<string> {
     if (!(web3.currentProvider as any).isMetaMask) {
-        return web3.eth.sign(ethUtil.bufferToHex(typedDataHash(typedData)), from);
+        const typedDataHash = ethUtil.bufferToHex(hashTypedData(typedData));
+        const sig = await web3.eth.sign(typedDataHash, from);
+        const recoveredAddress = recoverTypedData(typedData, sig);
+        if (recoveredAddress !== from) {
+            Raven.captureMessage(`Invalid sig ${sig} of hash ${typedDataHash} of data ${typedData}`);
+        }
+        return sig;
     } else {
         const params = [from, JSON.stringify(typedData)];
         const method = "eth_signTypedData_v3";
 
-        return new Promise((resolve, reject) => {
+        return new Promise<string>((resolve, reject) => {
             (web3.currentProvider as any).sendAsync(
                 {
                     method,
