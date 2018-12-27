@@ -122,7 +122,11 @@ export async function signTypedData(web3: Web3, from: string, typedData: any): P
         const sig = await web3.eth.sign(typedDataHash, from);
         const recoveredAddress = recoverTypedData(typedData, sig);
         if (recoveredAddress !== from) {
-            Raven.captureMessage(`Invalid sig ${sig} of hash ${typedDataHash} of data ${typedData}`);
+            Raven.captureMessage(
+                `Invalid sig ${sig} of hash ${typedDataHash} of data ${JSON.stringify(
+                    typedData
+                )} recovered ${recoveredAddress} instead of ${from}.`
+            );
         }
         return sig;
     } else {
