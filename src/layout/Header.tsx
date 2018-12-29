@@ -8,7 +8,7 @@ import {IconButton} from "../reusable/index";
 
 const Style = require("./Header.scss");
 
-const logo = require("assets/images/logoTop.svg");
+const logo = require("assets/images/logoTop_newYear.svg");
 
 type Props = {
     authenticated: boolean;
