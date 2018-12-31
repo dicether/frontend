@@ -1,6 +1,7 @@
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
 import * as React from "react";
 
+import i18n from "../../../i18n";
 import {Col, Container, Row, Section} from "../../../reusable";
 import Icon from "../../../reusable/FontAwesomeIcon";
 
@@ -9,27 +10,27 @@ const Style = require("./SmallFeatures.scss");
 const entries: Array<{icon: IconProp; text: string}> = [
     {
         icon: "balance-scale",
-        text: "Secure & Provable Fair!",
+        text: i18n.t("features.secureProvablyFair"),
     },
     {
         icon: "rocket",
-        text: "Fastest State Channel Dice Casino!",
+        text: i18n.t("features.fastCasino"),
     },
     {
         icon: "user-secret",
-        text: "Fully Anonymous! No personal details required! Login with ethereum wallet. No Password needed!",
+        text: i18n.t("features.fullyAnonymous"),
     },
     {
         icon: "gift",
-        text: "Recruit Users! Get 10% of their house edge!",
+        text: i18n.t("features.recruitUsers"),
     },
     {
         icon: "comments",
-        text: "Chat with other users or your friends!",
+        text: i18n.t("features.chatWithUsers"),
     },
     {
         icon: "wallet",
-        text: "Use MetaMak, Trust Wallet or Coinbase Wallet (Toshi)!",
+        text: i18n.t("features.supportedWallets"),
     },
 ];
 

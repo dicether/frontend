@@ -1,9 +1,11 @@
 import * as React from "react";
+import {WithNamespaces, withNamespaces} from "react-i18next";
+
 import {Button, Col, Form, FormGroup, Input, Label} from "../../../../reusable";
 
-type Props = {
+export interface Props extends WithNamespaces {
     onCreateCampaign(id: string, name: string): void;
-};
+}
 
 type State = {
     name: string;
@@ -51,6 +53,7 @@ class CreateCampaign extends React.Component<Props, State> {
     }
 
     render() {
+        const {t} = this.props;
         const {id, name, isNameValid, isIdValid} = this.state;
 
         return (
@@ -94,7 +97,7 @@ class CreateCampaign extends React.Component<Props, State> {
                         disabled={isNameValid !== true || isIdValid !== true}
                         onClick={this.onSubmit}
                     >
-                        Create Campaign
+                        {t("CreateCampaign")}
                     </Button>
                 </Form>
             </div>
@@ -102,4 +105,4 @@ class CreateCampaign extends React.Component<Props, State> {
     }
 }
 
-export default CreateCampaign;
+export default withNamespaces()(CreateCampaign);

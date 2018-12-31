@@ -1,4 +1,6 @@
 import * as React from "react";
+import {WithNamespaces, withNamespaces} from "react-i18next";
+
 import {DefinitionEntry, Ether} from "../../../../reusable";
 import {Campaign} from "./types";
 
@@ -20,13 +22,13 @@ const Campaign = ({campaign}: CampaignProps) => (
     </div>
 );
 
-export type Props = {
+export interface Props extends WithNamespaces {
     campaigns: Campaign[];
-};
+}
 
-const Campaigns = ({campaigns}: Props) => (
+const Campaigns = ({campaigns, t}: Props) => (
     <div style={{marginTop: "2rem"}}>
-        <h3>Campaigns</h3>
+        <h3>{t("campaigns")}</h3>
         <div>
             {campaigns.map((campaign, i) => (
                 <Campaign key={i} campaign={campaign} />
@@ -35,4 +37,4 @@ const Campaigns = ({campaigns}: Props) => (
     </div>
 );
 
-export default Campaigns;
+export default withNamespaces()(Campaigns);

@@ -1,0 +1,115 @@
+{
+  "contact": "",
+  "GitHub": "",
+  "gambleAware": "",
+  "twitter": "",
+  "discord": "",
+  "reddit": "",
+  "FAQ": "",
+  "hallOfFame": "",
+  "contract": "",
+  "chat": "",
+  "account": "",
+  "logout": "",
+  "register": "",
+  "login": "",
+  "affiliateDescription": "",
+  "withdrawBalance": "",
+  "campaigns": "",
+  "CreateCampaign": "",
+  "yourGameSessions": "",
+  "gameId": "",
+  "#bets": "",
+  "profitInEth": "",
+  "wagered": "",
+  "profit": "",
+  "faq": {
+    "whatIsDicether": {
+      "question": "",
+      "answer": ""
+    },
+    "whatIsSecure": {
+      "question": "",
+      "answer": ""
+    },
+    "houseEdge": {
+      "question": "",
+      "answer": ""
+    },
+    "howToRegister": {
+      "question": "",
+      "answer": ""
+    },
+    "cantPlaceBet": {
+      "question": "",
+      "answer": ""
+    },
+    "howToBecomeAffiliate": {
+      "question": "",
+      "answer": ""
+    },
+    "iFoundABug": {
+      "question": "",
+      "answer": ""
+    },
+    "contact": {
+      "question": "",
+      "answer": ""
+    }
+  },
+  "betAmountEth": "",
+  "profitOnWinEth": "",
+  "winChance": "",
+  "bet": "",
+  "betOver": "",
+  "betUnder": "",
+  "payOut": "",
+  "rollDice": "",
+  "weekly": "",
+  "monthly": "",
+  "all": "",
+  "bigFeatures": {
+    "fair": {
+      "shortDescription": "",
+      "longDescription": ""
+    },
+    "fast": {
+      "shortDescription": "",
+      "longDescription": ""
+    },
+    "anonymous": {
+      "shortDescription": "",
+      "longDescription": ""
+    }
+  },
+  "ClassicDice": "",
+  "ChooseFrom12": "",
+  "FlipACoin": "",
+  "theStateChannelCasino": "",
+  "JoinNow": "",
+  "noDetailsRequired": "",
+  "features": {
+    "secureProvablyFair": "",
+    "fastCasino": "",
+    "fullyAnonymous": "",
+    "recruitUsers": "",
+    "chatWithUsers": "",
+    "supportedWallets": ""
+  },
+  "typeMessage": "",
+  "sendMessage": "",
+  "openChat": "",
+  "viewProfile": "",
+  "sendFriendInvitation": "",
+  "muteUser": "",
+  "deleteMessage": "",
+  "friendsOnline": "",
+  "friendsOffline": "",
+  "sentFriendRequests": "",
+  "cancel": "",
+  "receivedFriendRequests": "",
+  "reject": "",
+  "install": "",
+  "use": "",
+  "or": ""
+}

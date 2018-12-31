@@ -1,4 +1,5 @@
 import * as React from "react";
+import {WithNamespaces, withNamespaces} from "react-i18next";
 import {Link} from "react-router-dom";
 import {GameSession} from "../../../../platform/modules/account/types";
 import Ether from "../../../../reusable/Ether";
@@ -18,20 +19,20 @@ const GameSessionRow = ({gameId, balance, roundId}: GameSession) => (
     </tr>
 );
 
-export type Props = {
+export interface Props extends WithNamespaces {
     gameSessions: GameSession[];
-};
+}
 
-const GameSessions = ({gameSessions}: Props) => (
+const GameSessions = ({gameSessions, t}: Props) => (
     <div style={{marginTop: "4em"}}>
-        <h4 className="text-center">Your Game Sessions</h4>
+        <h4 className="text-center">{t("yourGameSessions")}</h4>
         <div className={Style.gameSessionsWrapper}>
             <Table hover noBorders>
                 <thead>
                     <tr className="text-center">
-                        <th>Game Id</th>
-                        <th>#Bets</th>
-                        <th>Profit(ETH)</th>
+                        <th>{t("gameId")}</th>
+                        <th>{t("#bets")}</th>
+                        <th>{t("profitInEth")}</th>
                     </tr>
                 </thead>
                 <tbody className={Style.gamseSessionEntries}>
@@ -44,4 +45,4 @@ const GameSessions = ({gameSessions}: Props) => (
     </div>
 );
 
-export default GameSessions;
+export default withNamespaces()(GameSessions);

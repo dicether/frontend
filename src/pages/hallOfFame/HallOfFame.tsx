@@ -1,5 +1,6 @@
 import * as React from "react";
 import DocumentTitle from "react-document-title";
+import {WithNamespaces, withNamespaces} from "react-i18next";
 import {connect} from "react-redux";
 import {Redirect, Route, RouteComponentProps, Switch} from "react-router";
 import {NavLink as RRNavLink} from "react-router-dom";
@@ -53,7 +54,7 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
         dispatch
     );
 
-type Props = ReturnType<typeof mapDispatchToProps> & RouteComponentProps<any>;
+type Props = ReturnType<typeof mapDispatchToProps> & RouteComponentProps<any> & WithNamespaces;
 
 class HallOfFame extends React.Component<Props> {
     constructor(props: Props) {
@@ -65,7 +66,7 @@ class HallOfFame extends React.Component<Props> {
     }
 
     render() {
-        const {match, showUserModal} = this.props;
+        const {match, showUserModal, t} = this.props;
 
         const weekEntry = () => <StatsEntry timeSpan="week" showUserModal={user => showUserModal({user})} />;
         const monthEntry = () => <StatsEntry timeSpan="month" showUserModal={user => showUserModal({user})} />;
@@ -78,17 +79,17 @@ class HallOfFame extends React.Component<Props> {
                     <Nav pills className={Style.selection}>
                         <NavItem>
                             <NavLink tag={RRNavLink} to={`${match.path}/weekly`}>
-                                Weekly
+                                {t("weekly")}
                             </NavLink>
                         </NavItem>
                         <NavItem>
                             <NavLink tag={RRNavLink} to={`${match.path}/monthly`}>
-                                Monthly
+                                {t("monthly")}
                             </NavLink>
                         </NavItem>
                         <NavItem>
                             <NavLink tag={RRNavLink} to={`${match.path}/all`}>
-                                All
+                                {t("all")}
                             </NavLink>
                         </NavItem>
                     </Nav>
@@ -104,7 +105,9 @@ class HallOfFame extends React.Component<Props> {
     }
 }
 
-export default connect(
-    null,
-    mapDispatchToProps
-)(HallOfFame);
+export default withNamespaces()(
+    connect(
+        null,
+        mapDispatchToProps
+    )(HallOfFame)
+);

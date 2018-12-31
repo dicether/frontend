@@ -1,4 +1,6 @@
+import i18next from "i18next";
 import * as React from "react";
+import {withNamespaces} from "react-i18next";
 import {Link} from "react-router-dom";
 
 import {Container, Section} from "../../../reusable";
@@ -10,22 +12,22 @@ const FlipACoinLogo = require("assets/images/flipACoinLogo.svg");
 
 const Style = require("./Games.scss");
 
-const Games = () => (
+const Games = ({t}: {t: i18next.TranslationFunction}) => (
     <Section className={Style.games}>
         <Container>
             <h2 className="text-center">Games</h2>
             <div className={Style.gamesList}>
                 <Link to="/games/dice" className={Style.gameLink + " " + Style.gameLink_active}>
                     <img src={DiceLogo} className={Style.img} />
-                    <h5 className={Style.text}>Classic Dice</h5>
+                    <h5 className={Style.text}>{t("ClassicDice")}</h5>
                 </Link>
                 <Link to="/games/chooseFrom12" className={Style.gameLink + " " + Style.gameLink_active}>
                     <img src={ChooseFrom12Logo} className={Style.img} />
-                    <h5 className={Style.text}>Choose from 12</h5>
+                    <h5 className={Style.text}>{t("ChooseFrom12")}</h5>
                 </Link>
                 <Link to="/games/flipACoin" className={Style.gameLink + " " + Style.gameLink_active}>
                     <img src={FlipACoinLogo} className={Style.img} />
-                    <h5 className={Style.text}>Flip a Coin</h5>
+                    <h5 className={Style.text}>{t("FlipACoin")}</h5>
                 </Link>
                 {/*<div className={Style.gameLink + " " + Style.gameLink_disabled}>*/}
                 {/*<img src={Question} className={Style.img} />*/}
@@ -36,4 +38,4 @@ const Games = () => (
     </Section>
 );
 
-export default Games;
+export default withNamespaces()(Games);
