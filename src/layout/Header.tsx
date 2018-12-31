@@ -1,5 +1,6 @@
 import ClassName from "classnames";
 import * as React from "react";
+import {WithNamespaces, withNamespaces} from "react-i18next";
 import {NavLink as RRNavLink} from "react-router-dom";
 import {Collapse, Container, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink} from "reactstrap";
 
@@ -10,7 +11,7 @@ const Style = require("./Header.scss");
 
 const logo = require("assets/images/logoTop_newYear.svg");
 
-type Props = {
+interface Props extends WithNamespaces {
     authenticated: boolean;
     showChat: boolean;
     nightMode: boolean;
@@ -18,7 +19,7 @@ type Props = {
     authenticate(): void;
     showRegisterModal(): void;
     toggleTheme(nightMode: boolean): void;
-};
+}
 
 type State = {
     isOpen: boolean;
@@ -51,7 +52,7 @@ class Header extends React.Component<Props, State> {
     }
 
     render() {
-        const {authenticated, showRegisterModal, showChat, nightMode} = this.props;
+        const {authenticated, showRegisterModal, showChat, nightMode, t} = this.props;
         const {isOpen} = this.state;
 
         const className = ClassName({
@@ -71,22 +72,22 @@ class Header extends React.Component<Props, State> {
                         <Nav navbar>
                             <NavItem>
                                 <NavLink to="/faq" tag={RRNavLink}>
-                                    FAQ
+                                    {t("FAQ")}
                                 </NavLink>
                             </NavItem>
                             <NavItem>
                                 <NavLink to="/hallOfFame" tag={RRNavLink}>
-                                    Hall of fame
+                                    {t("hallOfFame")}
                                 </NavLink>
                             </NavItem>
                             <NavItem>
                                 <NavLink target="_blank" href={CONTRACT_URL}>
-                                    Contract
+                                    {t("contract")}
                                 </NavLink>
                             </NavItem>
                             <NavItem className="d-md-none">
                                 <NavLink href="#" onClick={this.onToggleChat}>
-                                    Chat
+                                    {t("chat")}
                                 </NavLink>
                             </NavItem>
                         </Nav>
@@ -104,24 +105,24 @@ class Header extends React.Component<Props, State> {
                                 ? [
                                       <NavItem key="1">
                                           <NavLink tag={RRNavLink} to="/account">
-                                              Account
+                                              {t("account")}
                                           </NavLink>
                                       </NavItem>,
                                       <NavItem key="2">
                                           <NavLink tag={RRNavLink} to="/logout">
-                                              Logout
+                                              {t("logout")}
                                           </NavLink>
                                       </NavItem>,
                                   ]
                                 : [
                                       <NavItem key="1">
                                           <NavLink id="register" href="#" onClick={showRegisterModal}>
-                                              Register
+                                              {t("register")}
                                           </NavLink>
                                       </NavItem>,
                                       <NavItem key="2">
                                           <NavLink href="#" onClick={this.props.authenticate}>
-                                              Login
+                                              {t("login")}
                                           </NavLink>
                                       </NavItem>,
                                   ]}
@@ -133,4 +134,4 @@ class Header extends React.Component<Props, State> {
     }
 }
 
-export default Header;
+export default withNamespaces()(Header);

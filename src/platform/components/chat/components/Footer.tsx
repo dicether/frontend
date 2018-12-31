@@ -1,18 +1,19 @@
 import * as React from "react";
+import {WithNamespaces, withNamespaces} from "react-i18next";
 import Textarea from "react-textarea-autosize";
 import {Button} from "../../../../reusable/index";
 import ChatCommandInfo from "./ChatCommandInfo";
 
 const Style = require("./Footer.scss");
 
-type Props = {
+export interface Props extends WithNamespaces {
     message: string;
     numUsers: number;
     onMessageChange(message: string): void;
     onMessageSend(): void;
-};
+}
 
-const Footer = ({message, numUsers, onMessageChange, onMessageSend}: Props) => {
+const Footer = ({message, numUsers, onMessageChange, onMessageSend, t}: Props) => {
     return (
         <div className={Style.footer}>
             <ChatCommandInfo message={message} />
@@ -28,13 +29,13 @@ const Footer = ({message, numUsers, onMessageChange, onMessageSend}: Props) => {
                             e.preventDefault();
                         }
                     }}
-                    placeholder="Type a message"
+                    placeholder={t("typeMessage")}
                     rows={1}
                 />
             </div>
             <div className={Style.footerFooter}>
                 <Button color="primary" onClick={onMessageSend}>
-                    Send Message
+                    {t("sendMessage")}
                 </Button>
                 <span className={Style.online}>online: {numUsers}</span>
             </div>
@@ -42,4 +43,4 @@ const Footer = ({message, numUsers, onMessageChange, onMessageSend}: Props) => {
     );
 };
 
-export default Footer;
+export default withNamespaces()(Footer);

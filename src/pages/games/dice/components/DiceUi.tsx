@@ -1,4 +1,5 @@
 import * as React from "react";
+import {WithNamespaces, withNamespaces} from "react-i18next";
 
 import {
     HOUSE_EDGE,
@@ -33,7 +34,7 @@ function calcNumberFromPayOutMultiplier(multiplier: number, reversedRoll: boolea
     return Math.round(num);
 }
 
-type Props = {
+export interface Props extends WithNamespaces {
     num: number;
     value: number;
     reverseRoll: boolean;
@@ -48,9 +49,9 @@ type Props = {
     onValueChange(value: number): void;
     onReverseRoll(): void;
     onPlaceBet(): void;
-};
+}
 
-export default class DiceUi extends React.Component<Props> {
+class DiceUi extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
     }
@@ -98,6 +99,7 @@ export default class DiceUi extends React.Component<Props> {
             onToggleHelp,
             onPlaceBet,
             maxBetValue,
+            t,
         } = this.props;
 
         const multiplier = calcPayOutMultiplier(num, reverseRoll);
@@ -114,7 +116,7 @@ export default class DiceUi extends React.Component<Props> {
                     <div className={"form-row"} style={{alignItems: "flex-end"}}>
                         <Col sm={6} xs={12}>
                             <FormGroup className="games__form-group">
-                                <Label>Bet Amount (ETH)</Label>
+                                <Label>{t("betAmountEth")}</Label>
                                 <ValueInput
                                     value={value}
                                     min={MIN_BET_VALUE}
@@ -126,14 +128,14 @@ export default class DiceUi extends React.Component<Props> {
                         </Col>
                         <Col sm={6} xs={6}>
                             <FormGroup className="games__form-group">
-                                <Label>Profit on win (ETH)</Label>
+                                <Label>{t("profitOnWinEth")}</Label>
                                 {/*<span><Ether value={payOut}/></span>*/}
                                 <Input disabled readOnly value={formatEth(profit - value)} />
                             </FormGroup>
                         </Col>
                         <Col xs={6} sm={4}>
                             <FormGroup className="games__form-group">
-                                <Label>{reverseRoll ? "Bet over" : "Bet under"}</Label>
+                                <Label>{reverseRoll ? t("betOver") : t("betUnder")}</Label>
                                 <NumericInput
                                     number={num}
                                     step={1}
@@ -146,7 +148,7 @@ export default class DiceUi extends React.Component<Props> {
                         </Col>
                         <Col xs={6} sm={4} className="hidden-xs-down">
                             <FormGroup className="games__form-group">
-                                <Label>Payout</Label>
+                                <Label>{t("payOut")}</Label>
                                 <NumericInput
                                     number={multiplier}
                                     suffix="x"
@@ -159,7 +161,7 @@ export default class DiceUi extends React.Component<Props> {
                         </Col>
                         <Col xs={6} sm={4} className="hidden-xs-down">
                             <FormGroup className="games__form-group">
-                                <Label>Win chance</Label>
+                                <Label>{t("winChance")}</Label>
                                 <NumericInput
                                     number={chance * 100}
                                     suffix="%"
@@ -174,7 +176,7 @@ export default class DiceUi extends React.Component<Props> {
                     </div>
                     <Row noGutters>
                         <Button className="betButton" block color="success" onClick={onPlaceBet}>
-                            Roll Dice
+                            {t("rollDice")}
                         </Button>
                     </Row>
                     <Modal isOpen={showHelp} toggle={onToggleHelp}>
@@ -193,3 +195,5 @@ export default class DiceUi extends React.Component<Props> {
         );
     }
 }
+
+export default withNamespaces()(DiceUi);

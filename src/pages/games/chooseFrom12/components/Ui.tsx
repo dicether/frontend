@@ -1,5 +1,6 @@
 import ClassNames from "classnames";
 import * as React from "react";
+import {WithNamespaces, withNamespaces} from "react-i18next";
 
 import {CHOOSE_FROM_12_NUMS, getSelectedCoins} from "@dicether/state-channel";
 import {HOUSE_EDGE, HOUSE_EDGE_DIVISOR, MIN_BET_VALUE} from "../../../../config/config";
@@ -10,7 +11,7 @@ import HowToPlay from "./HowToPlay";
 
 const Style = require("./Ui.scss");
 
-type Props = {
+export interface Props extends WithNamespaces {
     num: number;
     value: number;
     maxBetValue: number;
@@ -21,7 +22,7 @@ type Props = {
     onValueChange(value: number): void;
     onClick(diceNum: number): void;
     onPlaceBet(): void;
-};
+}
 
 class Ui extends React.PureComponent<Props> {
     constructor(props: Props) {
@@ -40,6 +41,7 @@ class Ui extends React.PureComponent<Props> {
             onValueChange,
             onClick,
             onPlaceBet,
+            t,
         } = this.props;
         const selectedCoinsArray = getSelectedCoins(num);
         const numSelected = selectedCoinsArray.filter(x => x === true).length;
@@ -65,7 +67,7 @@ class Ui extends React.PureComponent<Props> {
                     <Col lg={5} xl={4}>
                         <div className={Style.menu}>
                             <FormGroup className="games__form-group">
-                                <Label>Bet amount (ETH)</Label>
+                                <Label>{t("betAmountEth")}</Label>
                                 <ValueInput
                                     value={value}
                                     min={MIN_BET_VALUE}
@@ -75,15 +77,15 @@ class Ui extends React.PureComponent<Props> {
                                 />
                             </FormGroup>
                             <FormGroup className="games__form-group">
-                                <Label>Profit on win (ETH)</Label>
+                                <Label>{t("profitOnWinEth")}</Label>
                                 <Input disabled readOnly value={formatEth(payout - value)} />
                             </FormGroup>
                             <FormGroup className="games__form-group hidden-xs-down">
-                                <Label>Win chance</Label>
+                                <Label>{t("winChance")}</Label>
                                 <Input disabled readOnly value={Math.round(chance * 100).toString()} suffix="%" />
                             </FormGroup>
                             <Button className="betButton" block color="success" onClick={onPlaceBet}>
-                                Bet
+                                {t("bet")}
                             </Button>
                         </div>
                     </Col>
@@ -96,4 +98,4 @@ class Ui extends React.PureComponent<Props> {
     }
 }
 
-export default Ui;
+export default withNamespaces()(Ui);

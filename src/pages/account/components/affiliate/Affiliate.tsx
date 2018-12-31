@@ -1,5 +1,6 @@
 import axios from "axios";
 import * as React from "react";
+import {WithNamespaces, withNamespaces} from "react-i18next";
 
 import {connect} from "react-redux";
 import {showSuccessMessage} from "../../../../platform/modules/utilities/actions";
@@ -20,7 +21,7 @@ type State = {
     balance: number;
 };
 
-type Props = ReturnType<typeof mapDispatchToProps>;
+type Props = ReturnType<typeof mapDispatchToProps> & WithNamespaces;
 
 class Affiliate extends React.Component<Props, State> {
     constructor(props: Props) {
@@ -76,15 +77,13 @@ class Affiliate extends React.Component<Props, State> {
     }
 
     render() {
+        const {t} = this.props;
         const {campaigns, balance} = this.state;
 
         return (
             <div>
                 <div>
-                    <p>
-                        Dicether offers a 10% affiliate system. You will receive commission from every user you refer.
-                        For every game session of the referred users, you get commission of the house profit.
-                    </p>
+                    <p>{t("affiliateDescription")}</p>
                 </div>
                 <Balance balance={balance} withDrawBalance={this.withdrawBalance} />
                 <CreateCampaign onCreateCampaign={this.createCampaign} />
@@ -94,7 +93,9 @@ class Affiliate extends React.Component<Props, State> {
     }
 }
 
-export default connect(
-    null,
-    mapDispatchToProps
-)(Affiliate);
+export default withNamespaces()(
+    connect(
+        null,
+        mapDispatchToProps
+    )(Affiliate)
+);

@@ -1,4 +1,5 @@
 import * as React from "react";
+import {WithNamespaces, withNamespaces} from "react-i18next";
 
 import {Stats} from "../../../../platform/modules/account/types";
 import {Ether} from "../../../../reusable/index";
@@ -19,19 +20,19 @@ const StatsEntry = ({value, name, colored = false, ether = true}: EntryProps) =>
     </div>
 );
 
-type Props = {
+interface Props extends WithNamespaces {
     stats: Stats;
-};
+}
 
-const GameStats = ({stats}: Props) => {
+const GameStats = ({stats, t}: Props) => {
     const {profit, wagered, numBets} = stats;
     return (
         <dl className={Style.stats}>
-            <StatsEntry value={wagered} name={"Wagered"} />
-            <StatsEntry colored value={profit} name={"Profit"} />
-            <StatsEntry ether={false} value={numBets} name={"#Bets"} />
+            <StatsEntry value={wagered} name={t("wagered")} />
+            <StatsEntry colored value={profit} name={t("profit")} />
+            <StatsEntry ether={false} value={numBets} name={t("#bets")} />
         </dl>
     );
 };
 
-export default GameStats;
+export default withNamespaces()(GameStats);

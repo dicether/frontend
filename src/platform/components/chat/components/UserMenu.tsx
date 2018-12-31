@@ -1,4 +1,5 @@
 import * as React from "react";
+import {WithNamespaces, withNamespaces} from "react-i18next";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
@@ -41,7 +42,10 @@ export type OtherProps = {
     button: React.ReactNode;
 };
 
-export type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps> & OtherProps;
+export type Props = ReturnType<typeof mapStateToProps> &
+    ReturnType<typeof mapDispatchToProps> &
+    OtherProps &
+    WithNamespaces;
 
 class UserMenu extends React.Component<Props> {
     constructor(props: Props) {
@@ -81,7 +85,7 @@ class UserMenu extends React.Component<Props> {
     }
 
     render() {
-        const {button, user, userAuth, messageId} = this.props;
+        const {button, user, userAuth, messageId, t} = this.props;
         const {address} = user;
         const isInvitable = this.isInvitable(address);
         const specialUser =
@@ -90,21 +94,21 @@ class UserMenu extends React.Component<Props> {
         return (
             <Dropdown button={button}>
                 <Button size="sm" variant="dropdown" onClick={this.showUser}>
-                    View Profile
+                    {t("viewProfile")}
                 </Button>
                 {isInvitable && (
                     <Button size="sm" variant="dropdown" onClick={this.sendInvite}>
-                        Send Friend Invitation
+                        {t("sendFriendInvitation")}
                     </Button>
                 )}
                 {specialUser && (
                     <Button size="sm" variant="dropdown" onClick={this.mute}>
-                        Mute User
+                        {t("muteUser")}
                     </Button>
                 )}
                 {specialUser && (
                     <Button size="sm" variant="dropdown" onClick={this.deleteMessage}>
-                        Delete Message
+                        {t("deleteMessage")}
                     </Button>
                 )}
             </Dropdown>
@@ -112,7 +116,9 @@ class UserMenu extends React.Component<Props> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(UserMenu);
+export default withNamespaces()(
+    connect(
+        mapStateToProps,
+        mapDispatchToProps
+    )(UserMenu)
+);

@@ -7,7 +7,8 @@
     "start": "DEV_SERVER=TRUE webpack-dev-server --config webpack/dev.js --progress --port 2992",
     "build-staging": "webpack --config webpack/staging.js --progress --profile",
     "build-production": "webpack --config webpack/prod.js --progress --profile ",
-    "lint": "tslint -p ./"
+    "lint": "tslint -p ./",
+    "i18next": "i18next 'src/**/*.tsx' -c i18next-parser.config.js -o 'assets/locales/$LOCALE/$NAMESPACE.json'"
   },
   "husky": {
     "hooks": {
@@ -77,6 +78,8 @@
     "file-loader": "^1.1.5",
     "font-awesome": "^4.7.0",
     "html-webpack-plugin": "^3.0.6",
+    "i18next": "^13.0.1",
+    "i18next-browser-languagedetector": "^2.2.4",
     "image-webpack-loader": "^4.1.0",
     "imports-loader": "^0.8.0",
     "install": "^0.12.1",
@@ -87,6 +90,7 @@
     "moment": "^2.18.1",
     "node-sass": "^4.5.3",
     "popper.js": "^1.14.4",
+    "postcss-at-rules-variables": "^0.1.6",
     "postcss-loader": "^2.0.6",
     "query-string": "^5.1.1",
     "raven-for-redux": "^1.1.1",
@@ -99,6 +103,8 @@
     "react-document-title": "^2.0.3",
     "react-dom": "^16.1.1",
     "react-emojione": "^5.0.0",
+    "react-flag-icon-css": "^1.0.24",
+    "react-i18next": "^8.4.0",
     "react-numeric-input": "^2.1.0",
     "react-redux": "^5.0.5",
     "react-router": "^4.3.1",
@@ -138,11 +144,19 @@
     "what-input": "^5.0.5"
   },
   "devDependencies": {
+    "@types/i18next-browser-languagedetector": "^2.0.1",
     "@types/query-string": "^6.1.1",
     "@types/react-document-title": "^2.0.3",
+    "@types/react-flag-icon-css": "^1.0.2",
+    "acorn-jsx": "^4.1.1",
+    "acorn-stage3": "^0.6.0",
     "husky": "^1.1.1",
+    "i18next-parser": "^1.0.0-beta33",
     "lint-staged": "^7.3.0",
     "mini-css-extract-plugin": "^0.4.1",
+    "postcss-custom-properties": "^8.0.9",
+    "postcss-discard-comments": "^4.0.1",
+    "postcss-each": "^0.10.0",
     "prettier": "^1.14.3",
     "stylelint": "^9.7.1",
     "stylelint-config-recommended-scss": "^3.2.0",
