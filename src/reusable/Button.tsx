@@ -8,7 +8,7 @@ import "./Button.scss";
 export interface Props extends BaseType {
     children: React.ReactNode;
     size?: "lg" | "sm";
-    color?: "primary" | "secondary" | "success" | "info" | "warning" | "danger" | "link";
+    color?: string;
     outline?: boolean;
     active?: boolean;
     disabled?: boolean;
@@ -16,6 +16,8 @@ export interface Props extends BaseType {
     block?: boolean;
     variant?: string;
     type?: string;
+    tag?: React.ReactType;
+    to?: string;
 }
 
 const Button = ({

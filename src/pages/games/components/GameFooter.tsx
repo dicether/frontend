@@ -1,12 +1,14 @@
 import * as React from "react";
+import {Link} from "react-router-dom";
 
 import {ButtonToolbar} from "reactstrap"; // FIXME: Remove
 import GameState from "../../../platform/components/state/State";
-import {FancyIconButton, Popover, Switch} from "../../../reusable/index";
+import {Button, FancyIconButton, Popover, Switch} from "../../../reusable/index";
 
 const Style = require("./GameFooter.scss");
 
 type Props = {
+    authenticated: boolean;
     showHelp: boolean;
     showExpertView: boolean;
     sound: boolean;
@@ -35,7 +37,15 @@ export default class GameFooter extends React.Component<Props, State> {
     }
 
     render() {
-        const {showHelp, onToggleHelp, showExpertView, onToggleExpertView, sound, onToggleSound} = this.props;
+        const {
+            authenticated,
+            showHelp,
+            onToggleHelp,
+            showExpertView,
+            onToggleExpertView,
+            sound,
+            onToggleSound,
+        } = this.props;
         const {showSettingsPopover} = this.state;
 
         return (
@@ -60,6 +70,11 @@ export default class GameFooter extends React.Component<Props, State> {
                         </ul>
                     </Popover>
                     <FancyIconButton color="400" icon="question" onClick={() => onToggleHelp(!showHelp)} />
+                    {authenticated && (
+                        <Button tag={Link} to="/account/affiliate" color="400" size="sm">
+                            Refer friends
+                        </Button>
+                    )}
                 </ButtonToolbar>
                 {showExpertView && (
                     <div className={Style.state}>

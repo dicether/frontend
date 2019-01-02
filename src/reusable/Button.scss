@@ -1,6 +1,19 @@
 @import "~variables";
 @import "~bootstrap/scss/buttons";
 
+@each $color, $value in $grays {
+  .btn-#{$color} {
+    @include button-variant($value, $value);
+  }
+}
+
+@each $color, $value in $grays  {
+  .btn-outline-#{$color} {
+    @include button-outline-variant($value);
+  }
+}
+
+
 .night {
   .btn {
     &:focus,
@@ -26,6 +39,18 @@
   }
 
   @each $color, $value in $theme-colors--night {
+    .btn-outline-#{$color} {
+      @include button-outline-variant($value);
+    }
+  }
+
+  @each $color, $value in $grays--night {
+    .btn-#{$color} {
+      @include button-variant($value, $value);
+    }
+  }
+
+  @each $color, $value in $grays--night  {
     .btn-outline-#{$color} {
       @include button-outline-variant($value);
     }

@@ -139,6 +139,7 @@ class Game extends React.Component<Props> {
                                 <Route exact path="/games/flipACoin" component={FlipACoin} />
                             </div>
                             <GameFooter
+                                authenticated={loggedIn}
                                 showHelp={showHelp}
                                 onToggleHelp={this.onToggleHelp}
                                 showExpertView={showExpertView}
