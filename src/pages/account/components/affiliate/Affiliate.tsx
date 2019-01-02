@@ -22,6 +22,8 @@ type State = {
 
 type Props = ReturnType<typeof mapDispatchToProps>;
 
+const DESCRIPTION_LINK = "https://medium.com/@dicether/how-to-create-a-dicether-affiliate-campaign-705f4be06c54";
+
 class Affiliate extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
@@ -83,7 +85,8 @@ class Affiliate extends React.Component<Props, State> {
                 <div>
                     <p>
                         Dicether offers a 10% affiliate system. You will receive commission from every user you refer.
-                        For every game session of the referred users, you get commission of the house profit.
+                        For every game session of the referred users, you get commission of the house profit. For a
+                        detailed description see <a href={DESCRIPTION_LINK}>How to create a affiliate campaign</a>.
                     </p>
                 </div>
                 <Balance balance={balance} withDrawBalance={this.withdrawBalance} />
