@@ -13,7 +13,7 @@
   "logout": "Logout",
   "register": "Register",
   "login": "Login",
-  "affiliateDescription": "Dicether offers a 10% affiliate system. You will receive commission from every user you refer. For every game session of the referred users, you get commission of the house profit.",
+  "affiliateDescription": "Dicether offers a 10% affiliate system. You will receive 10% of the expected house edge for every bet placed by a referred user. For a detailed description see <1>How to create a affiliate campaign</1>.",
   "withdrawBalance": "Withdraw Balance",
   "campaigns": "Campaigns",
   "CreateCampaign": "Create a campaign",

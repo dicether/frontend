@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as React from "react";
-import {WithNamespaces, withNamespaces} from "react-i18next";
+import {Trans, WithNamespaces, withNamespaces} from "react-i18next";
 
 import {connect} from "react-redux";
 import {showSuccessMessage} from "../../../../platform/modules/utilities/actions";
@@ -85,7 +85,16 @@ class Affiliate extends React.Component<Props, State> {
         return (
             <div>
                 <div>
-                    <p>{t("affiliateDescription")}</p>
+                    <p>
+                        <Trans i18nKey="affiliateDescription">
+                            Dicether offers a 10% affiliate system. You will receive 10% of the expected house edge for
+                            every bet placed by a referred user. For a detailed description see{" "}
+                            <a target="_blank" href={DESCRIPTION_LINK}>
+                                How to create a affiliate campaign
+                            </a>
+                            .
+                        </Trans>
+                    </p>
                 </div>
                 <Balance balance={balance} withDrawBalance={this.withdrawBalance} />
                 <CreateCampaign onCreateCampaign={this.createCampaign} />
