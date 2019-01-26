@@ -675,14 +675,14 @@ export function conflictEnd() {
         } else {
             let serverHash = keccak(gameState.serverHash);
             let userHash = keccak(gameState.userHash);
-            const value = fromGweiToWei(gameState.betValue as number);
-            let balance = fromGweiToWei(oldBalance);
+            const value = fromGweiToWei(gameState.betValue as number).toString();
+            let balance = fromGweiToWei(oldBalance).toString();
             let userSeed = gameState.userHash;
 
             if (gameState.status === "PLACED_BET") {
                 serverHash = gameState.serverHash;
                 userHash = gameState.userHash;
-                balance = fromGweiToWei(gameState.balance);
+                balance = fromGweiToWei(gameState.balance).toString();
                 userSeed = gameState.hashChain[roundId];
             }
 
