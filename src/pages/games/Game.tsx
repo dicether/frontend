@@ -17,6 +17,7 @@ import GameFooter from "./components/GameFooter";
 import GameHeader from "./components/GameHeader";
 import Dice from "./dice/Dice";
 import FlipACoin from "./flipACoin/FlipACoin";
+import Keno from "./keno/Keno";
 
 const Style = require("./Game.scss");
 
@@ -137,6 +138,7 @@ class Game extends React.Component<Props> {
                                 <Route exact path="/games/dice" component={Dice} />
                                 <Route exact path="/games/chooseFrom12" component={ChooseFrom12} />
                                 <Route exact path="/games/flipACoin" component={FlipACoin} />
+                                <Route exact path="/games/keno" component={Keno} />
                             </div>
                             <GameFooter
                                 authenticated={loggedIn}

@@ -831,7 +831,10 @@ export function requestSeed() {
 }
 
 export function placeBet(num: number, betValue: number, gameType: number) {
-    return (dispatch: Dispatch, getState: GetState): Promise<{num: number; won: boolean}> => {
+    return (
+        dispatch: Dispatch,
+        getState: GetState
+    ): Promise<{betNum: number; num: number; won: boolean; userProfit: number}> => {
         const gameState = getState().games.gameState;
         const web3State = getState().web3;
         const {account, web3} = web3State;
@@ -928,7 +931,7 @@ export function placeBet(num: number, betValue: number, gameType: number) {
 
                 dispatch(revealSeedEvent(serverSeed, userSeed, newServerBalance));
 
-                return Promise.resolve({num: resNum, won: userProfit > 0});
+                return Promise.resolve({betNum: bet.num, num: resNum, won: userProfit > 0, userProfit});
             })
             .catch(error => {
                 return Promise.reject(error);

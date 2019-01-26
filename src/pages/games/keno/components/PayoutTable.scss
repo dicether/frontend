@@ -1,0 +1,39 @@
+@import "~variables";
+
+
+
+.payoutTable {
+  display: flex;
+  justify-content: space-around;
+  border-radius: 0.5rem;
+  margin: 0.5rem;
+  font-weight: bolder;
+  @include media-breakpoint-down(sm) {
+    font-size: 0.9em;
+  }
+  @include media-breakpoint-down(xs) {
+    border-radius: 0.25rem;
+    font-size: 0.6em;
+  }
+
+  @include background-color("white");
+  @include color("500");
+}
+
+.entry {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.entry_won {
+  @include background-color("success");
+  color: white;
+}
+
+.entry_lost {
+  @include background-color("danger");
+  color: white;
+}

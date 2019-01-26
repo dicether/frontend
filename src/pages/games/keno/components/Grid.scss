@@ -1,0 +1,22 @@
+@import "~variables";
+
+.grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  @include background-color("200");
+}
+
+.tiles {
+  padding: 1rem;
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+  gap: 0.5rem;
+  @include media-breakpoint-down(xs) {
+    gap: 0.25rem;
+    padding: 0.5rem;
+  }
+}

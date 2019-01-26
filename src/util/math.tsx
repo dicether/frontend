@@ -9,3 +9,13 @@ export function filterFloat(value: string): number {
 
     return NaN;
 }
+
+/**
+ * @param min min value inclusive
+ * @param max max value exclusive
+ */
+export function getRandomInt(min: number, max: number) {
+    min = Math.floor(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
+}

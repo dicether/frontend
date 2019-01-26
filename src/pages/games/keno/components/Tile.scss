@@ -1,0 +1,65 @@
+@import "~variables";
+
+
+.button {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  @include remove-default-button-style;
+  transition: all .2s ease-in-out;
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.button::before {
+  content: '';
+  display: block;
+  padding-top: 100%;
+}
+
+
+.tile {
+  width: 100%;
+}
+
+.numContent {
+  transition: background-color 250ms ease-in-out;
+  position: absolute;
+
+  border-radius: 0.5rem;
+  @include media-breakpoint-down(sm) {
+    border-radius: 0.25rem;
+  }
+
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  @include background-color("white");
+  box-shadow: $gray-400 0 0.2rem 0;
+  :global(.night) & {
+      box-shadow: $gray-400--night 0 0.2rem 0;
+  }
+  @include color("300");
+}
+
+.numContent_selected {
+  @include background-color("primary");
+}
+
+.numContent_won {
+  @include background-color("success");
+}
+
+.numContent_lost {
+  @include color("danger");
+  @include background-color("400");
+}
+
+.num {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

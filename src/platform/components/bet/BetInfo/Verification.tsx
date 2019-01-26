@@ -25,8 +25,8 @@ class Verification extends React.PureComponent<Props> {
         const validUserSeed = verifySeed(bet.userSeed, bet.userHash);
         const validServerSeed = verifySeed(bet.serverSeed, bet.serverHash);
 
-        const signatureVersion =
-            bet.gameId < NEW_EIP_GAME_ID || (bet.gameId >= OLD_EIP_GAME_ID && bet.gameId < NEW_EIP_GAME_ID_2) ? 1 : 2;
+        const signatureVersion = 2;
+        // bet.gameId < NEW_EIP_GAME_ID || (bet.gameId >= OLD_EIP_GAME_ID && bet.gameId < NEW_EIP_GAME_ID_2) ? 1 : 2;
         const validUserSig = verifySignature(
             bet,
             CHAIN_ID,
