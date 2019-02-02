@@ -7,6 +7,7 @@ import {
     HOUSE_EDGE,
     HOUSE_EDGE_DIVISOR,
     KELLY_FACTOR,
+    MAX_BET_VALUE,
     MIN_BANKROLL,
     MIN_BET_VALUE,
     NETWORK_NAME,
@@ -159,7 +160,10 @@ class Dice extends React.Component<Props, DiceState> {
         const {result, showResult} = this.state;
         const {info, gameState, dice} = this.props;
 
-        let maxBetValue = maxBet(dice.reverseRoll ? 2 : 1, dice.num, MIN_BANKROLL, KELLY_FACTOR);
+        let maxBetValue = Math.min(
+            maxBet(dice.reverseRoll ? 2 : 1, dice.num, MIN_BANKROLL, KELLY_FACTOR),
+            MAX_BET_VALUE
+        );
         if (gameState.status !== "ENDED") {
             const max = Math.min(gameState.stake + gameState.balance, maxBetValue);
             maxBetValue = Math.max(max, MIN_BET_VALUE);

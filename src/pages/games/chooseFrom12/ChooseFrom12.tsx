@@ -115,7 +115,7 @@ class ChooseFrom12 extends React.PureComponent<Props, OneDiceState> {
         const {num, value} = oneDice;
         const {result, showResult} = this.state;
 
-        let maxBetValue = maxBet(GameType.CHOOSE_FROM_12, num, MIN_BANKROLL, MAX_BET_VALUE);
+        let maxBetValue = Math.min(maxBet(GameType.CHOOSE_FROM_12, num, MIN_BANKROLL, MAX_BET_VALUE), MAX_BET_VALUE);
         if (gameState.status !== "ENDED") {
             const max = Math.min(gameState.stake + gameState.balance, maxBetValue);
             maxBetValue = Math.max(max, MIN_BET_VALUE);
