@@ -2,7 +2,7 @@ import * as React from "react";
 import {connect} from "react-redux";
 
 import {GameType, maxBet} from "@dicether/state-channel";
-import {MAX_BET_VALUE, MIN_BANKROLL, MIN_BET_VALUE} from "../../../config/config";
+import {KELLY_FACTOR, MAX_BET_VALUE, MIN_BANKROLL, MIN_BET_VALUE} from "../../../config/config";
 import {toggleHelp} from "../../../platform/modules/games/info/actions";
 import {placeBet, validNetwork} from "../../../platform/modules/games/state/asyncActions";
 import {showErrorMessage} from "../../../platform/modules/utilities/actions";
@@ -115,7 +115,7 @@ class ChooseFrom12 extends React.PureComponent<Props, OneDiceState> {
         const {num, value} = oneDice;
         const {result, showResult} = this.state;
 
-        let maxBetValue = Math.min(maxBet(GameType.CHOOSE_FROM_12, num, MIN_BANKROLL, MAX_BET_VALUE), MAX_BET_VALUE);
+        let maxBetValue = Math.min(maxBet(GameType.CHOOSE_FROM_12, num, MIN_BANKROLL, KELLY_FACTOR), MAX_BET_VALUE);
         if (gameState.status !== "ENDED") {
             const max = Math.min(gameState.stake + gameState.balance, maxBetValue);
             maxBetValue = Math.max(max, MIN_BET_VALUE);

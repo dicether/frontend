@@ -15,8 +15,8 @@ const HowToPlayBase = ({children}: Props) => (
         <h5>Start game session</h5>
         <p>
             Press <em>Start Game Session</em> and deposit your desired amount of Ether (between{" "}
-            <Ether gwei={MIN_GAME_SESSION_VALUE} precision={2} />
-            and <Ether gwei={MAX_GAME_SESSION_VALUE} precision={2} /> ETH).
+            <Ether gwei={MIN_GAME_SESSION_VALUE} precision={2} /> and{" "}
+            <Ether gwei={MAX_GAME_SESSION_VALUE} precision={2} /> ETH).
         </p>
         {children}
         <h5>End game session</h5>

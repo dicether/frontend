@@ -1,7 +1,8 @@
 import * as React from "react";
 import {Ether} from "../../../../reusable/index";
 
-import {MAX_BET_VALUE, MIN_BET_VALUE} from "../../../../config/config";
+import {GameType, maxBet} from "@dicether/state-channel";
+import {KELLY_FACTOR, MIN_BANKROLL, MIN_BET_VALUE} from "../../../../config/config";
 import HowToPlayBase from "../../reusable/HowToPlayBase";
 
 const HowToPlay = () => (
@@ -10,7 +11,11 @@ const HowToPlay = () => (
         <h6>Step1</h6>
         <p>
             Choose your bet amount (between <Ether gwei={MIN_BET_VALUE} precision={5} /> and{" "}
-            <Ether gwei={MAX_BET_VALUE} precision={5} /> ETH).
+            <Ether
+                gwei={maxBet(GameType.CHOOSE_FROM_12, Math.pow(2, 11) - 1, MIN_BANKROLL, KELLY_FACTOR)}
+                precision={5}
+            />{" "}
+            ETH).
         </p>
         <h6>Step2</h6>
         <p>Select the numbers. You can select between 1 to 11 different numbers</p>
