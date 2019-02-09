@@ -9,7 +9,7 @@ import {IconButton} from "../reusable/index";
 
 const Style = require("./Header.scss");
 
-const logo = require("assets/images/logoTop_newYear.svg");
+const logo = require("assets/images/logoTop.svg");
 
 interface Props extends WithNamespaces {
     authenticated: boolean;
