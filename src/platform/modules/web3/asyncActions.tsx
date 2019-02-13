@@ -34,8 +34,8 @@ export function fetchNetwork() {
 export function fetchWeb3() {
     return (dispatch: Dispatch, getState: GetState) => {
         const web3Data = getState().web3;
-        if (window.web3 !== undefined && web3Data.web3 === null) {
-            const web3 = new Web3(window.web3.currentProvider);
+        if ((window.web3 || window.ethereum) && web3Data.web3 === null) {
+            const web3 = new Web3(window.ethereum ? window.ethereum : window.web3.currentProvider);
             const contract = new web3.eth.Contract(stateChannelContractAbi, CONTRACT_ADDRESS);
             dispatch(changeWeb3(web3));
             dispatch(changeContract(contract));
