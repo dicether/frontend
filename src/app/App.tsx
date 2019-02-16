@@ -93,11 +93,6 @@ class App extends React.Component<Props, State> {
     }
 
     componentWillReceiveProps(nextProps: Props) {
-        if (nextProps.web3 !== this.props.web3) {
-            // web3 changes => reload account network config
-            nextProps.fetchAllWeb3();
-        }
-
         if (nextProps.nightMode !== this.props.nightMode) {
             this.setTheme(nextProps.nightMode);
         }
