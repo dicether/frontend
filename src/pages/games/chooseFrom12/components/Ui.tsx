@@ -2,7 +2,7 @@ import ClassNames from "classnames";
 import * as React from "react";
 import {WithNamespaces, withNamespaces} from "react-i18next";
 
-import {CHOOSE_FROM_12_NUMS, getSelectedCoins} from "@dicether/state-channel";
+import {CHOOSE_FROM_12_NUMS, getSetBits} from "@dicether/state-channel";
 import {HOUSE_EDGE, HOUSE_EDGE_DIVISOR, MIN_BET_VALUE} from "../../../../config/config";
 import {Button, Col, FormGroup, Input, Label, Modal, Row, ValueInput} from "../../../../reusable";
 import {formatEth} from "../../../../reusable/Ether";
@@ -43,7 +43,7 @@ class Ui extends React.PureComponent<Props> {
             onPlaceBet,
             t,
         } = this.props;
-        const selectedCoinsArray = getSelectedCoins(num);
+        const selectedCoinsArray = getSetBits(num);
         const numSelected = selectedCoinsArray.filter(x => x === true).length;
         const chance = numSelected / CHOOSE_FROM_12_NUMS;
         const houseEdgeFactor = 1 - HOUSE_EDGE / HOUSE_EDGE_DIVISOR;
