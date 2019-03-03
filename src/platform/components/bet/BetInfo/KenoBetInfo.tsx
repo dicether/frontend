@@ -1,4 +1,4 @@
-import {getSelectedBits} from "@dicether/state-channel";
+import {getSetBits} from "@dicether/state-channel";
 import * as React from "react";
 
 import Grid from "../../../../pages/games/keno/components/Grid";
@@ -9,7 +9,7 @@ type Props = {
 };
 
 const KenoBetInfo = ({betNum, resultNum}: Props) => {
-    const selectedTiles = getSelectedBits(betNum);
+    const selectedTiles = getSetBits(betNum);
 
     return <Grid selectedTiles={selectedTiles} showResult result={{num: resultNum, betNum}} />;
 };

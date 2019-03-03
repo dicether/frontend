@@ -1,4 +1,4 @@
-import {getNumSetBits, getSelectedBits} from "@dicether/state-channel";
+import {getNumSetBits, getSetBits} from "@dicether/state-channel";
 import BN from "bn.js";
 import * as React from "react";
 import {WithNamespaces, withNamespaces} from "react-i18next";
@@ -49,7 +49,7 @@ class Ui extends React.PureComponent<Props> {
             onPlaceBet,
             t,
         } = this.props;
-        const selectedTilesArray = getSelectedBits(num);
+        const selectedTilesArray = getSetBits(num);
         const numSelectedTiles = getNumSetBits(num);
         const hits = getNumSetBits(new BN(result.num).and(new BN(num)).toNumber());
 
