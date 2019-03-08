@@ -700,7 +700,7 @@ export function conflictEnd() {
                 serverSig,
                 userSeed
             )
-                .send({from: account, gas: 200000})
+                .send({from: account, gas: 250000})
                 .on("transactionHash", (transactionHash: string) => {
                     dispatch(userInitiateConflictEndEvent(transactionHash));
                 })
