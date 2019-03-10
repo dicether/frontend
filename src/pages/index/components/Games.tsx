@@ -9,6 +9,7 @@ const DiceLogo = require("assets/images/diceLogo.svg");
 const ChooseFrom12Logo = require("assets/images/chooseFrom12Logo.svg");
 const Question = require("assets/images/question.svg");
 const FlipACoinLogo = require("assets/images/flipACoinLogo.svg");
+const KenoLogo = require("assets/images/kenoLogo.svg");
 
 const Style = require("./Games.scss");
 
@@ -29,10 +30,20 @@ const Games = ({t}: {t: i18next.TranslationFunction}) => (
                     <img src={FlipACoinLogo} className={Style.img} />
                     <h5 className={Style.text}>{t("FlipACoin")}</h5>
                 </Link>
-                {/*<div className={Style.gameLink + " " + Style.gameLink_disabled}>*/}
-                {/*<img src={Question} className={Style.img} />*/}
-                {/*<h5 className={Style.text}>More Coming Soon</h5>*/}
-                {/*</div>*/}
+            </div>
+            <div className={Style.gamesList}>
+                <Link to="/games/keno" className={Style.gameLink + " " + Style.gameLink_active}>
+                    <img src={KenoLogo} className={Style.img} />
+                    <h5 className={Style.text}>{t("Keno")}</h5>
+                </Link>
+                <div className={Style.gameLink + " " + Style.gameLink_disabled}>
+                    <img src={Question} className={Style.img} />
+                    <h5 className={Style.text}>More Coming Soon</h5>
+                </div>
+                <div className={Style.gameLink + " " + Style.gameLink_disabled}>
+                    <img src={Question} className={Style.img} />
+                    <h5 className={Style.text}>More Coming Soon</h5>
+                </div>
             </div>
         </Container>
     </Section>
