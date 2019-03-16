@@ -110,7 +110,7 @@ class ChooseFrom12 extends React.PureComponent<Props, KenoState> {
 
         const newNum = numBN.xor(new BN(1).shln(tile)).toNumber();
         changeNum(newNum);
-        sounds.menuDown.playFromBegin();
+        this.playSound(sounds.menuDown);
 
         setTimeout(this.onAutoPick, 100);
     }
@@ -182,15 +182,24 @@ class ChooseFrom12 extends React.PureComponent<Props, KenoState> {
         this.setState({tmpResult: newTmpResult});
 
         if (hit) {
-            sounds.win.playFromBegin();
+            this.playSound(sounds.win);
         } else {
-            sounds.menuDown.playFromBegin();
+            this.playSound(sounds.menuDown);
         }
 
         if (newTmpResult !== resultNum && showResult) {
             window.setTimeout(this.showResult, 200);
         } else if (newTmpResult === resultNum && showResult) {
             this.setState({showResultProfit: true});
+        }
+    }
+
+    private playSound = (audio: HTMLAudioElement) => {
+        const {info} = this.props;
+        const {sound} = info;
+
+        if (sound) {
+            audio.playFromBegin();
         }
     }
 
