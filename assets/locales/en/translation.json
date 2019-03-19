@@ -73,11 +73,11 @@
   "bigFeatures": {
     "fair": {
       "shortDescription": "Provably Fair & Secure",
-      "longDescription": "We are even more than Provably Fair. You can not only check your results or the results of all other users, but, as we are using state channel, we do not have access to you money or can withhold payouts."
+      "longDescription": "We are even more than Provably Fair. You can not only check your results or the results of all other users, but, as we are using state channel, we do not have access to your money or can withhold payouts."
     },
     "fast": {
       "shortDescription": "Fast",
-      "longDescription": "We are using state channels You only need to wait a little bit to create a game session. After the game session is ready ready, playing bets is super fast (under 1 second)."
+      "longDescription": "We are using state channels You only need to wait a little bit to create a game session. After the game session is ready, playing bets is super fast (under 1 second)."
     },
     "anonymous": {
       "shortDescription": "Anonymous",
