@@ -116,7 +116,11 @@ class Keno extends React.PureComponent<Props, KenoState> {
 
     private onClear = () => {
         const {changeNum} = this.props;
-        changeNum(1);
+        const {showResult} = this.state;
+        if (showResult) {
+            return;
+        }
+        changeNum(0);
     }
 
     private onPlaceBet = () => {
@@ -132,6 +136,10 @@ class Keno extends React.PureComponent<Props, KenoState> {
             sounds.lose.load();
             sounds.menuDown.load();
             this.loadedSounds = true;
+        }
+
+        if (num === 0) {
+            return;
         }
 
         const canBet = canPlaceBet(gameType, num, safeBetValue, loggedIn, web3Available, gameState);
@@ -209,7 +217,7 @@ class Keno extends React.PureComponent<Props, KenoState> {
         const {num, value} = keno;
         const {result, showResult, tmpResult, showResultProfit} = this.state;
 
-        let maxBetValue = maxBet(GameType.KENO, num, MIN_BANKROLL);
+        let maxBetValue = maxBet(GameType.KENO, num === 0 ? 1 : num, MIN_BANKROLL);
         if (gameState.status !== "ENDED") {
             const max = Math.min(gameState.stake + gameState.balance, maxBetValue);
             maxBetValue = Math.max(max, MIN_BET_VALUE);

@@ -14,19 +14,22 @@ export type State = {
 };
 
 const initialState = {
-    num: 1,
+    num: 0,
     value: MIN_BET_VALUE,
 };
 
 function updateNum(state: State, num: number) {
     const numSelectedTiles = getNumSetBits(num);
     const maxNum = new BN(1).shln(KENO_FIELDS).toNumber();
-    if (num <= 0 || num >= maxNum || numSelectedTiles < 1 || numSelectedTiles > KENO_SELECTABLE_FIELDS) {
+    if (num < 0 || num >= maxNum || numSelectedTiles > KENO_SELECTABLE_FIELDS) {
         return state;
     }
 
-    const maxBetValue = maxBet(GameType.KENO, num, MIN_BANKROLL);
-    const value = Math.min(maxBetValue, state.value);
+    let value = state.value;
+    if (num !== 0) {
+        const maxBetValue = maxBet(GameType.KENO, num, MIN_BANKROLL);
+        value = Math.min(maxBetValue, state.value);
+    }
 
     return {...state, value, num};
 }
