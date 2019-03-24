@@ -19,3 +19,21 @@ export function getRandomInt(min: number, max: number) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min;
 }
+
+export function shuffle<T>(array: T[]) {
+    let counter = array.length;
+
+    // While there are elements left
+    while (counter > 0) {
+        // Pick a random index
+        const index = Math.floor(Math.random() * counter);
+
+        // Decrease counter by 1
+        counter--;
+
+        // And swap the last element with it
+        const temp = array[counter];
+        array[counter] = array[index];
+        array[index] = temp;
+    }
+}

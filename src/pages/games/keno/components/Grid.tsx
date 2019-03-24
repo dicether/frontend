@@ -7,18 +7,19 @@ const Style = require("./Grid.scss");
 
 function wonStatus(tileNum: number, betNum: number, resultNum: number, showResult: boolean) {
     const resultNumBn = new BN(resultNum);
-    if (!showResult || resultNumBn.and(new BN(1).shln(tileNum)).toNumber() === 0) {
+    const tileBit = new BN(1).shln(tileNum);
+    if (!showResult || resultNumBn.and(tileBit).toNumber() === 0) {
         return undefined;
     }
 
     const betNumBn = new BN(betNum);
 
-    return betNumBn
-        .and(resultNumBn)
-        .and(new BN(1).shln(tileNum))
-        .toNumber() !== 0
-        ? true
-        : false;
+    return (
+        betNumBn
+            .and(resultNumBn)
+            .and(tileBit)
+            .toNumber() !== 0
+    );
 }
 
 export type Props = {

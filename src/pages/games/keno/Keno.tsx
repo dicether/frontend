@@ -1,4 +1,11 @@
-import {GameType, getNumSetBits, KENO_FIELDS, KENO_SELECTABLE_FIELDS, maxBet} from "@dicether/state-channel";
+import {
+    GameType,
+    getNumSetBits,
+    getSetBits,
+    KENO_FIELDS,
+    KENO_SELECTABLE_FIELDS,
+    maxBet,
+} from "@dicether/state-channel";
 import BN from "bn.js";
 import * as React from "react";
 import {connect} from "react-redux";
@@ -9,22 +16,12 @@ import {placeBet, validNetwork} from "../../../platform/modules/games/state/asyn
 import {showErrorMessage} from "../../../platform/modules/utilities/actions";
 import {catchError} from "../../../platform/modules/utilities/asyncActions";
 import {State} from "../../../rootReducer";
-import {getRandomInt} from "../../../util/math";
+import {getRandomInt, shuffle} from "../../../util/math";
 import {Dispatch} from "../../../util/util";
 import sounds from "../sound";
 import {canPlaceBet} from "../utilities";
 import {changeNum, changeValue} from "./actions";
 import Ui from "./components/Ui";
-
-function selectRandomTile(num: number, numTiles: number) {
-    let tile = 0;
-
-    do {
-        tile = getRandomInt(0, numTiles);
-    } while ((1 << tile) & num); // tslint:disable-line:no-bitwise
-
-    return tile;
-}
 
 const mapStateToProps = ({games, account, web3}: State) => {
     const {info, keno, gameState} = games;
@@ -54,10 +51,11 @@ export type KenoState = {
     showResult: boolean;
     result: {betNum: number; num: number; won: boolean; userProfit: number};
     tmpResult: number;
+
     showResultProfit: boolean;
 };
 
-class ChooseFrom12 extends React.PureComponent<Props, KenoState> {
+class Keno extends React.PureComponent<Props, KenoState> {
     private loadedSounds = false;
     private resultTimeoutId = 0;
 
@@ -83,11 +81,11 @@ class ChooseFrom12 extends React.PureComponent<Props, KenoState> {
 
     private onClick = (tile: number) => {
         const {keno, changeNum} = this.props;
-        const {showResult, result} = this.state;
+        const {showResult} = this.state;
         const {num} = keno;
 
-        if (showResult && result.num === tile) {
-            this.setState({showResult: false});
+        if (showResult) {
+            return;
         }
 
         const newNum = new BN(num).xor(new BN(1).shln(tile)).toNumber();
@@ -103,12 +101,13 @@ class ChooseFrom12 extends React.PureComponent<Props, KenoState> {
         }
 
         const numBN = new BN(num);
+        const oneBN = new BN(1);
         let tile = 0;
         do {
-            tile = selectRandomTile(num, KENO_FIELDS);
-        } while (numBN.and(new BN(1).shln(tile)).toNumber());
+            tile = getRandomInt(0, KENO_FIELDS);
+        } while (numBN.and(oneBN.shln(tile)).toNumber() !== 0);
 
-        const newNum = numBN.xor(new BN(1).shln(tile)).toNumber();
+        const newNum = numBN.xor(oneBN.shln(tile)).toNumber();
         changeNum(newNum);
         this.playSound(sounds.menuDown);
 
@@ -121,7 +120,7 @@ class ChooseFrom12 extends React.PureComponent<Props, KenoState> {
     }
 
     private onPlaceBet = () => {
-        const {info, keno, placeBet, catchError, showErrorMessage, web3Available, gameState, loggedIn} = this.props;
+        const {keno, placeBet, catchError, showErrorMessage, web3Available, gameState, loggedIn} = this.props;
 
         const safeBetValue = Math.round(keno.value);
         const num = keno.num;
@@ -159,39 +158,41 @@ class ChooseFrom12 extends React.PureComponent<Props, KenoState> {
         }
     }
 
-    private showResult = () => {
-        const {keno} = this.props;
-        const {num} = keno;
-        const {result, showResult, tmpResult} = this.state;
-        const {num: resultNum} = result;
-
-        const resultNumBn = new BN(resultNum);
-        let newTmpResult = tmpResult;
-        const start = tmpResult === 0 ? 0 : Math.floor(Math.log2(tmpResult)) + 1;
-
-        let hit = false;
-        for (let i = start; i < KENO_FIELDS; i++) {
-            const curBit = new BN(1).shln(i);
-            if (curBit.and(resultNumBn).toNumber() !== 0) {
-                newTmpResult = new BN(tmpResult).or(curBit).toNumber();
-                hit = curBit.and(new BN(num)).toNumber() !== 0;
-                break;
-            }
+    private showResultHelper = (indices: number[]) => {
+        const {showResult, tmpResult, result} = this.state;
+        if (!showResult || indices.length === 0) {
+            return;
         }
+
+        const idx = indices[0];
+        const newBit = new BN(1).shln(idx);
+        const newTmpResult = new BN(tmpResult).or(newBit).toNumber();
 
         this.setState({tmpResult: newTmpResult});
 
-        if (hit) {
+        if (newBit.and(new BN(result.num)).toNumber() !== 0) {
             this.playSound(sounds.win);
         } else {
             this.playSound(sounds.menuDown);
         }
 
-        if (newTmpResult !== resultNum && showResult) {
-            window.setTimeout(this.showResult, 200);
-        } else if (newTmpResult === resultNum && showResult) {
+        indices.shift();
+
+        if (indices.length === 0) {
             this.setState({showResultProfit: true});
+        } else {
+            window.setTimeout(this.showResultHelper, 200, indices);
         }
+    }
+
+    private showResult = () => {
+        const {result} = this.state;
+        const {num} = result;
+        const resultTiles = getSetBits(num);
+
+        const indices = resultTiles.map((x, i) => (x ? i : -1)).filter(idx => idx !== -1);
+        shuffle(indices);
+        this.showResultHelper(indices);
     }
 
     private playSound = (audio: HTMLAudioElement) => {
@@ -237,4 +238,4 @@ class ChooseFrom12 extends React.PureComponent<Props, KenoState> {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(ChooseFrom12);
+)(Keno);
