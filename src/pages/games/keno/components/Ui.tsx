@@ -66,6 +66,9 @@ class Ui extends React.PureComponent<Props> {
                             />
                             {showResultProfit && result.userProfit > 0 && (
                                 <div className={Style.resultPopover}>
+                                    <span className={Style.resultDetails}>
+                                        {hits} out of {numSelectedTiles}!
+                                    </span>
                                     <span>
                                         You have won <Ether precision={6} gwei={result.userProfit} /> ETH!
                                     </span>
