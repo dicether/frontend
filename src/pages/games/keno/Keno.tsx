@@ -178,10 +178,10 @@ class Keno extends React.PureComponent<Props, KenoState> {
 
         this.setState({tmpResult: newTmpResult});
 
-        if (newBit.and(new BN(result.num)).toNumber() !== 0) {
-            this.playSound(sounds.win);
+        if (newBit.and(new BN(result.betNum)).toNumber() !== 0) {
+            this.playSound(sounds.tileHit);
         } else {
-            this.playSound(sounds.menuDown);
+            this.playSound(sounds.tileMiss);
         }
 
         indices.shift();

@@ -7,4 +7,6 @@ export default {
     lose: new Audio(lose),
     menuUp: new Audio(click),
     menuDown: new Audio(click),
+    tileHit: new Audio(win),
+    tileMiss: new Audio(click),
 };
