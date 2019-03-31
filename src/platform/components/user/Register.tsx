@@ -76,8 +76,6 @@ class Register extends React.Component<Props, State> {
                         <FormText>You can't change the username after registration! So choose wisely...</FormText>
                     </FormGroup>
                     <p>
-                        This is the beta version of Dicether. You can try all features using the Ethereum main net. If
-                        you find any bugs, please report it to <a href={`mailto:${BUGS_URL}`}>{BUGS_URL}</a>.<br />
                         Play responsibly and do not bet what you can not afford to lose. Do not play if you are under
                         18. Do not play if doing so is illegal in your jurisdiction!
                     </p>
