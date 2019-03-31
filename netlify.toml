@@ -15,3 +15,7 @@
 # master branch config
 [context.master]
   command = "npm run build-staging"
+#
+# timer branch config
+[context.timer]
+  command = "npm run build-production"

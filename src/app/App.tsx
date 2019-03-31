@@ -1,4 +1,5 @@
 import * as React from "react";
+import Countdown from "react-countdown-now";
 import DocumentTitle from "react-document-title";
 import {connect} from "react-redux";
 import {Redirect, Route, Switch, withRouter} from "react-router-dom";
@@ -21,6 +22,7 @@ import {getUser} from "../platform/modules/account/selectors";
 import LogoutRoute from "../platform/modules/utilities/LogoutRoute";
 import {fetchAllWeb3} from "../platform/modules/web3/asyncActions";
 import {init as initSockets, unInit as unInitSockets} from "../platform/sockets";
+import {Button} from "../reusable";
 import {State as RootState} from "../rootReducer";
 import TermsOfUse from "../termsOfUse/TermsOfUse";
 import {Dispatch} from "../util/util";
@@ -28,6 +30,8 @@ import AuthenticatedRoute from "./AuthenticatedRoute";
 import BeforeUnload from "./BeforeUnload";
 import Notification from "./Notification";
 import PathNotFound from "./PathNotFound";
+
+const Style = require("./App.scss");
 
 export const mapStateToProps = (state: RootState) => {
     const {account, app, web3, games} = state;
@@ -68,6 +72,14 @@ type DynamicIndexProps = {
 
 const DynamicIndex = ({loggedIn, ...rest}: DynamicIndexProps) =>
     loggedIn ? <Redirect {...rest} to="/games/dice" /> : <Index {...rest} />;
+
+const TimeTillLive = ({days, hours, minutes, seconds, completed}: any) => (
+    <div className={Style.center}>
+        <span className={Style.timeout}>
+            Or not? Update in {Number.parseInt(hours, 10) + 24 * days}:{minutes}:{seconds}
+        </span>
+    </div>
+);
 
 class App extends React.Component<Props, State> {
     constructor(props: Props) {
@@ -117,33 +129,15 @@ class App extends React.Component<Props, State> {
     }
 
     render() {
-        const {userAuth, notification, defaultAccount, gameState} = this.props;
-
-        const loggedIn = userAuth !== null;
-        const logout = userAuth !== null && (userAuth.address !== defaultAccount && defaultAccount !== null);
+        const date = new Date("01 Apr 2019 18:00:00 GMT");
+        const dateInMilliseconds = date.getTime();
 
         return (
             <DocumentTitle title="Dicether">
-                <Layout>
-                    {logout && <Redirect to="/logout" />}
-                    <Switch>
-                        <Route userAuth={userAuth} exact path="/" component={Index} />
-                        <Route exact path="/faq" component={Faq} />
-                        <Route path="/hallOfFame" component={HallOfFame} />
-                        <Route exact path="/termsOfUse" component={TermsOfUse} />
-                        <Route exact path="/logout" component={LogoutRoute} />
-                        <Route exact path="/games/(dice|chooseFrom12|flipACoin|keno)" component={Game} />
-                        <AuthenticatedRoute authenticated={userAuth !== null} path="/account" component={Account} />
-                        <Route exact path="/gameSession/:gameId(\d+)" component={GameSession} />
-                        <Route component={PathNotFound} />
-                    </Switch>
-                    <Chat />
-                    {/*<TermsOfUseModal/>*/}
-                    <Modals />
-                    <BeforeUnload gameState={gameState} />
-                    <Notification notification={notification} />
-                    <StateLoader />
-                </Layout>
+                <div>
+                    <span className={Style.closed}>Closed</span>
+                    <Countdown renderer={(props: any) => <TimeTillLive {...props} />} date={dateInMilliseconds} />
+                </div>
             </DocumentTitle>
         );
     }

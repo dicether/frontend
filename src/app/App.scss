@@ -1,0 +1,22 @@
+.center {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  height: 100vh;
+}
+
+.timeout {
+  font-size: 0.25rem;
+  font-weight: lighter;
+  color: #bbb;
+}
+
+.closed {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  font-size: 5rem;
+}
