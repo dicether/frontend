@@ -133,7 +133,7 @@ export async function signTypedData(web3: Web3, from: string, typedData: any): P
         const params = [from, JSON.stringify(typedData)];
         const method = "eth_signTypedData_v3";
 
-        return new Promise<string>((resolve, reject) => {
+        const sig = await new Promise<string>((resolve, reject) => {
             (web3.currentProvider as any).sendAsync(
                 {
                     method,
@@ -152,5 +152,15 @@ export async function signTypedData(web3: Web3, from: string, typedData: any): P
                 }
             );
         });
+
+        const recoveredAddress = recoverTypedData(typedData, sig);
+        if (recoveredAddress !== from) {
+            Raven.captureMessage(
+                `Invalid sig ${sig} of data ${JSON.stringify(
+                    typedData
+                )} recovered ${recoveredAddress} instead of ${from}.`
+            );
+        }
+        return sig;
     }
 }
