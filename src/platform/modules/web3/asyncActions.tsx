@@ -117,7 +117,7 @@ export async function requestAccounts(dispatch: Dispatch) {
 }
 
 export async function signTypedData(web3: Web3, from: string, typedData: any): Promise<string> {
-    if ((web3.currentProvider as any).isToshi) {
+    if ((web3.currentProvider as any).isToshi || window.web3.currentProvider.isTrust) {
         const typedDataHash = ethUtil.bufferToHex(hashTypedData(typedData));
         const sig = await web3.eth.sign(typedDataHash, from);
         const recoveredAddress = recoverTypedData(typedData, sig);
