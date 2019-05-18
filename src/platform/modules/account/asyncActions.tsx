@@ -94,7 +94,7 @@ export function authenticate() {
                     types: authenticateTypes,
                     primaryType: "Authenticate",
                     domain: {name: REALM},
-                    message: {address: web3Account, nonce},
+                    message: {address: web3Account, nonce: Number.parseInt(nonce, 10)},
                 };
 
                 return signTypedData(web3, web3Account, typedData);
