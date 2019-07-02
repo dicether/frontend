@@ -34,3 +34,4 @@ export {default as DataLoader} from "./DataLoader";
 export {default as MissingWallet} from "./MissingWallet";
 export {default as FancyIconButton} from "./FancyIconButton";
 export {default as FlagIcon} from "./FlagIcon";
+export {default as Select} from "./Select";

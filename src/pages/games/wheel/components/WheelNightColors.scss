@@ -1,0 +1,15 @@
+@import "~variables";
+
+@value color0 #{$gray-500--night};
+@value color1 #{$green--night};
+@value color2 #{$blue--night};
+@value color3 #{$yellow--night};
+@value color4 #{$purple--night};
+@value color5 #{$orange--night};
+
+@value arrow #{$red--night};
+@value outerBorder #{$gray-300--night};
+@value innerBorder #{$gray-300--night};
+
+@value success #{$success--night};
+@value danger #{$danger--night};

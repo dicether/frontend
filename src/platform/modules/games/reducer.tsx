@@ -4,6 +4,7 @@ import oneDice, {State as OneDiceState} from "../../../pages/games/chooseFrom12/
 import dice, {State as DiceState} from "../../../pages/games/dice/reducer";
 import flipACoin, {State as FlipACoinState} from "../../../pages/games/flipACoin/reducer";
 import keno, {State as KenoState} from "../../../pages/games/keno/reducer";
+import wheel, {State as WheelState} from "../../../pages/games/wheel/reducer";
 import info, {State as InfoState} from "./info/reducer";
 import gameState, {State as GameState} from "./state/reducer";
 
@@ -14,6 +15,7 @@ export type State = {
     oneDice: OneDiceState;
     flipACoin: FlipACoinState;
     keno: KenoState;
+    wheel: WheelState;
 };
 
 const reducers = combineReducers({
@@ -23,6 +25,7 @@ const reducers = combineReducers({
     oneDice,
     flipACoin,
     keno,
+    wheel,
 });
 
 export default reducers;

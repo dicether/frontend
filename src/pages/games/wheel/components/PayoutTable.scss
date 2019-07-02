@@ -1,0 +1,43 @@
+@import "~variables";
+
+
+.payoutTable {
+  display: grid;
+  gap: $spacer;
+  grid-auto-columns: 1fr;
+}
+
+.payoutInfo {
+  font-weight: 500;
+  @include color("600");
+  border-radius: $border-radius;
+  position: relative;
+  @include background-color("white");
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.5em;
+  grid-row: 1;
+  overflow: hidden;
+}
+
+.colorStrip {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  right: 0;
+  top: 0;
+  transform: translateY(80%);
+  transition-duration: 0.15s;
+  transition-timing-function: ease-out;
+  transition-property: transform;
+}
+
+.colorStrip_show {
+  transform: translateY(0%);
+}
+
+.multiplier {
+ position: relative;
+}

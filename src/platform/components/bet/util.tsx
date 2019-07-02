@@ -11,6 +11,8 @@ export function gameTypeToName(gameType: number) {
             return "Flip A Coin";
         case GameType.KENO:
             return "Keno";
+        case GameType.WHEEL:
+            return "Wheel";
         default:
             return "Unknown";
     }
@@ -27,6 +29,8 @@ export function gameTypeToLink(gameType: number) {
             return "/games/flipACoin";
         case GameType.KENO:
             return "/games/keno";
+        case GameType.WHEEL:
+            return "/games/wheel";
         default:
             return "/unknown";
     }

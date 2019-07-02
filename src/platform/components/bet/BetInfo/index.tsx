@@ -12,6 +12,7 @@ import FlipACoinBetInfo from "./FlipACoinBetInfo";
 import KenoBetInfo from "./KenoBetInfo";
 import Overview from "./Overview";
 import VerificationInfo from "./VerificationInfo";
+import WheelBetInfo from "./WheelBetInfo";
 
 type GameSpecificInfoProps = {
     gameType: number;
@@ -30,6 +31,8 @@ const GameSpecificInfo = ({gameType, betNum, resultNum}: GameSpecificInfoProps) 
             return <FlipACoinBetInfo betNum={betNum} resultNum={resultNum} />;
         case GameType.KENO:
             return <KenoBetInfo betNum={betNum} resultNum={resultNum} />;
+        case GameType.WHEEL:
+            return <WheelBetInfo betNum={betNum} resultNum={resultNum} />;
         default:
             return null;
     }

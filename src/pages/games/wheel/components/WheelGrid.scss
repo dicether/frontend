@@ -1,0 +1,16 @@
+@import "~variables";
+
+.wrapper {
+  @include background-color("200");
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.wheelGrid {
+  padding: $spacer;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  max-width: 30rem;
+}

@@ -1,0 +1,12 @@
+@import "~variables";
+
+.menu {
+  padding: 1rem;
+  height: 100%;
+  @include background-color("white");
+}
+
+.wheel {
+  display: flex;
+  justify-content: center;
+}
