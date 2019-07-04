@@ -28,6 +28,8 @@ import {
 } from "../../../../config/config";
 import {getLogGameCreated, getReasonEnded} from "../../../../contractUtils";
 import {Dispatch, GetState, isLocalStorageAvailable} from "../../../../util/util";
+import {addNewBet} from "../../bets/asyncActions";
+import {Bet as FinalBet} from "../../bets/types";
 import {catchError} from "../../utilities/asyncActions";
 import {getTransactionReceipt, signTypedData} from "../../web3/asyncActions";
 import {
@@ -822,6 +824,7 @@ export function requestSeed() {
                     );
                 }
 
+                dispatch(addNewBet(response.data.bet));
                 return Promise.resolve(dispatch(revealSeedEvent(serverSeed, userSeed, newServerBalance)));
             })
             .catch(error => {
@@ -834,7 +837,7 @@ export function placeBet(num: number, betValue: number, gameType: number) {
     return (
         dispatch: Dispatch,
         getState: GetState
-    ): Promise<{betNum: number; num: number; won: boolean; userProfit: number}> => {
+    ): Promise<{betNum: number; num: number; won: boolean; userProfit: number; bet: FinalBet}> => {
         const gameState = getState().games.gameState;
         const web3State = getState().web3;
         const {account, web3} = web3State;
@@ -931,7 +934,13 @@ export function placeBet(num: number, betValue: number, gameType: number) {
 
                 dispatch(revealSeedEvent(serverSeed, userSeed, newServerBalance));
 
-                return Promise.resolve({betNum: bet.num, num: resNum, won: userProfit > 0, userProfit});
+                return Promise.resolve({
+                    betNum: bet.num,
+                    num: resNum,
+                    won: userProfit > 0,
+                    userProfit,
+                    bet: response.data.bet,
+                });
             })
             .catch(error => {
                 return Promise.reject(error);

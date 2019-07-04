@@ -1,15 +1,15 @@
 import {GameType, maxBet} from "@dicether/state-channel";
-import BN from "bn.js";
 import * as React from "react";
 import {connect} from "react-redux";
 
 import {MIN_BANKROLL, MIN_BET_VALUE} from "../../../config/config";
+import {addNewBet} from "../../../platform/modules/bets/asyncActions";
+import {Bet} from "../../../platform/modules/bets/types";
 import {toggleHelp} from "../../../platform/modules/games/info/actions";
 import {placeBet, validNetwork} from "../../../platform/modules/games/state/asyncActions";
 import {showErrorMessage} from "../../../platform/modules/utilities/actions";
 import {catchError} from "../../../platform/modules/utilities/asyncActions";
 import {State} from "../../../rootReducer";
-import {getRandomInt, shuffle} from "../../../util/math";
 import {Dispatch} from "../../../util/util";
 import sounds from "../sound";
 import {canPlaceBet} from "../utilities";
@@ -32,6 +32,7 @@ const mapStateToProps = ({games, account, web3, app}: State) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
     placeBet: (num: number, value: number, gameType: number) => dispatch(placeBet(num, value, gameType)),
+    addNewBet: (bet: Bet) => dispatch(addNewBet(bet)),
     changeNum: (num: number) => dispatch(changeNum(num)),
     changeValue: (value: number) => dispatch(changeValue(value)),
     toggleHelp: (t: boolean) => dispatch(toggleHelp(t)),
@@ -65,7 +66,16 @@ class Wheel extends React.PureComponent<Props, KenoState> {
     }
 
     private onPlaceBet = () => {
-        const {wheel, placeBet, catchError, showErrorMessage, web3Available, gameState, loggedIn} = this.props;
+        const {
+            wheel,
+            addNewBet,
+            placeBet,
+            catchError,
+            showErrorMessage,
+            web3Available,
+            gameState,
+            loggedIn,
+        } = this.props;
 
         const safeBetValue = Math.round(wheel.value);
         const num = wheel.num;
@@ -93,6 +103,7 @@ class Wheel extends React.PureComponent<Props, KenoState> {
                     this.setState({result});
                     clearTimeout(this.resultUntilShowTimeoutId);
                     this.resultUntilShowTimeoutId = window.setTimeout(() => {
+                        addNewBet(result.bet);
                         this.setState({
                             showResult: true,
                             result,

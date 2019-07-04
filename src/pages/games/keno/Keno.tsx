@@ -11,6 +11,8 @@ import * as React from "react";
 import {connect} from "react-redux";
 
 import {MIN_BANKROLL, MIN_BET_VALUE} from "../../../config/config";
+import {addNewBet} from "../../../platform/modules/bets/asyncActions";
+import {Bet} from "../../../platform/modules/bets/types";
 import {toggleHelp} from "../../../platform/modules/games/info/actions";
 import {placeBet, validNetwork} from "../../../platform/modules/games/state/asyncActions";
 import {showErrorMessage} from "../../../platform/modules/utilities/actions";
@@ -38,6 +40,7 @@ const mapStateToProps = ({games, account, web3}: State) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
     placeBet: (num: number, value: number, gameType: number) => dispatch(placeBet(num, value, gameType)),
+    addNewBet: (bet: Bet) => dispatch(addNewBet(bet)),
     changeNum: (num: number) => dispatch(changeNum(num)),
     changeValue: (value: number) => dispatch(changeValue(value)),
     toggleHelp: (t: boolean) => dispatch(toggleHelp(t)),
@@ -124,7 +127,16 @@ class Keno extends React.PureComponent<Props, KenoState> {
     }
 
     private onPlaceBet = () => {
-        const {keno, placeBet, catchError, showErrorMessage, web3Available, gameState, loggedIn} = this.props;
+        const {
+            keno,
+            addNewBet,
+            placeBet,
+            catchError,
+            showErrorMessage,
+            web3Available,
+            gameState,
+            loggedIn,
+        } = this.props;
 
         const safeBetValue = Math.round(keno.value);
         const num = keno.num;
@@ -158,6 +170,7 @@ class Keno extends React.PureComponent<Props, KenoState> {
                         5000
                     );
 
+                    addNewBet(result.bet);
                     this.showResult();
                 })
                 .catch(error => catchError(error));

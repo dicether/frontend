@@ -3,6 +3,8 @@ import {connect} from "react-redux";
 
 import {GameType, maxBet} from "@dicether/state-channel";
 import {KELLY_FACTOR, MAX_BET_VALUE, MIN_BANKROLL, MIN_BET_VALUE} from "../../../config/config";
+import {addNewBet} from "../../../platform/modules/bets/asyncActions";
+import {Bet} from "../../../platform/modules/bets/types";
 import {toggleHelp} from "../../../platform/modules/games/info/actions";
 import {placeBet, validNetwork} from "../../../platform/modules/games/state/asyncActions";
 import {showErrorMessage} from "../../../platform/modules/utilities/actions";
@@ -29,6 +31,7 @@ const mapStateToProps = ({games, account, web3}: State) => {
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
     placeBet: (num: number, value: number, gameType: number) => dispatch(placeBet(num, value, gameType)),
+    addNewBet: (bet: Bet) => dispatch(addNewBet(bet)),
     changeNum: (num: number) => dispatch(changeNum(num)),
     changeValue: (value: number) => dispatch(changeValue(value)),
     toggleHelp: (t: boolean) => dispatch(toggleHelp(t)),
@@ -81,6 +84,7 @@ class FlipACoin extends React.PureComponent<Props, OneDiceState> {
         const {
             info,
             flipACoin,
+            addNewBet,
             placeBet,
             catchError,
             showErrorMessage,
@@ -109,6 +113,7 @@ class FlipACoin extends React.PureComponent<Props, OneDiceState> {
                     clearTimeout(this.resultTimeoutId);
                     this.resultTimeoutId = window.setTimeout(() => this.setState({showResult: false}), 5000);
 
+                    addNewBet(result.bet);
                     if (info.sound) {
                         setTimeout(() => (result.won ? sounds.win.playFromBegin() : sounds.lose.playFromBegin()), 500);
                     }

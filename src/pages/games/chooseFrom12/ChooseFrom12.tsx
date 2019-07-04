@@ -3,6 +3,8 @@ import {connect} from "react-redux";
 
 import {GameType, maxBet} from "@dicether/state-channel";
 import {KELLY_FACTOR, MAX_BET_VALUE, MIN_BANKROLL, MIN_BET_VALUE} from "../../../config/config";
+import {addNewBet} from "../../../platform/modules/bets/asyncActions";
+import {Bet} from "../../../platform/modules/bets/types";
 import {toggleHelp} from "../../../platform/modules/games/info/actions";
 import {placeBet, validNetwork} from "../../../platform/modules/games/state/asyncActions";
 import {showErrorMessage} from "../../../platform/modules/utilities/actions";
@@ -28,6 +30,7 @@ const mapStateToProps = ({games, account, web3}: State) => {
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+    addNewBet: (bet: Bet) => dispatch(addNewBet(bet)),
     placeBet: (num: number, value: number, gameType: number) => dispatch(placeBet(num, value, gameType)),
     changeNum: (num: number) => dispatch(changeNum(num)),
     changeValue: (value: number) => dispatch(changeValue(value)),
@@ -79,7 +82,17 @@ class ChooseFrom12 extends React.PureComponent<Props, OneDiceState> {
     }
 
     private onPlaceBet = () => {
-        const {info, oneDice, placeBet, catchError, showErrorMessage, web3Available, gameState, loggedIn} = this.props;
+        const {
+            info,
+            oneDice,
+            addNewBet,
+            placeBet,
+            catchError,
+            showErrorMessage,
+            web3Available,
+            gameState,
+            loggedIn,
+        } = this.props;
 
         const safeBetValue = Math.round(oneDice.value);
         const num = oneDice.num;
@@ -100,6 +113,7 @@ class ChooseFrom12 extends React.PureComponent<Props, OneDiceState> {
                     clearTimeout(this.resultTimeoutId);
                     this.resultTimeoutId = window.setTimeout(() => this.setState({showResult: false}), 5000);
 
+                    addNewBet(result.bet);
                     if (info.sound) {
                         setTimeout(() => (result.won ? sounds.win.playFromBegin() : sounds.lose.playFromBegin()), 500);
                     }

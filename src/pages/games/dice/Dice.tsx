@@ -10,12 +10,12 @@ import {
     MAX_BET_VALUE,
     MIN_BANKROLL,
     MIN_BET_VALUE,
-    NETWORK_NAME,
     RANGE,
 } from "../../../config/config";
+import {addNewBet} from "../../../platform/modules/bets/asyncActions";
+import {Bet} from "../../../platform/modules/bets/types";
 import {toggleHelp} from "../../../platform/modules/games/info/actions";
 import {placeBet, validNetwork} from "../../../platform/modules/games/state/asyncActions";
-import {State as GameState} from "../../../platform/modules/games/state/reducer";
 import {showErrorMessage} from "../../../platform/modules/utilities/actions";
 import {catchError} from "../../../platform/modules/utilities/asyncActions";
 import {State} from "../../../rootReducer";
@@ -46,6 +46,7 @@ const mapStateToProps = ({games, account, web3}: State) => {
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+    addNewBet: (bet: Bet) => dispatch(addNewBet(bet)),
     placeBet: (num: number, value: number, gameType: number) => dispatch(placeBet(num, value, gameType)),
     changeNum: (num: number) => dispatch(changeNum(num)),
     changeValue: (value: number) => dispatch(changeValue(value)),
@@ -125,7 +126,17 @@ class Dice extends React.Component<Props, DiceState> {
     }
 
     onPlaceBet = () => {
-        const {info, dice, placeBet, catchError, showErrorMessage, web3Available, gameState, loggedIn} = this.props;
+        const {
+            info,
+            dice,
+            addNewBet,
+            placeBet,
+            catchError,
+            showErrorMessage,
+            web3Available,
+            gameState,
+            loggedIn,
+        } = this.props;
 
         const safeBetValue = Math.round(dice.value);
         const num = dice.num;
@@ -146,6 +157,7 @@ class Dice extends React.Component<Props, DiceState> {
                     clearTimeout(this.resultTimeoutId);
                     this.resultTimeoutId = window.setTimeout(() => this.setState({showResult: false}), 5000);
 
+                    addNewBet(result.bet);
                     if (info.sound) {
                         setTimeout(() => (result.won ? sounds.win.playFromBegin() : sounds.lose.playFromBegin()), 500);
                     }
