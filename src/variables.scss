@@ -10,7 +10,7 @@ $gray-800: #283945 !default;
 $gray-900: #1A2B38 !default;
 $black:    #000 !default;
 
-$white--night:    $gray-900 !default;
+$white--night:    darken($gray-900, 2.5%) !default;
 $gray-100--night: $gray-900 !default;
 $gray-200--night: $gray-800 !default;
 $gray-300--night: $gray-700 !default;
