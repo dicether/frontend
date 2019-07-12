@@ -330,7 +330,7 @@ label {
 .form-control {
   &:disabled,
   &[readonly] {
-    border-color: $input-disabled-bg;
+    border-color: transparent;
   }
 }
 
