@@ -59,7 +59,7 @@ const Faq = ({t}: WithNamespaces) => (
                 <h5 className={Style.subheading}>{t("faq.cantPlaceBet.question")}</h5>
                 <p>
                     <Trans i18nKey="faq.cantPlaceBet.answer">
-                        To play you need to be logged in and you need to have installed{" "}
+                        To play you need to be logged in and you need to have installed
                         <a href={METAMASK_URL}>Metamask</a>, use <a href={TRUST_WALLET_URL}>Trust Wallet</a> or use
                         <a href={COINBASE_WALLET_URL}>Coinbase Wallet (Toshi)</a>.
                     </Trans>
