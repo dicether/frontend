@@ -16,6 +16,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  max-width: 10rem;
   @include color("dark");
 
   &:hover {
@@ -43,6 +44,5 @@
 
 .img {
   transition: all .2s ease-in-out;
-  max-width: 7.5rem;
-  width: 80%;
+  width: 90%;
 }
