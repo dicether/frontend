@@ -37,10 +37,10 @@ const Games = ({t}: {t: i18next.TranslationFunction}) => (
                     <img src={KenoLogo} className={Style.img} />
                     <h5 className={Style.text}>{t("Keno")}</h5>
                 </Link>
-                <Link to="/games/wheel" className={Style.gameLink + " " + Style.gameLink_active}>
-                    <img src={WheelLogo} className={Style.img} />
-                    <h5 className={Style.text}>Wheel</h5>
-                </Link>
+                <div className={Style.gameLink + " " + Style.gameLink_disabled}>
+                    <img src={Question} className={Style.img} />
+                    <h5 className={Style.text}>More Coming Soon</h5>
+                </div>
                 <div className={Style.gameLink + " " + Style.gameLink_disabled}>
                     <img src={Question} className={Style.img} />
                     <h5 className={Style.text}>More Coming Soon</h5>
