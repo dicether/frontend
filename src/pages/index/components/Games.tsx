@@ -10,6 +10,7 @@ const ChooseFrom12Logo = require("assets/images/chooseFrom12Logo.svg");
 const Question = require("assets/images/question.svg");
 const FlipACoinLogo = require("assets/images/flipACoinLogo.svg");
 const KenoLogo = require("assets/images/kenoLogo.svg");
+const WheelLogo = require("assets/images/wheelLogo.svg");
 
 const Style = require("./Games.scss");
 
@@ -37,7 +38,7 @@ const Games = ({t}: {t: i18next.TranslationFunction}) => (
                     <h5 className={Style.text}>{t("Keno")}</h5>
                 </Link>
                 <Link to="/games/wheel" className={Style.gameLink + " " + Style.gameLink_active}>
-                    <img src={Question} className={Style.img} />
+                    <img src={WheelLogo} className={Style.img} />
                     <h5 className={Style.text}>Wheel</h5>
                 </Link>
                 <div className={Style.gameLink + " " + Style.gameLink_disabled}>
