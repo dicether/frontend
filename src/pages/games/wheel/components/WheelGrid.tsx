@@ -47,7 +47,7 @@ class WheelGrid extends React.Component<Props> {
                 value: Number.parseInt(value, 10),
                 color,
             }))
-            .sort(x => x.value);
+            .sort((x1, x2) => x1.value - x2.value);
 
         return (
             <div className={Style.wrapper}>
