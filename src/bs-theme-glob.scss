@@ -334,6 +334,12 @@ label {
   }
 }
 
+@include media-breakpoint-down(md) {
+  .form-group {
+    margin-bottom: 0.5rem;
+  }
+}
+
 // Restore Bootstrap 3 "hidden" utility classes.
 @each $bp in map-keys($grid-breakpoints) {
   .hidden-#{$bp}-up {

@@ -3,7 +3,7 @@
 
 .payoutTable {
   display: grid;
-  gap: $spacer;
+  gap: map-get($spacers, 2);
   grid-auto-columns: 1fr;
 }
 

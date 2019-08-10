@@ -112,24 +112,33 @@ class Ui extends React.PureComponent<Props, State> {
                                     onChange={onValueChange}
                                 />
                             </FormGroup>
-                            <FormGroup>
-                                <Label>{t("risk")}</Label>
-                                <Select value={risk.toString()} onValue={val => onRiskChange(Number.parseInt(val, 10))}>
-                                    <option value={1}>{t("lowRisk")}</option>
-                                    <option value={2}>{t("mediumRisk")}</option>
-                                    <option value={3}>{t("highRisk")}</option>
-                                </Select>
-                            </FormGroup>
-                            <FormGroup>
-                                <Label>{t("segments")}</Label>
-                                <Select
-                                    value={segments.toString()}
-                                    onValue={val => onSegmentsChange(Number.parseInt(val, 10))}
-                                >
-                                    <option value={10}>10</option>
-                                    <option value={20}>20</option>
-                                </Select>
-                            </FormGroup>
+                            <Row noGutters>
+                                <Col xs={{size: 8}} sm={{size: 12}}>
+                                    <FormGroup>
+                                        <Label>{t("risk")}</Label>
+                                        <Select
+                                            value={risk.toString()}
+                                            onValue={val => onRiskChange(Number.parseInt(val, 10))}
+                                        >
+                                            <option value={1}>{t("lowRisk")}</option>
+                                            <option value={2}>{t("mediumRisk")}</option>
+                                            <option value={3}>{t("highRisk")}</option>
+                                        </Select>
+                                    </FormGroup>
+                                </Col>
+                                <Col xs={{size: 4}} sm={{size: 12}}>
+                                    <FormGroup>
+                                        <Label>{t("segments")}</Label>
+                                        <Select
+                                            value={segments.toString()}
+                                            onValue={val => onSegmentsChange(Number.parseInt(val, 10))}
+                                        >
+                                            <option value={10}>10</option>
+                                            <option value={20}>20</option>
+                                        </Select>
+                                    </FormGroup>
+                                </Col>
+                            </Row>
                             <Button className="betButton" block color="success" onClick={onPlaceBet}>
                                 {t("bet")}
                             </Button>
