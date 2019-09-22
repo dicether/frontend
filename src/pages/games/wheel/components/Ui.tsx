@@ -40,32 +40,6 @@ class Ui extends React.PureComponent<Props, State> {
         };
     }
 
-    private onClick = () => {
-        this.setState({
-            angle: Math.random() * 2 * Math.PI,
-        });
-    }
-
-    // TODO move to wheel/wheel payout???
-    private static calcSegmentColors = (segments: number[]) => {
-        const colors: string[] = [];
-
-        let curColorIdx = 0;
-        const colorLookup: {[key: number]: string} = {};
-        for (const segment of segments) {
-            if (!(segment in colorLookup)) {
-                const color = Colors[`color${curColorIdx % 6}`];
-                colorLookup[segment] = color;
-                curColorIdx += 1;
-            }
-
-            // colors.push(colorLookup[segment]);
-        }
-
-        return colorLookup;
-        // return colors;
-    }
-
     render() {
         const {
             value,
