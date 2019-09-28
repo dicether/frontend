@@ -496,7 +496,7 @@ export function createGame(stake: number, userSeed: string) {
             const createBefore = data.createBefore;
             const signature = data.signature;
 
-            dispatch(createGameEvent(hashChain, serverEndHash, stake, undefined));
+            dispatch(createGameEvent(hashChain, serverEndHash, stake));
 
             return new Promise((resolve, reject) => {
                 createGame(hashChain[0], previousGameId, createBefore, serverEndHash, signature)
