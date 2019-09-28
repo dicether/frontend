@@ -4,7 +4,6 @@ import {connect} from "react-redux";
 import {RouteComponentProps} from "react-router";
 import {bindActionCreators} from "redux";
 import BetsList from "../../platform/components/bet/BetsList";
-import User from "../../platform/components/user/User";
 import {User as UserType} from "../../platform/modules/account/types";
 import {Bet} from "../../platform/modules/bets/types";
 import {showBetModal, showUserModal} from "../../platform/modules/modals/actions";

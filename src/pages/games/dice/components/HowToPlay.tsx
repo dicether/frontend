@@ -1,7 +1,7 @@
 import * as React from "react";
 import {Ether} from "../../../../reusable/index";
 
-import {KELLY_FACTOR, MAX_BET_VALUE, MAX_NUMBER_DICE_1, MIN_BANKROLL, MIN_BET_VALUE} from "../../../../config/config";
+import {MAX_BET_VALUE, MIN_BET_VALUE} from "../../../../config/config";
 import HowToPlayBase from "../../reusable/HowToPlayBase";
 
 const HowToPlay = () => (

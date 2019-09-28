@@ -3,8 +3,8 @@ import detector from "i18next-browser-languagedetector";
 import {reactI18nextModule} from "react-i18next";
 
 const translationEN = require("../assets/locales/en/translation.json");
-const translationRU = require("../assets/locales/ru/translation.json");
-const translationZH = require("../assets/locales/zh/translation.json");
+// const translationRU = require("../assets/locales/ru/translation.json");
+// const translationZH = require("../assets/locales/zh/translation.json");
 
 // the translations
 const resources = {

@@ -1,13 +1,11 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import {Dispatch, GetState} from "../../../util/util";
-import {getUser} from "../account/selectors";
 import {User} from "../account/types";
-import {showBetModal, showUserModal} from "../modals/actions";
 import {showInfoMessage, showSuccessMessage} from "../utilities/actions";
 import {catchError} from "../utilities/asyncActions";
 import {addMessage, changeMessages} from "./actions";
-import {executeCommands, SHOW_BET, SHOW_USER} from "./commands";
+import {executeCommands} from "./commands";
 import {Message} from "./types";
 
 export function loadMessages() {

@@ -1,4 +1,3 @@
-import {getSetBits} from "@dicether/state-channel";
 import * as React from "react";
 
 import Coins from "../../../../pages/games/flipACoin/components/Coins";

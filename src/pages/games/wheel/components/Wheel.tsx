@@ -87,7 +87,7 @@ export default class Wheel extends React.Component<Props, State> {
         // draw segment dots
         ctx.save();
         ctx.rotate(-Math.PI / 2);
-        for (const segmentColor of segmentColors) {
+        for (const _ of segmentColors) {
             Wheel.drawSegmentDots(ctx, segmentAngle);
             ctx.rotate(segmentAngle);
         }

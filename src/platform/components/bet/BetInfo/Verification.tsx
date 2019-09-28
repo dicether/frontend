@@ -1,7 +1,7 @@
 import {calcResultNumber, verifySeed, verifySignature} from "@dicether/state-channel";
 import * as React from "react";
 
-import {CHAIN_ID, NEW_EIP_GAME_ID, NEW_EIP_GAME_ID_2, OLD_EIP_GAME_ID, SERVER_ADDRESS} from "../../../../config/config";
+import {CHAIN_ID, SERVER_ADDRESS} from "../../../../config/config";
 import {FontAwesomeIcon} from "../../../../reusable/index";
 import {Bet} from "../../../modules/bets/types";
 

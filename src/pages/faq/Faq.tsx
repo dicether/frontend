@@ -9,7 +9,6 @@ import {
     CONTRACT_URL,
     GITHUB_URL,
     METAMASK_URL,
-    NAME,
     TRUST_WALLET_URL,
 } from "../../config/config";
 import {Container} from "../../reusable";

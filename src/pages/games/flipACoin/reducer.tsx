@@ -1,6 +1,6 @@
 import * as types from "./constants";
 
-import {CHOOSE_FROM_12_NUMS, GameType, maxBet} from "@dicether/state-channel";
+import {GameType, maxBet} from "@dicether/state-channel";
 import {KELLY_FACTOR, MIN_BANKROLL, MIN_BET_VALUE} from "../../../config/config";
 import {ActionType, assertNever} from "../../../util/util";
 import * as actions from "./actions";

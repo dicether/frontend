@@ -1,4 +1,3 @@
-import ClassNames from "classnames";
 import * as React from "react";
 import {WithNamespaces, withNamespaces} from "react-i18next";
 
@@ -48,10 +47,6 @@ class Ui extends React.PureComponent<Props> {
         const chance = numSelected / CHOOSE_FROM_12_NUMS;
         const houseEdgeFactor = 1 - HOUSE_EDGE / HOUSE_EDGE_DIVISOR;
         const payout = (1 / chance) * value * houseEdgeFactor;
-
-        const colors = selectedCoinsArray.map(x => (x ? "white" : "200"));
-
-        const buttonClassNames = ClassNames("betButton", Style.betButton);
 
         return (
             <div className={Style.ui}>

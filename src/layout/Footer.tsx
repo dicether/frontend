@@ -5,7 +5,6 @@ import {Container, Nav, NavItem, NavLink} from "reactstrap";
 
 import {CONTACT_URL, DISCORD_URL, GITHUB_URL, NAME, REDDIT_URL, TWITTER_URL} from "../config/config";
 import {Col} from "../reusable";
-import LanguageSelector from "./LanguageSelector";
 
 const logo = require("assets/images/logoTop.svg");
 

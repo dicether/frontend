@@ -3,11 +3,10 @@ import * as React from "react";
 import {WithNamespaces, withNamespaces} from "react-i18next";
 
 import {MIN_BET_VALUE} from "../../../../config/config";
-import {Button, Col, Ether, FormGroup, Input, Label, Modal, Row, Select, ValueInput} from "../../../../reusable";
+import {Button, Col, FormGroup, Label, Modal, Row, Select, ValueInput} from "../../../../reusable";
 import HowToPlay from "./HowToPlay";
 
 import WheelGrid from "./WheelGrid";
-const Colors = require("./WheelDayColors.scss");
 
 const Style = require("./Ui.scss");
 

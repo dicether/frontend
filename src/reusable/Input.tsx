@@ -51,9 +51,8 @@ export default class Input extends React.Component<Props, State> {
         }
     }
 
-    onBlur = (event: React.FormEvent<HTMLInputElement>) => {
-        const {onValue, validate, value} = this.props;
-        const val = (event.target as HTMLInputElement).value;
+    onBlur = () => {
+        const {value} = this.props;
 
         this.isFocus = false;
         this.setState({inputValue: value});

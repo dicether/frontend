@@ -1,4 +1,4 @@
-import {AnyAction, combineReducers, Reducer} from "redux";
+import {combineReducers} from "redux";
 import {reducer as modal} from "redux-modal";
 
 import account, {State as AccountState} from "./platform/modules/account/reducer";

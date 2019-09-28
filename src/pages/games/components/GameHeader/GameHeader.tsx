@@ -104,8 +104,6 @@ export default class GameHeader extends React.Component<Props, State> {
         const {gameState, onStartGame, onEndGame, web3State, onSeedRequest, onConflictEnd, onForceEnd} = this.props;
         const {modalIsOpen} = this.state;
 
-        const isWeb3Available = web3State.account && validNetwork(web3State.networkId);
-
         // special case creating: handle as ended as long as we didn't get transaction hash
         const status = gameState.status;
         const isGameEnded = status === "ENDED" || (status === "CREATING" && !gameState.createTransactionHash);
@@ -152,10 +150,9 @@ export default class GameHeader extends React.Component<Props, State> {
             <div className={Style.gameHeader}>
                 {isConflictEnding && <span>Conflict Ending... {spinner}</span>}
                 {isForceEnding && <span>Force Ending... {spinner}</span>}
-                {isUserConflictEnded &&
-                    gameState.conflictEndTime && (
-                        <ForceEnd endTime={gameState.conflictEndTime} onForceEnd={onForceEnd} />
-                    )}
+                {isUserConflictEnded && gameState.conflictEndTime && (
+                    <ForceEnd endTime={gameState.conflictEndTime} onForceEnd={onForceEnd} />
+                )}
                 {placedBet && (
                     <Button size="sm" color="primary" onClick={onSeedRequest}>
                         Request seed!

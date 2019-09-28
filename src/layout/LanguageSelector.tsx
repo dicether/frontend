@@ -1,7 +1,6 @@
 import * as React from "react";
 import {WithNamespaces, withNamespaces} from "react-i18next";
 
-import i18next from "i18next";
 import i18n from "../i18n";
 import {Button, Dropdown, FlagIcon} from "../reusable";
 

@@ -85,7 +85,7 @@ class UserMenu extends React.Component<Props> {
     }
 
     render() {
-        const {button, user, userAuth, messageId, t} = this.props;
+        const {button, user, userAuth, t} = this.props;
         const {address} = user;
         const isInvitable = this.isInvitable(address);
         const specialUser =

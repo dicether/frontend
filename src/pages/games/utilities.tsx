@@ -1,8 +1,5 @@
 import {MIN_BET_VALUE, NETWORK_NAME} from "../../config/config";
-import {placeBet} from "../../platform/modules/games/state/asyncActions";
 import {State as GameState} from "../../platform/modules/games/state/reducer";
-import {showErrorMessage} from "../../platform/modules/utilities/actions";
-import {Dispatch} from "../../util/util";
 
 function returnError(errorMessage: string) {
     return {canPlaceBet: false, errorMessage};

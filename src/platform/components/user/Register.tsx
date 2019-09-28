@@ -2,7 +2,6 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
-import {BUGS_URL} from "../../../config/config";
 import {Button, Form, FormGroup, FormText, Input} from "../../../reusable/index";
 import {Dispatch} from "../../../util/util";
 import {authenticate, register} from "../../modules/account/asyncActions";

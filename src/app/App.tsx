@@ -62,13 +62,6 @@ export type State = {
     web3Timer: number | null;
 };
 
-type DynamicIndexProps = {
-    loggedIn: boolean;
-};
-
-const DynamicIndex = ({loggedIn, ...rest}: DynamicIndexProps) =>
-    loggedIn ? <Redirect {...rest} to="/games/dice" /> : <Index {...rest} />;
-
 class App extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
@@ -119,7 +112,6 @@ class App extends React.Component<Props, State> {
     render() {
         const {userAuth, notification, defaultAccount, gameState} = this.props;
 
-        const loggedIn = userAuth !== null;
         const logout = userAuth !== null && (userAuth.address !== defaultAccount && defaultAccount !== null);
 
         return (

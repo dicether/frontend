@@ -1,9 +1,7 @@
 import * as React from "react";
-import {DataLoader, Modal} from "../../../reusable";
+import {DataLoader} from "../../../reusable";
 import {User as UserType} from "../../modules/account/types";
 import UserInfo from "./UserInfo";
-
-const Style = require("./User.scss");
 
 export type Props = {
     userName?: string;

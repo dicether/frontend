@@ -2,7 +2,7 @@ import moment from "moment";
 import * as React from "react";
 import {Link} from "react-router-dom";
 
-import {Button, Ether, Table} from "../../../reusable/index";
+import {Ether, Table} from "../../../reusable/index";
 import {User} from "../../modules/account/types";
 import {Bet} from "../../modules/bets/types";
 import {gameTypeToLink, gameTypeToName} from "./util";

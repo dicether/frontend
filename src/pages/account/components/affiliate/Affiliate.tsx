@@ -79,7 +79,6 @@ class Affiliate extends React.Component<Props, State> {
     }
 
     render() {
-        const {t} = this.props;
         const {campaigns, balance} = this.state;
 
         return (
