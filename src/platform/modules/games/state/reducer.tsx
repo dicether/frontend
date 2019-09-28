@@ -148,6 +148,7 @@ export default function state(state: State = initialState, action: Actions): Sta
                 previousState: state.status,
             };
         case types.USER_ABORT_CONFLICT_END:
+        case types.USER_ABORT_FORCE_END:
             return {
                 ...state,
                 status: state.previousState as Status,
@@ -165,12 +166,6 @@ export default function state(state: State = initialState, action: Actions): Sta
                 status: "USER_INITIATED_FORCE_END",
                 forceEndTransactionHash: action.transactionHash,
                 previousState: state.status,
-            };
-        case types.USER_ABORT_FORCE_END:
-            return {
-                ...state,
-                status: state.previousState as Status,
-                previousState: undefined,
             };
         case types.SERVER_CONFLICT_END:
             return {
