@@ -66,7 +66,7 @@
     "bootstrap": "^4.0.0-beta.2",
     "browserslist": "^4.7.0",
     "check-update": "0.0.8",
-    "circular-dependency-plugin": "^5.0.2",
+    "circular-dependency-plugin": "^5.2.0",
     "classnames": "^2.2.5",
     "clean-webpack-plugin": "^0.1.19",
     "copy-webpack-plugin": "^4.5.1",
