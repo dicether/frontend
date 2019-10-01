@@ -59,7 +59,7 @@
     "@types/underscore": "^1.8.8",
     "async-retry": "^1.2.3",
     "autoprefixer": "^9.1.0",
-    "axios": "^0.18.0",
+    "axios": "^0.18.1",
     "babel-loader": "^8.0.4",
     "bignumber.js": "^5.0.0",
     "bn.js": "^4.11.8",
