@@ -63,7 +63,7 @@
     "babel-loader": "^8.0.4",
     "bignumber.js": "^5.0.0",
     "bn.js": "^4.11.8",
-    "bootstrap": "^4.0.0-beta.2",
+    "bootstrap": "^4.3.1",
     "browserslist": "^4.7.0",
     "check-update": "0.0.8",
     "circular-dependency-plugin": "^5.2.0",
