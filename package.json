@@ -153,7 +153,7 @@
     "@types/react-resize-detector": "^4.0.1",
     "acorn-jsx": "^4.1.1",
     "acorn-stage3": "^0.6.0",
-    "husky": "^1.1.1",
+    "husky": "^3.0.7",
     "i18next-parser": "^1.0.0-beta33",
     "lint-staged": "^7.3.0",
     "mini-css-extract-plugin": "^0.8.0",
