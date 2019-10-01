@@ -87,7 +87,7 @@
     "jwt-decode": "^2.2.0",
     "less": "^3.0.1",
     "less-loader": "^4.1.0",
-    "moment": "^2.18.1",
+    "moment": "^2.24.0",
     "node-sass": "^4.5.3",
     "popper.js": "^1.14.4",
     "postcss-at-rules-variables": "^0.1.6",
