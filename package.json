@@ -79,7 +79,7 @@
     "font-awesome": "^4.7.0",
     "html-webpack-plugin": "^3.0.6",
     "i18next": "^13.0.1",
-    "i18next-browser-languagedetector": "^2.2.4",
+    "i18next-browser-languagedetector": "^3.0.3",
     "image-webpack-loader": "^4.1.0",
     "imports-loader": "^0.8.0",
     "install": "^0.12.1",
