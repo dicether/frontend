@@ -13,6 +13,8 @@ export function gameTypeToName(gameType: number) {
             return "Keno";
         case GameType.WHEEL:
             return "Wheel";
+        case GameType.PLINKO:
+            return "Plinko";
         default:
             return "Unknown";
     }
@@ -31,6 +33,8 @@ export function gameTypeToLink(gameType: number) {
             return "/games/keno";
         case GameType.WHEEL:
             return "/games/wheel";
+        case GameType.PLINKO:
+            return "games/plinko";
         default:
             return "/unknown";
     }

@@ -11,6 +11,7 @@ import DiceBetInfo from "./DiceBetInfo";
 import FlipACoinBetInfo from "./FlipACoinBetInfo";
 import KenoBetInfo from "./KenoBetInfo";
 import Overview from "./Overview";
+import PlinkoBetInfo from "./PlinkoBetInfo";
 import VerificationInfo from "./VerificationInfo";
 import WheelBetInfo from "./WheelBetInfo";
 
@@ -33,6 +34,8 @@ const GameSpecificInfo = ({gameType, betNum, resultNum}: GameSpecificInfoProps) 
             return <KenoBetInfo betNum={betNum} resultNum={resultNum} />;
         case GameType.WHEEL:
             return <WheelBetInfo betNum={betNum} resultNum={resultNum} />;
+        case GameType.PLINKO:
+            return <PlinkoBetInfo betNum={betNum} resultNum={resultNum} />;
         default:
             return null;
     }
@@ -70,7 +73,4 @@ class BetInfo extends React.Component<Props> {
     }
 }
 
-export default connect(
-    null,
-    mapDispatchToProps
-)(BetInfo);
+export default connect(null, mapDispatchToProps)(BetInfo);

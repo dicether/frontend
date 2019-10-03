@@ -4,7 +4,7 @@ const merge = require('webpack-merge');
 const common = require('./common');
 
 
-const contractAddress = "0xCeDcf7Aa8f8234f0e138dc7eCEad12EF07Abf093";
+const contractAddress = "0x79c7b8F2be0725f654Ed7123A27a903b48A55b08";
 const serverAddress = "0xa8d5f39f3ccd4795b0e38feacb4f2ee22486ca44";
 const apiUrl = 'http://localhost:5000/api';
 const websocketUrl = 'http://localhost:5001';

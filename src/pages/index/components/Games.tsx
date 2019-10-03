@@ -7,9 +7,10 @@ import {Container, Section} from "../../../reusable";
 
 const DiceLogo = require("assets/images/diceLogo.svg");
 const ChooseFrom12Logo = require("assets/images/chooseFrom12Logo.svg");
-const Question = require("assets/images/question.svg");
+// const Question = require("assets/images/question.svg");
 const FlipACoinLogo = require("assets/images/flipACoinLogo.svg");
 const KenoLogo = require("assets/images/kenoLogo.svg");
+const PlinkoLogo = require("assets/images/plinkoLogo.svg");
 const WheelLogo = require("assets/images/wheelLogo.svg");
 
 const Style = require("./Games.scss");
@@ -41,10 +42,10 @@ const Games = ({t}: {t: TFunction}) => (
                     <img src={WheelLogo} className={Style.img} />
                     <h5 className={Style.text}>Wheel</h5>
                 </Link>
-                <div className={Style.gameLink + " " + Style.gameLink_disabled}>
-                    <img src={Question} className={Style.img} />
-                    <h5 className={Style.text}>More Coming Soon</h5>
-                </div>
+                <Link to="/games/plinko" className={Style.gameLink + " " + Style.gameLink_active}>
+                    <img src={PlinkoLogo} className={Style.img} />
+                    <h5 className={Style.text}>{t("Plinko")}</h5>
+                </Link>
             </div>
         </Container>
     </Section>

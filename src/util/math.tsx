@@ -37,3 +37,12 @@ export function shuffle<T>(array: T[]) {
         array[index] = temp;
     }
 }
+
+// see  https://graphics.stanford.edu/~seander/bithacks.html#CountBitsSetParallel
+export function popCnt(num: number) {
+    // tslint:disable:no-bitwise
+    num = num - ((num >> 1) & 0x55555555); // reuse input as temporary
+    num = (num & 0x33333333) + ((num >> 2) & 0x33333333); // temp
+    return (((num + (num >> 4)) & 0xf0f0f0f) * 0x1010101) >> 24; // count
+    // tslint:enable:no-bitwise
+}

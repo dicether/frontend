@@ -10,4 +10,5 @@ export default {
     tileSelect: new Audio(click),
     tileHit: new Audio(win),
     tileMiss: new Audio(click),
+    plinkoResult: new Audio(win),
 };
