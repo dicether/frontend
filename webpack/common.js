@@ -82,11 +82,11 @@ module.exports = {
                         }
                     },
                     { loader: 'postcss-loader', options: { sourceMap: true } },
-                    { loader: 'resolve-url-loader', options: { sourceMap: true } },
+                    { loader: 'resolve-url-loader', options: { sourceMap: true, root: context, debug: true} },
                     {
                         loader: 'sass-loader', options: {
                             sourceMap: true,
-                            includePath: [path.join(__dirname, 'src')]
+                            includePaths: [path.join(__dirname, 'src')]
                         }
                     }
                 ]
@@ -113,11 +113,11 @@ module.exports = {
                         }
                     },
                     { loader: 'postcss-loader', options: { sourceMap: true } },
-                    { loader: 'resolve-url-loader', options: { sourceMap: true } },
+                    { loader: 'resolve-url-loader', options: { sourceMap: true, root: context, debug: true} },
                     {
                         loader: 'sass-loader', options: {
                             sourceMap: true,
-                            includePath: [path.join(__dirname, 'src')]
+                            includePaths: [path.join(__dirname, 'src')]
                         }
                     }
                 ]
