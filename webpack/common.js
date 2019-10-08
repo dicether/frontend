@@ -74,10 +74,11 @@ module.exports = {
                     {
                         loader: 'css-loader', options: {
                             sourceMap: true,
-                            modules: true,
-                            localIdentName: '',
-                            getLocalIdent: (context, localIdentName, localName, options) => {
-                                return localName;
+                            modules: {
+                                localIdentName: '',
+                                getLocalIdent: (context, localIdentName, localName, options) => {
+                                    return localName;
+                                }
                             }
                         }
                     },
@@ -99,16 +100,17 @@ module.exports = {
                     {
                         loader: 'css-loader', options: {
                             sourceMap: true,
-                            modules: true,
-                            localIdentName: '[hash:base64:5]__[local]',
                             importLoaders: 1,
-                            getLocalIdent: (context, localIdentName, localName, options) => {
-                                const request = path.relative(contextRoot, context.resourcePath);
-                                const sha = crypto.createHash('sha1');
-                                sha.update(request);
-                                const prefix = sha.digest('base64').slice(0, 5);
-                                const hash =  prefix + '__' +  localName;
-                                return hash.replace(new RegExp("[^a-zA-Z0-9\\-_\u00A0-\uFFFF]", "g"), "-").replace(/^((-?[0-9])|--)/, "_$1");
+                            modules: {
+                                localIdentName: '[hash:base64:5]__[local]',
+                                getLocalIdent: (context, localIdentName, localName, options) => {
+                                    const request = path.relative(contextRoot, context.resourcePath);
+                                    const sha = crypto.createHash('sha1');
+                                    sha.update(request);
+                                    const prefix = sha.digest('base64').slice(0, 5);
+                                    const hash = prefix + '__' + localName;
+                                    return hash.replace(new RegExp("[^a-zA-Z0-9\\-_\u00A0-\uFFFF]", "g"), "-").replace(/^((-?[0-9])|--)/, "_$1");
+                                }
                             }
                         }
                     },
