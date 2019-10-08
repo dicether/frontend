@@ -71,7 +71,7 @@
     "clean-webpack-plugin": "^0.1.19",
     "copy-webpack-plugin": "^4.5.1",
     "core-js": "^2.6.9",
-    "css-loader": "^1.0.0",
+    "css-loader": "^3.2.0",
     "ethereumjs-abi": "^0.6.8",
     "ethereumjs-util": "^5.1.2",
     "exports-loader": "^0.7.0",
