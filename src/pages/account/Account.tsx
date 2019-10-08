@@ -1,7 +1,6 @@
 import * as React from "react";
 import DocumentTitle from "react-document-title";
-import {RouteComponentProps} from "react-router";
-import {NavLink as RRNavLink, Redirect, Route, Switch} from "react-router-dom";
+import {NavLink as RRNavLink, Redirect, Route, RouteComponentProps, Switch} from "react-router-dom";
 import {Nav, Navbar, NavItem, NavLink} from "reactstrap";
 import {Container} from "../../reusable";
 import Affiliate from "./components/affiliate/Affiliate";

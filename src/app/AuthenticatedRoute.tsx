@@ -1,6 +1,5 @@
 import * as React from "react";
-import {RouteProps} from "react-router";
-import {Redirect, Route} from "react-router-dom";
+import {Redirect, Route, RouteProps} from "react-router-dom";
 
 interface Props extends RouteProps {
     component: any;

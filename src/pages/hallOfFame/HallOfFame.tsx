@@ -2,8 +2,7 @@ import * as React from "react";
 import DocumentTitle from "react-document-title";
 import {WithNamespaces, withNamespaces} from "react-i18next";
 import {connect} from "react-redux";
-import {Redirect, Route, RouteComponentProps, Switch} from "react-router";
-import {NavLink as RRNavLink} from "react-router-dom";
+import {NavLink as RRNavLink, Redirect, Route, RouteComponentProps, Switch} from "react-router-dom";
 import {Nav, NavItem, NavLink} from "reactstrap";
 import {bindActionCreators} from "redux";
 

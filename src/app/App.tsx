@@ -1,9 +1,8 @@
 import * as React from "react";
 import DocumentTitle from "react-document-title";
 import {connect} from "react-redux";
-import {Redirect, Route, Switch, withRouter} from "react-router-dom";
+import {Redirect, Route, RouteComponentProps, Switch, withRouter} from "react-router-dom";
 
-import {RouteComponentProps} from "react-router";
 import {bindActionCreators} from "redux";
 import {WEB3_POLL_INTERVAL} from "../config/config";
 import Layout from "../layout/Layout";
