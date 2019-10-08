@@ -15,7 +15,7 @@ export interface Props extends BaseType {
     onClick?: React.MouseEventHandler<any>;
     block?: boolean;
     variant?: string;
-    type?: string;
+    type?: "button" | "reset" | "submit";
     tag?: React.ReactType;
     to?: string;
 }
