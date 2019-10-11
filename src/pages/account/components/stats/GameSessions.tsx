@@ -1,5 +1,5 @@
 import * as React from "react";
-import {WithNamespaces, withNamespaces} from "react-i18next";
+import {WithTranslation, withTranslation} from "react-i18next";
 import {Link} from "react-router-dom";
 import {GameSession} from "../../../../platform/modules/account/types";
 import Ether from "../../../../reusable/Ether";
@@ -19,7 +19,7 @@ const GameSessionRow = ({gameId, balance, roundId}: GameSession) => (
     </tr>
 );
 
-export interface Props extends WithNamespaces {
+export interface Props extends WithTranslation {
     gameSessions: GameSession[];
 }
 
@@ -45,4 +45,4 @@ const GameSessions = ({gameSessions, t}: Props) => (
     </div>
 );
 
-export default withNamespaces()(GameSessions);
+export default withTranslation()(GameSessions);

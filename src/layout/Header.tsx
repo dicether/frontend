@@ -1,6 +1,6 @@
 import ClassName from "classnames";
 import * as React from "react";
-import {WithNamespaces, withNamespaces} from "react-i18next";
+import {WithTranslation, withTranslation} from "react-i18next";
 import {NavLink as RRNavLink} from "react-router-dom";
 import {Collapse, Container, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink} from "reactstrap";
 
@@ -11,7 +11,7 @@ const Style = require("./Header.scss");
 
 const logo = require("assets/images/logoTop.svg");
 
-interface Props extends WithNamespaces {
+interface Props extends WithTranslation {
     authenticated: boolean;
     showChat: boolean;
     nightMode: boolean;
@@ -134,4 +134,4 @@ class Header extends React.Component<Props, State> {
     }
 }
 
-export default withNamespaces()(Header);
+export default withTranslation()(Header);

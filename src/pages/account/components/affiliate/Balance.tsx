@@ -1,9 +1,9 @@
 import * as React from "react";
-import {WithNamespaces, withNamespaces} from "react-i18next";
+import {WithTranslation, withTranslation} from "react-i18next";
 
 import {Button, DefinitionEntry, Ether} from "../../../../reusable";
 
-interface Props extends WithNamespaces {
+interface Props extends WithTranslation {
     balance: number;
     withDrawBalance(): void;
 }
@@ -19,4 +19,4 @@ const Balance = ({balance, withDrawBalance, t}: Props) => (
     </div>
 );
 
-export default withNamespaces()(Balance);
+export default withTranslation()(Balance);

@@ -1,6 +1,6 @@
 import * as React from "react";
 import DocumentTitle from "react-document-title";
-import {WithNamespaces, withNamespaces} from "react-i18next";
+import {WithTranslation, withTranslation} from "react-i18next";
 import {connect} from "react-redux";
 import {NavLink as RRNavLink, Redirect, Route, RouteComponentProps, Switch} from "react-router-dom";
 import {Nav, NavItem, NavLink} from "reactstrap";
@@ -53,7 +53,7 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
         dispatch
     );
 
-type Props = ReturnType<typeof mapDispatchToProps> & RouteComponentProps<any> & WithNamespaces;
+type Props = ReturnType<typeof mapDispatchToProps> & RouteComponentProps<any> & WithTranslation;
 
 class HallOfFame extends React.Component<Props> {
     constructor(props: Props) {
@@ -104,7 +104,7 @@ class HallOfFame extends React.Component<Props> {
     }
 }
 
-export default withNamespaces()(
+export default withTranslation()(
     connect(
         null,
         mapDispatchToProps

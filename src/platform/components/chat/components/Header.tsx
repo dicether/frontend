@@ -1,11 +1,11 @@
 import * as React from "react";
-import {WithNamespaces, withNamespaces} from "react-i18next";
+import {WithTranslation, withTranslation} from "react-i18next";
 
 import {FontAwesomeIcon} from "../../../../reusable/index";
 
 const Style = require("./Header.scss");
 
-interface Props extends WithNamespaces {
+interface Props extends WithTranslation {
     onClose(): void;
     onToggleFriends(b: boolean): void;
 }
@@ -25,4 +25,4 @@ const Header = ({onClose, onToggleFriends, t}: Props) => (
     </div>
 );
 
-export default withNamespaces()(Header);
+export default withTranslation()(Header);

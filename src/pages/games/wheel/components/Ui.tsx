@@ -1,6 +1,6 @@
 import {WHEEL_PAYOUT, WHEEL_RESULT_RANGE} from "@dicether/state-channel";
 import * as React from "react";
-import {WithNamespaces, withNamespaces} from "react-i18next";
+import {WithTranslation, withTranslation} from "react-i18next";
 
 import {MIN_BET_VALUE} from "../../../../config/config";
 import {Button, Col, FormGroup, Label, Modal, Row, Select, ValueInput} from "../../../../reusable";
@@ -10,7 +10,7 @@ import WheelGrid from "./WheelGrid";
 
 const Style = require("./Ui.scss");
 
-export interface Props extends WithNamespaces {
+export interface Props extends WithTranslation {
     segments: number;
     risk: number;
     value: number;
@@ -126,4 +126,4 @@ class Ui extends React.PureComponent<Props, State> {
     }
 }
 
-export default withNamespaces()(Ui);
+export default withTranslation()(Ui);

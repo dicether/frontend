@@ -1,5 +1,5 @@
 import * as React from "react";
-import {WithNamespaces, withNamespaces} from "react-i18next";
+import {WithTranslation, withTranslation} from "react-i18next";
 
 import i18n from "../i18n";
 import {Button, Dropdown, FlagIcon} from "../reusable";
@@ -34,7 +34,7 @@ function toLanguage(lang: string) {
 
 const LanguageIcon = ({lang}: {lang: string}) => <FlagIcon code={languageToIcon(lang)} />;
 
-const LanguageSelector = ({t}: WithNamespaces) => {
+const LanguageSelector = ({t}: WithTranslation) => {
     const changeLanguage = (lng: string) => {
         i18n.changeLanguage(lng);
     };
@@ -58,4 +58,4 @@ const LanguageSelector = ({t}: WithNamespaces) => {
     );
 };
 
-export default withNamespaces()(LanguageSelector);
+export default withTranslation()(LanguageSelector);

@@ -1,6 +1,6 @@
-import i18next from "i18next";
+import i18next, {TFunction} from "i18next";
 import * as React from "react";
-import {withNamespaces} from "react-i18next";
+import {withTranslation} from "react-i18next";
 import {Link} from "react-router-dom";
 
 import {Container, Section} from "../../../reusable";
@@ -14,7 +14,7 @@ const WheelLogo = require("assets/images/wheelLogo.svg");
 
 const Style = require("./Games.scss");
 
-const Games = ({t}: {t: i18next.TranslationFunction}) => (
+const Games = ({t}: {t: i18next.TFunction}) => (
     <Section className={Style.games}>
         <Container>
             <h2 className="text-center">Games</h2>
@@ -50,4 +50,4 @@ const Games = ({t}: {t: i18next.TranslationFunction}) => (
     </Section>
 );
 
-export default withNamespaces()(Games);
+export default withTranslation()(Games);

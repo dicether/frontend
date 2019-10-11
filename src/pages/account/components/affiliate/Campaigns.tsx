@@ -1,5 +1,5 @@
 import * as React from "react";
-import {WithNamespaces, withNamespaces} from "react-i18next";
+import {WithTranslation, withTranslation} from "react-i18next";
 
 import {DefinitionEntry, Ether} from "../../../../reusable";
 import {Campaign} from "./types";
@@ -22,7 +22,7 @@ const Campaign = ({campaign}: CampaignProps) => (
     </div>
 );
 
-export interface Props extends WithNamespaces {
+export interface Props extends WithTranslation {
     campaigns: Campaign[];
 }
 
@@ -37,4 +37,4 @@ const Campaigns = ({campaigns, t}: Props) => (
     </div>
 );
 
-export default withNamespaces()(Campaigns);
+export default withTranslation()(Campaigns);

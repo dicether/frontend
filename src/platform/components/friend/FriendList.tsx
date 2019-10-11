@@ -1,12 +1,12 @@
 import ClassNames from "classnames";
 import * as React from "react";
-import {WithNamespaces, withNamespaces} from "react-i18next";
+import {WithTranslation, withTranslation} from "react-i18next";
 
 import {Friend} from "../../modules/friends/types";
 
 const Style = require("./FriendList.scss");
 
-export interface Props extends WithNamespaces {
+export interface Props extends WithTranslation {
     friends: Friend[];
 }
 
@@ -45,4 +45,4 @@ const FriendList = ({friends, t}: Props) => {
     );
 };
 
-export default withNamespaces()(FriendList);
+export default withTranslation()(FriendList);

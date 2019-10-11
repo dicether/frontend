@@ -1,12 +1,12 @@
 import * as React from "react";
-import {WithNamespaces, withNamespaces} from "react-i18next";
+import {WithTranslation, withTranslation} from "react-i18next";
 
 import {Button} from "../../../reusable/index";
 import {FriendRequest} from "../../modules/friends/types";
 
 const Style = require("./FriendRequests.scss");
 
-export interface Props extends WithNamespaces {
+export interface Props extends WithTranslation {
     receivedFriendRequests: FriendRequest[];
     sentFriendRequests: FriendRequest[];
 
@@ -64,4 +64,4 @@ const FriendRequests = ({
     </div>
 );
 
-export default withNamespaces()(FriendRequests);
+export default withTranslation()(FriendRequests);

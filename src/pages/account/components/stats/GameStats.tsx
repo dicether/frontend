@@ -1,5 +1,5 @@
 import * as React from "react";
-import {WithNamespaces, withNamespaces} from "react-i18next";
+import {WithTranslation, withTranslation} from "react-i18next";
 
 import {Stats} from "../../../../platform/modules/account/types";
 import {Ether} from "../../../../reusable/index";
@@ -20,7 +20,7 @@ const StatsEntry = ({value, name, colored = false, ether = true}: EntryProps) =>
     </div>
 );
 
-interface Props extends WithNamespaces {
+interface Props extends WithTranslation {
     stats: Stats;
 }
 
@@ -35,4 +35,4 @@ const GameStats = ({stats, t}: Props) => {
     );
 };
 
-export default withNamespaces()(GameStats);
+export default withTranslation()(GameStats);

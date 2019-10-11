@@ -1,12 +1,12 @@
 import * as React from "react";
-import {WithNamespaces, withNamespaces} from "react-i18next";
+import {WithTranslation, withTranslation} from "react-i18next";
 import Textarea from "react-textarea-autosize";
 import {Button} from "../../../../reusable/index";
 import ChatCommandInfo from "./ChatCommandInfo";
 
 const Style = require("./Footer.scss");
 
-export interface Props extends WithNamespaces {
+export interface Props extends WithTranslation {
     message: string;
     numUsers: number;
     onMessageChange(message: string): void;
@@ -29,7 +29,7 @@ const Footer = ({message, numUsers, onMessageChange, onMessageSend, t}: Props) =
                             e.preventDefault();
                         }
                     }}
-                    placeholder={t<string, object, string>("typeMessage")}
+                    placeholder={t("typeMessage")}
                     rows={1}
                 />
             </div>
@@ -43,4 +43,4 @@ const Footer = ({message, numUsers, onMessageChange, onMessageSend, t}: Props) =
     );
 };
 
-export default withNamespaces()(Footer);
+export default withTranslation()(Footer);

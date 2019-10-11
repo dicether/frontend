@@ -1,6 +1,6 @@
 import * as React from "react";
 import DocumentTitle from "react-document-title";
-import {Trans, WithNamespaces, withNamespaces} from "react-i18next";
+import {Trans, WithTranslation, withTranslation} from "react-i18next";
 
 import {
     BUGS_URL,
@@ -15,7 +15,7 @@ import {Container} from "../../reusable";
 
 const Style = require("./Faq.scss");
 
-const Faq = ({t}: WithNamespaces) => (
+const Faq = ({t}: WithTranslation) => (
     <DocumentTitle title="Faq - Dicether">
         <Container>
             <h2 className={Style.heading}>{t("FAQ")}</h2>
@@ -96,4 +96,4 @@ const Faq = ({t}: WithNamespaces) => (
     </DocumentTitle>
 );
 
-export default withNamespaces()(Faq);
+export default withTranslation()(Faq);

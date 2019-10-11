@@ -1,9 +1,9 @@
 import * as React from "react";
-import {WithNamespaces, withNamespaces} from "react-i18next";
+import {WithTranslation, withTranslation} from "react-i18next";
 
 import {Button, Col, Form, FormGroup, Input, Label} from "../../../../reusable";
 
-export interface Props extends WithNamespaces {
+export interface Props extends WithTranslation {
     onCreateCampaign(id: string, name: string): void;
 }
 
@@ -105,4 +105,4 @@ class CreateCampaign extends React.Component<Props, State> {
     }
 }
 
-export default withNamespaces()(CreateCampaign);
+export default withTranslation()(CreateCampaign);

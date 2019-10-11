@@ -1,5 +1,5 @@
 import * as React from "react";
-import {WithNamespaces, withNamespaces} from "react-i18next";
+import {WithTranslation, withTranslation} from "react-i18next";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
@@ -45,7 +45,7 @@ export type OtherProps = {
 export type Props = ReturnType<typeof mapStateToProps> &
     ReturnType<typeof mapDispatchToProps> &
     OtherProps &
-    WithNamespaces;
+    WithTranslation;
 
 class UserMenu extends React.Component<Props> {
     constructor(props: Props) {
@@ -116,7 +116,7 @@ class UserMenu extends React.Component<Props> {
     }
 }
 
-export default withNamespaces()(
+export default withTranslation()(
     connect(
         mapStateToProps,
         mapDispatchToProps

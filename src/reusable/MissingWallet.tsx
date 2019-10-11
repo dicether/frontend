@@ -1,5 +1,5 @@
 import * as React from "react";
-import {WithNamespaces, withNamespaces} from "react-i18next";
+import {WithTranslation, withTranslation} from "react-i18next";
 
 import {COINBASE_WALLET_URL, METAMASK_URL, TRUST_WALLET_URL} from "../config/config";
 
@@ -9,7 +9,7 @@ const MetaMaskFox = require("assets/images/metamask-fox.svg");
 const TrustWalletLogo = require("assets/images/trustwallet-logo.svg");
 const CoinbaseWalletLogo = require("assets/images/coinbasewallet-logo.svg");
 
-const MissingWallet = ({t}: WithNamespaces) => (
+const MissingWallet = ({t}: WithTranslation) => (
     <div>
         <h4 className={Style.heading}>You need a Web3-compatible wallet!</h4>
         <div className={"hidden-sm-down " + Style.entry}>
@@ -36,4 +36,4 @@ const MissingWallet = ({t}: WithNamespaces) => (
     </div>
 );
 
-export default withNamespaces()(MissingWallet);
+export default withTranslation()(MissingWallet);

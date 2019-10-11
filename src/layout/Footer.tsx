@@ -1,5 +1,5 @@
 import * as React from "react";
-import {WithNamespaces, withNamespaces} from "react-i18next";
+import {WithTranslation, withTranslation} from "react-i18next";
 import {NavLink as RRNavLink} from "react-router-dom";
 import {Container, Nav, NavItem, NavLink} from "reactstrap";
 
@@ -10,7 +10,7 @@ const logo = require("assets/images/logoTop.svg");
 
 const Style = require("./Footer.scss");
 
-interface Props extends WithNamespaces {
+interface Props extends WithTranslation {
     showChat: boolean;
 }
 
@@ -60,4 +60,4 @@ const Footer = ({showChat, t}: Props) => {
     );
 };
 
-export default withNamespaces()(Footer);
+export default withTranslation()(Footer);

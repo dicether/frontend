@@ -1,5 +1,5 @@
 import * as React from "react";
-import {WithNamespaces, withNamespaces} from "react-i18next";
+import {WithTranslation, withTranslation} from "react-i18next";
 
 import {
     HOUSE_EDGE,
@@ -34,7 +34,7 @@ function calcNumberFromPayOutMultiplier(multiplier: number, reversedRoll: boolea
     return Math.round(num);
 }
 
-export interface Props extends WithNamespaces {
+export interface Props extends WithTranslation {
     num: number;
     value: number;
     reverseRoll: boolean;
@@ -196,4 +196,4 @@ class DiceUi extends React.Component<Props> {
     }
 }
 
-export default withNamespaces()(DiceUi);
+export default withTranslation()(DiceUi);

@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as React from "react";
-import {Trans, WithNamespaces, withNamespaces} from "react-i18next";
+import {Trans, WithTranslation, withTranslation} from "react-i18next";
 
 import {connect} from "react-redux";
 import {showSuccessMessage} from "../../../../platform/modules/utilities/actions";
@@ -21,7 +21,7 @@ type State = {
     balance: number;
 };
 
-type Props = ReturnType<typeof mapDispatchToProps> & WithNamespaces;
+type Props = ReturnType<typeof mapDispatchToProps> & WithTranslation;
 
 const DESCRIPTION_LINK = "https://medium.com/@dicether/how-to-create-a-dicether-affiliate-campaign-705f4be06c54";
 
@@ -103,7 +103,7 @@ class Affiliate extends React.Component<Props, State> {
     }
 }
 
-export default withNamespaces()(
+export default withTranslation()(
     connect(
         null,
         mapDispatchToProps

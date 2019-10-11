@@ -1,5 +1,5 @@
 import * as React from "react";
-import {WithNamespaces, withNamespaces} from "react-i18next";
+import {WithTranslation, withTranslation} from "react-i18next";
 
 import {CHOOSE_FROM_12_NUMS, getSetBits} from "@dicether/state-channel";
 import {HOUSE_EDGE, HOUSE_EDGE_DIVISOR, MIN_BET_VALUE} from "../../../../config/config";
@@ -10,7 +10,7 @@ import HowToPlay from "./HowToPlay";
 
 const Style = require("./Ui.scss");
 
-export interface Props extends WithNamespaces {
+export interface Props extends WithTranslation {
     num: number;
     value: number;
     maxBetValue: number;
@@ -93,4 +93,4 @@ class Ui extends React.PureComponent<Props> {
     }
 }
 
-export default withNamespaces()(Ui);
+export default withTranslation()(Ui);

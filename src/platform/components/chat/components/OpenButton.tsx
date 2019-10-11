@@ -1,11 +1,11 @@
 import * as React from "react";
-import {WithNamespaces, withNamespaces} from "react-i18next";
+import {WithTranslation, withTranslation} from "react-i18next";
 
 import {Button, FontAwesomeIcon} from "../../../../reusable/index";
 
 const Style = require("./OpenButton.scss");
 
-export interface Props extends WithNamespaces {
+export interface Props extends WithTranslation {
     onOpen(): void;
 }
 
@@ -15,4 +15,4 @@ const OpenButton = ({onOpen, t}: Props) => (
     </Button>
 );
 
-export default withNamespaces()(OpenButton);
+export default withTranslation()(OpenButton);

@@ -1,12 +1,12 @@
 import * as React from "react";
-import {WithNamespaces, withNamespaces} from "react-i18next";
+import {WithTranslation, withTranslation} from "react-i18next";
 import {Jumbotron} from "reactstrap";
 
 import {Button, Container} from "../../../reusable";
 
 const Style = require("./Overview.scss");
 
-export interface Props extends WithNamespaces {
+export interface Props extends WithTranslation {
     loggedIn: boolean;
     showRegisterModal(): void;
 }
@@ -27,4 +27,4 @@ const Overview = ({loggedIn, showRegisterModal, t}: Props) => (
     </div>
 );
 
-export default withNamespaces()(Overview);
+export default withTranslation()(Overview);
