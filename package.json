@@ -129,7 +129,7 @@
     "socket.io-client": "^2.3.0",
     "style-loader": "^1.0.0",
     "svg-inline-loader": "^0.8.0",
-    "ts-loader": "^4.4.2",
+    "ts-loader": "^6.2.0",
     "types-bn": "0.0.1",
     "typescript": "^3.6.3",
     "typings-for-css-modules-loader": "^1.7.0",
