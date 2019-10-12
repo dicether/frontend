@@ -112,7 +112,7 @@
     "react-string-replace": "^0.4.4",
     "react-svg-loader": "^2.1.0",
     "react-textarea-autosize": "^7.1.0",
-    "react-toastify": "^4.5.2",
+    "react-toastify": "^5.4.0",
     "reactstrap": "^8.0.1",
     "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
