@@ -42,6 +42,6 @@
     "jsx-space-before-trailing-slash": true,
     "no-consecutive-blank-lines": [true, 2],
     "no-implicit-dependencies": [true, ["assets"]],
-    "no-submodule-imports": [true, "assets"]
+    "no-submodule-imports": [true, "assets", "core-js", "regenerator-runtime"]
   }
 }

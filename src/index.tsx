@@ -1,7 +1,8 @@
-import "@babel/polyfill";
+import "core-js/stable";
 import Raven from "raven-js";
 import * as React from "react";
 import {render} from "react-dom";
+import "regenerator-runtime/runtime";
 import "what-input";
 
 import "./config/interceptors";
