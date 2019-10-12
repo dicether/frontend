@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const merge = require('webpack-merge');
 const SitemapPlugin = require('sitemap-webpack-plugin').default;
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 
 const common = require('./common');
 const config = require('./config');
@@ -41,7 +41,7 @@ module.exports = merge(common, {
         new webpack.SourceMapDevToolPlugin({
             filename: '[file].map',
         }),
-        new CleanWebpackPlugin('dist', {root: process.cwd()})
+        new CleanWebpackPlugin()
     ],
     optimization: {
         minimize: true

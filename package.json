@@ -68,7 +68,7 @@
     "check-update": "0.0.8",
     "circular-dependency-plugin": "^5.2.0",
     "classnames": "^2.2.5",
-    "clean-webpack-plugin": "^0.1.19",
+    "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.0.4",
     "core-js": "^2.6.9",
     "css-loader": "^3.2.0",
