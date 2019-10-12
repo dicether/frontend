@@ -35,6 +35,7 @@ const PayoutTable = ({selectedTiles, numHits}: Props) => {
         <div className={Style.payoutTable}>
             {[...Array(selectedTiles + 1).keys()].map(t => (
                 <Entry
+                    key={selectedTiles}
                     hits={t}
                     payout={KENO_PAY_OUT[selectedTiles][t] / KENO_DIVIDER}
                     won={numHits === t ? KENO_PAY_OUT[selectedTiles][numHits] > 0 : undefined}

@@ -1,7 +1,7 @@
 import * as React from "react";
 import {connect} from "react-redux";
 
-import {RouteComponentProps} from "react-router";
+import {RouteComponentProps} from "react-router-dom";
 import {bindActionCreators} from "redux";
 import BetsList from "../../platform/components/bet/BetsList";
 import {User as UserType} from "../../platform/modules/account/types";

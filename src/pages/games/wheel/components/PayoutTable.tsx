@@ -25,7 +25,12 @@ const PayoutTable = ({payoutTable, showMultiplier, multiplier}: Props) => {
     return (
         <div className={Style.payoutTable}>
             {payoutTable.map(p => (
-                <PayoutInfo multiplier={p.value} color={p.color} show={showMultiplier && multiplier === p.value} />
+                <PayoutInfo
+                    key={p.value}
+                    multiplier={p.value}
+                    color={p.color}
+                    show={showMultiplier && multiplier === p.value}
+                />
             ))}
         </div>
     );

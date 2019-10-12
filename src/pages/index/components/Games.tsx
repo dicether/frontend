@@ -1,4 +1,4 @@
-import i18next, {TFunction} from "i18next";
+import i18next from "i18next";
 import * as React from "react";
 import {withTranslation} from "react-i18next";
 import {Link} from "react-router-dom";

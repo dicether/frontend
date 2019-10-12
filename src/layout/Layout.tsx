@@ -1,9 +1,8 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {withRouter} from "react-router-dom";
+import {RouteComponentProps, withRouter} from "react-router-dom";
 import {bindActionCreators, Dispatch} from "redux";
 
-import {RouteComponentProps} from "react-router";
 import {authenticate} from "../platform/modules/account/asyncActions";
 import {toggleChat} from "../platform/modules/chat/actions";
 import {showRegisterModal} from "../platform/modules/modals/actions";

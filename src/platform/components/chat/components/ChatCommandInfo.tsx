@@ -19,7 +19,7 @@ class ChatCommandInfo extends React.Component<Props> {
         return (
             <div className={Style.chatCommandInfo}>
                 {matchingCommands.map(x => (
-                    <div className={Style.command}>
+                    <div key={x.name} className={Style.command}>
                         <span>
                             {x.name} {x.params}
                         </span>
