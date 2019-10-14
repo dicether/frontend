@@ -57,7 +57,7 @@
     "@types/socket.io-client": "^1.4.32",
     "@types/underscore": "^1.9.3",
     "async-retry": "^1.2.3",
-    "autoprefixer": "^9.6.4",
+    "autoprefixer": "^9.6.5",
     "axios": "^0.19.0",
     "babel-loader": "^8.0.6",
     "bignumber.js": "^9.0.0",
