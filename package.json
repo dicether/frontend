@@ -63,7 +63,7 @@
     "bignumber.js": "^9.0.0",
     "bn.js": "^5.0.0",
     "bootstrap": "^4.3.1",
-    "browserslist": "^4.7.0",
+    "browserslist": "^4.7.1",
     "check-update": "0.0.8",
     "circular-dependency-plugin": "^5.2.0",
     "classnames": "^2.2.5",
