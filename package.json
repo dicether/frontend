@@ -136,7 +136,7 @@
     "web3": "^1.2.1",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.9",
-    "webpack-dev-server": "^3.8.2",
+    "webpack-dev-server": "^3.9.0",
     "webpack-merge": "^4.2.2",
     "webpack-vendor-chunk-plugin": "^1.0.0",
     "what-input": "^5.2.6"
