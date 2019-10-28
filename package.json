@@ -95,7 +95,7 @@
     "raven-for-redux": "^1.1.1",
     "raven-js": "^3.27.2",
     "rc-slider": "^8.7.1",
-    "react": "^16.10.2",
+    "react": "^16.11.0",
     "react-bootstrap-switch": "^15.5.2",
     "react-copy-to-clipboard": "^5.0.1",
     "react-countdown-now": "^2.1.1",
