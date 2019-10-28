@@ -103,7 +103,7 @@
     "react-dom": "^16.10.2",
     "react-emojione": "^5.0.1",
     "react-flag-icon-css": "^1.0.25",
-    "react-i18next": "^10.13.1",
+    "react-i18next": "^11.0.0",
     "react-numeric-input": "^2.1.0",
     "react-redux": "^7.1.1",
     "react-resize-detector": "^4.2.1",
