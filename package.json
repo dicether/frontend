@@ -89,7 +89,7 @@
     "moment": "^2.24.0",
     "node-sass": "^4.13.0",
     "popper.js": "^1.16.0",
-    "postcss-at-rules-variables": "^0.1.8",
+    "postcss-at-rules-variables": "^0.1.9",
     "postcss-loader": "^3.0.0",
     "query-string": "^6.8.3",
     "raven-for-redux": "^1.1.1",
