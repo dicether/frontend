@@ -142,7 +142,7 @@
     "what-input": "^5.2.6"
   },
   "devDependencies": {
-    "@types/ethereumjs-util": "^5.2.0",
+    "@types/ethereumjs-util": "^6.1.0",
     "@types/i18next-browser-languagedetector": "^3.0.0",
     "@types/query-string": "^6.3.0",
     "@types/react-document-title": "^2.0.3",
