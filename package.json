@@ -97,7 +97,7 @@
     "rc-slider": "^8.7.1",
     "react": "^16.11.0",
     "react-bootstrap-switch": "^15.5.2",
-    "react-copy-to-clipboard": "^5.0.1",
+    "react-copy-to-clipboard": "^5.0.2",
     "react-countdown-now": "^2.1.2",
     "react-document-title": "^2.0.3",
     "react-dom": "^16.11.0",
