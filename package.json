@@ -42,7 +42,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.11.2",
     "@fortawesome/react-fontawesome": "0.1.7",
     "@types/async-retry": "^1.4.1",
-    "@types/bluebird": "^3.5.28",
+    "@types/bluebird": "^3.5.29",
     "@types/classnames": "^2.2.9",
     "@types/jwt-decode": "^2.2.1",
     "@types/rc-slider": "^8.6.5",
