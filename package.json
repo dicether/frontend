@@ -164,7 +164,7 @@
     "stylelint-scss": "^3.12.1",
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
-    "tslint-config-standard": "^8.0.1",
+    "tslint-config-standard": "^9.0.0",
     "tslint-react": "^4.1.0"
   }
 }
