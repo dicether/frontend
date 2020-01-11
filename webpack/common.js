@@ -87,8 +87,11 @@ module.exports = {
                     {
                         loader: 'sass-loader', options: {
                             sourceMap: true,
-                            includePaths: [path.join(__dirname, 'src')]
-                        }
+                            sassOptions: {
+                                includePaths: [path.join(__dirname, 'src')]
+                            }
+                        },
+
                     }
                 ]
             },
@@ -119,7 +122,9 @@ module.exports = {
                     {
                         loader: 'sass-loader', options: {
                             sourceMap: true,
-                            includePaths: [path.join(__dirname, 'src')]
+                            sassOptions: {
+                                includePaths: [path.join(__dirname, 'src')]
+                            }
                         }
                     }
                 ]

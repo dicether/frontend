@@ -1,4 +1,4 @@
-import i18next from "i18next";
+import {TFunction} from "i18next";
 import * as React from "react";
 import {withTranslation} from "react-i18next";
 import {Link} from "react-router-dom";
@@ -14,7 +14,7 @@ const WheelLogo = require("assets/images/wheelLogo.svg");
 
 const Style = require("./Games.scss");
 
-const Games = ({t}: {t: i18next.TFunction}) => (
+const Games = ({t}: {t: TFunction}) => (
     <Section className={Style.games}>
         <Container>
             <h2 className="text-center">Games</h2>
