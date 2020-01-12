@@ -5,7 +5,7 @@
   "main": "config.js",
   "scripts": {
     "start": "DEV_SERVER=TRUE webpack-dev-server --config webpack/dev.js --progress --port 2992",
-    "build-staging": "webpack --config webpack/staging.js --progress --profile",
+    "build-staging": " node --max_old_space_size=8000 ./node_modules/.bin/webpack --config webpack/staging.js --progress --profile",
     "build-production": "webpack --config webpack/prod.js --progress --profile ",
     "lint": "tslint -p ./",
     "i18next": "i18next 'src/**/*.tsx' -c i18next-parser.config.js -o 'assets/locales/$LOCALE/$NAMESPACE.json'"
