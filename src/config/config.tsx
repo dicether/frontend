@@ -1,15 +1,15 @@
-import ethUtil from "ethereumjs-util";
+import {toChecksumAddress} from "ethereumjs-util";
 
 export const NAME = "Dicether";
 
-export const CONTRACT_ADDRESS = ethUtil.toChecksumAddress(process.env.CONTRACT_ADDRESS || "");
+export const CONTRACT_ADDRESS = toChecksumAddress(process.env.CONTRACT_ADDRESS || "");
 export const CHAIN_ID = Number.parseInt(process.env.CHAIN_ID || "", 10);
 export const SIGNATURE_VERSION = 2;
 export const NEW_EIP_GAME_ID = 572;
 export const NEW_EIP_GAME_ID_2 = 1759;
 export const OLD_EIP_GAME_ID = 638;
 
-export const SERVER_ADDRESS = ethUtil.toChecksumAddress(process.env.SERVER_ADDRESS || "");
+export const SERVER_ADDRESS = toChecksumAddress(process.env.SERVER_ADDRESS || "");
 
 export const DISCORD_URL = "https://discord.gg/kD7FajM";
 export const REDDIT_URL = "https://www.reddit.com/r/Dicether";

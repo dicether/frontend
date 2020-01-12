@@ -1,6 +1,6 @@
 import {hashTypedData, recoverTypedData} from "@dicether/eip712";
 import BN from "bn.js";
-import ethUtil from "ethereumjs-util";
+import {bufferToHex, toChecksumAddress} from "ethereumjs-util";
 import Raven from "raven-js";
 import Web3 from "web3";
 import {TransactionReceipt} from "web3/types"; // tslint:disable-line:no-submodule-imports
@@ -60,7 +60,7 @@ export function fetchAccount() {
                         return;
                     }
 
-                    const account = ethUtil.toChecksumAddress(accounts[0]);
+                    const account = toChecksumAddress(accounts[0]);
                     if (account !== curAccount) {
                         dispatch(changeAccount(account));
                     }
@@ -118,7 +118,7 @@ export async function requestAccounts(dispatch: Dispatch) {
 
 export async function signTypedData(web3: Web3, from: string, typedData: any): Promise<string> {
     if ((web3.currentProvider as any).isToshi) {
-        const typedDataHash = ethUtil.bufferToHex(hashTypedData(typedData) as Buffer);
+        const typedDataHash = bufferToHex(hashTypedData(typedData) as Buffer);
         const sig = await web3.eth.sign(typedDataHash, from);
         const recoveredAddress = recoverTypedData(typedData, sig);
         if (recoveredAddress !== from) {
