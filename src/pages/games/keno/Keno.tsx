@@ -60,6 +60,7 @@ export type KenoState = {
 
 class Keno extends React.PureComponent<Props, KenoState> {
     private loadedSounds = false;
+    private pickTimeoutId = 0;
     private resultTimeoutId = 0;
 
     constructor(props: Props) {
@@ -72,15 +73,20 @@ class Keno extends React.PureComponent<Props, KenoState> {
         };
     }
 
+    componentWillUnmount() {
+        clearTimeout(this.pickTimeoutId);
+        clearTimeout(this.resultTimeoutId);
+    }
+
     private onToggleHelp = () => {
         const {toggleHelp, info} = this.props;
         toggleHelp(!info.showHelp);
-    }
+    };
 
     private onValueChange = (value: number) => {
         const {changeValue} = this.props;
         changeValue(value);
-    }
+    };
 
     private onClick = (tile: number) => {
         const {keno, changeNum} = this.props;
@@ -93,7 +99,7 @@ class Keno extends React.PureComponent<Props, KenoState> {
 
         const newNum = new BN(num).xor(new BN(1).shln(tile)).toNumber();
         changeNum(newNum);
-    }
+    };
 
     private onAutoPick = () => {
         const {keno, changeNum} = this.props;
@@ -114,8 +120,8 @@ class Keno extends React.PureComponent<Props, KenoState> {
         changeNum(newNum);
         this.playSound(sounds.menuDown);
 
-        setTimeout(this.onAutoPick, 100);
-    }
+        this.pickTimeoutId = window.setTimeout(this.onAutoPick, 100);
+    };
 
     private onClear = () => {
         const {changeNum} = this.props;
@@ -124,7 +130,7 @@ class Keno extends React.PureComponent<Props, KenoState> {
             return;
         }
         changeNum(0);
-    }
+    };
 
     private onPlaceBet = () => {
         const {
@@ -177,7 +183,7 @@ class Keno extends React.PureComponent<Props, KenoState> {
         } else {
             showErrorMessage(canBet.errorMessage);
         }
-    }
+    };
 
     private showResultHelper = (indices: number[]) => {
         const {showResult, tmpResult, result} = this.state;
@@ -204,7 +210,7 @@ class Keno extends React.PureComponent<Props, KenoState> {
         } else {
             window.setTimeout(this.showResultHelper, 200, indices);
         }
-    }
+    };
 
     private showResult = () => {
         const {result} = this.state;
@@ -214,7 +220,7 @@ class Keno extends React.PureComponent<Props, KenoState> {
         const indices = resultTiles.map((x, i) => (x ? i : -1)).filter(idx => idx !== -1);
         shuffle(indices);
         this.showResultHelper(indices);
-    }
+    };
 
     private playSound = (audio: HTMLAudioElement) => {
         const {info} = this.props;
@@ -223,7 +229,7 @@ class Keno extends React.PureComponent<Props, KenoState> {
         if (sound) {
             audio.playFromBegin();
         }
-    }
+    };
 
     render() {
         const {info, gameState, keno} = this.props;
@@ -256,7 +262,4 @@ class Keno extends React.PureComponent<Props, KenoState> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Keno);
+export default connect(mapStateToProps, mapDispatchToProps)(Keno);
