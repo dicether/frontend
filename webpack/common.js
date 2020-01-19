@@ -149,7 +149,14 @@ module.exports = {
             },
             {
                 test: /\.(ttf|eot|wav)(\?[\s\S]+)?$/,
-                use: 'file-loader'
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            esModule: false,
+                        }
+                    }
+                 ]
             },
             {
                 test: /\.js$/,
