@@ -505,7 +505,7 @@ export function createGame(stake: number, userSeed: string) {
                         value: fromGweiToWei(stake).toString(),
                         gas: 180000,
                     })
-                    .on((error: Error) => {
+                    .on("error", (error: Error) => {
                         reject(error);
                     })
                     .on("transactionHash", (transactionHash: string) => {
