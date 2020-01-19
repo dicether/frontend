@@ -67,7 +67,7 @@ class App extends React.Component<Props, State> {
         this.state = {web3Timer: null};
     }
 
-    componentWillMount() {
+    componentDidMount() {
         const {jwt, fetchAllWeb3, initUser, initSockets, loadDefaultData} = this.props;
 
         loadDefaultData();
@@ -106,12 +106,12 @@ class App extends React.Component<Props, State> {
         } else {
             document.body.classList.remove("night");
         }
-    }
+    };
 
     render() {
         const {userAuth, notification, defaultAccount, gameState} = this.props;
 
-        const logout = userAuth !== null && (userAuth.address !== defaultAccount && defaultAccount !== null);
+        const logout = userAuth !== null && userAuth.address !== defaultAccount && defaultAccount !== null;
 
         return (
             <DocumentTitle title="Dicether">
@@ -140,9 +140,4 @@ class App extends React.Component<Props, State> {
     }
 }
 
-export default withRouter(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )(App)
-);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));

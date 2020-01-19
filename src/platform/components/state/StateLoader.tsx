@@ -33,7 +33,7 @@ class StateLoader extends React.Component<Props> {
         super(props);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         const {syncGameState, userAuth, web3} = this.props;
 
         if (userAuth !== null && web3.web3 && web3.account && web3.contract && validNetwork(web3.networkId)) {
@@ -68,7 +68,4 @@ class StateLoader extends React.Component<Props> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(StateLoader);
+export default connect(mapStateToProps, mapDispatchToProps)(StateLoader);

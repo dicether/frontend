@@ -65,7 +65,7 @@ class Game extends React.Component<Props> {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         const {addStateListeners} = this.props;
         addStateListeners();
     }
@@ -78,42 +78,42 @@ class Game extends React.Component<Props> {
     createGame = (value: number, seed: string) => {
         const {createGame, catchError} = this.props;
         createGame(value, seed).catch(catchError);
-    }
+    };
 
     endGame = () => {
         const {endGame, catchError} = this.props;
         endGame().catch(catchError);
-    }
+    };
 
     requestSeed = () => {
         const {requestSeed, catchError} = this.props;
         requestSeed().catch(catchError);
-    }
+    };
 
     conflictEnd = () => {
         const {conflictEnd, catchError} = this.props;
         conflictEnd().catch(catchError);
-    }
+    };
 
     forceEnd = () => {
         const {forceEnd, catchError} = this.props;
         forceEnd().catch(catchError);
-    }
+    };
 
     onToggleHelp = (show: boolean) => {
         const {toggleHelp} = this.props;
         toggleHelp(show);
-    }
+    };
 
     onToggleExpertView = (show: boolean) => {
         const {toggleExpertView} = this.props;
         toggleExpertView(show);
-    }
+    };
 
     onToggleSound = (enabled: boolean) => {
         const {toggleSound} = this.props;
         toggleSound(enabled);
-    }
+    };
 
     render() {
         const {gameState, info, web3State, loggedIn} = this.props;
@@ -164,7 +164,4 @@ class Game extends React.Component<Props> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Game);
+export default connect(mapStateToProps, mapDispatchToProps)(Game);
