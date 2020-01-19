@@ -60,10 +60,15 @@ class Wheel extends React.PureComponent<Props, KenoState> {
         };
     }
 
+    public componentWillUnmount() {
+        clearTimeout(this.resultShowTimeoutId);
+        clearTimeout(this.resultUntilShowTimeoutId);
+    }
+
     private onToggleHelp = () => {
         const {toggleHelp, info} = this.props;
         toggleHelp(!info.showHelp);
-    }
+    };
 
     private onPlaceBet = () => {
         const {
@@ -128,12 +133,12 @@ class Wheel extends React.PureComponent<Props, KenoState> {
         } else {
             showErrorMessage(canBet.errorMessage);
         }
-    }
+    };
 
     private onValueChange = (value: number) => {
         const {changeValue} = this.props;
         changeValue(value);
-    }
+    };
 
     private onRiskChange = (risk: number) => {
         // TODO: as action
@@ -141,7 +146,7 @@ class Wheel extends React.PureComponent<Props, KenoState> {
         const {num} = wheel;
         const newNum = risk * 100 + (num % 100);
         changeNum(newNum);
-    }
+    };
 
     private onSegmentsChange = (segments: number) => {
         // TODO: as action
@@ -149,7 +154,7 @@ class Wheel extends React.PureComponent<Props, KenoState> {
         const {num} = wheel;
         const newNum = Math.floor(num / 100) * 100 + segments;
         changeNum(newNum);
-    }
+    };
 
     private playSound = (audio: HTMLAudioElement) => {
         const {info} = this.props;
@@ -158,7 +163,7 @@ class Wheel extends React.PureComponent<Props, KenoState> {
         if (sound) {
             audio.playFromBegin();
         }
-    }
+    };
 
     render() {
         const {nightMode, info, gameState, wheel} = this.props;
@@ -191,7 +196,4 @@ class Wheel extends React.PureComponent<Props, KenoState> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Wheel);
+export default connect(mapStateToProps, mapDispatchToProps)(Wheel);

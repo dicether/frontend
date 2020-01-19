@@ -58,15 +58,19 @@ class ChooseFrom12 extends React.PureComponent<Props, OneDiceState> {
         };
     }
 
+    public componentWillUnmount() {
+        clearTimeout(this.resultTimeoutId);
+    }
+
     private onToggleHelp = () => {
         const {toggleHelp, info} = this.props;
         toggleHelp(!info.showHelp);
-    }
+    };
 
     private onValueChange = (value: number) => {
         const {changeValue} = this.props;
         changeValue(value);
-    }
+    };
 
     private onClick = (diceNum: number) => {
         const {oneDice, changeNum} = this.props;
@@ -79,7 +83,7 @@ class ChooseFrom12 extends React.PureComponent<Props, OneDiceState> {
 
         const newNum = (1 << diceNum) ^ num; // tslint:disable-line:no-bitwise
         changeNum(newNum);
-    }
+    };
 
     private onPlaceBet = () => {
         const {
@@ -122,7 +126,7 @@ class ChooseFrom12 extends React.PureComponent<Props, OneDiceState> {
         } else {
             showErrorMessage(canBet.errorMessage);
         }
-    }
+    };
 
     render() {
         const {info, gameState, oneDice} = this.props;
@@ -152,7 +156,4 @@ class ChooseFrom12 extends React.PureComponent<Props, OneDiceState> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(ChooseFrom12);
+export default connect(mapStateToProps, mapDispatchToProps)(ChooseFrom12);
