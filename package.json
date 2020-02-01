@@ -123,7 +123,7 @@
     "resolve-url-loader": "^3.1.1",
     "respond": "^0.9.0",
     "respond.js": "^1.4.2",
-    "sass-loader": "^8.0.1",
+    "sass-loader": "^8.0.2",
     "sitemap-webpack-plugin": "^0.6.0",
     "socket.io-client": "^2.3.0",
     "style-loader": "^1.1.2",
