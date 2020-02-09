@@ -1,7 +1,7 @@
 import * as React from "react";
 import {WithTranslation, withTranslation} from "react-i18next";
 
-import {DefinitionEntry, Ether} from "../../../../reusable";
+import {CopyToClipBoard, DefinitionEntry, Ether} from "../../../../reusable";
 import {Campaign} from "./types";
 
 type CampaignProps = {
@@ -12,6 +12,10 @@ const Campaign = ({campaign}: CampaignProps) => (
     <div>
         <h4 style={{marginTop: "1rem"}}>
             {campaign.name} ({`https://dicether.com/?ref=${campaign.id}`})
+            <CopyToClipBoard
+                message={"Copied! You can paste it now!"}
+                content={`https://dicether.com/?ref=${campaign.id}`}
+            />
         </h4>
         <dl>
             <DefinitionEntry name="Hits:" value={campaign.hits} />
