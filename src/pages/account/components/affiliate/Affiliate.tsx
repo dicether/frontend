@@ -49,7 +49,7 @@ class Affiliate extends React.Component<Props, State> {
                 });
             })
             .catch(error => catchError(error));
-    }
+    };
 
     createCampaign = (id: string, name: string) => {
         const {catchError, showSuccessMessage} = this.props;
@@ -63,7 +63,7 @@ class Affiliate extends React.Component<Props, State> {
                 showSuccessMessage(`Created new campaign ${name}!`);
             })
             .catch(error => catchError(error));
-    }
+    };
 
     withdrawBalance = () => {
         const {catchError, showSuccessMessage} = this.props;
@@ -76,23 +76,21 @@ class Affiliate extends React.Component<Props, State> {
                 showSuccessMessage("Balance withdrawn!");
             })
             .catch(error => catchError(error));
-    }
+    };
 
     render() {
         const {campaigns, balance} = this.state;
+        const {t} = this.props;
 
         return (
             <div>
                 <div>
                     <p>
-                        <Trans i18nKey="affiliateDescription">
-                            Dicether offers a 10% affiliate system. You will receive 10% of the expected house edge for
-                            every bet placed by a referred user. For a detailed description see{" "}
-                            <a target="_blank" href={DESCRIPTION_LINK}>
-                                How to create a affiliate campaign
-                            </a>
-                            .
-                        </Trans>
+                        {t("AffiliateDescription")}
+                        <a target="_blank" href={DESCRIPTION_LINK}>
+                            {t("AffiliateManualLink")}
+                        </a>
+                        .
                     </p>
                 </div>
                 <Balance balance={balance} withDrawBalance={this.withdrawBalance} />
@@ -103,9 +101,4 @@ class Affiliate extends React.Component<Props, State> {
     }
 }
 
-export default withTranslation()(
-    connect(
-        null,
-        mapDispatchToProps
-    )(Affiliate)
-);
+export default withTranslation()(connect(null, mapDispatchToProps)(Affiliate));
