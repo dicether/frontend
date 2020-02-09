@@ -1,6 +1,6 @@
 import {hashTypedData, recoverTypedData} from "@dicether/eip712";
 import BN from "bn.js";
-import {bufferToHex, toChecksumAddress} from "ethereumjs-util";
+import {bufferToHex, ecrecover, fromRpcSig, pubToAddress, toChecksumAddress} from "ethereumjs-util";
 import Raven from "raven-js";
 import Web3 from "web3";
 import {TransactionReceipt} from "web3/types"; // tslint:disable-line:no-submodule-imports
@@ -118,14 +118,19 @@ export async function requestAccounts(dispatch: Dispatch) {
 
 export async function signTypedData(web3: Web3, from: string, typedData: any): Promise<string> {
     if ((web3.currentProvider as any).isToshi) {
-        const typedDataHash = bufferToHex(hashTypedData(typedData) as Buffer);
+        const typedDataHashBuf = hashTypedData(typedData) as Buffer;
+        const typedDataHash = bufferToHex(typedDataHashBuf);
         const sig = await web3.eth.sign(typedDataHash, from);
         const recoveredAddress = recoverTypedData(typedData, sig);
         if (recoveredAddress !== from) {
+            const sigParams = fromRpcSig(sig);
+            const pubKey = ecrecover(typedDataHashBuf, sigParams.v, sigParams.r, sigParams.s);
+            const manualRecoveredAddress = toChecksumAddress(bufferToHex(pubToAddress(pubKey)));
+
             Raven.captureMessage(
                 `Invalid sig ${sig} of hash ${typedDataHash} of data ${JSON.stringify(
                     typedData
-                )} recovered ${recoveredAddress} instead of ${from}.`
+                )} recovered ${recoveredAddress} (manual recovered ${manualRecoveredAddress}) instead of ${from}.`
             );
         }
         return sig;
