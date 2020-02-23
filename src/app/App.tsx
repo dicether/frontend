@@ -84,9 +84,9 @@ class App extends React.Component<Props, State> {
         this.setTheme(this.props.nightMode);
     }
 
-    componentWillReceiveProps(nextProps: Props) {
-        if (nextProps.nightMode !== this.props.nightMode) {
-            this.setTheme(nextProps.nightMode);
+    componentDidUpdate(prevProps: Props) {
+        if (prevProps.nightMode !== this.props.nightMode) {
+            this.setTheme(this.props.nightMode);
         }
     }
 
