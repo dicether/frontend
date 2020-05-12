@@ -1,7 +1,7 @@
-import createRavenMiddleware from "raven-for-redux";
-import Raven from "raven-js";
+import * as Sentry from "@sentry/browser";
 import {applyMiddleware, createStore, Middleware} from "redux";
 import {createLogger} from "redux-logger";
+import createSentryMiddleware from "redux-sentry-middleware";
 import thunkMiddleware from "redux-thunk";
 import rootReducer, {State} from "./rootReducer";
 
@@ -25,12 +25,20 @@ function filterAction(action: any) {
 }
 
 if (process.env.SENTRY_LOGGING) {
-    Raven.config("https://551f6a44d9a54cfe9c18e976685f8234@sentry.io/227657").install();
+    Sentry.init({
+        dsn: "https://551f6a44d9a54cfe9c18e976685f8234@sentry.io/227657",
+        normalizeDepth: 10,
+        beforeBreadcrumb(breadcrumb, hint) {
+            if (breadcrumb.category === "xhr") {
+                breadcrumb.data = {xhr: hint?.xhr};
+            }
+            return breadcrumb;
+        },
+    });
     middlewares.push(
-        createRavenMiddleware(Raven, {
+        createSentryMiddleware(Sentry, {
             stateTransformer: filterState,
             actionTransformer: filterAction,
-            debug: true,
         })
     );
 }

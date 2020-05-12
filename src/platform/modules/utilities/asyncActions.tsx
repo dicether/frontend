@@ -1,4 +1,4 @@
-import Raven from "raven-js";
+import * as Sentry from "@sentry/browser";
 import {Dispatch} from "../../../util/util";
 import {showErrorMessage} from "./actions";
 
@@ -8,7 +8,7 @@ function extractFirstLine(str: string) {
 }
 
 export function catchError(error: any, dispatch: Dispatch) {
-    Raven.captureException(error);
+    Sentry.captureException(error);
 
     const response = error.response;
     const data = response ? response.data : null;

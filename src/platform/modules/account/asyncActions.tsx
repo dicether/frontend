@@ -1,6 +1,6 @@
+import * as Sentry from "@sentry/browser";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
-import Raven from "raven-js";
 
 import {changeAxiosAuthToken} from "../../../config/apiEndpoints";
 import {REALM} from "../../../config/config";
@@ -18,12 +18,18 @@ import {User} from "./types";
 
 const authenticateTypes = {
     EIP712Domain: [{name: "name", type: "string"}],
-    Authenticate: [{name: "address", type: "address"}, {name: "nonce", type: "uint64"}],
+    Authenticate: [
+        {name: "address", type: "address"},
+        {name: "nonce", type: "uint64"},
+    ],
 };
 
 const registerTypes = {
     EIP712Domain: [{name: "name", type: "string"}],
-    Register: [{name: "address", type: "address"}, {name: "username", type: "string"}],
+    Register: [
+        {name: "address", type: "address"},
+        {name: "username", type: "string"},
+    ],
 };
 
 export function changeFirstVisited(firstVisited: boolean) {
@@ -168,7 +174,7 @@ export function deauthenticate() {
             dispatch({type: "USER_LOGOUT"});
             dispatch(deAuthenticateSocket());
             loadDefaultData(dispatch);
-            Raven.setUserContext();
+            Sentry.configureScope(scope => scope.setUser({}));
         }
     };
 }
@@ -200,10 +206,12 @@ export function initUser(dispatch: Dispatch, jwt: string) {
     dispatch(loadFriends(address)).catch(console.log);
     dispatch(loadFriendRequests(address)).catch(console.log);
     dispatch(authenticateSocket());
-    Raven.setUserContext({
-        username,
-        address,
-    });
+    Sentry.configureScope(scope =>
+        scope.setUser({
+            username,
+            address,
+        })
+    );
 }
 
 export function loadDefaultData(dispatch: Dispatch) {

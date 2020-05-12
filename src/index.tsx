@@ -1,5 +1,4 @@
 import "core-js/stable";
-import Raven from "raven-js";
 import * as React from "react";
 import {render} from "react-dom";
 import "regenerator-runtime/runtime";
@@ -16,7 +15,5 @@ parseReferral();
 
 const root = document.getElementById("root");
 if (root !== null) {
-    Raven.context(() => {
-        render(<Root store={store} />, root);
-    });
+    render(<Root store={store} />, root);
 }

@@ -1,5 +1,5 @@
 import {Bet, keccak} from "@dicether/state-channel";
-import Raven from "raven-js";
+import * as Sentry from "@sentry/browser";
 
 import {ActionType, assertNever} from "../../../../util/util";
 import * as actions from "./actions";
@@ -84,7 +84,7 @@ function placeBet(state: State, bet: Bet, serverSig: string, userSig: string): S
             userSig,
         };
     } else {
-        Raven.captureMessage("Unexpected place bet in reducer!");
+        Sentry.captureMessage("Unexpected place bet in reducer!");
         return state;
     }
 }
@@ -100,7 +100,7 @@ function revealSeed(state: State, serverSeed: string, userSeed: string, balance:
             balance,
         };
     } else {
-        Raven.captureMessage("Unexpected reveal seed in reducer!");
+        Sentry.captureMessage("Unexpected reveal seed in reducer!");
         return state;
     }
 }

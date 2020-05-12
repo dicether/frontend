@@ -1,7 +1,7 @@
 import {hashTypedData, recoverTypedData} from "@dicether/eip712";
+import * as Sentry from "@sentry/browser";
 import BN from "bn.js";
 import {bufferToHex, ecrecover, fromRpcSig, pubToAddress, toChecksumAddress} from "ethereumjs-util";
-import Raven from "raven-js";
 import Web3 from "web3";
 import {TransactionReceipt} from "web3/types"; // tslint:disable-line:no-submodule-imports
 
@@ -127,7 +127,7 @@ export async function signTypedData(web3: Web3, from: string, typedData: any): P
             const pubKey = ecrecover(typedDataHashBuf, sigParams.v, sigParams.r, sigParams.s);
             const manualRecoveredAddress = toChecksumAddress(bufferToHex(pubToAddress(pubKey)));
 
-            Raven.captureMessage(
+            Sentry.captureMessage(
                 `Invalid sig ${sig} of hash ${typedDataHash} of data ${JSON.stringify(
                     typedData
                 )} recovered ${recoveredAddress} (manual recovered ${manualRecoveredAddress}) instead of ${from}.`
@@ -160,7 +160,7 @@ export async function signTypedData(web3: Web3, from: string, typedData: any): P
 
         const recoveredAddress = recoverTypedData(typedData, sig);
         if (recoveredAddress !== from) {
-            Raven.captureMessage(
+            Sentry.captureMessage(
                 `Invalid sig ${sig} of data ${JSON.stringify(
                     typedData
                 )} recovered ${recoveredAddress} instead of ${from}.`

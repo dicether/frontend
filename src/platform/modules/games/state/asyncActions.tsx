@@ -12,9 +12,9 @@ import {
     verifySeed,
     verifySignature,
 } from "@dicether/state-channel";
+import * as Sentry from "@sentry/browser";
 import retry from "async-retry";
 import axios from "axios";
-import Raven from "raven-js";
 import Web3 from "web3";
 
 import {TransactionReceipt} from "../../../../../typings/web3/types";
@@ -64,7 +64,7 @@ function createGameEvent(hashChain: string[], serverEndHash: string, value: numb
         if (canCreateGame(getState().games.gameState)) {
             dispatch(creatingGame(hashChain, serverEndHash, value, transactionHash));
         } else {
-            Raven.captureMessage("Unexpected createGameEvent");
+            Sentry.captureMessage("Unexpected createGameEvent");
         }
     };
 }
@@ -79,7 +79,7 @@ function endGameEvent(reason: ReasonEnded) {
         if (canEndGame(getState().games.gameState)) {
             dispatch(endedWithReason(reason));
         } else {
-            Raven.captureMessage("Unexpected endGameEvent");
+            Sentry.captureMessage("Unexpected endGameEvent");
         }
     };
 }
@@ -101,7 +101,7 @@ function regularEndGameEvent(
         if (canRegularEndGame(getState().games.gameState)) {
             dispatch(endedGame(roundId, serverHash, userHash, serverSig, userSig, endTransactionHash));
         } else {
-            Raven.captureMessage("Unexpected regularEndGameEvent");
+            Sentry.captureMessage("Unexpected regularEndGameEvent");
         }
     };
 }
@@ -124,7 +124,7 @@ function activateGameEvent(gameId: number, serverHash: string, userHash: string)
 
             dispatch(gameCreated(gameId));
         } else {
-            Raven.captureMessage("Unexpected activateGameEvent");
+            Sentry.captureMessage("Unexpected activateGameEvent");
         }
     };
 }
@@ -139,7 +139,7 @@ function placeBetEvent(bet: Bet, serverSig: string, userSig: string) {
         if (canPlaceBet(getState().games.gameState)) {
             dispatch(addBet(bet, serverSig, userSig));
         } else {
-            Raven.captureMessage("Unexpected placeBetEvent");
+            Sentry.captureMessage("Unexpected placeBetEvent");
         }
     };
 }
@@ -154,7 +154,7 @@ function revealSeedEvent(serverSeed: string, userSeed: string, balance: number) 
         if (canRevealSeed(getState().games.gameState)) {
             dispatch(revealSeed(serverSeed, userSeed, balance));
         } else {
-            Raven.captureMessage("Unexpected revealSeedEvent");
+            Sentry.captureMessage("Unexpected revealSeedEvent");
         }
     };
 }
@@ -169,7 +169,7 @@ function userInitiateConflictEndEvent(transactionHash: string) {
         if (canUserInitiateConflictEnd(getState().games.gameState)) {
             dispatch(userInitiateConflictEnd(transactionHash));
         } else {
-            Raven.captureMessage("Unexpected userInitiateConflictEndEvent");
+            Sentry.captureMessage("Unexpected userInitiateConflictEndEvent");
         }
     };
 }
@@ -184,7 +184,7 @@ function userConflictEndEvent(time: Date) {
         if (canUserConflictEnd(getState().games.gameState)) {
             dispatch(userConflictEnd(time));
         } else {
-            Raven.captureMessage("Unexpected userConflictEndEvent");
+            Sentry.captureMessage("Unexpected userConflictEndEvent");
         }
     };
 }
@@ -199,7 +199,7 @@ function userAbortConflictEndEvent() {
         if (canUserAbortConflictEnd(getState().games.gameState)) {
             dispatch(userAbortConflictEnd());
         } else {
-            Raven.captureMessage("Unexpected userAbortConflictEndEvent");
+            Sentry.captureMessage("Unexpected userAbortConflictEndEvent");
         }
     };
 }
@@ -214,7 +214,7 @@ function userInitiateForceEndEvent(transactionHash: string) {
         if (canUserInitiateForceEnd(getState().games.gameState)) {
             dispatch(userInitiateForceEnd(transactionHash));
         } else {
-            Raven.captureMessage("Unexpected userInitiateForceEndEvent");
+            Sentry.captureMessage("Unexpected userInitiateForceEndEvent");
         }
     };
 }
@@ -229,7 +229,7 @@ function userForceEndEvent() {
         if (canUserForceEnd(getState().games.gameState)) {
             dispatch(endedWithReason("END_FORCED_BY_USER"));
         } else {
-            Raven.captureMessage("Unexpected userForceEndEvent");
+            Sentry.captureMessage("Unexpected userForceEndEvent");
         }
     };
 }
@@ -244,7 +244,7 @@ function userAbortForceEndEvent() {
         if (canUserAbortForceEnd(getState().games.gameState)) {
             dispatch(userAbortForceEnd());
         } else {
-            Raven.captureMessage("Unexpected userAbortForceEndEvent");
+            Sentry.captureMessage("Unexpected userAbortForceEndEvent");
         }
     };
 }
@@ -266,7 +266,7 @@ function serverConflictEndEvent() {
         if (canServerConflictEnd(getState().games.gameState)) {
             dispatch(serverConflictEnd());
         } else {
-            Raven.captureMessage("Unexpected serverConflictEndEvent");
+            Sentry.captureMessage("Unexpected serverConflictEndEvent");
         }
     };
 }
