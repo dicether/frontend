@@ -134,7 +134,7 @@
     "typescript": "^3.7.4",
     "typings-for-css-modules-loader": "^1.7.0",
     "url-loader": "^3.0.0",
-    "web3": "^1.2.4",
+    "web3": "^1.2.7",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.1",
