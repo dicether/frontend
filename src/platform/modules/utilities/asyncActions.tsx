@@ -8,7 +8,16 @@ function extractFirstLine(str: string) {
 }
 
 export function catchError(error: any, dispatch: Dispatch) {
-    Sentry.captureException(error);
+    // sentry expects an error object
+    if (error instanceof Error) {
+        Sentry.captureException(error);
+    } else {
+        Sentry.withScope(scope => {
+            scope.setExtra("error_object", error);
+            const sentryError = new Error(error.message);
+            Sentry.captureException(sentryError);
+        });
+    }
 
     const response = error.response;
     const data = response ? response.data : null;
