@@ -41,7 +41,7 @@
     "@fortawesome/free-regular-svg-icons": "^5.12.0",
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
     "@fortawesome/react-fontawesome": "0.1.8",
-    "@sentry/browser": "^5.15.5",
+    "@sentry/browser": "^5.17.0",
     "@types/async-retry": "^1.4.1",
     "@types/bluebird": "^3.5.29",
     "@types/classnames": "^2.2.9",
