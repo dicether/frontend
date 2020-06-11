@@ -73,7 +73,7 @@ class ChooseFrom12 extends React.PureComponent<Props, OneDiceState> {
     };
 
     private onClick = (diceNum: number) => {
-        const {oneDice, changeNum} = this.props;
+        const {info, oneDice, changeNum} = this.props;
         const {showResult, result} = this.state;
         const {num} = oneDice;
 
@@ -82,6 +82,10 @@ class ChooseFrom12 extends React.PureComponent<Props, OneDiceState> {
         }
 
         const newNum = (1 << diceNum) ^ num; // tslint:disable-line:no-bitwise
+
+        if (info.sound) {
+            sounds.tileSelect.playFromBegin();
+        }
         changeNum(newNum);
     };
 
