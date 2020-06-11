@@ -98,6 +98,7 @@ class Keno extends React.PureComponent<Props, KenoState> {
         }
 
         const newNum = new BN(num).xor(new BN(1).shln(tile)).toNumber();
+        this.playSound(sounds.tileSelect);
         changeNum(newNum);
     };
 
@@ -118,7 +119,7 @@ class Keno extends React.PureComponent<Props, KenoState> {
 
         const newNum = numBN.xor(oneBN.shln(tile)).toNumber();
         changeNum(newNum);
-        this.playSound(sounds.menuDown);
+        this.playSound(sounds.tileSelect);
 
         this.pickTimeoutId = window.setTimeout(this.onAutoPick, 100);
     };
@@ -152,7 +153,7 @@ class Keno extends React.PureComponent<Props, KenoState> {
             // workaround for sound playback on mobile browsers: load sounds in user gesture handler
             sounds.tileHit.load();
             sounds.tileMiss.load();
-            sounds.menuDown.load();
+            sounds.tileSelect.load();
             this.loadedSounds = true;
         }
 
