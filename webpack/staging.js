@@ -24,7 +24,8 @@ module.exports = merge(common, {
                 'SERVER_ADDRESS': JSON.stringify(config.serverAddress),
                 'API_URL': JSON.stringify(config.apiUrl),
                 'SOCKET_URL': JSON.stringify(config.websocketUrl),
-                'CHAIN_ID': JSON.stringify(config.chainId)
+                'CHAIN_ID': JSON.stringify(config.chainId),
+                'VERSION': JSON.stringify(config.version)
             }
         }),
         new webpack.SourceMapDevToolPlugin({

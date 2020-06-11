@@ -3,6 +3,7 @@ import {applyMiddleware, createStore, Middleware} from "redux";
 import {createLogger} from "redux-logger";
 import createSentryMiddleware from "redux-sentry-middleware";
 import thunkMiddleware from "redux-thunk";
+import {VERSION} from "./config/config";
 import rootReducer, {State} from "./rootReducer";
 
 const middlewares: Middleware[] = [thunkMiddleware];
@@ -27,6 +28,7 @@ function filterAction(action: any) {
 if (process.env.SENTRY_LOGGING) {
     Sentry.init({
         dsn: "https://551f6a44d9a54cfe9c18e976685f8234@sentry.io/227657",
+        release: `dicether@${VERSION}`,
         normalizeDepth: 10,
         beforeBreadcrumb(breadcrumb, hint) {
             if (breadcrumb.category === "xhr") {
