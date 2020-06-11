@@ -25,7 +25,7 @@ module.exports = merge(common, {
                 'API_URL': JSON.stringify(apiUrl),
                 'SOCKET_URL': JSON.stringify(websocketUrl),
                 'CHAIN_ID': JSON.stringify(chainId),
-                'VERSION': JSON.stringify(config.version)
+                'VERSION': JSON.stringify("dev_server")
             }
         })
     ],
