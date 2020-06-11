@@ -30,6 +30,7 @@ if (process.env.SENTRY_LOGGING) {
         dsn: "https://551f6a44d9a54cfe9c18e976685f8234@sentry.io/227657",
         release: `dicether@${VERSION}`,
         normalizeDepth: 10,
+        maxBreadcrumbs: 20,
         beforeBreadcrumb(breadcrumb, hint) {
             if (breadcrumb.category === "xhr") {
                 breadcrumb.data = {xhr: hint?.xhr};
