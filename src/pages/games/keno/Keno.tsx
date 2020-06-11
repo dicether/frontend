@@ -150,8 +150,8 @@ class Keno extends React.PureComponent<Props, KenoState> {
 
         if (!this.loadedSounds) {
             // workaround for sound playback on mobile browsers: load sounds in user gesture handler
-            sounds.win.load();
-            sounds.lose.load();
+            sounds.tileHit.load();
+            sounds.tileMiss.load();
             sounds.menuDown.load();
             this.loadedSounds = true;
         }
