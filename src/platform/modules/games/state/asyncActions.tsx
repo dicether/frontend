@@ -768,11 +768,14 @@ export function requestSeed() {
         }
 
         if (!canRevealSeed(gameState)) {
-            throw new Error(`Invalid game status: ${gameState.status}! Can not place bet!`);
+            throw new Error(`Invalid game status: ${gameState.status}! Can not reveal seed!`);
         }
 
         const betValue = gameState.betValue;
         const userSeed = gameState.hashChain[gameState.roundId];
+        const num = gameState.num;
+        const gameType = gameState.gameType;
+        const balance = gameState.balance;
 
         if (betValue === undefined || gameState.gameId === undefined || !serverHash) {
             throw new Error("Invalid game state!");
@@ -785,20 +788,31 @@ export function requestSeed() {
             throw new Error("Invalid server seed!");
         }
 
-        const newUserBalance = calcNewBalance(
-            gameState.gameType,
-            gameState.num,
-            betValue,
-            serverSeed,
-            userSeed,
-            gameState.balance
-        );
+        const resNum = calcResultNumber(gameType, serverSeed, userSeed, num);
+        const userProfit = calcUserProfit(gameType, num, betValue, resNum);
+        const newUserBalance = balance + userProfit;
+
         if (newServerBalance !== newUserBalance) {
             throw new Error(`Invalid server balance! Expected ${newUserBalance} got ${newServerBalance}`);
         }
 
-        dispatch(addNewBet(bet));
         dispatch(revealSeedEvent(serverSeed, userSeed, newServerBalance));
+
+        return {
+            betNum: bet.num,
+            num: resNum,
+            won: userProfit > 0,
+            userProfit,
+            bet,
+        };
+    };
+}
+
+export function manualRequestSeed() {
+    return async (dispatch: Dispatch, getState: GetState) => {
+        const result = await dispatch(requestSeed());
+        dispatch(addNewBet(result.bet));
+        return result;
     };
 }
 
@@ -871,30 +885,6 @@ export function placeBet(num: number, betValue: number, gameType: number) {
 
         dispatch(placeBetEvent(bet, serverSig, userSig));
 
-        const userSeed = gameState.hashChain[roundId];
-        const {data: dataRevealSeed} = await revealSeedRequest(gameId, roundId, userSeed);
-        const {serverSeed, balance: newServerBalance, bet: resultBet} = dataRevealSeed;
-
-        if (!verifySeed(serverSeed, serverHash)) {
-            throw new Error("Invalid server seed!");
-        }
-
-        const resNum = calcResultNumber(gameType, serverSeed, userSeed, num);
-        const userProfit = calcUserProfit(gameType, num, betValue, resNum);
-        const newUserBalance = balance + userProfit;
-
-        if (newServerBalance !== newUserBalance) {
-            throw new Error(`Invalid server balance! Expected ${newUserBalance} got ${newServerBalance}`);
-        }
-
-        dispatch(revealSeedEvent(serverSeed, userSeed, newServerBalance));
-
-        return {
-            betNum: bet.num,
-            num: resNum,
-            won: userProfit > 0,
-            userProfit,
-            bet: resultBet,
-        };
+        return dispatch(requestSeed());
     };
 }

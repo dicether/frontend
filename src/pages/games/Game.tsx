@@ -5,7 +5,13 @@ import {Route, RouteProps} from "react-router-dom";
 import {bindActionCreators} from "redux";
 import Stats from "../../platform/components/bet/Stats";
 import {toggleExpertView, toggleHelp, toggleSound} from "../../platform/modules/games/info/actions";
-import {conflictEnd, createGame, endGame, forceEnd, requestSeed} from "../../platform/modules/games/state/asyncActions";
+import {
+    conflictEnd,
+    createGame,
+    endGame,
+    forceEnd,
+    manualRequestSeed,
+} from "../../platform/modules/games/state/asyncActions";
 import listeners from "../../platform/modules/games/state/socketListeners";
 import {catchError} from "../../platform/modules/utilities/asyncActions";
 import {addListeners, removeListeners} from "../../platform/sockets";
@@ -44,7 +50,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     ),
     createGame: (value: number, seed: string) => dispatch(createGame(value, seed)),
     endGame: () => dispatch(endGame()),
-    requestSeed: () => dispatch(requestSeed()),
+    manualRequestSeed: () => dispatch(manualRequestSeed()),
     conflictEnd: () => dispatch(conflictEnd()),
     forceEnd: () => dispatch(forceEnd()),
     catchError: (error: Error) => catchError(error, dispatch),
@@ -86,8 +92,8 @@ class Game extends React.Component<Props> {
     };
 
     requestSeed = () => {
-        const {requestSeed, catchError} = this.props;
-        requestSeed().catch(catchError);
+        const {manualRequestSeed, catchError} = this.props;
+        manualRequestSeed().catch(catchError);
     };
 
     conflictEnd = () => {
