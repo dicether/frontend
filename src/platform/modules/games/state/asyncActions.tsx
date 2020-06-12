@@ -634,8 +634,8 @@ export function conflictEnd() {
                     .on("transactionHash", (transactionHash: string) => {
                         dispatch(userInitiateConflictEndEvent(transactionHash));
                     })
-                    .on((error: Error) => {
-                        return Promise.reject(error);
+                    .on("error", (error: Error) => {
+                        reject(error);
                     })
                     .then((receipt: TransactionReceipt) => {
                         if (isTransactionFailed(receipt)) {
@@ -681,8 +681,8 @@ export function conflictEnd() {
                     .on("transactionHash", (transactionHash: string) => {
                         dispatch(userInitiateConflictEndEvent(transactionHash));
                     })
-                    .on((error: Error) => {
-                        return Promise.reject(error);
+                    .on("error", (error: Error) => {
+                        reject(error);
                     })
                     .then((receipt: TransactionReceipt) => {
                         if (isTransactionFailed(receipt)) {
