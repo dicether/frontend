@@ -89,7 +89,7 @@
     "less": "^3.10.3",
     "less-loader": "^5.0.0",
     "moment": "^2.24.0",
-    "node-sass": "^4.13.0",
+    "node-sass": "^4.13.1",
     "popper.js": "^1.16.0",
     "postcss-at-rules-variables": "^0.1.10",
     "postcss-loader": "^3.0.0",
