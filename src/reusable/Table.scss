@@ -49,6 +49,7 @@
   .table-hover {
     tbody tr {
       @include hover {
+        color: $table-color--night;
         background-color: $table-hover-bg--night;
       }
     }
