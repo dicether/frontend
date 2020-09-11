@@ -13,7 +13,7 @@
   "logout": "Logout",
   "register": "Register",
   "login": "Login",
-  "AffiliateDescription": "Dicether offers a 10% affiliate system. You will receive 10% of the expected house edge for every bet placed by a referred user. Until April 1 2020 you'll even get 33%. For a detailed description how to create a campaign see ",
+  "AffiliateDescription": "Dicether offers a 10% affiliate system. You will receive 10% of the expected house edge for every bet placed by a referred user. Until December 24 2020 you'll even get 33%. For a detailed description how to create a campaign see ",
   "AffiliateManualLink": "How to create a affiliate campaign",
   "withdrawBalance": "Withdraw Balance",
   "campaigns": "Campaigns",
@@ -31,7 +31,7 @@
     },
     "whatIsSecure": {
       "question": "What do you mean by \"secure, fair and fast\"?",
-      "answer": "<0>When you start a game session we and you, the customer, generate a hash chain and send the last  entry to the smart contract. Additional to the hash value, you send your funds for playing, which will be securely locked in the smart contract (we can not access your money). For every round playing dice a previous entry of your and our hash chain is combined and from that the resulting dice roll generated! The result is verified and, if everything is ok, signed by you and us. The next round can start. If you are finished with playing the final result is signed and send to contract, which sends back your funds plus your profit or minus your loss.</0><1> So the only interaction with the blockchain is happening during starting and ending the game session. Between you can play as many games as you want. No blockchain interaction is necessary! </1><2>The smart contract is verified at <1>Etherscan</1>. So you can check yourself that everything is working as described. To have a look at our front-end source code you can visit our <3>github</3> repositories.</2>"
+      "answer": "<0>When you start a game session we and you, the customer, generate a hash chain and send the last  entry to the smart contract. Additional to the hash value, you send your funds for playing, which will be securely locked in the smart contract (we can not access your money). For every round playing a previous entry of your and our hash chain is combined and from that the result is generated! The result is verified and, if everything is ok, signed by you and us. The next round can start. If you are finished with playing the final result is signed and send to the contract, which sends back your funds plus your profit or minus your loss.</0><1> So the only interaction with the blockchain is happening during starting and ending the game session. Between you can play as many games as you want, no blockchain interaction is necessary! </1><2>The smart contract is verified at <1>Etherscan</1>. So you can check yourself, that everything is working as described. To have a look at our front-end source code you can visit our <3>github</3> repositories.</2>"
     },
     "houseEdge": {
       "question": "What's the house edge?",
@@ -43,7 +43,7 @@
     },
     "cantPlaceBet": {
       "question": "I can't place a bet!",
-      "answer": "To play you need to be logged in and you need to have installed <1>Metamask</1>, use <3>Trust Wallet</3> or use <5>Coinbase Wallet (Toshi)</5>."
+      "answer": "To play you need to be logged in and you need to have installed <1>Metamask</1>, <3>Trust Wallet</3> or <5>Coinbase Wallet (Toshi)</5>."
     },
     "howToBecomeAffiliate": {
       "question": "How to become an affiliate / refer friends?",
@@ -99,9 +99,9 @@
   "noDetailsRequired": "No details required! Login with MetaMask or similar!",
   "features": {
     "secureProvablyFair": "Secure & Provable Fair!",
-    "fastCasino": "Fastest State Channel Dice Casino!",
+    "fastCasino": "Fastest State Channel Casino!",
     "fullyAnonymous": "Fully Anonymous! No personal details required! Login with Ethereum wallet. No Password needed!",
-    "recruitUsers": "Recruit Users! Get 10% of their house edge! Until July 1 2019 you even get 33%",
+    "recruitUsers": "Recruit Users! Get 10% of their house edge! Until December 24 2020 you even get 33%",
     "chatWithUsers": "Chat with other users or your friends!",
     "supportedWallets": "Use MetaMak, Trust Wallet or Coinbase Wallet (Toshi)!"
   },

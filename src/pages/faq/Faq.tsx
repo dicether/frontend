@@ -48,7 +48,7 @@ const Faq = ({t}: WithTranslation) => (
             </div>
             <div className={Style.entry}>
                 <h5 className={Style.subheading}>{t("faq.houseEdge.question")}</h5>
-                <p>{t("faq.houseEdge.answer")}The House Edge is 1.5%.</p>
+                <p>{t("faq.houseEdge.answer")}</p>
             </div>
             <div className={Style.entry}>
                 <h5 className={Style.subheading}>{t("faq.howToRegister.question")}</h5>
