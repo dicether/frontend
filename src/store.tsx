@@ -29,7 +29,6 @@ if (process.env.SENTRY_LOGGING) {
     Sentry.init({
         dsn: "https://551f6a44d9a54cfe9c18e976685f8234@sentry.io/227657",
         release: `dicether@${VERSION}`,
-        whitelistUrls: ["dicether.com"],
         normalizeDepth: 10,
         maxBreadcrumbs: 20,
         beforeBreadcrumb(breadcrumb, hint) {
