@@ -271,18 +271,14 @@ td {
 }
 
 .input__suffix {
-  @extend .form-control;
-
   position: absolute;
   top: 0;
   bottom: 0;
   left: 0;
   border-color: transparent;
-  //color: transparent;
-  background: transparent;
+  background: transparent !important; // should be never changed
   pointer-events: none;
 }
-
 
 // pointer for buttons
 button { cursor: pointer; }

@@ -56,11 +56,11 @@ export default class Input extends React.Component<Props, State> {
 
         this.isFocus = false;
         this.setState({inputValue: value});
-    }
+    };
 
     onFocus = () => {
         this.isFocus = true;
-    }
+    };
 
     onChange = (event: React.FormEvent<HTMLInputElement>) => {
         const val = (event.target as HTMLInputElement).value;
@@ -71,7 +71,7 @@ export default class Input extends React.Component<Props, State> {
         if (onValue && valid !== false) {
             onValue(val);
         }
-    }
+    };
 
     render() {
         const {inputValue, isValid: isValidState} = this.state;
@@ -104,7 +104,7 @@ export default class Input extends React.Component<Props, State> {
                     onFocus={this.onFocus}
                 />
                 {suffix && (
-                    <div className="input__suffix">
+                    <div className="form-control input__suffix">
                         <span style={{color: "transparent"}}>{inputValue}</span>
                         {suffix}
                     </div>
