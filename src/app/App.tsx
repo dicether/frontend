@@ -65,6 +65,12 @@ class App extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {web3Timer: null};
+
+        const {jwt, initUser} = this.props;
+
+        if (props.jwt !== null) {
+            initUser(props.jwt);
+        }
     }
 
     componentDidMount() {
@@ -72,10 +78,6 @@ class App extends React.Component<Props, State> {
 
         loadDefaultData();
         initSockets();
-
-        if (jwt !== null) {
-            initUser(jwt);
-        }
 
         fetchAllWeb3();
         const timer = window.setInterval(() => fetchAllWeb3(), WEB3_POLL_INTERVAL);
