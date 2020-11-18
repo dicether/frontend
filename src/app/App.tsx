@@ -68,13 +68,13 @@ class App extends React.Component<Props, State> {
 
         const {jwt, initUser} = this.props;
 
-        if (props.jwt !== null) {
-            initUser(props.jwt);
+        if (jwt !== null) {
+            initUser(jwt);
         }
     }
 
     componentDidMount() {
-        const {jwt, fetchAllWeb3, initUser, initSockets, loadDefaultData} = this.props;
+        const {fetchAllWeb3, initSockets, loadDefaultData} = this.props;
 
         loadDefaultData();
         initSockets();
