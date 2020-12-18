@@ -10,7 +10,10 @@ function extractFirstLine(str: string) {
 export function catchError(error: any, dispatch: Dispatch) {
     // sentry expects an error object
     if (error instanceof Error) {
-        Sentry.captureException(error);
+        Sentry.withScope(scope => {
+            scope.setExtra("error_object", error);
+            Sentry.captureException(error);
+        });
     } else {
         Sentry.withScope(scope => {
             scope.setExtra("error_object", error);
