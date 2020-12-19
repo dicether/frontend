@@ -37,14 +37,9 @@ export default class CreateGameModal extends React.Component<Props, State> {
         };
     }
 
-    componentWillReceiveProps(newProps: Props) {
-        const curBalance = this.props.web3State.balance;
-        const newBalance = newProps.web3State.balance;
-
-        if (curBalance !== newBalance && newBalance !== null) {
-            const val = Math.min(newProps.maxValue, newBalance);
-            this.setState({value: roundValue(val, newProps.minValue)});
-        }
+    static getDerivedStateFromProps(props: Props, state: State) {
+        const balance = props.web3State.balance;
+        return balance === null || balance >= state.value ? null : {value: roundValue(balance, props.minValue)};
     }
 
     private createGame = (e: React.FormEvent<HTMLFormElement>) => {
@@ -54,11 +49,11 @@ export default class CreateGameModal extends React.Component<Props, State> {
         onCreateGame(value, seed);
         onClose();
         e.preventDefault();
-    }
+    };
 
     private onValueChange = (value: number) => {
         this.setState({value});
-    }
+    };
 
     render() {
         const {minValue, maxValue, isOpen, onClose, web3State} = this.props;
