@@ -21,7 +21,7 @@ function filterState(state: State) {
 
 function filterAction(action: any) {
     // Remove data from action
-    const {type} = action;
+    const type = action?.type;
     return {type};
 }
 
