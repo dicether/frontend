@@ -1,7 +1,6 @@
 import RcSlider from "rc-slider";
 import * as React from "react";
 
-const SliderHandle = require("./SliderHandle").default;
 import {BaseType} from "./BaseType";
 
 import "rc-slider/assets/index.css"; // tslint:disable-line:no-submodule-imports
@@ -22,33 +21,10 @@ export interface Props extends BaseType {
 }
 
 const Slider = ({lowColor, highColor, onValue, ...props}: Props) => {
-    let trackStyle = {};
-    let railStyle = {};
+    const trackStyle = lowColor !== undefined ? {backgroundColor: Style[lowColor]} : {};
+    const railStyle = highColor !== undefined ? {backgroundColor: Style[highColor]} : {};
 
-    if (lowColor !== undefined) {
-        trackStyle = {backgroundColor: Style[lowColor]};
-    }
-
-    if (highColor !== undefined) {
-        railStyle = {backgroundColor: Style[highColor]};
-    }
-
-    let node: any;
-
-    return (
-        <RcSlider
-            ref={ref => (node = ref)}
-            onChange={onValue}
-            {...props}
-            trackStyle={trackStyle}
-            railStyle={railStyle}
-            onBeforeChange={() => node.focus()}
-            handle={({index, ...restProps}) => {
-                delete restProps.dragging;
-                return <SliderHandle {...restProps} key={index} />;
-            }}
-        />
-    );
+    return <RcSlider onChange={onValue} {...props} trackStyle={trackStyle} railStyle={railStyle} />;
 };
 
 export default Slider;
