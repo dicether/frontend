@@ -67,3 +67,11 @@ export function isSessionStorageAvailable() {
         return false;
     }
 }
+
+export function truncate(str: string, n: number) {
+    if (n < 3) {
+        throw new Error("n needs to be at least 3");
+    }
+
+    return str.length > n ? str.substr(0, n - 3) + "..." : str;
+}

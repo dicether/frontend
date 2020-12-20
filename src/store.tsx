@@ -5,6 +5,7 @@ import createSentryMiddleware from "redux-sentry-middleware";
 import thunkMiddleware from "redux-thunk";
 import {VERSION} from "./config/config";
 import rootReducer, {State} from "./rootReducer";
+import {truncate} from "./util/util";
 
 const middlewares: Middleware[] = [thunkMiddleware];
 
@@ -33,7 +34,9 @@ if (process.env.SENTRY_LOGGING) {
         maxBreadcrumbs: 20,
         beforeBreadcrumb(breadcrumb, hint) {
             if (breadcrumb.category === "xhr") {
-                breadcrumb.data = {xhr: hint?.xhr};
+                const response = hint?.xhr?.response;
+                const truncatedResponse = response !== undefined ? truncate(response, 50) : undefined;
+                breadcrumb.data = {...breadcrumb.data, response: truncatedResponse};
             }
             return breadcrumb;
         },
