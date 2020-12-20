@@ -35,7 +35,7 @@ if (process.env.SENTRY_LOGGING) {
         beforeBreadcrumb(breadcrumb, hint) {
             if (breadcrumb.category === "xhr") {
                 const response = hint?.xhr?.response;
-                const truncatedResponse = response !== undefined ? truncate(response, 50) : undefined;
+                const truncatedResponse = response !== undefined ? truncate(response, 100) : undefined;
                 breadcrumb.data = {...breadcrumb.data, response: truncatedResponse};
             }
             return breadcrumb;
