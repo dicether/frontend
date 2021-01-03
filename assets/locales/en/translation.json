@@ -13,7 +13,7 @@
   "logout": "Logout",
   "register": "Register",
   "login": "Login",
-  "AffiliateDescription": "Dicether offers a 10% affiliate system. You will receive 10% of the expected house edge for every bet placed by a referred user. Until December 24 2020 you'll even get 33%. For a detailed description how to create a campaign see ",
+  "AffiliateDescription": "Dicether offers a 10% affiliate system. You will receive 10% of the expected house edge for every bet placed by a referred user. For a detailed description how to create a campaign see ",
   "AffiliateManualLink": "How to create a affiliate campaign",
   "withdrawBalance": "Withdraw Balance",
   "campaigns": "Campaigns",
@@ -101,7 +101,7 @@
     "secureProvablyFair": "Secure & Provable Fair!",
     "fastCasino": "Fastest State Channel Casino!",
     "fullyAnonymous": "Fully Anonymous! No personal details required! Login with Ethereum wallet. No Password needed!",
-    "recruitUsers": "Recruit Users! Get 10% of their house edge! Until December 24 2020 you even get 33%",
+    "recruitUsers": "Recruit Users! Get 10% of their house edge!",
     "chatWithUsers": "Chat with other users or your friends!",
     "supportedWallets": "Use MetaMask, Trust Wallet or Coinbase Wallet (Toshi)!"
   },
