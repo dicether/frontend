@@ -2,7 +2,7 @@ import {GameType, maxBet} from "@dicether/state-channel";
 import * as React from "react";
 import {connect} from "react-redux";
 
-import {MIN_BANKROLL, MIN_BET_VALUE} from "../../../config/config";
+import {KELLY_FACTOR, MIN_BANKROLL, MIN_BET_VALUE} from "../../../config/config";
 import {addNewBet} from "../../../platform/modules/bets/asyncActions";
 import {Bet} from "../../../platform/modules/bets/types";
 import {toggleHelp} from "../../../platform/modules/games/info/actions";
@@ -170,7 +170,7 @@ class Wheel extends React.PureComponent<Props, KenoState> {
         const {num, value} = wheel;
         const {result, showResult} = this.state;
 
-        let maxBetValue = maxBet(GameType.WHEEL, num === 0 ? 1 : num, MIN_BANKROLL);
+        let maxBetValue = maxBet(GameType.WHEEL, num === 0 ? 1 : num, MIN_BANKROLL, KELLY_FACTOR);
         if (gameState.status !== "ENDED") {
             const max = Math.min(gameState.stake + gameState.balance, maxBetValue);
             maxBetValue = Math.max(max, MIN_BET_VALUE);

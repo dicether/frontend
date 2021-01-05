@@ -1,7 +1,7 @@
 import {GameType, getNumSetBits, KENO_FIELDS, KENO_SELECTABLE_FIELDS, maxBet} from "@dicether/state-channel";
 import BN from "bn.js";
 
-import {MIN_BANKROLL, MIN_BET_VALUE} from "../../../config/config";
+import {KELLY_FACTOR, MIN_BANKROLL, MIN_BET_VALUE} from "../../../config/config";
 import {ActionType, assertNever} from "../../../util/util";
 import * as actions from "./actions";
 import * as types from "./constants";
@@ -27,7 +27,7 @@ function updateNum(state: State, num: number) {
 
     let value = state.value;
     if (num !== 0) {
-        const maxBetValue = maxBet(GameType.KENO, num, MIN_BANKROLL);
+        const maxBetValue = maxBet(GameType.KENO, num, MIN_BANKROLL, KELLY_FACTOR);
         value = Math.min(maxBetValue, state.value);
     }
 
