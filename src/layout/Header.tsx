@@ -9,7 +9,7 @@ import {IconButton} from "../reusable/index";
 
 const Style = require("./Header.scss");
 
-const logo = require("assets/images/logoTop_xmas.svg");
+const logo = require("assets/images/logoTop.svg");
 
 interface Props extends WithTranslation {
     authenticated: boolean;
@@ -39,17 +39,17 @@ class Header extends React.Component<Props, State> {
         this.setState({
             isOpen: !this.state.isOpen,
         });
-    };
+    }
 
     onToggleChat = () => {
         const {showChat, toggleChat} = this.props;
         toggleChat(!showChat);
-    };
+    }
 
     onToggleTheme = () => {
         const {nightMode, toggleTheme} = this.props;
         toggleTheme(!nightMode);
-    };
+    }
 
     render() {
         const {authenticated, showRegisterModal, showChat, nightMode, t} = this.props;
