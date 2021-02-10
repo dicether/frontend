@@ -39,17 +39,17 @@ class Header extends React.Component<Props, State> {
         this.setState({
             isOpen: !this.state.isOpen,
         });
-    }
+    };
 
     onToggleChat = () => {
         const {showChat, toggleChat} = this.props;
         toggleChat(!showChat);
-    }
+    };
 
     onToggleTheme = () => {
         const {nightMode, toggleTheme} = this.props;
         toggleTheme(!nightMode);
-    }
+    };
 
     render() {
         const {authenticated, showRegisterModal, showChat, nightMode, t} = this.props;
@@ -62,7 +62,7 @@ class Header extends React.Component<Props, State> {
         return (
             <Navbar id="header" expand="md" dark color="dark">
                 <Container className={className}>
-                    <NavbarBrand tag={RRNavLink} to="/">
+                    <NavbarBrand className={Style.brand} tag={RRNavLink} to="/">
                         <div className={Style.brandImageContainer}>
                             <img className={Style.brandImage} src={logo} />
                         </div>
