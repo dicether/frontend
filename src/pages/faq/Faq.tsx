@@ -24,6 +24,10 @@ const Faq = ({t}: WithTranslation) => (
                 <p>{t("faq.whatIsDicether.answer")}</p>
             </div>
             <div className={Style.entry}>
+                <h5 className={Style.subheading}>{t("faq.betterThanOtherSolution.question")}</h5>
+                <p>{t("faq.betterThanOtherSolution.answer")}</p>
+            </div>
+            <div className={Style.entry}>
                 <h5 className={Style.subheading}>{t("faq.whatIsSecure.question")}</h5>
                 <Trans i18nKey="faq.whatIsSecure.answer">
                     <p>

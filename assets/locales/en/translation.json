@@ -27,7 +27,11 @@
   "faq": {
     "whatIsDicether": {
       "question": "What is Dicether?",
-      "answer": "Dicether is an Ethereum based dice game. It uses a smart contract based state channel implementation to provide a fast, secure and fair gambling experience."
+      "answer": "Dicether is an Ethereum based casino. It uses a smart contract based state channel implementation to provide a fast, secure and fair gambling experience."
+    },
+    "betterThanOtherSolution": {
+      "question": "How it is better than other casino dApps?",
+      "answer": "Using state channels Dicether is much cheaper and faster than our competitors."
     },
     "whatIsSecure": {
       "question": "What do you mean by \"secure, fair and fast\"?",
