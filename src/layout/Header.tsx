@@ -35,6 +35,14 @@ class Header extends React.Component<Props, State> {
         };
     }
 
+    closeMenu = () => {
+        if (this.state.isOpen) {
+            this.setState({
+                isOpen: !this.state.isOpen,
+            });
+        }
+    };
+
     toggle = () => {
         this.setState({
             isOpen: !this.state.isOpen,
@@ -44,6 +52,7 @@ class Header extends React.Component<Props, State> {
     onToggleChat = () => {
         const {showChat, toggleChat} = this.props;
         toggleChat(!showChat);
+        this.closeMenu();
     };
 
     onToggleTheme = () => {
@@ -62,7 +71,7 @@ class Header extends React.Component<Props, State> {
         return (
             <Navbar id="header" expand="md" dark color="dark">
                 <Container className={className}>
-                    <NavbarBrand className={Style.brand} tag={RRNavLink} to="/" onClick={this.toggle}>
+                    <NavbarBrand className={Style.brand} tag={RRNavLink} to="/" onClick={this.closeMenu}>
                         <div className={Style.brandImageContainer}>
                             <img className={Style.brandImage} src={logo} />
                         </div>
@@ -71,12 +80,12 @@ class Header extends React.Component<Props, State> {
                     <Collapse isOpen={isOpen} navbar>
                         <Nav navbar>
                             <NavItem>
-                                <NavLink to="/faq" tag={RRNavLink} onClick={this.toggle}>
+                                <NavLink to="/faq" tag={RRNavLink} onClick={this.closeMenu}>
                                     {t("FAQ")}
                                 </NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink to="/hallOfFame" tag={RRNavLink} onClick={this.toggle}>
+                                <NavLink to="/hallOfFame" tag={RRNavLink} onClick={this.closeMenu}>
                                     {t("hallOfFame")}
                                 </NavLink>
                             </NavItem>
