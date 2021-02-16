@@ -62,7 +62,7 @@ class Header extends React.Component<Props, State> {
         return (
             <Navbar id="header" expand="md" dark color="dark">
                 <Container className={className}>
-                    <NavbarBrand className={Style.brand} tag={RRNavLink} to="/">
+                    <NavbarBrand className={Style.brand} tag={RRNavLink} to="/" onClick={this.toggle}>
                         <div className={Style.brandImageContainer}>
                             <img className={Style.brandImage} src={logo} />
                         </div>
@@ -71,12 +71,12 @@ class Header extends React.Component<Props, State> {
                     <Collapse isOpen={isOpen} navbar>
                         <Nav navbar>
                             <NavItem>
-                                <NavLink to="/faq" tag={RRNavLink}>
+                                <NavLink to="/faq" tag={RRNavLink} onClick={this.toggle}>
                                     {t("FAQ")}
                                 </NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink to="/hallOfFame" tag={RRNavLink}>
+                                <NavLink to="/hallOfFame" tag={RRNavLink} onClick={this.toggle}>
                                     {t("hallOfFame")}
                                 </NavLink>
                             </NavItem>
