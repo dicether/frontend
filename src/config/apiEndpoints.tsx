@@ -8,7 +8,8 @@ export function changeAxiosAuthToken(jwt: string | null) {
         delete axios.defaults.headers.common["CustomAuthorization"]; // tslint:disable-line no-string-literal
     } else {
         axios.defaults.headers.common = {
-            "CustomAuthorization": `Bearer ${jwt}`,
+            CustomAuthorization: `Bearer ${jwt}`,
+            Authorization: `Bearer ${jwt}`,
             "Content-Type": "application/json",
         };
     }
