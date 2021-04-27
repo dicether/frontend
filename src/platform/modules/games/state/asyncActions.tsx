@@ -492,7 +492,7 @@ export function createGame(stake: number, userSeed: string) {
                 .send({
                     from: account,
                     value: fromGweiToWei(stake).toString(),
-                    gas: 120000,
+                    gas: 150000,
                 })
                 .on("error", (error: Error) => {
                     reject(error);
