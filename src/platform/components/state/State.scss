@@ -3,12 +3,13 @@
   padding: 1em;
 
   &__entry {
-  padding-bottom: 0.25em;
+    padding-bottom: 0.25em;
   }
 
   &__value {
-  font-family: monospace;
-  font-size: 0.75rem;
-  overflow: auto;
+    font-family: monospace;
+    font-size: 0.75rem !important;
+    height: inherit !important;
+    overflow: auto;
   }
 }
