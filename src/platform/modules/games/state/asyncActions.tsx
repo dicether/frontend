@@ -583,7 +583,7 @@ export function endGame() {
         const userSig = await signTypedData(web3, account, typedData);
 
         const {data} = await axios.post("stateChannel/endGame", {bet, contractAddress: CONTRACT_ADDRESS, userSig});
-        const {serverSig, endTransactionHash} = data;
+        const {serverSig, transactionHash: endTransactionHash} = data;
 
         if (!verifySignature(bet, CHAIN_ID, CONTRACT_ADDRESS, serverSig, SERVER_ADDRESS, SIGNATURE_VERSION)) {
             throw new Error("Invalid server signature!");
