@@ -94,11 +94,11 @@ export default class GameHeader extends React.Component<Props, State> {
 
     onClose = () => {
         this.setState({modalIsOpen: false});
-    }
+    };
 
     onShow = () => {
         this.setState({modalIsOpen: true});
-    }
+    };
 
     render() {
         const {gameState, onStartGame, onEndGame, web3State, onSeedRequest, onConflictEnd, onForceEnd} = this.props;
@@ -205,6 +205,7 @@ export default class GameHeader extends React.Component<Props, State> {
                             <a
                                 key="1"
                                 ref={this.endTransactionRef}
+                                rel={"noreferrer"}
                                 style={{marginLeft: "1em"}}
                                 target="_blank"
                                 href={transactionUrl}

@@ -12,8 +12,6 @@ export interface Props extends BaseType {
     onSubmit(e: React.FormEvent<HTMLFormElement>): void;
 }
 
-const Form = ({inline = false, children, ...rest}: Props) => (
-    <BootstrapForm inline={inline} children={children} {...rest} />
-);
+const Form = ({inline = false, ...rest}: Props) => <BootstrapForm inline={inline} {...rest} />;
 
 export default Form;

@@ -32,13 +32,14 @@ const Table = ({
     return (
         <BootstrapTable
             className={classNames}
-            children={children}
             bordered={bordered}
             striped={striped}
             dark={dark}
             hover={hover}
             {...rest}
-        />
+        >
+            {children}
+        </BootstrapTable>
     );
 };
 

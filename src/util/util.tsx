@@ -20,17 +20,17 @@ export function fixedLengthAddElementFront<T>(array: T[], element: T, maxLength:
 
 export type GetState = () => State;
 
-export type $Values<T extends object> = T[keyof T];
+export type $Values<T extends {[key: string]: unknown}> = T[keyof T];
 
 export type ActionType<T extends {[id: string]: (...args: any[]) => any}> = ReturnType<$Values<T>>;
 
-export type ActionCreateType<T extends object> = (...args: any[]) => {type: $Values<T>};
+export type ActionCreateType<T extends {[key: string]: unknown}> = (...args: any[]) => {type: $Values<T>};
 
 export type ThunkAction1<R, S> = (dispatch: Dispatch, getState: () => S) => R;
 
-export type ThunkAction2<R, S> = (dispatch: Dispatch) => R;
+export type ThunkAction2<R> = (dispatch: Dispatch) => R;
 
-export type ThunkAction<R, S> = ThunkAction1<R, S> | ThunkAction2<R, S>;
+export type ThunkAction<R, S> = ThunkAction1<R, S> | ThunkAction2<R>;
 
 export interface Dispatch<A extends Action = AnyAction> {
     <T extends A>(action: T): T;
@@ -42,8 +42,8 @@ export function createConstant<T>(p: T, prefix: string): T {
     return res as any;
 }
 
-export function assertNever(t: never) {
-    // Empty
+export function assertNever(t: never): never {
+    return t;
 }
 
 export function isLocalStorageAvailable() {

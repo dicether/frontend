@@ -20,7 +20,7 @@ export function loadBets() {
     };
 }
 
-export function loadMyBets(address: string) {
+export function loadMyBets(_address: string) {
     return (dispatch: Dispatch) => {
         axios
             .get(`/bets/myLastBets`)

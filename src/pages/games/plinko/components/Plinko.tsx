@@ -2,7 +2,7 @@ import Rand from "rand-seed";
 import * as React from "react";
 import ReactResizeDetector from "react-resize-detector";
 
-import {PLINKO_PAYOUT, PLINKO_PAYOUT_DIVIDER} from "@dicether/state-channel";
+import {PLINKO_PAYOUT} from "@dicether/state-channel";
 import PureCanvas from "../../reusable/PureCanvas";
 import Ball from "./Ball";
 import {startPositions} from "./lookupTables";
@@ -109,7 +109,7 @@ class Plinko extends React.Component<Props, State> {
         const steps = 5000;
         const range = to - from;
 
-        const results: number[][] = [...Array(this.props.rows + 1)].map(x => []);
+        const results: number[][] = [...Array(this.props.rows + 1)].map(_ => []);
 
         const rand = new Rand("123456789");
         for (let i = 0; i < steps; i++) {

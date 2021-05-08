@@ -7,6 +7,6 @@ export interface Props extends BaseType {
     children: React.ReactNode;
 }
 
-const ModalBody = ({children, ...rest}: Props) => <BootstrapModalBody children={children} {...rest} />;
+const ModalBody = ({...rest}: Props) => <BootstrapModalBody {...rest} />;
 
 export default ModalBody;

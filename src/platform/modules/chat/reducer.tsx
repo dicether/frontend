@@ -27,8 +27,7 @@ export default function chat(state: State = initialState, action: Actions): Stat
         case types.CHANGE_MESSAGES:
             return {...state, messages: action.messages};
         case types.ADD_MESSAGE:
-            const messages = fixedLengthAddElement(state.messages, action.message, MAX_MESSAGES);
-            return {...state, messages};
+            return {...state, messages: fixedLengthAddElement(state.messages, action.message, MAX_MESSAGES)};
         case types.CHANGE_USERS_ONLINE:
             return {...state, numUsers: action.numUsers};
         case types.DELETE_MESSAGE:

@@ -88,7 +88,7 @@ export default class Wheel extends React.Component<Props, State> {
         ctx.save();
         ctx.rotate(-Math.PI / 2);
         for (const _ of segmentColors) {
-            Wheel.drawSegmentDots(ctx, segmentAngle);
+            Wheel.drawSegmentDots(ctx);
             ctx.rotate(segmentAngle);
         }
         ctx.restore();
@@ -120,7 +120,7 @@ export default class Wheel extends React.Component<Props, State> {
         }
 
         ctx.restore();
-    }
+    };
 
     private static drawSegment = (ctx: CanvasRenderingContext2D, angle: number, color: string) => {
         ctx.beginPath();
@@ -149,26 +149,26 @@ export default class Wheel extends React.Component<Props, State> {
         // ctx.arc(0, 0, 95, 0, angle, false);
         // ctx.lineTo(0, 0);
         // ctx.lineTo(95, 0);
-    }
+    };
 
-    private static drawSegmentDots = (ctx: CanvasRenderingContext2D, angle: number) => {
+    private static drawSegmentDots = (ctx: CanvasRenderingContext2D) => {
         ctx.beginPath();
         ctx.fillStyle = "#fafafa";
         ctx.arc(93.5, 0, 1.5, 0, 2 * Math.PI);
         ctx.closePath();
         ctx.fill();
-    }
+    };
 
     private saveContext = (ctx: CanvasRenderingContext2D) => {
         this.ctx = ctx;
-    }
+    };
 
     private onResize = (size: number) => {
         this.setState({
             size,
         });
         this.renderToCanvas();
-    }
+    };
 
     public render() {
         // const width = this.parent.current !== null ? this.parent.current.offsetWidth : 500;

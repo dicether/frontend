@@ -19,9 +19,10 @@ class Select extends React.Component<Props> {
         const val = target.value;
         target.blur();
         onValue(val);
-    }
+    };
 
     public render() {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const {value, onValue, ...rest} = this.props;
 
         return <Input value={value} type="select" onChange={this.handleChange} {...rest} />;

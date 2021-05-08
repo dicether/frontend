@@ -8,11 +8,10 @@ const Style = require("./StaticPopover.scss");
 export interface Props extends BaseType {
     placement: "top" | "bottom" | "right" | "left";
     children: React.ReactNode;
-    title?: string;
     className?: string;
 }
 
-const StaticPopover = ({placement, children, title, className}: Props) => {
+const StaticPopover = ({placement, children, className}: Props) => {
     const popoverClassName = ClassNames(
         "popover",
         {"bs-popover-top": placement === "top"},

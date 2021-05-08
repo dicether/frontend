@@ -10,7 +10,9 @@ export interface Props extends BaseType {
 }
 
 const FormGroup = ({children, className, ...rest}: Props) => (
-    <BootstrapFormGroup children={children} className={className} {...rest} />
+    <BootstrapFormGroup className={className} {...rest}>
+        {children}
+    </BootstrapFormGroup>
 );
 
 export default FormGroup;

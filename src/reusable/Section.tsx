@@ -7,10 +7,9 @@ type Props = {
     children: React.ReactNode;
     className?: string;
     gray?: boolean;
-    container?: boolean;
 };
 
-const Section = ({container = true, gray = false, className = "", ...rest}: Props) => {
+const Section = ({gray = false, className = "", ...rest}: Props) => {
     const allClassNames = ClassNames(className, {
         [Style.gray]: gray,
     });

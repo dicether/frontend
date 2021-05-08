@@ -8,13 +8,12 @@ const Style = require("./Modal.scss");
 export interface Props extends BaseType {
     isOpen: boolean;
     children: React.ReactNode;
-    title?: string;
     fade?: boolean;
 
     toggle?(): void;
 }
 
-const Modal = ({isOpen, toggle, children, title, ...rest}: Props) => (
+const Modal = ({isOpen, toggle, children, ...rest}: Props) => (
     <BootstrapModal isOpen={isOpen} toggle={toggle} {...rest}>
         <ModalBody>
             <button type="button" className="close" aria-label="Close" onClick={toggle}>

@@ -51,8 +51,7 @@ export type PlinkoState = {
 
 class Plinko extends React.PureComponent<Props, PlinkoState> {
     private loadedSounds = false;
-    private resultShowTimeoutId = 0;
-    private resultUntilShowTimeoutId = 0;
+
     public ui = React.createRef<any>();
 
     constructor(props: Props) {

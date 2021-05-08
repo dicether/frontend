@@ -7,6 +7,6 @@ export interface Props extends BaseType {
     children: React.ReactNode;
 }
 
-const FormFeedback = ({children, ...rest}: Props) => <BootstrapFormText children={children} {...rest} />;
+const FormFeedback = ({...rest}: Props) => <BootstrapFormText {...rest} />;
 
 export default FormFeedback;

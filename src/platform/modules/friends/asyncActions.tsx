@@ -29,7 +29,7 @@ export function declineFriendRequest(address: string) {
             .post("/chat/declineFriendRequest", {
                 address,
             })
-            .then(response => dispatch(removeReceivedFriendRequest(address)))
+            .then(() => dispatch(removeReceivedFriendRequest(address)))
             .catch(error => catchError(error, dispatch));
     };
 }
@@ -54,7 +54,7 @@ export function cancelFriendRequest(address: string) {
             .post("/chat/cancelFriendRequest", {
                 address,
             })
-            .then(response => dispatch(removeSentFriendRequest(address)))
+            .then(() => dispatch(removeSentFriendRequest(address)))
             .catch(error => catchError(error, dispatch));
     };
 }
@@ -73,7 +73,7 @@ export function acceptFriendRequest(address: string) {
     };
 }
 
-export function loadFriendRequests(address: string) {
+export function loadFriendRequests(_address: string) {
     return (dispatch: Dispatch) => {
         return axios
             .get("/chat/friendRequests")
@@ -86,7 +86,7 @@ export function loadFriendRequests(address: string) {
     };
 }
 
-export function loadFriends(address: string) {
+export function loadFriends(_address: string) {
     return (dispatch: Dispatch) => {
         return axios
             .get("/chat/friends")

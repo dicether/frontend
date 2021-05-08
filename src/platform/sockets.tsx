@@ -14,7 +14,7 @@ export function addListeners(listeners: ListenersType, dispatch: Dispatch) {
     }
 }
 
-export function removeListeners(listeners: ListenersType, dispatch: Dispatch) {
+export function removeListeners(listeners: ListenersType, _dispatch: Dispatch) {
     for (const event of Object.keys(listeners)) {
         SOCKET.removeListener(event);
     }

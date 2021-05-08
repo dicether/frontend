@@ -1,6 +1,5 @@
 import {
     Bet,
-    calcNewBalance,
     calcResultNumber,
     calcUserProfit,
     createHashChain,
@@ -17,7 +16,7 @@ import retry from "async-retry";
 import axios from "axios";
 import Web3 from "web3";
 
-import {TransactionReceipt} from "../../../../../typings/web3/types";
+import {TransactionReceipt} from "web3/types";
 import {
     CHAIN_ID,
     CONTRACT_ADDRESS,
@@ -809,7 +808,7 @@ export function requestSeed() {
 }
 
 export function manualRequestSeed() {
-    return async (dispatch: Dispatch, getState: GetState) => {
+    return async (dispatch: Dispatch) => {
         const result = await dispatch(requestSeed());
         dispatch(addNewBet(result.bet));
         return result;

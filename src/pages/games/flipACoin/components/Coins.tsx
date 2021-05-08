@@ -3,11 +3,11 @@ import * as React from "react";
 
 const Style = require("./Coins.scss");
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-// tslint:disable-next-line
 import CoinHead from "!!babel-loader!react-svg-loader!assets/images/coinHead.svg";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-// tslint:disable-next-line
 import CoinNumber from "!!babel-loader!react-svg-loader!assets/images/coinNumber.svg";
 
 const coins = [<CoinHead key={1} width="100%" heigth="auto" />, <CoinNumber key={2} width="100%" heigth="auto" />];

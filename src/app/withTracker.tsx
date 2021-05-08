@@ -18,12 +18,15 @@ const withTracker = (WrappedComponent: React.ComponentType<any>) => {
         }
     };
 
-    return (props: Props) => {
+    const WithTracker = (props: Props) => {
         const page = props.location.pathname;
         trackPage(page);
 
         return <WrappedComponent {...props} />;
     };
+
+    WithTracker.displayName = `WithTracker(${WrappedComponent.displayName || WrappedComponent.name || "Component"})`;
+    return WithTracker;
 };
 
 export default withTracker;

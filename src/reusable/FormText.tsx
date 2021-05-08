@@ -8,6 +8,8 @@ export interface Props extends BaseType {
     color?: string;
 }
 
-const FormText = ({inline = false, color, ...rest}: Props) => <BootstrapFormText color={color} {...rest} />;
+const FormText = ({inline = false, color, ...rest}: Props) => (
+    <BootstrapFormText inline={inline} color={color} {...rest} />
+);
 
 export default FormText;

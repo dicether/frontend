@@ -8,10 +8,10 @@ const listeners = {
     gameSessionActive: (dispatch: Dispatch) => ({gameId, serverHash, userHash}: GameAcceptType) => {
         dispatch(serverActiveGame(gameId, serverHash, userHash));
     },
-    gameSessionConflictEnded: (dispatch: Dispatch) => ({gameId}: GameAcceptType) => {
+    gameSessionConflictEnded: (dispatch: Dispatch) => () => {
         dispatch(loadContractGameState()).catch(error => catchError(error, dispatch));
     },
-    gameSessionEnded: (dispatch: Dispatch) => ({gameId}: GameAcceptType) => {
+    gameSessionEnded: (dispatch: Dispatch) => () => {
         dispatch(loadContractGameState()).catch(error => catchError(error, dispatch));
     },
 };

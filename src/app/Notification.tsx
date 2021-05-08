@@ -1,5 +1,5 @@
 import * as React from "react";
-import {toast, ToastContainer, ToastPosition} from "react-toastify";
+import {toast, ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // tslint:disable-line:no-submodule-imports
 
 const Style = require("./Notification.scss");

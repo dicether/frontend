@@ -7,7 +7,10 @@
     "start": "DEV_SERVER=TRUE webpack-dev-server --config webpack/dev.js --progress --port 2992",
     "build-staging": " node --max_old_space_size=8000 ./node_modules/.bin/webpack --config webpack/staging.js --progress --profile",
     "build-production": "webpack --config webpack/prod.js --progress --profile ",
-    "lint": "tslint -p ./",
+    "eslint": "eslint './**/*.{js,ts,tsx}'",
+    "stylelint": "stylelint './**/*.scss'",
+    "prettier": "prettier --write './**/*.{ts,tsx}'",
+    "prettier-check": "prettier --check './**/*.{ts,tsx}'",
     "i18next": "i18next 'src/**/*.tsx' -c i18next-parser.config.js -o 'assets/locales/$LOCALE/$NAMESPACE.json'"
   },
   "husky": {
@@ -18,7 +21,7 @@
   "lint-staged": {
     "*.{ts,tsx}": [
       "prettier --write",
-      "tslint --fix",
+      "eslint --fix",
       "git add"
     ],
     "*.{scss}": [
@@ -26,6 +29,7 @@
       "git add"
     ]
   },
+  "prettier": "@dicether/prettier-config",
   "author": "Dicether",
   "license": "AGPL-3.0-only",
   "dependencies": {
@@ -143,14 +147,22 @@
     "what-input": "^5.2.6"
   },
   "devDependencies": {
+    "@dicether/eslint-config": "^1.0.0",
+    "@dicether/prettier-config": "^1.0.0",
     "@types/ethereumjs-util": "^6.1.0",
     "@types/i18next-browser-languagedetector": "^3.0.0",
     "@types/query-string": "^6.3.0",
     "@types/react-document-title": "^2.0.3",
     "@types/react-flag-icon-css": "^1.0.2",
     "@types/react-resize-detector": "^4.2.0",
+    "@typescript-eslint/eslint-plugin": "^4.23.0",
+    "@typescript-eslint/parser": "^4.23.0",
     "acorn-jsx": "^5.1.0",
     "acorn-stage3": "^2.0.0",
+    "eslint": "^7.26.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react": "^7.23.2",
     "git-revision-webpack-plugin": "^3.0.6",
     "husky": "^4.2.1",
     "i18next-parser": "^1.0.2",
@@ -159,7 +171,7 @@
     "postcss-custom-properties": "^9.0.2",
     "postcss-discard-comments": "^4.0.2",
     "postcss-each": "^0.10.0",
-    "prettier": "^1.19.1",
+    "prettier": "^2.2.1",
     "stylelint": "^12.0.1",
     "stylelint-config-recommended-scss": "^4.1.0",
     "stylelint-config-standard": "^19.0.0",

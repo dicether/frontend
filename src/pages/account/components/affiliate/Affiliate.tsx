@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as React from "react";
-import {Trans, WithTranslation, withTranslation} from "react-i18next";
+import {WithTranslation, withTranslation} from "react-i18next";
 
 import {connect} from "react-redux";
 import {showSuccessMessage} from "../../../../platform/modules/utilities/actions";
@@ -87,7 +87,7 @@ class Affiliate extends React.Component<Props, State> {
                 <div>
                     <p>
                         {t("AffiliateDescription")}
-                        <a target="_blank" href={DESCRIPTION_LINK}>
+                        <a rel="noreferrer" target="_blank" href={DESCRIPTION_LINK}>
                             {t("AffiliateManualLink")}
                         </a>
                         .

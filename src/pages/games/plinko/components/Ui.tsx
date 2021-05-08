@@ -41,6 +41,7 @@ class Ui extends React.PureComponent<Props, State> {
         };
     }
 
+    /* tslint:disable:no-unused-variable */
     private onSimulate = () => {
         this.plinko.current?.simulate();
     };

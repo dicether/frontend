@@ -1,5 +1,5 @@
 import * as React from "react";
-import {WithTranslation, withTranslation} from "react-i18next";
+import {withTranslation} from "react-i18next";
 
 import i18n from "../i18n";
 import {Button, Dropdown, FlagIcon} from "../reusable";
@@ -34,7 +34,7 @@ function toLanguage(lang: string) {
 
 const LanguageIcon = ({lang}: {lang: string}) => <FlagIcon code={languageToIcon(lang)} />;
 
-const LanguageSelector = ({t}: WithTranslation) => {
+const LanguageSelector = () => {
     const changeLanguage = (lng: string) => {
         i18n.changeLanguage(lng);
     };

@@ -1,5 +1,3 @@
-import * as React from "react";
-
 import {Drawable} from "./Drawable";
 import Pin from "./Pin";
 import Vector2 from "./Vector2";

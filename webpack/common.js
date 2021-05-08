@@ -76,7 +76,7 @@ module.exports = {
                             sourceMap: true,
                             modules: {
                                 localIdentName: '',
-                                getLocalIdent: (context, localIdentName, localName, options) => {
+                                getLocalIdent: (context, localIdentName, localName) => {
                                     return localName;
                                 }
                             }
@@ -106,7 +106,7 @@ module.exports = {
                             importLoaders: 1,
                             modules: {
                                 localIdentName: '[hash:base64:5]__[local]',
-                                getLocalIdent: (context, localIdentName, localName, options) => {
+                                getLocalIdent: (context, localIdentName, localName) => {
                                     const request = path.relative(contextRoot, context.resourcePath);
                                     const sha = crypto.createHash('sha1');
                                     sha.update(request);
