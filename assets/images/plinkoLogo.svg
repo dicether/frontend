@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg width="26.458mm" height="26.458mm" version="1.1" viewBox="0 0 26.458 26.458" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <linearGradient id="linearGradient1198" x1="126.39" x2="126.42" y1="-75.669" y2="-60.592" gradientTransform="matrix(.60354 1.6811e-8 0 1.3272 67.959 139.45)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient1046"/>
+  <linearGradient id="linearGradient1046">
+   <stop stop-color="#2993d9" offset="0"/>
+   <stop stop-color="#2993d9" stop-opacity="0" offset="1"/>
+  </linearGradient>
+  <linearGradient id="linearGradient1048-8-5" x1="126.39" x2="126.42" y1="-75.669" y2="-60.592" gradientTransform="matrix(.67802 3.9825e-8 7.1593e-8 1.6959 30.071 124.99)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient1046"/>
+  <linearGradient id="linearGradient1048-8" x1="126.39" x2="126.42" y1="-75.669" y2="-60.592" gradientTransform="matrix(.60354 2.6042e-8 3.4877e-8 1.3272 74.952 145.46)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient1046"/>
+  <linearGradient id="linearGradient1141" x1="31.387" x2="32.609" y1="121.85" y2="119.59" gradientTransform="matrix(1.0055 0 0 1.0095 1.6292 -9.4438)" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#000080" offset="0"/>
+   <stop stop-color="#2993d9" offset="1"/>
+  </linearGradient>
+  <radialGradient id="radialGradient1059" cx="32.906" cy="119.84" r="1.4615" gradientTransform="matrix(1 0 0 1 1.7968 -8.2812)" gradientUnits="userSpaceOnUse">
+   <stop stop-color="#fff" offset="0"/>
+   <stop stop-color="#fff" stop-opacity="0" offset="1"/>
+  </radialGradient>
+ </defs>
+ <metadata>
+  <rdf:RDF>
+   <cc:Work rdf:about="">
+    <dc:format>image/svg+xml</dc:format>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:title/>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <g transform="translate(-69.891 -92.006)">
+  <g transform="matrix(1.0417 0 0 1.0417 -6.92 -13.451)">
+   <rect x="73.739" y="101.24" width="25.4" height="25.4" ry="0" fill="none" stroke-width=".25288"/>
+   <rect x="73.739" y="101.24" width="25.4" height="25.4" fill="none" stroke-width=".30403"/>
+   <g transform="translate(0,1.016)">
+    <g transform="matrix(.75153 .071732 -.071732 .75153 62.782 32.715)">
+     <ellipse transform="matrix(.083868 .99648 .52658 -.85013 0 0)" cx="144.36" cy="45.97" rx="1.8606" ry="7.2381" fill="url(#linearGradient1198)" style="paint-order:normal"/>
+     <ellipse transform="matrix(.30574 .95212 .51594 -.85663 0 0)" cx="115.9" cy="5.5426" rx="2.0902" ry="9.2488" fill="url(#linearGradient1048-8-5)" style="paint-order:normal"/>
+     <ellipse transform="matrix(.083868 .99648 .52658 -.85013 0 0)" cx="151.35" cy="51.983" rx="1.8606" ry="7.2381" fill="url(#linearGradient1048-8)" style="paint-order:normal"/>
+     <circle cx="34.703" cy="111.56" r="2.5138" fill="url(#linearGradient1141)" style="paint-order:normal"/>
+     <path d="m32.869 109.92a2.5 2.4901 0 0 0-0.6634 1.6851 2.5 2.4901 0 0 0 2.4998 2.49 2.5 2.4901 0 0 0 2.3384-1.6175 2.5 2.4901 0 0 1-1.8371 0.8062 2.5 2.4901 0 0 1-2.4998-2.49 2.5 2.4901 0 0 1 0.16214-0.87374z" fill="#000080" opacity=".03" style="paint-order:normal"/>
+     <path d="m34.703 110.1a1.4616 1.4616 0 0 0-1.4615 1.4615 1.4616 1.4616 0 0 0 1.4615 1.4615 1.4616 1.4616 0 0 0 1.4615-1.4615 1.4616 1.4616 0 0 0-1.4615-1.4615zm0 0.3652a1.0962 1.0962 0 0 1 1.0959 1.0963 1.0962 1.0962 0 0 1-1.0959 1.0963 1.0962 1.0962 0 0 1-1.0963-1.0963 1.0962 1.0962 0 0 1 1.0963-1.0963z" fill="url(#radialGradient1059)" style="paint-order:normal"/>
+    </g>
+    <g fill="#2c94d9">
+     <circle cx="79.03" cy="116.33" r=".96" style="paint-order:normal"/>
+     <circle cx="82.625" cy="123.44" r=".96" style="paint-order:normal"/>
+     <circle cx="93.409" cy="116.33" r=".96" style="paint-order:normal"/>
+     <circle cx="82.625" cy="109.73" r=".96" style="paint-order:normal"/>
+     <circle cx="97.004" cy="123.44" r=".96" style="paint-order:normal"/>
+     <circle cx="89.815" cy="109.73" r=".96" style="paint-order:normal"/>
+     <circle cx="86.22" cy="116.33" r=".96" style="paint-order:normal"/>
+     <circle cx="89.815" cy="123.44" r=".96" style="paint-order:normal"/>
+     <circle cx="75.435" cy="123.44" r=".96" style="paint-order:normal"/>
+     <circle cx="86.22" cy="102.11" r=".96" style="paint-order:normal"/>
+    </g>
+   </g>
+  </g>
+ </g>
+</svg>
