@@ -5,6 +5,7 @@ import {bindActionCreators} from "redux";
 import {Button, Form, FormGroup, FormText, Input} from "../../../reusable/index";
 import {Dispatch} from "../../../util/util";
 import {authenticate, register} from "../../modules/account/asyncActions";
+import {isValidUserName} from "../../modules/account/util";
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
     bindActionCreators(
@@ -36,7 +37,7 @@ class Register extends React.Component<Props, State> {
 
         register(username);
         e.preventDefault();
-    }
+    };
 
     onUsername = (username: string) => {
         const isValid = this.validateUsername(username);
@@ -44,17 +45,17 @@ class Register extends React.Component<Props, State> {
             username,
             isValid,
         });
-    }
+    };
 
     validateUsername = (username: string) => {
-        if (username.length <= 15 && username.length >= 3 && /^[a-z0-9]+$/i.test(username)) {
+        if (isValidUserName(username)) {
             return true;
         } else if (username.length === 0) {
             return undefined;
         } else {
             return false;
         }
-    }
+    };
 
     render() {
         const {authenticate} = this.props;
@@ -90,7 +91,4 @@ class Register extends React.Component<Props, State> {
     }
 }
 
-export default connect(
-    undefined,
-    mapDispatchToProps
-)(Register);
+export default connect(undefined, mapDispatchToProps)(Register);

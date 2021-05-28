@@ -10,6 +10,7 @@ import UserMenu from "./UserMenu";
 import UserType from "./UserType";
 
 import reactStringReplace from "react-string-replace";
+import {isValidUserName} from "../../../modules/account/util";
 const Style = require("./Message.scss");
 const emojioneImage = require("assets/images/emojione-3.1.2-64x64.png");
 
@@ -41,11 +42,15 @@ function processMessage(
         <ChatButton key={match + i} name={`Bet:${match}`} onClick={() => showBetModal(Number.parseInt(match, 10))} />
     ));
 
-    res = reactStringReplace(res, USER_REGEX, (match, i) => (
-        <ChatButton key={match + i} name={`User:${match}`} onClick={() => showUserModal(match)} />
-    ));
+    res = reactStringReplace(res, USER_REGEX, (match, i) => {
+        if (!isValidUserName(match)) { return `User:${match}`; }
+
+        return <ChatButton key={match + i} name={`User:${match}`} onClick={() => showUserModal(match)} />;
+    });
 
     res = reactStringReplace(res, USER_MENTION_REGEX, (match, i, offset) => {
+        if (!isValidUserName(match)) { return `@${match}`; }
+
         if (offset === 0) {
             return <ChatButton key={match + i} name={`@${match}`} onClick={() => showUserModal(match)} />;
         } else {
@@ -58,7 +63,7 @@ function processMessage(
     ));
 
     return reactStringReplace(res, LINK_REGEX, (match, i) => (
-        <a key={match + i} target="_blank" href={match}>
+        <a key={match + i} target="_blank" href={match} rel="noreferrer">
             {match}
         </a>
     ));
@@ -87,7 +92,7 @@ class Message extends React.Component<Props, State> {
         this.setState({
             showUserPopover: !this.state.showUserPopover,
         });
-    }
+    };
 
     render() {
         const {message, friends, showBetModal, showUserModal} = this.props;
@@ -116,17 +121,16 @@ class Message extends React.Component<Props, State> {
                     </div>
                     {!message.deleted ? (
                         <span className={messageClass}>
-                            {processMessage(message.message, showBetModal, showUserModal).map(
-                                x =>
-                                    typeof x === "string"
-                                        ? emojify(x, {
-                                              style: {
-                                                  backgroundImage: `url(${emojioneImage})`,
-                                                  height: "20px",
-                                                  width: "20px",
-                                              },
-                                          })
-                                        : x
+                            {processMessage(message.message, showBetModal, showUserModal).map(x =>
+                                typeof x === "string"
+                                    ? emojify(x, {
+                                          style: {
+                                              backgroundImage: `url(${emojioneImage})`,
+                                              height: "20px",
+                                              width: "20px",
+                                          },
+                                      })
+                                    : x
                             )}
                         </span>
                     ) : (
