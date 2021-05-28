@@ -98,7 +98,7 @@ class Plinko extends React.Component<Props, State> {
         ctx.scale(width / 2, height / 2);
         ctx.translate(1.0, 1.0);
         this.pins.draw(ctx);
-        this.activeBalls.map(x => x.ball.draw(ctx));
+        this.activeBalls.forEach(x => x.ball.draw(ctx));
         ctx.restore();
     };
 
@@ -209,7 +209,7 @@ class Plinko extends React.Component<Props, State> {
         this.activeBalls = this.activeBalls.filter(ballData => ballData.ball.position.y < 1);
         this.renderToCanvas();
 
-        if (this.activeBalls.length >= 0) {
+        if (this.activeBalls.length > 0) {
             requestAnimationFrame(this.animation);
         }
 
