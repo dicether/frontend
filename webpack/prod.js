@@ -1,5 +1,5 @@
 const webpack = require('webpack');
-const merge = require('webpack-merge');
+const { merge }  = require('webpack-merge');
 const SitemapPlugin = require('sitemap-webpack-plugin').default;
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
@@ -21,10 +21,11 @@ const Paths = [
 module.exports = merge(common, {
     mode: 'production',
     plugins: [
-        new CopyWebpackPlugin([
-            {from: 'assets/robots.txt', to: '../robots.txt'},
-            {from: 'headers', to: '../'}
-        ]),
+        new CopyWebpackPlugin({
+            patterns: [
+                {from: 'assets/robots.txt', to: '../robots.txt'},
+                {from: 'headers', to: '../'}
+        ]}),
         new webpack.DefinePlugin({
             'process.env': {
                 'NODE_ENV': JSON.stringify('production'),
@@ -38,7 +39,7 @@ module.exports = merge(common, {
                 'VERSION': JSON.stringify(config.version)
             }
         }),
-        new SitemapPlugin(`https://${config.domain}`, Paths, {skipGzip: true}),
+        new SitemapPlugin({base: `https://${config.domain}`, paths: Paths, options: {skipGzip: true}}),
         new webpack.SourceMapDevToolPlugin({
             filename: '[file].map',
         }),

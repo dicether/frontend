@@ -5,7 +5,7 @@ import {BaseType} from "./BaseType";
 
 import "rc-slider/assets/index.css"; // tslint:disable-line:no-submodule-imports
 import "./Slider.scss";
-const Style = require("./Slider.scss");
+import Style from "./Slider.scss";
 
 export interface Props extends BaseType {
     value: number;

@@ -486,7 +486,7 @@ export function createGame(stake: number, userSeed: string) {
 
         dispatch(createGameEvent(hashChain, serverEndHash, stake));
 
-        await new Promise((resolve, reject) => {
+        await new Promise<void>((resolve, reject) => {
             createGame(hashChain[0], previousGameId, createBefore, serverEndHash, signature)
                 .send({
                     from: account,

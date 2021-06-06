@@ -3,7 +3,7 @@ import * as React from "react";
 import Icon from "../../../../reusable/FontAwesomeIcon";
 import {Button} from "../../../../reusable/index";
 
-const Style = require("./CollapsButton.scss");
+import Style from "./CollapsButton.scss";
 
 type Props = {
     isOpen: boolean;

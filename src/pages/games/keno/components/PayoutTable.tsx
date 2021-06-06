@@ -3,7 +3,7 @@ import ClassNames from "classnames";
 import {KENO_DIVIDER, KENO_PAY_OUT} from "@dicether/state-channel";
 import * as React from "react";
 
-const Style = require("./PayoutTable.scss");
+import Style from "./PayoutTable.scss";
 
 type EntryProps = {
     hits: number;

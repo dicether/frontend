@@ -3,9 +3,9 @@ import * as React from "react";
 import PayoutTable from "./PayoutTable";
 import AnimatedWheel from "./WheelAnimation";
 
-const Style = require("./WheelGrid.scss");
-const DayColors = require("./WheelDayColors.scss");
-const NightColors = require("./WheelNightColors.scss");
+import Style from "./WheelGrid.scss";
+import DayColors from "./WheelDayColors.scss";
+import NightColors from "./WheelNightColors.scss";
 
 type Props = {
     nightMode: boolean;

@@ -4,6 +4,7 @@ const path = require('path');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
+const {ProvidePlugin} = require("webpack");
 
 
 // Project root
@@ -18,24 +19,32 @@ const Title = "Dicether";
 
 // the final webpack config
 module.exports = {
-	entry : {
+    entry : {
         index: [
             path.join(contextRoot, 'index.tsx'),
             path.join(contextRoot, 'bs-theme-glob.scss'),
         ]
     },
-	output : {
-		path :  context  + '/dist/static',
-		publicPath : (process.env.DEV_SERVER === 'TRUE') ? '/' : '/static/',
-		filename : '[name].[chunkhash].js',
-	},
-	resolve : {
-		//Allow requiring files without supplying the extension.
-		extensions: ['.tsx', '.ts', '.js', '.css', '.scss'],
-		modules: [contextRoot, "node_modules"],
+    output : {
+        path :  context  + '/dist/static',
+        publicPath : (process.env.DEV_SERVER === 'TRUE') ? '/' : '/static/',
+        filename : '[name].[chunkhash].js',
+    },
+    resolve : {
+        //Allow requiring files without supplying the extension.
+        extensions: ['.tsx', '.ts', '.js', '.css', '.scss'],
+        modules: [contextRoot, "node_modules"],
         alias: {
-		    assets: path.resolve(context, 'assets')
-        }
+            assets: path.resolve(context, 'assets')
+        },
+        fallback: {
+            "assert": require.resolve("assert/"),
+            "os": require.resolve("os-browserify/browser"),
+            "http": require.resolve("stream-http"),
+            "https": require.resolve("https-browserify"),
+            "stream": require.resolve("stream-browserify"),
+            "crypto": require.resolve("crypto-browserify")
+          }
 	},
     optimization: {
         runtimeChunk: "single",
@@ -75,7 +84,7 @@ module.exports = {
                         loader: 'css-loader', options: {
                             sourceMap: true,
                             modules: {
-                                localIdentName: '',
+                                localIdentName: '[local]',
                                 getLocalIdent: (context, localIdentName, localName) => {
                                     return localName;
                                 }
@@ -179,7 +188,11 @@ module.exports = {
             },
         ]
     },
-	plugins: [
+    plugins: [
+        new ProvidePlugin({
+            process: "process/browser",
+            Buffer: ['buffer', 'Buffer'],
+        }),
         new MiniCssExtractPlugin({
             filename: '[name].[hash].css'
         }),

@@ -1,7 +1,7 @@
 import ClassNames from "classnames";
 import * as React from "react";
 
-const Style = require("./Coins.scss");
+import Style from "./Coins.scss";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore

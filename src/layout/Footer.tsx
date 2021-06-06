@@ -8,7 +8,7 @@ import {Col} from "../reusable";
 
 const logo = require("assets/images/logoTop.svg");
 
-const Style = require("./Footer.scss");
+import Style from "./Footer.scss";
 
 interface Props extends WithTranslation {
     showChat: boolean;

@@ -1,6 +1,6 @@
 import * as React from "react";
 
-const Style = require("./Ticks.scss");
+import Style from "./Ticks.scss";
 
 const Ticks = () => (
     <div className={Style.ticks}>

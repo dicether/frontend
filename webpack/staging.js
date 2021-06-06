@@ -1,5 +1,5 @@
 const webpack = require('webpack');
-const merge = require('webpack-merge');
+const { merge } = require('webpack-merge');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
@@ -11,10 +11,11 @@ const config = require('./config');
 module.exports = merge(common, {
     mode: 'production',
     plugins: [
-        new CopyWebpackPlugin([
-            {from: 'assets/robots-staging.txt', to: '../robots.txt'},
-            {from: 'headers', to: '../'}
-        ]),
+        new CopyWebpackPlugin({
+            patterns: [
+                {from: 'assets/robots.txt', to: '../robots.txt'},
+                {from: 'headers', to: '../'}
+        ]}),
         new webpack.DefinePlugin({
             'process.env': {
                 'NODE_ENV': JSON.stringify('staging'),

@@ -7,7 +7,7 @@ import {User} from "../../modules/account/types";
 import {Bet} from "../../modules/bets/types";
 import {gameTypeToLink, gameTypeToName} from "./util";
 
-const Style = require("./BetList.scss");
+import Style from "./BetList.scss";
 
 type LastBetRowProps = {
     bet: Bet;

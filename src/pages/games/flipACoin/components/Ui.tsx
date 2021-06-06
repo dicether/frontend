@@ -5,7 +5,7 @@ import {formatEth} from "../../../../reusable/Ether";
 import Coins from "./Coins";
 import HowToPlay from "./HowToPlay";
 
-const Style = require("./Ui.scss");
+import Style from "./Ui.scss";
 
 type Props = {
     value: number;

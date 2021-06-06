@@ -1,7 +1,7 @@
 import * as React from "react";
 import {getMatchingCommands} from "../../../modules/chat/commands";
 
-const Style = require("./ChatCommandInfo.scss");
+import Style from "./ChatCommandInfo.scss";
 
 type Props = {
     message: string;

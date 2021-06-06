@@ -1,7 +1,7 @@
 import * as React from "react";
 import IconButton from "../../../../reusable/IconButton";
 
-const Style = require("./ReverseRollButton.scss");
+import Style from "./ReverseRollButton.scss";
 
 export type Props = {
     reversed: boolean;

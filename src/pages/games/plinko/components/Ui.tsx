@@ -7,7 +7,7 @@ import {popCnt} from "../../../../util/math";
 import HowToPlay from "./HowToPlay";
 import Plinko from "./Plinko";
 
-const Style = require("./Ui.scss");
+import Style from "./Ui.scss";
 
 export interface Props extends WithTranslation {
     ref: any;

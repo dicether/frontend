@@ -4,9 +4,9 @@ import ReactResizeDetector from "react-resize-detector";
 import PureCanvas from "../../reusable/PureCanvas";
 import {formatMultiplier} from "./utility";
 
-const Style = require("./Wheel.scss");
-const ColorDay = require("./WheelDayColors.scss");
-const ColorNight = require("./WheelNightColors.scss");
+import Style from "./Wheel.scss";
+import ColorDay from "./WheelDayColors.scss";
+import ColorNight from "./WheelNightColors.scss";
 
 type Props = {
     nightMode: boolean;
@@ -163,9 +163,11 @@ export default class Wheel extends React.Component<Props, State> {
         this.ctx = ctx;
     };
 
-    private onResize = (size: number) => {
+    private onResize = (width?: number) => {
+        if (width === undefined) return;
+
         this.setState({
-            size,
+            size: width,
         });
         this.renderToCanvas();
     };

@@ -3,7 +3,7 @@ import * as React from "react";
 
 import Icon from "./FontAwesomeIcon";
 
-const Style = require("./DataLoader.scss");
+import Style from "./DataLoader.scss";
 
 const Loading = () => (
     <div className={Style.info}>

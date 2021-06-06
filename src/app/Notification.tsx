@@ -2,7 +2,7 @@ import * as React from "react";
 import {toast, ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // tslint:disable-line:no-submodule-imports
 
-const Style = require("./Notification.scss");
+import Style from "./Notification.scss";
 
 const CloseButton = () => (
     <button type="button" className="close" aria-label="Close" style={{color: "#fff", alignSelf: "flex-start"}}>
@@ -23,11 +23,11 @@ export default class Notification extends React.Component<Props> {
         if (nextProps.notification !== this.props.notification && nextProps.notification !== null) {
             const notification = nextProps.notification;
             if (notification.type === "success") {
-                toast.success(<div style={{width: "285px", wordWrap: "break-word"}}>{notification.message}</div>);
+                toast.success(<div style={{width: "275px", wordWrap: "break-word"}}>{notification.message}</div>);
             } else if (notification.type === "info") {
-                toast.info(<div style={{width: "285px", wordWrap: "break-word"}}>{notification.message}</div>);
+                toast.info(<div style={{width: "275px", wordWrap: "break-word"}}>{notification.message}</div>);
             } else {
-                toast.error(<div style={{width: "285px", wordWrap: "break-word"}}>{notification.message}</div>);
+                toast.error(<div style={{width: "275px", wordWrap: "break-word"}}>{notification.message}</div>);
             }
         }
     }
@@ -36,7 +36,7 @@ export default class Notification extends React.Component<Props> {
         return (
             <ToastContainer
                 toastClassName={Style.notification}
-                position={ToastPosition.TOP_LEFT}
+                position="top-left"
                 autoClose={5000}
                 hideProgressBar={true}
                 closeOnClick

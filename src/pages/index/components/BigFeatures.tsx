@@ -4,7 +4,7 @@ import * as React from "react";
 import i8n from "../../../i18n";
 import {Col, Container, Row, Section} from "../../../reusable";
 
-const Style = require("./BigFeatures.scss");
+import Style from "./BigFeatures.scss";
 
 const anonymous = require("assets/images/anonymous.svg");
 const fair = require("assets/images/fair.svg");
@@ -36,6 +36,7 @@ type EntryProps = {
 const Entry = ({idx, entry}: EntryProps) => {
     const classNameImgCol = ClassNames("text-center mb-4 mb-sm-0", {"order-sm-last": idx % 2 === 0});
 
+    console.log(Style.entry);
     return (
         <Row className={Style.entry}>
             <Col md={6} className={classNameImgCol}>

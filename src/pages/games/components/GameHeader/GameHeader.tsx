@@ -17,7 +17,7 @@ import {Ether, Tooltip} from "../../../../reusable";
 import {Button, FontAwesomeIcon} from "../../../../reusable/index";
 import CreateGameModal from "./CreateGameModal";
 
-const Style = require("./GameHeader.scss");
+import Style from "./GameHeader.scss";
 
 type ForceEndRenderProps = {
     hours: number;

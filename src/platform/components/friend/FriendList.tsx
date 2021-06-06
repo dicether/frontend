@@ -4,7 +4,7 @@ import {WithTranslation, withTranslation} from "react-i18next";
 
 import {Friend} from "../../modules/friends/types";
 
-const Style = require("./FriendList.scss");
+import Style from "./FriendList.scss";
 
 export interface Props extends WithTranslation {
     friends: Friend[];

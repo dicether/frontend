@@ -10,7 +10,7 @@ import {catchError} from "../../modules/utilities/asyncActions";
 import ClearState from "./ClearState";
 import ConflictEnd from "./ConflictEnd";
 
-const Style = require("./State.scss");
+import Style from "./State.scss";
 
 type EntryProps = {
     id: string;

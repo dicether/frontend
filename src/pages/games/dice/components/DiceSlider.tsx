@@ -6,7 +6,7 @@ import sounds from "../../sound";
 import ResultSlider from "./ResultSlider";
 import Ticks from "./Ticks";
 
-const Style = require("./DiceSlider.scss");
+import Style from "./DiceSlider.scss";
 
 type Props = {
     num: number;

@@ -2,7 +2,7 @@ import ClassNames from "classnames";
 import * as React from "react";
 import {formatMultiplier} from "./utility";
 
-const Style = require("./PayoutTable.scss");
+import Style from "./PayoutTable.scss";
 
 type Props = {
     payoutTable: Array<{value: number; color: string}>;

@@ -3,7 +3,7 @@ import {Modal as BootstrapModal, ModalBody} from "reactstrap";
 
 import {BaseType} from "./BaseType";
 
-const Style = require("./Modal.scss");
+import Style from "./Modal.scss";
 
 export interface Props extends BaseType {
     isOpen: boolean;

@@ -1,7 +1,7 @@
 import ClassNames from "classnames";
 import * as React from "react";
 
-const Style = require("./Input.scss");
+import Style from "./Input.scss";
 import {BaseType} from "./BaseType";
 
 export interface Props extends BaseType {

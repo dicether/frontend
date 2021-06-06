@@ -11,7 +11,7 @@ import {loadBets, loadMyBets} from "../../modules/bets/asyncActions";
 import {showBetModal, showUserModal} from "../../modules/modals/actions";
 import BetsList from "./BetsList";
 
-const Style = require("./Stats.scss");
+import Style from "./Stats.scss";
 
 const mapStateToProps = (state: State) => {
     const {bets} = state;

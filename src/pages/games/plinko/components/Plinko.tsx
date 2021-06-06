@@ -10,9 +10,9 @@ import PayoutTable from "./PayoutTable";
 import Pins from "./Pins";
 import Vector2 from "./Vector2";
 
-const Style = require("./Plinko.scss");
-const DayColors = require("./PlinkoDayColors.scss");
-const NightColors = require("./PlinkoNightColors.scss");
+import Style from "./Plinko.scss";
+import DayColors from "./PlinkoDayColors.scss";
+import NightColors from "./PlinkoNightColors.scss";
 
 type Props = {
     rows: number;
@@ -226,9 +226,11 @@ class Plinko extends React.Component<Props, State> {
         this.ctx = ctx;
     };
 
-    private onResize = (size: number) => {
+    private onResize = (width?: number) => {
+        if (width === undefined) return;
+
         this.setState({
-            size,
+            size: width,
         });
         this.renderToCanvas();
     };

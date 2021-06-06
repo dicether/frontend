@@ -12,7 +12,7 @@ import {Col, Container, DataLoader, Row} from "../../reusable/index";
 import {Dispatch} from "../../util/util";
 import StatsTable from "./StatsTable";
 
-const Style = require("./HallOfFame.scss");
+import Style from "./HallOfFame.scss";
 
 type StatsEntryProps = {
     timeSpan: string;

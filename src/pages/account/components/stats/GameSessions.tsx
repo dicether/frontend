@@ -5,7 +5,7 @@ import {GameSession} from "../../../../platform/modules/account/types";
 import Ether from "../../../../reusable/Ether";
 import {Table} from "../../../../reusable/index";
 
-const Style = require("./GameSessions.scss");
+import Style from "./GameSessions.scss";
 
 const GameSessionRow = ({gameId, balance, roundId}: GameSession) => (
     <tr className="text-center">

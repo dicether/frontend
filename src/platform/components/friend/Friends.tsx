@@ -8,7 +8,7 @@ import {acceptFriendRequest, cancelFriendRequest, declineFriendRequest} from "..
 import FriendList from "./FriendList";
 import FriendRequests from "./FriendRequests";
 
-const Style = require("./Friends.scss");
+import Style from "./Friends.scss";
 
 const mapStateToProps = ({friend}: State) => {
     const {friends, receivedFriendRequests, sentFriendRequests} = friend;

@@ -120,7 +120,7 @@ class App extends React.Component<Props, State> {
                 <Layout>
                     {logout && <Redirect to="/logout" />}
                     <Switch>
-                        <Route userAuth={userAuth} exact path="/" component={Index} />
+                        <Route exact path="/" component={Index} />
                         <Route exact path="/faq" component={Faq} />
                         <Route path="/hallOfFame" component={HallOfFame} />
                         <Route exact path="/termsOfUse" component={TermsOfUse} />

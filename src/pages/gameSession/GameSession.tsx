@@ -11,7 +11,7 @@ import {Container, DataLoader} from "../../reusable";
 import Ether from "../../reusable/Ether";
 import {Dispatch} from "../../util/util";
 
-const Style = require("./GameSession.scss");
+import Style from "./GameSession.scss";
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
     bindActionCreators(

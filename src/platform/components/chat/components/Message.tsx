@@ -11,7 +11,7 @@ import UserType from "./UserType";
 
 import reactStringReplace from "react-string-replace";
 import {isValidUserName} from "../../../modules/account/util";
-const Style = require("./Message.scss");
+import Style from "./Message.scss";
 const emojioneImage = require("assets/images/emojione-3.1.2-64x64.png");
 
 const BET_REGEX = /Bet:(\d+)/;

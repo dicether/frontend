@@ -2,7 +2,7 @@ import * as React from "react";
 
 import Message from "./Message";
 
-const Style = require("./MessageList.scss");
+import Style from "./MessageList.scss";
 
 import {Message as MessageType} from "../../../modules/chat/types";
 import {Friend} from "../../../modules/friends/types";

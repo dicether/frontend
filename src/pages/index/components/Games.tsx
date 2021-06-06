@@ -13,7 +13,7 @@ const KenoLogo = require("assets/images/kenoLogo.svg");
 const PlinkoLogo = require("assets/images/plinkoLogo.svg");
 const WheelLogo = require("assets/images/wheelLogo.svg");
 
-const Style = require("./Games.scss");
+import Style from "./Games.scss";
 
 const Games = ({t}: {t: TFunction}) => (
     <Section className={Style.games}>

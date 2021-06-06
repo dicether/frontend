@@ -27,7 +27,7 @@ import Keno from "./keno/Keno";
 import Plinko from "./plinko/Plinko";
 import Wheel from "./wheel/Wheel";
 
-const Style = require("./Game.scss");
+import Style from "./Game.scss";
 
 const mapStateToProps = ({games, web3, account}: State) => {
     const {gameState, info} = games;

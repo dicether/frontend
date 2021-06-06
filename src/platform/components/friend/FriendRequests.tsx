@@ -4,7 +4,7 @@ import {WithTranslation, withTranslation} from "react-i18next";
 import {Button} from "../../../reusable/index";
 import {FriendRequest} from "../../modules/friends/types";
 
-const Style = require("./FriendRequests.scss");
+import Style from "./FriendRequests.scss";
 
 export interface Props extends WithTranslation {
     receivedFriendRequests: FriendRequest[];

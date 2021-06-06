@@ -1,7 +1,7 @@
 import ClassNames from "classnames";
 import * as React from "react";
 
-const Style = require("./ResultSlider.scss");
+import Style from "./ResultSlider.scss";
 
 type Props = {
     result: {num: number; won: boolean};

@@ -1,6 +1,6 @@
 import * as React from "react";
 
-const Style = require("./DefinitionEntry.scss");
+import Style from "./DefinitionEntry.scss";
 
 type Props = {
     name: string;

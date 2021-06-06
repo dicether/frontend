@@ -1,7 +1,7 @@
 import ClassNames from "classnames";
 import * as React from "react";
 
-const Style = require("./Section.scss");
+import Style from "./Section.scss";
 
 type Props = {
     children: React.ReactNode;

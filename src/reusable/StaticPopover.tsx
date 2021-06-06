@@ -3,7 +3,7 @@ import * as React from "react";
 
 import {BaseType} from "./BaseType";
 
-const Style = require("./StaticPopover.scss");
+import Style from "./StaticPopover.scss";
 
 export interface Props extends BaseType {
     placement: "top" | "bottom" | "right" | "left";

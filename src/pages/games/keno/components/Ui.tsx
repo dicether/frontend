@@ -9,7 +9,7 @@ import Grid from "./Grid";
 import HowToPlay from "./HowToPlay";
 import PayoutTable from "./PayoutTable";
 
-const Style = require("./Ui.scss");
+import Style from "./Ui.scss";
 
 export interface Props extends WithTranslation {
     num: number;

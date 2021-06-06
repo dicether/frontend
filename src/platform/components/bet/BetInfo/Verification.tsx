@@ -5,7 +5,7 @@ import {CHAIN_ID, SERVER_ADDRESS} from "../../../../config/config";
 import {FontAwesomeIcon} from "../../../../reusable/index";
 import {Bet} from "../../../modules/bets/types";
 
-const Style = require("./Verification.scss");
+import Style from "./Verification.scss";
 
 type Props = {
     bet: Bet;

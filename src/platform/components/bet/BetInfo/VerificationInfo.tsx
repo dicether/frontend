@@ -6,7 +6,7 @@ import {Bet} from "../../../modules/bets/types";
 import CollapseButton from "./CollapseButton";
 import Verification from "./Verification";
 
-const Style = require("./VerificationInfo.scss");
+import Style from "./VerificationInfo.scss";
 
 type Props = {
     bet: Bet;

@@ -4,7 +4,7 @@ import {User} from "../../platform/modules/account/types";
 import {Ether} from "../../reusable";
 import {Stat} from "./types";
 
-const Style = require("./StatsRow.scss");
+import Style from "./StatsRow.scss";
 
 type Props = {
     index: number;

@@ -5,7 +5,7 @@ import {ButtonToolbar} from "reactstrap"; // FIXME: Remove
 import GameState from "../../../platform/components/state/State";
 import {Button, FancyIconButton, Popover, Switch} from "../../../reusable/index";
 
-const Style = require("./GameFooter.scss");
+import Style from "./GameFooter.scss";
 
 type Props = {
     authenticated: boolean;

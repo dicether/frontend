@@ -4,7 +4,7 @@ import {Jumbotron} from "reactstrap";
 
 import {Button, Container} from "../../../reusable";
 
-const Style = require("./Overview.scss");
+import Style from "./Overview.scss";
 
 export interface Props extends WithTranslation {
     loggedIn: boolean;

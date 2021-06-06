@@ -8,7 +8,7 @@ import HowToPlay from "./HowToPlay";
 
 import WheelGrid from "./WheelGrid";
 
-const Style = require("./Ui.scss");
+import Style from "./Ui.scss";
 
 export interface Props extends WithTranslation {
     segments: number;

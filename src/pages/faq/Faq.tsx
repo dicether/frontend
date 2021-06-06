@@ -13,7 +13,7 @@ import {
 } from "../../config/config";
 import {Container} from "../../reusable";
 
-const Style = require("./Faq.scss");
+import Style from "./Faq.scss";
 
 const Faq = ({t}: WithTranslation) => (
     <DocumentTitle title="Faq - Dicether">

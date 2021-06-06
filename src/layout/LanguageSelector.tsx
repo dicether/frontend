@@ -4,7 +4,7 @@ import {withTranslation} from "react-i18next";
 import i18n from "../i18n";
 import {Button, Dropdown, FlagIcon} from "../reusable";
 
-const Style = require("./LanguageSelector.scss");
+import Style from "./LanguageSelector.scss";
 
 function languageToIcon(lang: string) {
     switch (lang) {

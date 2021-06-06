@@ -4,7 +4,7 @@ import Textarea from "react-textarea-autosize";
 import {Button} from "../../../../reusable/index";
 import ChatCommandInfo from "./ChatCommandInfo";
 
-const Style = require("./Footer.scss");
+import Style from "./Footer.scss";
 
 export interface Props extends WithTranslation {
     message: string;
