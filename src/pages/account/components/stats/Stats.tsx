@@ -53,7 +53,4 @@ class Stats extends React.PureComponent<Props> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Stats);
+export default connect(mapStateToProps, mapDispatchToProps)(Stats);

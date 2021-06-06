@@ -21,12 +21,12 @@ class ClearState extends React.Component<Props, State> {
 
     onToggleModal = () => {
         this.setState({showModal: !this.state.showModal});
-    }
+    };
 
     onClearState = () => {
         this.props.clearState();
         this.onToggleModal();
-    }
+    };
 
     render() {
         return (

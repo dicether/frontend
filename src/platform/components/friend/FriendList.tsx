@@ -11,8 +11,8 @@ export interface Props extends WithTranslation {
 }
 
 const FriendList = ({friends, t}: Props) => {
-    const friendsOnline = friends.filter(friend => friend.online);
-    const friendsOffline = friends.filter(friend => !friend.online);
+    const friendsOnline = friends.filter((friend) => friend.online);
+    const friendsOffline = friends.filter((friend) => !friend.online);
 
     const onlineFriendClass = ClassNames(Style.onlineStatus, Style.onlineStatus_online);
     const offlineFriendClass = ClassNames(Style.onlineStatus, Style.onlineStatus_offline);
@@ -23,7 +23,7 @@ const FriendList = ({friends, t}: Props) => {
                 {t("friendsOnline")} ({friendsOnline.length})
             </h5>
             <ul className={Style.list}>
-                {friendsOnline.map(friend => (
+                {friendsOnline.map((friend) => (
                     <li className={Style.friend} key={friend.user.address}>
                         <span className={onlineFriendClass} />
                         {friend.user.username}
@@ -34,7 +34,7 @@ const FriendList = ({friends, t}: Props) => {
                 {t("friendsOffline")} ({friendsOffline.length})
             </h5>
             <ul className={Style.list}>
-                {friendsOffline.map(friend => (
+                {friendsOffline.map((friend) => (
                     <li className={Style.friend} key={friend.user.address}>
                         <div className={offlineFriendClass} />
                         {friend.user.username}

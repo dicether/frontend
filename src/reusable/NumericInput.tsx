@@ -38,7 +38,7 @@ export default class NumericInput extends React.Component<Props> {
         } else {
             return {valid: true};
         }
-    }
+    };
 
     onValue = (value: string) => {
         const {step, onNumber} = this.props;
@@ -49,7 +49,7 @@ export default class NumericInput extends React.Component<Props> {
         }
 
         onNumber(num);
-    }
+    };
 
     render() {
         const {number, precision, suffix} = this.props; // tslint:disable-line variable-name

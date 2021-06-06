@@ -59,7 +59,7 @@ export default class AnimatedWheel extends React.Component<Props, State> {
         this.setState({currentPosition: newPosition});
 
         requestAnimationFrame(this.updatePosition);
-    }
+    };
 
     private static calcNewPos(
         startPosition: number,

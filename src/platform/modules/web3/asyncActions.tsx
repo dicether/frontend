@@ -18,13 +18,13 @@ export function fetchNetwork() {
         if (web3 !== null) {
             web3.eth.net
                 .getId()
-                .then(netId => {
+                .then((netId) => {
                     const networkId = getState().web3.networkId;
                     if (networkId !== netId) {
                         dispatch(changeNetworkId(netId));
                     }
                 })
-                .catch(error => console.log("Network id fetching failed: " + error));
+                .catch((error) => console.log("Network id fetching failed: " + error));
         } else if (networkId !== null) {
             dispatch(changeNetworkId(null));
         }
@@ -52,7 +52,7 @@ export function fetchAccount() {
         if (web3 !== null) {
             return web3.eth
                 .getAccounts()
-                .then(accounts => {
+                .then((accounts) => {
                     if (accounts.length === 0) {
                         if (curAccount !== null) {
                             dispatch(changeAccount(null));
@@ -65,7 +65,7 @@ export function fetchAccount() {
                         dispatch(changeAccount(account));
                     }
                 })
-                .catch(error => console.log("Account fetching failed: " + error));
+                .catch((error) => console.log("Account fetching failed: " + error));
         } else if (curAccount !== null) {
             dispatch(changeAccount(null));
         }
@@ -81,13 +81,13 @@ export function fetchAccountBalance() {
         if (web3 !== null && account !== null) {
             web3.eth
                 .getBalance(account)
-                .then(result => {
+                .then((result) => {
                     const balance = new BN(result).div(new BN(FROM_WEI_TO_BASE)).toNumber();
                     if (balance !== web3State.balance) {
                         dispatch(changeBalance(balance));
                     }
                 })
-                .catch(error => console.log("Balance fetching failed: " + error));
+                .catch((error) => console.log("Balance fetching failed: " + error));
         } else if (web3State.balance !== null) {
             dispatch(changeBalance(null));
         }

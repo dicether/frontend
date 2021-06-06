@@ -22,7 +22,7 @@ function updateFriendStatus(friend: Friend, online: boolean) {
     return {...friend, online};
 }
 
-export default function(state: State = initialState, action: Actions) {
+export default function (state: State = initialState, action: Actions) {
     switch (action.type) {
         case types.CHANGE_FRIENDS:
             return {...state, friends: action.friends};
@@ -40,7 +40,7 @@ export default function(state: State = initialState, action: Actions) {
             return {
                 ...state,
                 receivedFriendRequests: state.receivedFriendRequests.filter(
-                    friendReq => friendReq.from.address !== address
+                    (friendReq) => friendReq.from.address !== address
                 ),
             };
         }
@@ -52,16 +52,15 @@ export default function(state: State = initialState, action: Actions) {
             const address = action.address;
             return {
                 ...state,
-                sentFriendRequests: state.sentFriendRequests.filter(friendReq => friendReq.to.address !== address),
+                sentFriendRequests: state.sentFriendRequests.filter((friendReq) => friendReq.to.address !== address),
             };
         }
         case types.TOGGLE_FRIEND_ONLINE: {
             const status = action.status;
             return {
                 ...state,
-                friends: state.friends.map(
-                    friend =>
-                        status.address === friend.user.address ? updateFriendStatus(friend, status.online) : friend
+                friends: state.friends.map((friend) =>
+                    status.address === friend.user.address ? updateFriendStatus(friend, status.online) : friend
                 ),
             };
         }

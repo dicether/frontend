@@ -13,7 +13,7 @@ const Bet = ({bet, betId}: Props) =>
     bet ? (
         <BetInfo bet={bet} />
     ) : (
-        <DataLoader<BetType> url={`/bets/bet/${betId}`} success={bet => <BetInfo bet={bet} />} />
+        <DataLoader<BetType> url={`/bets/bet/${betId}`} success={(bet) => <BetInfo bet={bet} />} />
     );
 
 export default Bet;

@@ -10,7 +10,7 @@ export const SHOW_BET = /^\/bet (\d+)$/;
 export const SHOW_USER = /^\/user (\S+)$/;
 
 export function getMatchingCommands(msg: string) {
-    return COMMANDS.filter(x => x.name.startsWith(msg) || msg.startsWith(x.name));
+    return COMMANDS.filter((x) => x.name.startsWith(msg) || msg.startsWith(x.name));
 }
 
 export function executeCommands(dispatch: Dispatch, message: string) {

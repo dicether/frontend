@@ -94,49 +94,40 @@ class Dice extends React.Component<Props, DiceState> {
     onToggleHelp = () => {
         const {toggleHelp, info} = this.props;
         toggleHelp(!info.showHelp);
-    }
+    };
 
     onNumberChange = (num: number) => {
         const {changeNum} = this.props;
         changeNum(num);
-    }
+    };
 
     onValueChange = (value: number) => {
         const {changeValue} = this.props;
         changeValue(value);
-    }
+    };
 
     onMultiplierChange = (multiplier: number) => {
         const {dice, changeNum} = this.props;
         const num = calcNumberFromPayOutMultiplier(multiplier, dice.reverseRoll);
         changeNum(num);
-    }
+    };
 
     onChanceChange = (chance: number) => {
         const {dice, changeNum} = this.props;
 
         const num = dice.reverseRoll ? RANGE - 1 - RANGE * chance : RANGE * chance;
         changeNum(num);
-    }
+    };
 
     onReverseRoll = () => {
         const {dice, changeRollMode} = this.props;
         changeRollMode(!dice.reverseRoll);
         changeNum(RANGE - 1 - dice.num);
-    }
+    };
 
     onPlaceBet = () => {
-        const {
-            info,
-            dice,
-            addNewBet,
-            placeBet,
-            catchError,
-            showErrorMessage,
-            web3Available,
-            gameState,
-            loggedIn,
-        } = this.props;
+        const {info, dice, addNewBet, placeBet, catchError, showErrorMessage, web3Available, gameState, loggedIn} =
+            this.props;
 
         const safeBetValue = Math.round(dice.value);
         const num = dice.num;
@@ -152,7 +143,7 @@ class Dice extends React.Component<Props, DiceState> {
         const canBet = canPlaceBet(gameType, num, safeBetValue, loggedIn, web3Available, gameState);
         if (canBet.canPlaceBet) {
             placeBet(num, safeBetValue, gameType)
-                .then(result => {
+                .then((result) => {
                     this.setState({result, showResult: true});
                     clearTimeout(this.resultTimeoutId);
                     this.resultTimeoutId = window.setTimeout(() => this.setState({showResult: false}), 5000);
@@ -162,11 +153,11 @@ class Dice extends React.Component<Props, DiceState> {
                         setTimeout(() => (result.won ? sounds.win.playFromBegin() : sounds.lose.playFromBegin()), 500);
                     }
                 })
-                .catch(error => catchError(error));
+                .catch((error) => catchError(error));
         } else {
             showErrorMessage(canBet.errorMessage);
         }
-    }
+    };
 
     render() {
         const {result, showResult} = this.state;
@@ -203,7 +194,4 @@ class Dice extends React.Component<Props, DiceState> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Dice);
+export default connect(mapStateToProps, mapDispatchToProps)(Dice);

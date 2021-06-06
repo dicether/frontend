@@ -60,14 +60,14 @@ class Chat extends React.Component<Props, ChatState> {
 
     toggleFriends = (showFriends: boolean) => {
         this.setState({showFriends});
-    }
+    };
 
     onMessageChange = (message: string) => {
         if (message.length > MAX_MESSAGE_LENGTH) {
             message = message.slice(0, MAX_MESSAGE_LENGTH);
         }
         this.setState({message});
-    }
+    };
 
     onMessageSend = () => {
         const {showErrorMessage, sendMessage, userAuth} = this.props;
@@ -84,7 +84,7 @@ class Chat extends React.Component<Props, ChatState> {
 
         sendMessage(message);
         this.setState({message: ""});
-    }
+    };
 
     render() {
         const {toggleChat, show, messages, numUsers, friends, showBetModal, showUserModal} = this.props;
@@ -106,8 +106,8 @@ class Chat extends React.Component<Props, ChatState> {
                             <MessageList
                                 messages={messages}
                                 friends={friends}
-                                showBetModal={betId => showBetModal({betId})}
-                                showUserModal={userName => showUserModal({userName})}
+                                showBetModal={(betId) => showBetModal({betId})}
+                                showUserModal={(userName) => showUserModal({userName})}
                             />
                         )}
                         <Footer
@@ -129,7 +129,4 @@ class Chat extends React.Component<Props, ChatState> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Chat);
+export default connect(mapStateToProps, mapDispatchToProps)(Chat);

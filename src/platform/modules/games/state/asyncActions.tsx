@@ -287,7 +287,7 @@ const checkIfEndTransactionFinished = (web3: Web3, transactionHash?: string) => 
         return Promise.resolve(true);
     }
 
-    return getTransactionReceipt(web3, transactionHash).then(receipt => receipt !== null);
+    return getTransactionReceipt(web3, transactionHash).then((receipt) => receipt !== null);
 };
 
 export function loadContractStateCreatedGame() {

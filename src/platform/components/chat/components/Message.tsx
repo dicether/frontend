@@ -43,13 +43,17 @@ function processMessage(
     ));
 
     res = reactStringReplace(res, USER_REGEX, (match, i) => {
-        if (!isValidUserName(match)) { return `User:${match}`; }
+        if (!isValidUserName(match)) {
+            return `User:${match}`;
+        }
 
         return <ChatButton key={match + i} name={`User:${match}`} onClick={() => showUserModal(match)} />;
     });
 
     res = reactStringReplace(res, USER_MENTION_REGEX, (match, i, offset) => {
-        if (!isValidUserName(match)) { return `@${match}`; }
+        if (!isValidUserName(match)) {
+            return `@${match}`;
+        }
 
         if (offset === 0) {
             return <ChatButton key={match + i} name={`@${match}`} onClick={() => showUserModal(match)} />;
@@ -103,7 +107,7 @@ class Message extends React.Component<Props, State> {
         });
 
         const usernameClass = ClassNames(Style.username, {
-            [Style.username_friend]: friends.findIndex(friend => friend.user.address === user.address) !== -1,
+            [Style.username_friend]: friends.findIndex((friend) => friend.user.address === user.address) !== -1,
         });
 
         const userName = <span className={usernameClass}>{user.username}:</span>;
@@ -121,7 +125,7 @@ class Message extends React.Component<Props, State> {
                     </div>
                     {!message.deleted ? (
                         <span className={messageClass}>
-                            {processMessage(message.message, showBetModal, showUserModal).map(x =>
+                            {processMessage(message.message, showBetModal, showUserModal).map((x) =>
                                 typeof x === "string"
                                     ? emojify(x, {
                                           style: {

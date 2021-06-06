@@ -33,7 +33,7 @@ class VerificationInfo extends React.PureComponent<Props, State> {
 
     toggle = () => {
         this.setState({isOpen: !this.state.isOpen});
-    }
+    };
 
     render() {
         const {isOpen} = this.state;

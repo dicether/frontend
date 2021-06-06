@@ -78,7 +78,7 @@ const BetsList = ({bets, showUser = true, showBetModal, showUserModal}: Props) =
                 </tr>
             </thead>
             <tbody className={Style.entries}>
-                {bets.slice().map(bet => (
+                {bets.slice().map((bet) => (
                     <LastBetRow
                         key={bet.id}
                         bet={bet}

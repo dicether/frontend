@@ -12,14 +12,14 @@ export function getLastGameId(
 
     return web3.eth
         .getBlockNumber()
-        .then(blockNum => {
+        .then((blockNum) => {
             return contract.getPastEvents("LogGameCreated", {
                 filter: {serverEndHash},
                 fromBlock: Math.max(blockNum - 30 * 24 * 4 * 60, 0),
                 toBlock: "latest",
             });
         })
-        .then(events => {
+        .then((events) => {
             const len = events.length;
             if (len === 0 || events[len - 1].transactionHash !== transactionHash) {
                 return Promise.reject(new Error("Could not find event!"));
@@ -47,14 +47,14 @@ export async function getLogGameCreated(web3: Web3, contract: any, serverEndHash
 export function getReasonEnded(web3: Web3, contract: any, gameId: number) {
     return web3.eth
         .getBlockNumber()
-        .then(blockNum => {
+        .then((blockNum) => {
             return contract.getPastEvents("LogGameEnded", {
                 filter: {gameId},
                 fromBlock: Math.max(blockNum - 30 * 24 * 4 * 60, 0),
                 toBlock: "latest",
             });
         })
-        .then(events => {
+        .then((events) => {
             const len = events.length;
             if (len !== 1) {
                 return Promise.reject(new Error("Could not find event!"));

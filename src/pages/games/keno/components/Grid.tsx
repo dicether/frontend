@@ -14,12 +14,7 @@ function wonStatus(tileNum: number, betNum: number, resultNum: number, showResul
 
     const betNumBn = new BN(betNum);
 
-    return (
-        betNumBn
-            .and(resultNumBn)
-            .and(tileBit)
-            .toNumber() !== 0
-    );
+    return betNumBn.and(resultNumBn).and(tileBit).toNumber() !== 0;
 }
 
 export type Props = {
@@ -34,7 +29,7 @@ const tileNums = [...Array(40).keys()];
 const Grid = ({selectedTiles, result, showResult, onClick}: Props) => (
     <div className={Style.grid}>
         <div className={Style.tiles}>
-            {tileNums.map(num => (
+            {tileNums.map((num) => (
                 <Tile
                     key={num}
                     num={num}

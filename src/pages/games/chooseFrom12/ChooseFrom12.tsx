@@ -90,17 +90,8 @@ class ChooseFrom12 extends React.PureComponent<Props, OneDiceState> {
     };
 
     private onPlaceBet = () => {
-        const {
-            info,
-            oneDice,
-            addNewBet,
-            placeBet,
-            catchError,
-            showErrorMessage,
-            web3Available,
-            gameState,
-            loggedIn,
-        } = this.props;
+        const {info, oneDice, addNewBet, placeBet, catchError, showErrorMessage, web3Available, gameState, loggedIn} =
+            this.props;
 
         const safeBetValue = Math.round(oneDice.value);
         const num = oneDice.num;
@@ -116,7 +107,7 @@ class ChooseFrom12 extends React.PureComponent<Props, OneDiceState> {
         const canBet = canPlaceBet(gameType, num, safeBetValue, loggedIn, web3Available, gameState);
         if (canBet.canPlaceBet) {
             placeBet(num, safeBetValue, gameType)
-                .then(result => {
+                .then((result) => {
                     this.setState({result, showResult: true});
                     clearTimeout(this.resultTimeoutId);
                     this.resultTimeoutId = window.setTimeout(() => this.setState({showResult: false}), 5000);
@@ -126,7 +117,7 @@ class ChooseFrom12 extends React.PureComponent<Props, OneDiceState> {
                         setTimeout(() => (result.won ? sounds.win.playFromBegin() : sounds.lose.playFromBegin()), 500);
                     }
                 })
-                .catch(error => catchError(error));
+                .catch((error) => catchError(error));
         } else {
             showErrorMessage(canBet.errorMessage);
         }

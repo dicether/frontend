@@ -71,16 +71,8 @@ class Wheel extends React.PureComponent<Props, KenoState> {
     };
 
     private onPlaceBet = () => {
-        const {
-            wheel,
-            addNewBet,
-            placeBet,
-            catchError,
-            showErrorMessage,
-            web3Available,
-            gameState,
-            loggedIn,
-        } = this.props;
+        const {wheel, addNewBet, placeBet, catchError, showErrorMessage, web3Available, gameState, loggedIn} =
+            this.props;
 
         const safeBetValue = Math.round(wheel.value);
         const num = wheel.num;
@@ -104,7 +96,7 @@ class Wheel extends React.PureComponent<Props, KenoState> {
                 showResult: false,
             });
             placeBet(num, safeBetValue, gameType)
-                .then(result => {
+                .then((result) => {
                     this.setState({result});
                     clearTimeout(this.resultUntilShowTimeoutId);
                     this.resultUntilShowTimeoutId = window.setTimeout(() => {
@@ -129,7 +121,7 @@ class Wheel extends React.PureComponent<Props, KenoState> {
                         10000
                     );
                 })
-                .catch(error => catchError(error));
+                .catch((error) => catchError(error));
         } else {
             showErrorMessage(canBet.errorMessage);
         }

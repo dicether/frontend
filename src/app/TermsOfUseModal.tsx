@@ -35,7 +35,7 @@ class TermsOfUseModal extends React.Component<Props> {
     onClose = () => {
         const {changeFirstVisited} = this.props;
         changeFirstVisited(false);
-    }
+    };
 
     render() {
         const {firstVisited} = this.props;
@@ -57,7 +57,4 @@ class TermsOfUseModal extends React.Component<Props> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(TermsOfUseModal);
+export default connect(mapStateToProps, mapDispatchToProps)(TermsOfUseModal);

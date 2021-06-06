@@ -58,31 +58,31 @@ class UserMenu extends React.Component<Props> {
         return (
             userAuth !== null &&
             address !== userAuth.address &&
-            !friends.some(friend => address === friend.user.address) &&
-            !receivedFriendRequests.some(frq => address === frq.from.address) &&
-            !sentFriendRequests.some(frq => address === frq.to.address)
+            !friends.some((friend) => address === friend.user.address) &&
+            !receivedFriendRequests.some((frq) => address === frq.from.address) &&
+            !sentFriendRequests.some((frq) => address === frq.to.address)
         );
-    }
+    };
 
     private sendInvite = () => {
         const {user, sendFriendRequest} = this.props;
         sendFriendRequest(user.address);
-    }
+    };
 
     private mute = () => {
         const {user, mute} = this.props;
         mute(user.address);
-    }
+    };
 
     private deleteMessage = () => {
         const {messageId, deleteMessage} = this.props;
         deleteMessage(messageId);
-    }
+    };
 
     private showUser = () => {
         const {user, showUserModal} = this.props;
         showUserModal({user});
-    }
+    };
 
     render() {
         const {button, user, userAuth, t} = this.props;
@@ -116,9 +116,4 @@ class UserMenu extends React.Component<Props> {
     }
 }
 
-export default withTranslation()(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )(UserMenu)
-);
+export default withTranslation()(connect(mapStateToProps, mapDispatchToProps)(UserMenu));

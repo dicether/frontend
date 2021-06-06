@@ -22,7 +22,7 @@ type StatsEntryProps = {
 const StatsEntry = ({timeSpan, showUserModal}: StatsEntryProps) => (
     <DataLoader
         url={`/stats/${timeSpan}`}
-        success={stats => (
+        success={(stats) => (
             <Row>
                 <Col md={6}>
                     <StatsTable
@@ -67,9 +67,9 @@ class HallOfFame extends React.Component<Props> {
     render() {
         const {match, showUserModal, t} = this.props;
 
-        const weekEntry = () => <StatsEntry timeSpan="week" showUserModal={user => showUserModal({user})} />;
-        const monthEntry = () => <StatsEntry timeSpan="month" showUserModal={user => showUserModal({user})} />;
-        const allEntry = () => <StatsEntry timeSpan="all" showUserModal={user => showUserModal({user})} />;
+        const weekEntry = () => <StatsEntry timeSpan="week" showUserModal={(user) => showUserModal({user})} />;
+        const monthEntry = () => <StatsEntry timeSpan="month" showUserModal={(user) => showUserModal({user})} />;
+        const allEntry = () => <StatsEntry timeSpan="all" showUserModal={(user) => showUserModal({user})} />;
 
         return (
             <DocumentTitle title="Hall of Fame - Dicether">
@@ -104,9 +104,4 @@ class HallOfFame extends React.Component<Props> {
     }
 }
 
-export default withTranslation()(
-    connect(
-        null,
-        mapDispatchToProps
-    )(HallOfFame)
-);
+export default withTranslation()(connect(null, mapDispatchToProps)(HallOfFame));

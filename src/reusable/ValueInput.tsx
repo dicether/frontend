@@ -33,7 +33,7 @@ export default class ValueInput extends React.PureComponent<Props> {
         }
 
         onChange(newVal);
-    }
+    };
 
     onValueDouble = (value: number) => {
         const {max, onChange, step} = this.props;
@@ -47,7 +47,7 @@ export default class ValueInput extends React.PureComponent<Props> {
             newVal = max;
         }
         onChange(newVal);
-    }
+    };
 
     onValueHalf = (value: number) => {
         const {min, onChange, step} = this.props;
@@ -60,7 +60,7 @@ export default class ValueInput extends React.PureComponent<Props> {
             newVal = min;
         }
         onChange(newVal);
-    }
+    };
 
     render() {
         const {value, min, max} = this.props;

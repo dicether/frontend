@@ -53,13 +53,13 @@ class Friends extends React.Component<Props> {
                 <FriendRequests
                     sentFriendRequests={sentFriendRequests}
                     receivedFriendRequests={receivedFriendRequests}
-                    onAcceptFriendRequest={address => {
+                    onAcceptFriendRequest={(address) => {
                         acceptFriendRequest(address);
                     }}
-                    onDeclineFriendRequest={address => {
+                    onDeclineFriendRequest={(address) => {
                         declineFriendRequest(address);
                     }}
-                    onCancelFriendRequest={address => {
+                    onCancelFriendRequest={(address) => {
                         cancelFriendRequest(address);
                     }}
                 />
@@ -68,7 +68,4 @@ class Friends extends React.Component<Props> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Friends);
+export default connect(mapStateToProps, mapDispatchToProps)(Friends);

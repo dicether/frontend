@@ -28,14 +28,14 @@ class CopyToClipboard extends React.Component<Props, State> {
 
     toggle = () => {
         this.setState({showMessage: false});
-    }
+    };
 
     onCopy = () => {
         this.setState({showMessage: true});
         setTimeout(() => {
             this.setState({showMessage: false});
         }, 1000);
-    }
+    };
 
     render() {
         const {showMessage} = this.state;

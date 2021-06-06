@@ -70,9 +70,4 @@ const Layout = ({
     );
 };
 
-export default withRouter(
-    connect(
-        mapStateToProps,
-        mapDispatchToProps
-    )(Layout)
-);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Layout));

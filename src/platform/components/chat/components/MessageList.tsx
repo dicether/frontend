@@ -54,8 +54,8 @@ class MessageList extends React.PureComponent<Props> {
     render() {
         const {messages, friends, showBetModal, showUserModal} = this.props;
         return (
-            <div ref={ref => (this.messageList = ref)} className={Style.messageList}>
-                {messages.slice().map(message => (
+            <div ref={(ref) => (this.messageList = ref)} className={Style.messageList}>
+                {messages.slice().map((message) => (
                     <Message
                         key={message.id}
                         message={message}

@@ -5,14 +5,16 @@ import {loadContractGameState, serverActiveGame} from "./asyncActions";
 type GameAcceptType = {gameId: number; serverHash: string; userHash: string};
 
 const listeners = {
-    gameSessionActive: (dispatch: Dispatch) => ({gameId, serverHash, userHash}: GameAcceptType) => {
-        dispatch(serverActiveGame(gameId, serverHash, userHash));
-    },
+    gameSessionActive:
+        (dispatch: Dispatch) =>
+        ({gameId, serverHash, userHash}: GameAcceptType) => {
+            dispatch(serverActiveGame(gameId, serverHash, userHash));
+        },
     gameSessionConflictEnded: (dispatch: Dispatch) => () => {
-        dispatch(loadContractGameState()).catch(error => catchError(error, dispatch));
+        dispatch(loadContractGameState()).catch((error) => catchError(error, dispatch));
     },
     gameSessionEnded: (dispatch: Dispatch) => () => {
-        dispatch(loadContractGameState()).catch(error => catchError(error, dispatch));
+        dispatch(loadContractGameState()).catch((error) => catchError(error, dispatch));
     },
 };
 

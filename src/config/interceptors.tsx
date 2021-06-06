@@ -4,8 +4,8 @@ import {deauthenticate} from "../platform/modules/account/asyncActions";
 import {store} from "../store";
 
 axios.interceptors.response.use(
-    response => response,
-    error => {
+    (response) => response,
+    (error) => {
         if (
             typeof error === "object" &&
             error !== null &&

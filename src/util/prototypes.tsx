@@ -1,6 +1,6 @@
 import BN from "bn.js";
 
-Audio.prototype.playFromBegin = function() {
+Audio.prototype.playFromBegin = function () {
     this.currentTime = 0; // tslint:disable-line no-invalid-this
     this.play(); // tslint:disable-line no-invalid-this
 };

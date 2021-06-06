@@ -28,7 +28,7 @@ const FriendRequests = ({
             {t("sentFriendRequests")} ({sentFriendRequests.length})
         </h5>
         <ul className={Style.list}>
-            {sentFriendRequests.map(friendRequest => (
+            {sentFriendRequests.map((friendRequest) => (
                 <li className={Style.entry} key={friendRequest.to.address}>
                     <span>
                         {friendRequest.to.username} {friendRequest.date}
@@ -43,7 +43,7 @@ const FriendRequests = ({
             {t("receivedFriendRequests")} ({receivedFriendRequests.length})
         </h5>
         <ul className={Style.list}>
-            {receivedFriendRequests.map(friendRequest => (
+            {receivedFriendRequests.map((friendRequest) => (
                 <li className={Style.entry} key={friendRequest.from.address}>
                     <span>
                         {friendRequest.from.username} {friendRequest.date}

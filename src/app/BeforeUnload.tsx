@@ -25,7 +25,7 @@ class BeforeUnload extends React.Component<Props> {
         }
 
         return undefined;
-    }
+    };
 
     render() {
         return null;

@@ -33,13 +33,13 @@ class WheelGrid extends React.Component<Props> {
         }
 
         return colorLookup;
-    }
+    };
 
     public render() {
         const {nightMode, segments, angle, payout} = this.props;
 
         const segmentColorsLookup = WheelGrid.calcSegmentColors(segments, nightMode);
-        const segmentColors = segments.map(x => segmentColorsLookup[x]);
+        const segmentColors = segments.map((x) => segmentColorsLookup[x]);
         const color = segmentColorsLookup[payout.multiplier];
 
         const payoutTable = Object.entries(segmentColorsLookup)

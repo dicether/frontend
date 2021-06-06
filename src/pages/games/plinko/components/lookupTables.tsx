@@ -1,3 +1,4 @@
+// prettier-ignore
 export const startPositions: {[key: number]: {[key: number]: number[]}} = {
     8: {
         0: [

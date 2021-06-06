@@ -43,7 +43,7 @@ class Ui extends React.PureComponent<Props> {
             t,
         } = this.props;
         const selectedCoinsArray = getSetBits(num);
-        const numSelected = selectedCoinsArray.filter(x => x === true).length;
+        const numSelected = selectedCoinsArray.filter((x) => x === true).length;
         const chance = numSelected / CHOOSE_FROM_12_NUMS;
         const houseEdgeFactor = 1 - HOUSE_EDGE / HOUSE_EDGE_DIVISOR;
         const payout = (1 / chance) * value * houseEdgeFactor;

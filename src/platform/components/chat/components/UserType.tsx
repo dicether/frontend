@@ -15,7 +15,7 @@ const UserType = ({userType}: Props) => {
         return (
             <span>
                 <span
-                    ref={t => {
+                    ref={(t) => {
                         target = t;
                     }}
                     className={Style.userType + " " + Style.userType_adm}
@@ -29,7 +29,7 @@ const UserType = ({userType}: Props) => {
         return (
             <span>
                 <span
-                    ref={t => {
+                    ref={(t) => {
                         target = t;
                     }}
                     className={Style.userType + " " + Style.userType_dev}
@@ -43,7 +43,7 @@ const UserType = ({userType}: Props) => {
         return (
             <span>
                 <span
-                    ref={t => {
+                    ref={(t) => {
                         target = t;
                     }}
                     className={Style.userType + " " + Style.userType_mod}
@@ -57,7 +57,7 @@ const UserType = ({userType}: Props) => {
         return (
             <span>
                 <span
-                    ref={t => {
+                    ref={(t) => {
                         target = t;
                     }}
                     className={Style.userType + " " + Style.userType_vip}
@@ -71,7 +71,7 @@ const UserType = ({userType}: Props) => {
         return (
             <span>
                 <span
-                    ref={t => {
+                    ref={(t) => {
                         target = t;
                     }}
                     className={Style.userType + " " + Style.userType_bot}

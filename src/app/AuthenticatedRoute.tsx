@@ -9,7 +9,7 @@ interface Props extends RouteProps {
 const AuthenticatedRoute = ({component: Component, authenticated, ...rest}: Props) => (
     <Route
         {...rest}
-        render={props =>
+        render={(props) =>
             authenticated ? <Component {...props} /> : <Redirect to={{pathname: "/", state: {from: props.location}}} />
         }
     />

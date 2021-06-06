@@ -12,11 +12,11 @@ export function loadMessages() {
     return (dispatch: Dispatch) => {
         axios
             .get("/chat/messages")
-            .then(response => {
+            .then((response) => {
                 const messages = response.data;
                 dispatch(changeMessages(messages));
             })
-            .catch(error => catchError(error, dispatch));
+            .catch((error) => catchError(error, dispatch));
     };
 }
 
@@ -31,7 +31,7 @@ export function sendMessage(message: string) {
             .post("/chat/sendMessage", {
                 message,
             })
-            .catch(error => catchError(error, dispatch));
+            .catch((error) => catchError(error, dispatch));
     };
 }
 
@@ -44,7 +44,7 @@ export function mute(address: string) {
             .then(() => {
                 dispatch(showSuccessMessage("Muted player!"));
             })
-            .catch(error => catchError(error, dispatch));
+            .catch((error) => catchError(error, dispatch));
     };
 }
 
@@ -54,7 +54,7 @@ export function deleteMessage(messageId: number) {
             .post("/chat/deleteMessage", {
                 messageId,
             })
-            .catch(error => catchError(error, dispatch));
+            .catch((error) => catchError(error, dispatch));
     };
 }
 

@@ -26,7 +26,7 @@ class Dropdown extends React.Component<Props, State> {
         this.setState({
             isOpen: !this.state.isOpen,
         });
-    }
+    };
 
     render() {
         const {button, children, isOpen} = this.props;

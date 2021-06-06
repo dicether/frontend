@@ -66,7 +66,7 @@ class Plinko extends React.Component<Props, State> {
 
     public addBall = (targetPos: number, resultNum: number): Promise<void> => {
         const startPos = startPositions[this.props.rows][targetPos][resultNum % 16];
-        const promise = new Promise<void>(resolve => {
+        const promise = new Promise<void>((resolve) => {
             this.activeBalls.push({
                 ball: new Ball(new Vector2(startPos, -1.1), this.ballRadius, DayColors.ballColor),
                 targetPos,
@@ -98,7 +98,7 @@ class Plinko extends React.Component<Props, State> {
         ctx.scale(width / 2, height / 2);
         ctx.translate(1.0, 1.0);
         this.pins.draw(ctx);
-        this.activeBalls.forEach(x => x.ball.draw(ctx));
+        this.activeBalls.forEach((x) => x.ball.draw(ctx));
         ctx.restore();
     };
 
@@ -109,7 +109,7 @@ class Plinko extends React.Component<Props, State> {
         const steps = 5000;
         const range = to - from;
 
-        const results: number[][] = [...Array(this.props.rows + 1)].map(_ => []);
+        const results: number[][] = [...Array(this.props.rows + 1)].map((_) => []);
 
         const rand = new Rand("123456789");
         for (let i = 0; i < steps; i++) {
@@ -205,8 +205,8 @@ class Plinko extends React.Component<Props, State> {
             this.accumulator -= dt;
         }
 
-        const finishedBalls = this.activeBalls.filter(ballData => ballData.ball.position.y >= 1);
-        this.activeBalls = this.activeBalls.filter(ballData => ballData.ball.position.y < 1);
+        const finishedBalls = this.activeBalls.filter((ballData) => ballData.ball.position.y >= 1);
+        this.activeBalls = this.activeBalls.filter((ballData) => ballData.ball.position.y < 1);
         this.renderToCanvas();
 
         if (this.activeBalls.length > 0) {

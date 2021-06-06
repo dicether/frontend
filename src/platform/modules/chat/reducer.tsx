@@ -33,7 +33,7 @@ export default function chat(state: State = initialState, action: Actions): Stat
         case types.DELETE_MESSAGE:
             return {
                 ...state,
-                messages: state.messages.map(m => (m.id === action.messageId ? {...m, deleted: true} : m)),
+                messages: state.messages.map((m) => (m.id === action.messageId ? {...m, deleted: true} : m)),
             };
         default:
             assertNever(action);

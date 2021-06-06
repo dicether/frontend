@@ -48,7 +48,7 @@ class GameSession extends React.Component<Props> {
             <Container>
                 <DataLoader<GameState>
                     url={`/stateChannel/gameState/${gameId}`}
-                    success={gameState => (
+                    success={(gameState) => (
                         <div className={Style.header}>
                             <h3>
                                 Game session:
@@ -70,12 +70,12 @@ class GameSession extends React.Component<Props> {
                 />
                 <DataLoader<{bets: Bet[]}>
                     url={`/bets/gameId/${gameId}`}
-                    success={data => (
+                    success={(data) => (
                         <BetsList
                             bets={data.bets}
                             showUser={false}
-                            showBetModal={bet => showBetModal({bet})}
-                            showUserModal={user => showUserModal({user})}
+                            showBetModal={(bet) => showBetModal({bet})}
+                            showUserModal={(user) => showUserModal({user})}
                         />
                     )}
                 />
@@ -84,7 +84,4 @@ class GameSession extends React.Component<Props> {
     }
 }
 
-export default connect(
-    null,
-    mapDispatchToProps
-)(GameSession);
+export default connect(null, mapDispatchToProps)(GameSession);

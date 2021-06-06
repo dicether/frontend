@@ -68,16 +68,8 @@ class Plinko extends React.PureComponent<Props, PlinkoState> {
     };
 
     private onPlaceBet = async () => {
-        const {
-            plinko,
-            addNewBet,
-            placeBet,
-            catchError,
-            showErrorMessage,
-            web3Available,
-            gameState,
-            loggedIn,
-        } = this.props;
+        const {plinko, addNewBet, placeBet, catchError, showErrorMessage, web3Available, gameState, loggedIn} =
+            this.props;
 
         const safeBetValue = Math.round(plinko.value);
         const num = plinko.num;

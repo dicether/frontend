@@ -134,16 +134,8 @@ class Keno extends React.PureComponent<Props, KenoState> {
     };
 
     private onPlaceBet = () => {
-        const {
-            keno,
-            addNewBet,
-            placeBet,
-            catchError,
-            showErrorMessage,
-            web3Available,
-            gameState,
-            loggedIn,
-        } = this.props;
+        const {keno, addNewBet, placeBet, catchError, showErrorMessage, web3Available, gameState, loggedIn} =
+            this.props;
 
         const safeBetValue = Math.round(keno.value);
         const num = keno.num;
@@ -164,7 +156,7 @@ class Keno extends React.PureComponent<Props, KenoState> {
         const canBet = canPlaceBet(gameType, num, safeBetValue, loggedIn, web3Available, gameState);
         if (canBet.canPlaceBet) {
             placeBet(num, safeBetValue, gameType)
-                .then(result => {
+                .then((result) => {
                     this.setState({result, showResult: true, tmpResult: 0});
                     clearTimeout(this.resultTimeoutId);
                     this.resultTimeoutId = window.setTimeout(
@@ -180,7 +172,7 @@ class Keno extends React.PureComponent<Props, KenoState> {
                     addNewBet(result.bet);
                     this.showResult();
                 })
-                .catch(error => catchError(error));
+                .catch((error) => catchError(error));
         } else {
             showErrorMessage(canBet.errorMessage);
         }
@@ -218,7 +210,7 @@ class Keno extends React.PureComponent<Props, KenoState> {
         const {num} = result;
         const resultTiles = getSetBits(num);
 
-        const indices = resultTiles.map((x, i) => (x ? i : -1)).filter(idx => idx !== -1);
+        const indices = resultTiles.map((x, i) => (x ? i : -1)).filter((idx) => idx !== -1);
         shuffle(indices);
         this.showResultHelper(indices);
     };

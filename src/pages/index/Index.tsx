@@ -44,7 +44,4 @@ const Index = ({loggedIn, showRegisterModal}: Props) => (
     </DocumentTitle>
 );
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Index);
+export default connect(mapStateToProps, mapDispatchToProps)(Index);

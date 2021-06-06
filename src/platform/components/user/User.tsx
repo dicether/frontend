@@ -12,7 +12,7 @@ const User = ({userName, user}: Props) =>
     user ? (
         <UserInfo user={user} />
     ) : (
-        <DataLoader url={`/user/name/${userName}`} success={user => <UserInfo user={user} />} />
+        <DataLoader url={`/user/name/${userName}`} success={(user) => <UserInfo user={user} />} />
     );
 
 export default User;

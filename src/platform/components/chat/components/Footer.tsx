@@ -21,8 +21,8 @@ const Footer = ({message, numUsers, onMessageChange, onMessageSend, t}: Props) =
                 <Textarea
                     className={"form-control " + Style.textarea}
                     value={message}
-                    onChange={e => onMessageChange(e.target.value)}
-                    onKeyDown={e => {
+                    onChange={(e) => onMessageChange(e.target.value)}
+                    onKeyDown={(e) => {
                         if (e.keyCode === 13) {
                             // send on enter key press
                             onMessageSend();

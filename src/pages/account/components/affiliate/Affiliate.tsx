@@ -42,27 +42,27 @@ class Affiliate extends React.Component<Props, State> {
         const {catchError} = this.props;
         axios
             .get("/affiliate/campaigns")
-            .then(response => {
+            .then((response) => {
                 this.setState({
                     campaigns: response.data.campaigns,
                     balance: response.data.balance,
                 });
             })
-            .catch(error => catchError(error));
+            .catch((error) => catchError(error));
     };
 
     createCampaign = (id: string, name: string) => {
         const {catchError, showSuccessMessage} = this.props;
         axios
             .post("/affiliate/createCampaign", {id, name})
-            .then(response => {
+            .then((response) => {
                 const campaign = response.data;
                 this.setState({
                     campaigns: [...this.state.campaigns, campaign],
                 });
                 showSuccessMessage(`Created new campaign ${name}!`);
             })
-            .catch(error => catchError(error));
+            .catch((error) => catchError(error));
     };
 
     withdrawBalance = () => {
@@ -75,7 +75,7 @@ class Affiliate extends React.Component<Props, State> {
                 });
                 showSuccessMessage("Balance withdrawn!");
             })
-            .catch(error => catchError(error));
+            .catch((error) => catchError(error));
     };
 
     render() {

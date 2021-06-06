@@ -10,11 +10,11 @@ export function loadBets() {
     return (dispatch: Dispatch) => {
         axios
             .get("/bets/lastBets")
-            .then(response => {
+            .then((response) => {
                 const bets = response.data.bets;
                 return dispatch(changeBets(bets));
             })
-            .catch(error => {
+            .catch((error) => {
                 catchError(error, dispatch);
             });
     };
@@ -24,11 +24,11 @@ export function loadMyBets(_address: string) {
     return (dispatch: Dispatch) => {
         axios
             .get(`/bets/myLastBets`)
-            .then(response => {
+            .then((response) => {
                 const myBets = response.data.bets;
                 return dispatch(changeMyBets(myBets));
             })
-            .catch(error => {
+            .catch((error) => {
                 catchError(error, dispatch);
             });
     };

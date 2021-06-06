@@ -22,7 +22,4 @@ class LogoutRoute extends React.Component<Props> {
     }
 }
 
-export default connect(
-    null,
-    mapDispatchToProps
-)(LogoutRoute);
+export default connect(null, mapDispatchToProps)(LogoutRoute);

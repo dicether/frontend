@@ -30,17 +30,17 @@ class CreateCampaign extends React.Component<Props, State> {
         const {onCreateCampaign} = this.props;
         onCreateCampaign(this.state.id, this.state.name);
         e.preventDefault();
-    }
+    };
 
     private onName = (name: string) => {
         const isNameValid = this.validateName(name);
         this.setState({name, isNameValid});
-    }
+    };
 
     private onId = (id: string) => {
         const isIdValid = this.validateName(id);
         this.setState({id, isIdValid});
-    }
+    };
 
     private validateName = (name: string) => {
         if (name.length <= 15 && name.length >= 3 && /^[a-z0-9]+$/i.test(name)) {
@@ -50,7 +50,7 @@ class CreateCampaign extends React.Component<Props, State> {
         } else {
             return false;
         }
-    }
+    };
 
     render() {
         const {t} = this.props;

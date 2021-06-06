@@ -69,7 +69,7 @@ class Stats extends React.Component<Props, CompState> {
                 activeTab: tab,
             });
         }
-    }
+    };
 
     render() {
         const {allBets, myBets, showMyBets, showBetModal, showUserModal} = this.props;
@@ -104,16 +104,16 @@ class Stats extends React.Component<Props, CompState> {
                     <TabPane tabId="allBets">
                         <BetsList
                             bets={allBets}
-                            showBetModal={bet => showBetModal({bet})}
-                            showUserModal={user => showUserModal({user})}
+                            showBetModal={(bet) => showBetModal({bet})}
+                            showUserModal={(user) => showUserModal({user})}
                         />
                     </TabPane>
                     <TabPane tabId="myBets">
                         <BetsList
                             bets={myBets}
                             showUser={false}
-                            showBetModal={bet => showBetModal({bet})}
-                            showUserModal={user => showUserModal({user})}
+                            showBetModal={(bet) => showBetModal({bet})}
+                            showUserModal={(user) => showUserModal({user})}
                         />
                     </TabPane>
                 </TabContent>
@@ -122,7 +122,4 @@ class Stats extends React.Component<Props, CompState> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(Stats);
+export default connect(mapStateToProps, mapDispatchToProps)(Stats);

@@ -82,7 +82,4 @@ const State = ({gameState, clearState, conflictEnd, catchError}: Props) => {
     );
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(State);
+export default connect(mapStateToProps, mapDispatchToProps)(State);

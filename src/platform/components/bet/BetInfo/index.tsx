@@ -65,7 +65,7 @@ class BetInfo extends React.Component<Props> {
 
         return (
             <div>
-                <Overview bet={bet} showUserModal={user => showUserModal({user})} />
+                <Overview bet={bet} showUserModal={(user) => showUserModal({user})} />
                 <GameSpecificInfo betNum={bet.num} resultNum={bet.resultNum} gameType={bet.gameType} />
                 <VerificationInfo bet={bet} />
             </div>

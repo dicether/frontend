@@ -70,20 +70,20 @@ class DiceUi extends React.Component<Props> {
 
     onNumberChange = (num: number) => {
         this.setNumber(num);
-    }
+    };
 
     onMultiplierChange = (multiplier: number) => {
         const {reverseRoll} = this.props;
         const num = calcNumberFromPayOutMultiplier(multiplier, reverseRoll);
         this.setNumber(num);
-    }
+    };
 
     onChanceChange = (chance: number) => {
         const {reverseRoll} = this.props;
 
         const num = reverseRoll ? RANGE - 1 - RANGE * chance : RANGE * chance;
         this.setNumber(Math.round(num));
-    }
+    };
 
     render() {
         const {
@@ -169,7 +169,7 @@ class DiceUi extends React.Component<Props> {
                                     min={MIN_NUMBER_DICE_1}
                                     max={MAX_NUMBER_DICE_1}
                                     step={1}
-                                    onNumber={num => this.onChanceChange(num / 100)}
+                                    onNumber={(num) => this.onChanceChange(num / 100)}
                                 />
                             </FormGroup>
                         </Col>

@@ -19,7 +19,7 @@ export default class PureCanvas extends React.Component<Props> {
                 style={{width: "100%"}}
                 width={width}
                 height={height}
-                ref={node => (node ? this.props.contextRef(node.getContext("2d")) : null)}
+                ref={(node) => (node ? this.props.contextRef(node.getContext("2d")) : null)}
             />
         );
     }

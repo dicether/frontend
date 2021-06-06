@@ -36,7 +36,7 @@ export default class DiceSlider extends React.PureComponent<Props> {
             }
             this.props.onNumberChange(newNum);
         }
-    }
+    };
 
     render() {
         const {result, showResult, reversedRoll, num} = this.props;

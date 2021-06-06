@@ -57,11 +57,11 @@ class DataLoader<T = any> extends React.Component<Props<T>, State<T>> {
 
         axios
             .get<T>(url)
-            .then(response => {
+            .then((response) => {
                 const data = response.data;
                 this.setState({data});
             })
-            .catch(error => {
+            .catch((error) => {
                 this.setState({error});
             });
     }

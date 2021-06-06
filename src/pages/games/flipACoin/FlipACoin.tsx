@@ -61,12 +61,12 @@ class FlipACoin extends React.PureComponent<Props, OneDiceState> {
     private onToggleHelp = () => {
         const {toggleHelp, info} = this.props;
         toggleHelp(!info.showHelp);
-    }
+    };
 
     private onValueChange = (value: number) => {
         const {changeValue} = this.props;
         changeValue(value);
-    }
+    };
 
     private onClick = (num: number) => {
         const {changeNum, flipACoin} = this.props;
@@ -78,20 +78,11 @@ class FlipACoin extends React.PureComponent<Props, OneDiceState> {
 
         const newNum = flipACoin.num === num ? 1 - num : num;
         changeNum(newNum);
-    }
+    };
 
     private onPlaceBet = () => {
-        const {
-            info,
-            flipACoin,
-            addNewBet,
-            placeBet,
-            catchError,
-            showErrorMessage,
-            web3Available,
-            gameState,
-            loggedIn,
-        } = this.props;
+        const {info, flipACoin, addNewBet, placeBet, catchError, showErrorMessage, web3Available, gameState, loggedIn} =
+            this.props;
         const {value, num} = flipACoin;
 
         const safeBetValue = Math.round(value);
@@ -108,7 +99,7 @@ class FlipACoin extends React.PureComponent<Props, OneDiceState> {
         if (canBet.canPlaceBet) {
             this.setState({showResult: false});
             placeBet(num, safeBetValue, gameType)
-                .then(result => {
+                .then((result) => {
                     this.setState({result, showResult: true});
                     clearTimeout(this.resultTimeoutId);
                     this.resultTimeoutId = window.setTimeout(() => this.setState({showResult: false}), 5000);
@@ -118,11 +109,11 @@ class FlipACoin extends React.PureComponent<Props, OneDiceState> {
                         setTimeout(() => (result.won ? sounds.win.playFromBegin() : sounds.lose.playFromBegin()), 500);
                     }
                 })
-                .catch(error => catchError(error));
+                .catch((error) => catchError(error));
         } else {
             showErrorMessage(canBet.errorMessage);
         }
-    }
+    };
 
     render() {
         const {info, gameState, flipACoin} = this.props;
@@ -152,7 +143,4 @@ class FlipACoin extends React.PureComponent<Props, OneDiceState> {
     }
 }
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(FlipACoin);
+export default connect(mapStateToProps, mapDispatchToProps)(FlipACoin);

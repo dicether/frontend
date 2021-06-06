@@ -22,12 +22,12 @@ class ConflictEnd extends React.Component<Props, State> {
 
     onToggleModal = () => {
         this.setState({showModal: !this.state.showModal});
-    }
+    };
 
     onConflictEnd = () => {
         this.props.conflictEnd();
         this.onToggleModal();
-    }
+    };
 
     render() {
         return (

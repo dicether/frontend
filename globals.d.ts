@@ -12,6 +12,6 @@ declare module "raven-for-redux" {
 }
 
 declare module "*.scss" {
-  const classes: { [key: string]: string };
-  export default classes;
+    const classes: {[key: string]: string};
+    export default classes;
 }

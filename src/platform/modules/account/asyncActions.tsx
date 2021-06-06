@@ -94,7 +94,7 @@ export function authenticate() {
             .post("/auth/authenticationNonce", {
                 address: web3Account,
             })
-            .then(response => {
+            .then((response) => {
                 nonce = response.data.nonce;
                 const typedData = {
                     types: authenticateTypes,
@@ -105,7 +105,7 @@ export function authenticate() {
 
                 return signTypedData(web3, web3Account, typedData);
             })
-            .then(result => {
+            .then((result) => {
                 return axios.post("/auth/authenticate", {
                     realm: REALM,
                     address: web3Account,
@@ -113,11 +113,11 @@ export function authenticate() {
                     signature: result,
                 });
             })
-            .then(response => {
+            .then((response) => {
                 dispatch(hideRegisterModal());
                 initUser(dispatch, response.data.jwt);
             })
-            .catch(error => catchError(error, dispatch));
+            .catch((error) => catchError(error, dispatch));
     };
 }
 
@@ -150,7 +150,7 @@ export function register(username: string) {
         const referredBy = localStorage.getItem("referral");
 
         return signTypedData(web3, web3Account, typedData)
-            .then(result => {
+            .then((result) => {
                 return axios.post("/auth/register", {
                     realm: REALM,
                     address: web3Account,
@@ -159,11 +159,11 @@ export function register(username: string) {
                     referredBy: referredBy ? referredBy : undefined,
                 });
             })
-            .then(response => {
+            .then((response) => {
                 dispatch(hideRegisterModal());
                 initUser(dispatch, response.data.jwt);
             })
-            .catch(error => catchError(error, dispatch));
+            .catch((error) => catchError(error, dispatch));
     };
 }
 
@@ -174,7 +174,7 @@ export function deauthenticate() {
             dispatch({type: "USER_LOGOUT"});
             dispatch(deAuthenticateSocket());
             loadDefaultData(dispatch);
-            Sentry.configureScope(scope => scope.setUser({}));
+            Sentry.configureScope((scope) => scope.setUser({}));
         }
     };
 }
@@ -183,8 +183,8 @@ export function loadStats(address: string) {
     return (dispatch: Dispatch) => {
         return axios
             .get(`/stats/user/${address}`)
-            .then(result => dispatch(changeMyStats(result.data)))
-            .catch(error => catchError(error, dispatch));
+            .then((result) => dispatch(changeMyStats(result.data)))
+            .catch((error) => catchError(error, dispatch));
     };
 }
 
@@ -192,8 +192,8 @@ export function loadGameSessions(address: string) {
     return (dispatch: Dispatch) => {
         return axios
             .get(`/gameSessions/${address}`)
-            .then(result => dispatch(changeMyGameSessions(result.data)))
-            .catch(error => catchError(error, dispatch));
+            .then((result) => dispatch(changeMyGameSessions(result.data)))
+            .catch((error) => catchError(error, dispatch));
     };
 }
 
@@ -206,7 +206,7 @@ export function initUser(dispatch: Dispatch, jwt: string) {
     dispatch(loadFriends(address)).catch(console.log);
     dispatch(loadFriendRequests(address)).catch(console.log);
     dispatch(authenticateSocket());
-    Sentry.configureScope(scope =>
+    Sentry.configureScope((scope) =>
         scope.setUser({
             username,
             address,

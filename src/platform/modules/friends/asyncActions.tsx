@@ -18,8 +18,8 @@ export function sendFriendRequest(address: string) {
             .post("/chat/sendFriendRequest", {
                 address,
             })
-            .then(response => dispatch(addSentFriendRequest(response.data)))
-            .catch(error => catchError(error, dispatch));
+            .then((response) => dispatch(addSentFriendRequest(response.data)))
+            .catch((error) => catchError(error, dispatch));
     };
 }
 
@@ -30,7 +30,7 @@ export function declineFriendRequest(address: string) {
                 address,
             })
             .then(() => dispatch(removeReceivedFriendRequest(address)))
-            .catch(error => catchError(error, dispatch));
+            .catch((error) => catchError(error, dispatch));
     };
 }
 
@@ -55,7 +55,7 @@ export function cancelFriendRequest(address: string) {
                 address,
             })
             .then(() => dispatch(removeSentFriendRequest(address)))
-            .catch(error => catchError(error, dispatch));
+            .catch((error) => catchError(error, dispatch));
     };
 }
 
@@ -65,11 +65,11 @@ export function acceptFriendRequest(address: string) {
             .post("/chat/acceptFriendRequest", {
                 address,
             })
-            .then(response => {
+            .then((response) => {
                 dispatch(addFriend(response.data));
                 dispatch(removeReceivedFriendRequest(address));
             })
-            .catch(error => catchError(error, dispatch));
+            .catch((error) => catchError(error, dispatch));
     };
 }
 
@@ -77,12 +77,12 @@ export function loadFriendRequests(_address: string) {
     return (dispatch: Dispatch) => {
         return axios
             .get("/chat/friendRequests")
-            .then(response => {
+            .then((response) => {
                 const data = response.data;
                 dispatch(changeSentFriendRequests(data.sentFriendRequests));
                 dispatch(changeReceivedFriendRequests(data.receivedFriendRequests));
             })
-            .catch(error => catchError(error, dispatch));
+            .catch((error) => catchError(error, dispatch));
     };
 }
 
@@ -90,7 +90,7 @@ export function loadFriends(_address: string) {
     return (dispatch: Dispatch) => {
         return axios
             .get("/chat/friends")
-            .then(response => dispatch(changeFriends(response.data)))
-            .catch(error => catchError(error, dispatch));
+            .then((response) => dispatch(changeFriends(response.data)))
+            .catch((error) => catchError(error, dispatch));
     };
 }

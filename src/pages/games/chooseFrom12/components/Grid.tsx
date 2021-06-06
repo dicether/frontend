@@ -24,7 +24,7 @@ const coinNums = [...Array(12).keys()];
 const Grid = ({selectedCoins, result, showResult, onClick}: Props) => (
     <div className={Style.grid}>
         <div className={Style.tiles}>
-            {coinNums.map(num => (
+            {coinNums.map((num) => (
                 <Tile
                     key={num}
                     num={num}

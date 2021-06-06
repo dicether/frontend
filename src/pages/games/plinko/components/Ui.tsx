@@ -97,7 +97,7 @@ class Ui extends React.PureComponent<Props, State> {
                                         <Label>{t("risk")}</Label>
                                         <Select
                                             value={risk.toString()}
-                                            onValue={val => onRiskChange(Number.parseInt(val, 10))}
+                                            onValue={(val) => onRiskChange(Number.parseInt(val, 10))}
                                         >
                                             <option value={1}>{t("lowRisk")}</option>
                                             <option value={2}>{t("mediumRisk")}</option>
@@ -110,7 +110,7 @@ class Ui extends React.PureComponent<Props, State> {
                                         <Label>{t("rows")}</Label>
                                         <Select
                                             value={rows.toString()}
-                                            onValue={val => onRowsChange(Number.parseInt(val, 10))}
+                                            onValue={(val) => onRowsChange(Number.parseInt(val, 10))}
                                         >
                                             <option value={8}>8</option>
                                             <option value={12}>12</option>

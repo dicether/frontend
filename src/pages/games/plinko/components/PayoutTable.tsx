@@ -32,7 +32,7 @@ const PayoutInfo = ({showResult, colorClass, multiplier}: PayoutInfoProps) => {
 const PayoutTable = ({payout, showResult, resultColumn}: Props) => {
     const len = payout.length;
     const totalPayout = [...payout.slice(1).reverse(), ...payout];
-    const color = [...Array(len).keys()].map(x => Style[`colorStrip-${(len - 1) * 2}-${x}`]);
+    const color = [...Array(len).keys()].map((x) => Style[`colorStrip-${(len - 1) * 2}-${x}`]);
     const totalColor = [...color.slice(1).reverse(), ...color];
 
     return (

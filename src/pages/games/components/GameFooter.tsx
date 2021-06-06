@@ -34,18 +34,11 @@ export default class GameFooter extends React.Component<Props, State> {
         this.setState({
             showSettingsPopover: !this.state.showSettingsPopover,
         });
-    }
+    };
 
     render() {
-        const {
-            authenticated,
-            showHelp,
-            onToggleHelp,
-            showExpertView,
-            onToggleExpertView,
-            sound,
-            onToggleSound,
-        } = this.props;
+        const {authenticated, showHelp, onToggleHelp, showExpertView, onToggleExpertView, sound, onToggleSound} =
+            this.props;
         const {showSettingsPopover} = this.state;
 
         return (

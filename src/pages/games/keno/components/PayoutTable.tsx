@@ -33,7 +33,7 @@ export type Props = {
 const PayoutTable = ({selectedTiles, numHits}: Props) => {
     return (
         <div className={Style.payoutTable}>
-            {[...Array(selectedTiles + 1).keys()].map(t => (
+            {[...Array(selectedTiles + 1).keys()].map((t) => (
                 <Entry
                     key={t}
                     hits={t}
