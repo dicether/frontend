@@ -9,7 +9,7 @@ orbs:
   node: circleci/node@4.1
 
 jobs:
-  build-and-test:  
+  build-and-test:
     # These next lines define a Docker executor: https://circleci.com/docs/2.0/executor-types/
     # A list of available CircleCI Docker Convenience Images are available here: https://circleci.com/developer/images/image/cimg/node
     docker:
@@ -22,10 +22,10 @@ jobs:
       - node/install-packages
       # For yarn
       # - node/install-packages:
-      #     pkg-manager: yarn 
+      #     pkg-manager: yarn
       - run:
           name: Build
-          command: npm run build
+          command: npm run build-production
       - run:
           name: Eslint
           command: npm run eslint
