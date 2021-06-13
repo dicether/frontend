@@ -89,10 +89,10 @@ class Ui extends React.PureComponent<Props> {
                                     onChange={onValueChange}
                                 />
                             </FormGroup>
-                            <Button block color="primary" onClick={onAutoPick}>
+                            <Button block color="primary" onClick={onAutoPick} disabled={showResult}>
                                 {t("autoPick")}
                             </Button>
-                            <Button block color="primary" onClick={onClear}>
+                            <Button block color="primary" onClick={onClear} disabled={showResult}>
                                 {t("clear")}
                             </Button>
                             <Button className="betButton" block color="success" onClick={onPlaceBet}>
