@@ -29,6 +29,10 @@
       "question": "",
       "answer": ""
     },
+    "betterThanOtherSolution": {
+      "question": "",
+      "answer": ""
+    },
     "whatIsSecure": {
       "question": "",
       "answer": ""
@@ -94,6 +98,7 @@
   "ChooseFrom12": "",
   "FlipACoin": "",
   "Keno": "",
+  "Plinko": "",
   "theStateChannelCasino": "",
   "JoinNow": "",
   "noDetailsRequired": "",
