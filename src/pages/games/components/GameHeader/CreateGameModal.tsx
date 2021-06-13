@@ -79,7 +79,9 @@ export default class CreateGameModal extends React.Component<Props, State> {
                     </p>
                 )}
                 {toLowBalance ? (
-                    <p className={"text-danger"}>Too low balance on your account!</p>
+                    <p className={"text-danger"}>
+                        Too low balance on your account! You need at least <Ether gwei={minValue} precision={2} /> ETH
+                    </p>
                 ) : (
                     <Form onSubmit={this.createGame}>
                         <FormGroup>
