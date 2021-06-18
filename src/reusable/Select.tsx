@@ -5,6 +5,7 @@ import {BaseType} from "./BaseType";
 
 interface Props extends BaseType {
     value: string;
+    disabled?: boolean;
     onValue(value: string): void;
 }
 

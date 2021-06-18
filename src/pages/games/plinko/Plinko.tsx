@@ -46,6 +46,7 @@ export type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDi
 
 export type PlinkoState = {
     showResult: boolean;
+    ballsFalling: number;
     result: {betNum: number; num: number; won: boolean; userProfit: number};
 };
 
@@ -58,6 +59,7 @@ class Plinko extends React.PureComponent<Props, PlinkoState> {
         super(props);
         this.state = {
             showResult: false,
+            ballsFalling: 0,
             result: {betNum: 0, num: 0, won: false, userProfit: 0},
         };
     }
@@ -88,10 +90,13 @@ class Plinko extends React.PureComponent<Props, PlinkoState> {
                 const resultNum = result.num;
 
                 const numBitsSet = popCnt(resultNum);
-
+                this.setState({
+                    ballsFalling: this.state.ballsFalling + 1,
+                });
                 await this.ui.current?.plinko.current?.addBall(numBitsSet, resultNum);
                 this.setState({
                     showResult: true,
+                    ballsFalling: this.state.ballsFalling - 1,
                     result,
                 });
                 addNewBet(result.bet);
@@ -140,7 +145,7 @@ class Plinko extends React.PureComponent<Props, PlinkoState> {
     render() {
         const {nightMode, info, gameState, plinko} = this.props;
         const {num, value} = plinko;
-        const {showResult, result} = this.state;
+        const {ballsFalling, showResult, result} = this.state;
 
         let maxBetValue = maxBet(GameType.PLINKO, num, MIN_BANKROLL, KELLY_FACTOR);
         if (gameState.status !== "ENDED") {
@@ -150,6 +155,7 @@ class Plinko extends React.PureComponent<Props, PlinkoState> {
 
         return (
             <Ui
+                disableRiskRowUpdate={ballsFalling > 0}
                 ref={this.ui}
                 nightMode={nightMode}
                 risk={Math.floor(num / 100)}

@@ -10,6 +10,7 @@ import Plinko from "./Plinko";
 import Style from "./Ui.scss";
 
 export interface Props extends WithTranslation {
+    disableRiskRowUpdate: boolean;
     ref: any;
     rows: number;
     risk: number;
@@ -48,6 +49,7 @@ class Ui extends React.PureComponent<Props, State> {
 
     render() {
         const {
+            disableRiskRowUpdate,
             value,
             rows,
             risk,
@@ -96,6 +98,7 @@ class Ui extends React.PureComponent<Props, State> {
                                     <FormGroup>
                                         <Label>{t("risk")}</Label>
                                         <Select
+                                            disabled={disableRiskRowUpdate}
                                             value={risk.toString()}
                                             onValue={(val) => onRiskChange(Number.parseInt(val, 10))}
                                         >
@@ -109,6 +112,7 @@ class Ui extends React.PureComponent<Props, State> {
                                     <FormGroup>
                                         <Label>{t("rows")}</Label>
                                         <Select
+                                            disabled={disableRiskRowUpdate}
                                             value={rows.toString()}
                                             onValue={(val) => onRowsChange(Number.parseInt(val, 10))}
                                         >
