@@ -19,6 +19,7 @@ export interface Props extends WithTranslation {
     showResult: boolean;
     showHelp: boolean;
     nightMode: boolean;
+    disableRiskSegmentUpdate: boolean;
     onRiskChange(risk: number): void;
     onSegmentsChange(segments: number): void;
     onToggleHelp(): void;
@@ -41,6 +42,7 @@ class Ui extends React.PureComponent<Props, State> {
 
     render() {
         const {
+            disableRiskSegmentUpdate,
             value,
             segments,
             risk,
@@ -90,6 +92,7 @@ class Ui extends React.PureComponent<Props, State> {
                                     <FormGroup>
                                         <Label>{t("risk")}</Label>
                                         <Select
+                                            disabled={disableRiskSegmentUpdate}
                                             value={risk.toString()}
                                             onValue={(val) => onRiskChange(Number.parseInt(val, 10))}
                                         >
@@ -103,6 +106,7 @@ class Ui extends React.PureComponent<Props, State> {
                                     <FormGroup>
                                         <Label>{t("segments")}</Label>
                                         <Select
+                                            disabled={disableRiskSegmentUpdate}
                                             value={segments.toString()}
                                             onValue={(val) => onSegmentsChange(Number.parseInt(val, 10))}
                                         >

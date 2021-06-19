@@ -42,12 +42,13 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 export type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
-export type KenoState = {
+export type WheelState = {
+    spinning: boolean;
     showResult: boolean;
     result: {betNum: number; num: number; won: boolean; userProfit: number};
 };
 
-class Wheel extends React.PureComponent<Props, KenoState> {
+class Wheel extends React.PureComponent<Props, WheelState> {
     private loadedSounds = false;
     private resultShowTimeoutId = 0;
     private resultUntilShowTimeoutId = 0;
@@ -55,6 +56,7 @@ class Wheel extends React.PureComponent<Props, KenoState> {
     constructor(props: Props) {
         super(props);
         this.state = {
+            spinning: false,
             showResult: false,
             result: {betNum: 0, num: 0, won: false, userProfit: 0},
         };
@@ -97,11 +99,12 @@ class Wheel extends React.PureComponent<Props, KenoState> {
             });
             placeBet(num, safeBetValue, gameType)
                 .then((result) => {
-                    this.setState({result});
+                    this.setState({spinning: true, result});
                     clearTimeout(this.resultUntilShowTimeoutId);
                     this.resultUntilShowTimeoutId = window.setTimeout(() => {
                         addNewBet(result.bet);
                         this.setState({
+                            spinning: false,
                             showResult: true,
                             result,
                         });
@@ -160,7 +163,7 @@ class Wheel extends React.PureComponent<Props, KenoState> {
     render() {
         const {nightMode, info, gameState, wheel} = this.props;
         const {num, value} = wheel;
-        const {result, showResult} = this.state;
+        const {result, showResult, spinning} = this.state;
 
         let maxBetValue = maxBet(GameType.WHEEL, num === 0 ? 1 : num, MIN_BANKROLL, KELLY_FACTOR);
         if (gameState.status !== "ENDED") {
@@ -180,6 +183,7 @@ class Wheel extends React.PureComponent<Props, KenoState> {
                 onRiskChange={this.onRiskChange}
                 onSegmentsChange={this.onSegmentsChange}
                 showResult={showResult}
+                disableRiskSegmentUpdate={spinning}
                 result={{...result}}
                 showHelp={info.showHelp}
                 onToggleHelp={this.onToggleHelp}
