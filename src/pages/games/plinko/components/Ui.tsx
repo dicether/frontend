@@ -140,4 +140,4 @@ class Ui extends React.PureComponent<Props, State> {
     }
 }
 
-export default withTranslation(undefined, {withRef: true})(Ui);
+export default withTranslation("translation", {withRef: true})(Ui);
