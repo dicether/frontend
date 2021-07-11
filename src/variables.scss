@@ -164,6 +164,8 @@ $font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
 $popover-header-padding-y: 1rem;
 $popover-header-padding-x: 1rem;
 
+$btn-border-width: 2px;
+
 @import '~bootstrap/scss/functions';
 
 @function map-collect($maps...) {
