@@ -117,55 +117,34 @@ export async function requestAccounts(dispatch: Dispatch) {
 }
 
 export async function signTypedData(web3: Web3, from: string, typedData: any): Promise<string> {
-    if ((web3.currentProvider as any).isToshi) {
-        const typedDataHashBuf = hashTypedData(typedData) as Buffer;
-        const typedDataHash = bufferToHex(typedDataHashBuf);
-        const sig = await web3.eth.sign(typedDataHash, from);
-        const recoveredAddress = recoverTypedData(typedData, sig);
-        if (recoveredAddress !== from) {
-            const sigParams = fromRpcSig(sig);
-            const pubKey = ecrecover(typedDataHashBuf, sigParams.v, sigParams.r, sigParams.s);
-            const manualRecoveredAddress = toChecksumAddress(bufferToHex(pubToAddress(pubKey)));
+    const params = [from, JSON.stringify(typedData)];
+    const method = "eth_signTypedData_v3";
 
-            Sentry.captureMessage(
-                `Invalid sig ${sig} of hash ${typedDataHash} of data ${JSON.stringify(
-                    typedData
-                )} recovered ${recoveredAddress} (manual recovered ${manualRecoveredAddress}) instead of ${from}.`
-            );
-        }
-        return sig;
-    } else {
-        const params = [from, JSON.stringify(typedData)];
-        const method = "eth_signTypedData_v3";
-
-        const sig = await new Promise<string>((resolve, reject) => {
-            (web3.currentProvider as any).sendAsync(
-                {
-                    method,
-                    params,
-                    from,
-                },
-                (error: Error, result: {error?: {message: string}; result: string}) => {
-                    if (error) {
-                        reject(error);
-                    } else if (result.error) {
-                        reject(new Error(result.error.message));
-                    } else {
-                        const res: string = result.result;
-                        resolve(res);
-                    }
+    const sig = await new Promise<string>((resolve, reject) => {
+        (web3.currentProvider as any).sendAsync(
+            {
+                method,
+                params,
+                from,
+            },
+            (error: Error, result: {error?: {message: string}; result: string}) => {
+                if (error) {
+                    reject(error);
+                } else if (result.error) {
+                    reject(new Error(result.error.message));
+                } else {
+                    const res: string = result.result;
+                    resolve(res);
                 }
-            );
-        });
+            }
+        );
+    });
 
-        const recoveredAddress = recoverTypedData(typedData, sig);
-        if (recoveredAddress !== from) {
-            Sentry.captureMessage(
-                `Invalid sig ${sig} of data ${JSON.stringify(
-                    typedData
-                )} recovered ${recoveredAddress} instead of ${from}.`
-            );
-        }
-        return sig;
+    const recoveredAddress = recoverTypedData(typedData, sig);
+    if (recoveredAddress !== from) {
+        Sentry.captureMessage(
+            `Invalid sig ${sig} of data ${JSON.stringify(typedData)} recovered ${recoveredAddress} instead of ${from}.`
+        );
     }
+    return sig;
 }
