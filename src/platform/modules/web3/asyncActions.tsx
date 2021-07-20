@@ -1,9 +1,9 @@
-import {hashTypedData, recoverTypedData} from "@dicether/eip712";
+import {recoverTypedData} from "@dicether/eip712";
 import * as Sentry from "@sentry/browser";
 import BN from "bn.js";
-import {bufferToHex, ecrecover, fromRpcSig, pubToAddress, toChecksumAddress} from "ethereumjs-util";
+import {toChecksumAddress} from "ethereumjs-util";
 import Web3 from "web3";
-import {TransactionReceipt} from "web3/types"; // tslint:disable-line:no-submodule-imports
+import {AbstractProvider, TransactionReceipt} from "web3-core";
 
 import {CONTRACT_ADDRESS, FROM_WEI_TO_BASE} from "../../../config/config";
 import {Dispatch, GetState} from "../../../util/util";
@@ -117,27 +117,18 @@ export async function requestAccounts(dispatch: Dispatch) {
 }
 
 export async function signTypedData(web3: Web3, from: string, typedData: any): Promise<string> {
-    const params = [from, JSON.stringify(typedData)];
-    const method = "eth_signTypedData_v3";
+    const provider: AbstractProvider = web3.currentProvider as AbstractProvider;
 
-    const sig = await new Promise<string>((resolve, reject) => {
-        (web3.currentProvider as any).sendAsync(
-            {
-                method,
-                params,
-                from,
-            },
-            (error: Error, result: {error?: {message: string}; result: string}) => {
-                if (error) {
-                    reject(error);
-                } else if (result.error) {
-                    reject(new Error(result.error.message));
-                } else {
-                    const res: string = result.result;
-                    resolve(res);
-                }
-            }
-        );
+    // Use v4 for MetaMask as Ledger Nano used with MataMask supports only version 4
+    const isMetaMask = (provider as any).isMetaMask !== undefined;
+    const method = `eth_signTypedData_v${isMetaMask ? 4 : 3}`;
+    const params = [from, JSON.stringify(typedData)];
+
+    if (!provider.request) return Promise.reject("provider.request undefined!");
+
+    const sig = await provider.request({
+        method,
+        params,
     });
 
     const recoveredAddress = recoverTypedData(typedData, sig);

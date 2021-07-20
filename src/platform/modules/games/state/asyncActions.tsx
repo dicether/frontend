@@ -16,7 +16,7 @@ import retry from "async-retry";
 import axios from "axios";
 import Web3 from "web3";
 
-import {TransactionReceipt} from "web3/types";
+import {TransactionReceipt} from "web3-core";
 import {
     CHAIN_ID,
     CONTRACT_ADDRESS,
@@ -274,7 +274,7 @@ function serverConflictEndEvent() {
 // util functions
 //
 function isTransactionFailed(receipt: TransactionReceipt) {
-    return Number.parseInt(receipt.status, 10) !== 1 && (receipt.status as any) !== true;
+    return !receipt.status;
 }
 
 export const validNetwork = (networkId: number | null) => {
