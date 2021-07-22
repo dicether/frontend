@@ -94,6 +94,30 @@ export function fetchAccountBalance() {
     };
 }
 
+export function registerAccountChainIdListener() {
+    return (dispatch: Dispatch) => {
+        if (window.ethereum === undefined) return;
+
+        window.ethereum.on("accountsChanged", (accounts: string[]) => {
+            if (accounts.length === 0) {
+                dispatch(changeAccount(null));
+            } else {
+                const account = toChecksumAddress(accounts[0]);
+                dispatch(changeAccount(account));
+            }
+        });
+
+        window.ethereum.on("chainChanged", (_chainId: string) => {
+            dispatch(fetchNetwork());
+        });
+    };
+}
+
+export function unregisterAccounChainIdListener() {
+    window.ethereum.removeListener("accountsChanged");
+    window.ethereum.removeListener("chainChanged");
+}
+
 export function fetchAllWeb3() {
     return (dispatch: Dispatch) => {
         dispatch(fetchWeb3());

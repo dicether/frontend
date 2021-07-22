@@ -28,7 +28,7 @@ export const SOCKET_URL = process.env.SOCKET_URL || "";
 
 export const REALM = "Dicether";
 
-export const WEB3_POLL_INTERVAL = 1000;
+export const ACCOUNT_BALANCE_POLL_INTERVAL = 5000;
 
 export const FROM_WEI_TO_BASE = 1e9; // conversion from wei to base unit GWEI
 export const FROM_BASE_TO_WEI = 1e9; // conversion from base unit GWEI to wei

@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {Redirect, Route, RouteComponentProps, Switch, withRouter} from "react-router-dom";
 
 import {bindActionCreators} from "redux";
-import {WEB3_POLL_INTERVAL} from "../config/config";
+import {ACCOUNT_BALANCE_POLL_INTERVAL} from "../config/config";
 import Layout from "../layout/Layout";
 import Account from "../pages/account/Account";
 import Faq from "../pages/faq/Faq";
@@ -18,7 +18,12 @@ import StateLoader from "../platform/components/state/StateLoader";
 import {initUser, loadDefaultData} from "../platform/modules/account/asyncActions";
 import {getUser} from "../platform/modules/account/selectors";
 import LogoutRoute from "../platform/modules/utilities/LogoutRoute";
-import {fetchAllWeb3} from "../platform/modules/web3/asyncActions";
+import {
+    fetchAccountBalance,
+    fetchAllWeb3,
+    registerAccountChainIdListener,
+    unregisterAccounChainIdListener,
+} from "../platform/modules/web3/asyncActions";
 import {init as initSockets, unInit as unInitSockets} from "../platform/sockets";
 import {State as RootState} from "../rootReducer";
 import TermsOfUse from "../termsOfUse/TermsOfUse";
@@ -46,7 +51,7 @@ export const mapStateToProps = (state: RootState) => {
 };
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-    ...bindActionCreators({fetchAllWeb3}, dispatch),
+    ...bindActionCreators({fetchAllWeb3, fetchAccountBalance, registerAccountChainIdListener}, dispatch),
     initSockets: () => initSockets(dispatch),
     unInitSockets: () => unInitSockets(dispatch),
     initUser: (address: string) => initUser(dispatch, address),
@@ -57,11 +62,9 @@ export type Props = ReturnType<typeof mapStateToProps> &
     ReturnType<typeof mapDispatchToProps> &
     RouteComponentProps<any>;
 
-export type State = {
-    web3Timer: number | null;
-};
+class App extends React.Component<Props> {
+    private accountBalanceTimer: number | null = null;
 
-class App extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {web3Timer: null};
@@ -74,14 +77,15 @@ class App extends React.Component<Props, State> {
     }
 
     componentDidMount() {
-        const {fetchAllWeb3, initSockets, loadDefaultData} = this.props;
+        const {fetchAllWeb3, fetchAccountBalance, initSockets, loadDefaultData, registerAccountChainIdListener} =
+            this.props;
 
         loadDefaultData();
         initSockets();
 
         fetchAllWeb3();
-        const timer = window.setInterval(() => fetchAllWeb3(), WEB3_POLL_INTERVAL);
-        this.setState({web3Timer: timer});
+        this.accountBalanceTimer = window.setInterval(() => fetchAccountBalance(), ACCOUNT_BALANCE_POLL_INTERVAL);
+        registerAccountChainIdListener();
 
         this.setTheme(this.props.nightMode);
     }
@@ -90,15 +94,17 @@ class App extends React.Component<Props, State> {
         if (prevProps.nightMode !== this.props.nightMode) {
             this.setTheme(this.props.nightMode);
         }
+
+        this.props.fetchAllWeb3();
     }
 
     componentWillUnmount() {
         const {unInitSockets} = this.props;
         unInitSockets();
 
-        const {web3Timer} = this.state;
-        if (web3Timer !== null) {
-            clearInterval(web3Timer);
+        unregisterAccounChainIdListener();
+        if (this.accountBalanceTimer !== null) {
+            clearInterval(this.accountBalanceTimer);
         }
     }
 
