@@ -4,7 +4,7 @@
             "useBuiltIns": "entry",
             "corejs": 3,
             "targets": {
-                "browsers": [">1%", "last 2 versions"]
+                "browsers": [">0.1%"]
             },
             "debug": false
         }],
