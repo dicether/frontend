@@ -88,6 +88,13 @@ function canRegularEndGame(gameState: GameState) {
     return status === "ACTIVE";
 }
 
+export function canUserEndGame(gameState: GameState) {
+    const status = gameState.status;
+    const reasonEnded = gameState.reasonEnded;
+
+    return status == "ENDED" && reasonEnded == "REGULAR_ENDED";
+}
+
 function regularEndGameEvent(
     roundId: number,
     serverHash: string,
@@ -589,6 +596,64 @@ export function endGame() {
         }
 
         dispatch(regularEndGameEvent(roundId, serverHash, userHash, serverSig, userSig, endTransactionHash));
+    };
+}
+
+export function userEndGame() {
+    return async (dispatch: Dispatch, getState: GetState) => {
+        const state = getState();
+        const gameState = state.games.gameState;
+        const account = state.web3.account;
+        const web3 = state.web3.web3;
+        const contract = state.web3.contract;
+        const networkId = state.web3.networkId;
+
+        if (!web3 || !account || !contract) {
+            throw new Error("You need a web3 enabled browser (Metamask)!");
+        }
+
+        if (!validNetwork(networkId)) {
+            throw new Error(`Invalid network! You need to use ${NETWORK_NAME}!`);
+        }
+
+        if (!canUserEndGame(gameState)) {
+            throw new Error(
+                `Invalid game status ${gameState.status}, ${gameState.reasonEnded}! Can not resend end transaction!`
+            );
+        }
+
+        const roundId = gameState.roundId;
+        const balance = gameState.balance;
+        const serverHash = gameState.serverHash as string;
+        const userHash = gameState.userHash as string;
+        const gameId = gameState.gameId as number;
+        const serverSig = gameState.serverSig as string;
+
+        const userEndGame = contract.methods.userEndGame;
+        await new Promise((resolve, reject) =>
+            userEndGame(
+                roundId,
+                fromGweiToWei(balance).toString(),
+                serverHash,
+                userHash,
+                gameId,
+                CONTRACT_ADDRESS,
+                serverSig
+            )
+                .send({from: account, value: 0, gas: 120000})
+                .on("transactionHash", (_transactionHash: string) => {
+                    // nothing to do
+                })
+                .on("error", (error: Error) => {
+                    reject(error);
+                })
+                .then((_receipt: TransactionReceipt) => {
+                    // nothing to do
+                })
+                .catch((error: Error) => {
+                    reject(error);
+                })
+        );
     };
 }
 

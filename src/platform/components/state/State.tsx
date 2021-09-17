@@ -5,12 +5,18 @@ import {Output} from "../../../reusable/index";
 import {State} from "../../../rootReducer";
 import {Dispatch} from "../../../util/util";
 import {clearState} from "../../modules/games/state/actions";
-import {canUserInitiateConflictEnd, conflictEnd} from "../../modules/games/state/asyncActions";
+import {
+    canUserInitiateConflictEnd,
+    canUserEndGame,
+    conflictEnd,
+    userEndGame,
+} from "../../modules/games/state/asyncActions";
 import {catchError} from "../../modules/utilities/asyncActions";
 import ClearState from "./ClearState";
 import ConflictEnd from "./ConflictEnd";
 
 import Style from "./State.scss";
+import UserEndGame from "./UserEndGame";
 
 type EntryProps = {
     id: string;
@@ -42,12 +48,13 @@ const mapStateToProps = ({games}: State) => {
 const mapDispatchToProps = (dispatch: Dispatch) => ({
     clearState: () => dispatch(clearState()),
     conflictEnd: () => dispatch(conflictEnd()),
+    endGame: () => dispatch(userEndGame()),
     catchError: (error: Error) => catchError(error, dispatch),
 });
 
 type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
-const State = ({gameState, clearState, conflictEnd, catchError}: Props) => {
+const State = ({gameState, clearState, conflictEnd, catchError, endGame}: Props) => {
     return (
         <div>
             <div>
@@ -55,6 +62,7 @@ const State = ({gameState, clearState, conflictEnd, catchError}: Props) => {
                 {canUserInitiateConflictEnd(gameState) && (
                     <ConflictEnd conflictEnd={() => conflictEnd().catch(catchError)} />
                 )}
+                {canUserEndGame(gameState) && <UserEndGame userEndGame={() => endGame().catch(catchError)} />}
             </div>
             <Entry id={"gameState_status"} name="Status" data={gameState.status} />
             <Entry id={"gameState_reasonEnded"} name="Reason Ended" data={gameState.reasonEnded} />
