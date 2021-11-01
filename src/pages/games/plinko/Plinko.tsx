@@ -39,7 +39,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     changeValue: (value: number) => dispatch(changeValue(value)),
     toggleHelp: (t: boolean) => dispatch(toggleHelp(t)),
     showErrorMessage: (message: string) => dispatch(showErrorMessage(message)),
-    catchError: (error: Error) => catchError(error, dispatch),
+    catchError: (error: unknown) => catchError(error, dispatch),
 });
 
 export type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;

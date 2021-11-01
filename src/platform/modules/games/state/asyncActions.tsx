@@ -394,7 +394,7 @@ export function loadServerGameState() {
             if (gameState.status === "CREATING" && status === "ACTIVE" && gameState.userHash === userHash) {
                 dispatch(gameCreated(gameId));
             }
-        } catch (error) {
+        } catch (error: any) {
             if (!error.response || error.response.status !== 404) {
                 catchError(error, dispatch);
             }

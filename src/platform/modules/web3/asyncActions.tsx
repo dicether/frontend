@@ -135,7 +135,7 @@ export async function requestAccounts(dispatch: Dispatch) {
     try {
         await (window as any).ethereum.enable();
         await dispatch(fetchAccount());
-    } catch (error) {
+    } catch (error: any) {
         console.log(error.message);
     }
 }
