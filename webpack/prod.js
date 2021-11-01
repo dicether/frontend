@@ -11,6 +11,11 @@ const config = require('./config');
 const Paths = [
     '/',
     '/games/dice',
+    '/games/chooseFrom12',
+    '/games/flipACoin',
+    '/games/keno',
+    '/games/wheel',
+    '/games/plinko',
     '/faq',
     '/hallOfFame/weekly',
     '/hallOfFame/monthly',
