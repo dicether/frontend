@@ -102,7 +102,7 @@
     "react-countdown-now": "^2.1.2",
     "react-document-title": "^2.0.3",
     "react-dom": "^17.0.2",
-    "react-emojione": "^5.0.1",
+    "react-emoji-render": "^1.2.4",
     "react-flag-icon-css": "^1.0.25",
     "react-i18next": "^11.13.0",
     "react-numeric-input": "^2.2.3",

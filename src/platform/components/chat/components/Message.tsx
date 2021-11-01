@@ -1,7 +1,7 @@
 import ClassNames from "classnames";
 import moment from "moment";
 import * as React from "react";
-import {emojify} from "react-emojione";
+import Emoji from "react-emoji-render";
 import {Link} from "react-router-dom";
 
 import {Message as MessageType} from "../../../modules/chat/types";
@@ -12,7 +12,6 @@ import UserType from "./UserType";
 import reactStringReplace from "react-string-replace";
 import {isValidUserName} from "../../../modules/account/util";
 import Style from "./Message.scss";
-const emojioneImage = require("assets/images/emojione-3.1.2-64x64.png");
 
 const BET_REGEX = /Bet:(\d+)/;
 const USER_REGEX = /(?:User:(\S+))/;
@@ -126,15 +125,7 @@ class Message extends React.Component<Props, State> {
                     {!message.deleted ? (
                         <span className={messageClass}>
                             {processMessage(message.message, showBetModal, showUserModal).map((x) =>
-                                typeof x === "string"
-                                    ? emojify(x, {
-                                          style: {
-                                              backgroundImage: `url(${emojioneImage})`,
-                                              height: "20px",
-                                              width: "20px",
-                                          },
-                                      })
-                                    : x
+                                typeof x === "string" ? <Emoji text={x} /> : x
                             )}
                         </span>
                     ) : (
