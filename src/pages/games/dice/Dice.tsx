@@ -24,6 +24,7 @@ import sounds from "../sound";
 import {canPlaceBet} from "../utilities";
 import {changeNum, changeRollMode, changeValue} from "./actions";
 import DiceUi from "./components/DiceUi";
+import {Helmet} from "react-helmet";
 
 function calcNumberFromPayOutMultiplier(multiplier: number, reversedRoll: boolean) {
     const houseEdgeFactor = 1 - HOUSE_EDGE / HOUSE_EDGE_DIVISOR;
@@ -173,7 +174,11 @@ class Dice extends React.Component<Props, DiceState> {
         }
 
         return (
-            <DocumentTitle title="Ethereum State Channel Dice - Dicether">
+            <>
+                <Helmet>
+                    <title>Dice - Dicether</title>
+                    <meta name="description" content="Ethereum state channel based Dice game" />
+                </Helmet>
                 <DiceUi
                     num={dice.num}
                     value={dice.value}
@@ -189,7 +194,7 @@ class Dice extends React.Component<Props, DiceState> {
                     onToggleHelp={this.onToggleHelp}
                     maxBetValue={maxBetValue}
                 />
-            </DocumentTitle>
+            </>
         );
     }
 }

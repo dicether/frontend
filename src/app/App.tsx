@@ -32,6 +32,7 @@ import AuthenticatedRoute from "./AuthenticatedRoute";
 import BeforeUnload from "./BeforeUnload";
 import Notification from "./Notification";
 import PathNotFound from "./PathNotFound";
+import {Helmet} from "react-helmet";
 
 export const mapStateToProps = (state: RootState) => {
     const {account, app, web3, games} = state;
@@ -122,7 +123,14 @@ class App extends React.Component<Props> {
         const logout = userAuth !== null && userAuth.address !== defaultAccount && defaultAccount !== null;
 
         return (
-            <DocumentTitle title="Dicether">
+            <>
+                <Helmet>
+                    <title>Dicether</title>
+                    <meta
+                        name="description"
+                        content="Dicether is an Ethereum dice game. It uses a smart contract based state channel implementation to provide a fast, secure and provably fair gambling experience."
+                    />
+                </Helmet>
                 <Layout>
                     {logout && <Redirect to="/logout" />}
                     <Switch>
@@ -143,7 +151,7 @@ class App extends React.Component<Props> {
                     <Notification notification={notification} />
                     <StateLoader />
                 </Layout>
-            </DocumentTitle>
+            </>
         );
     }
 }

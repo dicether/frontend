@@ -29,19 +29,17 @@ export const mapStateToProps = (state: RootState) => {
 export type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
 const Index = ({loggedIn, showRegisterModal}: Props) => (
-    <DocumentTitle title="Dicether">
-        <div>
-            <Overview loggedIn={loggedIn} showRegisterModal={showRegisterModal} />
-            {!loggedIn && <SmallFeatures />}
-            <Games />
-            <Section>
-                <Container>
-                    <Stats showMyBets={false} />
-                </Container>
-            </Section>
-            <BigFeatures />
-        </div>
-    </DocumentTitle>
+    <div>
+        <Overview loggedIn={loggedIn} showRegisterModal={showRegisterModal} />
+        {!loggedIn && <SmallFeatures />}
+        <Games />
+        <Section>
+            <Container>
+                <Stats showMyBets={false} />
+            </Container>
+        </Section>
+        <BigFeatures />
+    </div>
 );
 
 export default connect(mapStateToProps, mapDispatchToProps)(Index);

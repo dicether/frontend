@@ -15,6 +15,7 @@ import sounds from "../sound";
 import {canPlaceBet} from "../utilities";
 import {changeNum, changeValue} from "./actions";
 import Ui from "./components/Ui";
+import {Helmet} from "react-helmet";
 
 const mapStateToProps = ({games, account, web3}: State) => {
     const {info, oneDice, gameState} = games;
@@ -135,18 +136,24 @@ class ChooseFrom12 extends React.PureComponent<Props, OneDiceState> {
         }
 
         return (
-            <Ui
-                num={num}
-                value={value}
-                maxBetValue={maxBetValue}
-                onValueChange={this.onValueChange}
-                onClick={this.onClick}
-                onPlaceBet={this.onPlaceBet}
-                showResult={showResult}
-                result={result}
-                showHelp={info.showHelp}
-                onToggleHelp={this.onToggleHelp}
-            />
+            <>
+                <Helmet>
+                    <title>Choose from 12 - Dicether</title>
+                    <meta name="description" content="Ethereum state channel based Choose from 12 game" />
+                </Helmet>
+                <Ui
+                    num={num}
+                    value={value}
+                    maxBetValue={maxBetValue}
+                    onValueChange={this.onValueChange}
+                    onClick={this.onClick}
+                    onPlaceBet={this.onPlaceBet}
+                    showResult={showResult}
+                    result={result}
+                    showHelp={info.showHelp}
+                    onToggleHelp={this.onToggleHelp}
+                />
+            </>
         );
     }
 }

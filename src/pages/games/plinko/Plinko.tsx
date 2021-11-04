@@ -17,6 +17,7 @@ import sounds from "../sound";
 import {canPlaceBet} from "../utilities";
 import {changeNum, changeValue} from "./actions";
 import Ui from "./components/Ui";
+import {Helmet} from "react-helmet";
 
 const mapStateToProps = ({games, account, web3, app}: State) => {
     const {info, gameState, plinko} = games;
@@ -154,23 +155,29 @@ class Plinko extends React.PureComponent<Props, PlinkoState> {
         }
 
         return (
-            <Ui
-                disableRiskRowUpdate={ballsFalling > 0}
-                ref={this.ui}
-                nightMode={nightMode}
-                risk={Math.floor(num / 100)}
-                rows={num % 100}
-                value={value}
-                maxBetValue={maxBetValue}
-                onValueChange={this.onValueChange}
-                onPlaceBet={this.onPlaceBet}
-                onRiskChange={this.onRiskChange}
-                onRowsChange={this.onRowsChange}
-                showResult={showResult}
-                result={{...result}}
-                showHelp={info.showHelp}
-                onToggleHelp={this.onToggleHelp}
-            />
+            <>
+                <Helmet>
+                    <title>Plinko - Dicether</title>
+                    <meta name="description" content="Ethereum state channel based Plinko game" />
+                </Helmet>
+                <Ui
+                    disableRiskRowUpdate={ballsFalling > 0}
+                    ref={this.ui}
+                    nightMode={nightMode}
+                    risk={Math.floor(num / 100)}
+                    rows={num % 100}
+                    value={value}
+                    maxBetValue={maxBetValue}
+                    onValueChange={this.onValueChange}
+                    onPlaceBet={this.onPlaceBet}
+                    onRiskChange={this.onRiskChange}
+                    onRowsChange={this.onRowsChange}
+                    showResult={showResult}
+                    result={{...result}}
+                    showHelp={info.showHelp}
+                    onToggleHelp={this.onToggleHelp}
+                />
+            </>
         );
     }
 }

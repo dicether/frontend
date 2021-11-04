@@ -15,6 +15,7 @@ import sounds from "../sound";
 import {canPlaceBet} from "../utilities";
 import {changeNum, changeValue} from "./actions";
 import Ui from "./components/Ui";
+import {Helmet} from "react-helmet";
 
 const mapStateToProps = ({games, account, web3, app}: State) => {
     const {info, gameState, wheel} = games;
@@ -172,22 +173,28 @@ class Wheel extends React.PureComponent<Props, WheelState> {
         }
 
         return (
-            <Ui
-                nightMode={nightMode}
-                risk={Math.floor(num / 100)}
-                segments={num % 100}
-                value={value}
-                maxBetValue={maxBetValue}
-                onValueChange={this.onValueChange}
-                onPlaceBet={this.onPlaceBet}
-                onRiskChange={this.onRiskChange}
-                onSegmentsChange={this.onSegmentsChange}
-                showResult={showResult}
-                disableRiskSegmentUpdate={spinning}
-                result={{...result}}
-                showHelp={info.showHelp}
-                onToggleHelp={this.onToggleHelp}
-            />
+            <>
+                <Helmet>
+                    <title>Wheel - Dicether</title>
+                    <meta name="description" content="Ethereum state channel based Wheel game" />
+                </Helmet>
+                <Ui
+                    nightMode={nightMode}
+                    risk={Math.floor(num / 100)}
+                    segments={num % 100}
+                    value={value}
+                    maxBetValue={maxBetValue}
+                    onValueChange={this.onValueChange}
+                    onPlaceBet={this.onPlaceBet}
+                    onRiskChange={this.onRiskChange}
+                    onSegmentsChange={this.onSegmentsChange}
+                    showResult={showResult}
+                    disableRiskSegmentUpdate={spinning}
+                    result={{...result}}
+                    showHelp={info.showHelp}
+                    onToggleHelp={this.onToggleHelp}
+                />
+            </>
         );
     }
 }

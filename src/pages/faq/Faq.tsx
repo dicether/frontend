@@ -1,6 +1,6 @@
 import * as React from "react";
-import DocumentTitle from "react-document-title";
 import {Trans, WithTranslation, withTranslation} from "react-i18next";
+import {Helmet} from "react-helmet";
 
 import {
     BUGS_URL,
@@ -16,7 +16,11 @@ import {Container} from "../../reusable";
 import Style from "./Faq.scss";
 
 const Faq = ({t}: WithTranslation) => (
-    <DocumentTitle title="Faq - Dicether">
+    <>
+        <Helmet>
+            <title>Faq - Dicether</title>
+            <meta name="description" content="What is Dicether? Why is Dicether better than other casinos?" />
+        </Helmet>
         <Container>
             <h2 className={Style.heading}>{t("FAQ")}</h2>
             <div className={Style.entry}>
@@ -97,7 +101,7 @@ const Faq = ({t}: WithTranslation) => (
                 </p>
             </div>
         </Container>
-    </DocumentTitle>
+    </>
 );
 
 export default withTranslation()(Faq);

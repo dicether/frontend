@@ -15,6 +15,7 @@ import sounds from "../sound";
 import {canPlaceBet} from "../utilities";
 import {changeNum, changeValue} from "./actions";
 import Ui from "./components/Ui";
+import {Helmet} from "react-helmet";
 
 const mapStateToProps = ({games, account, web3}: State) => {
     const {info, flipACoin, gameState} = games;
@@ -127,18 +128,24 @@ class FlipACoin extends React.PureComponent<Props, OneDiceState> {
         }
 
         return (
-            <Ui
-                num={num}
-                value={value}
-                maxBetValue={maxBetValue}
-                onValueChange={this.onValueChange}
-                onClick={this.onClick}
-                onPlaceBet={this.onPlaceBet}
-                showResult={showResult}
-                result={result}
-                showHelp={info.showHelp}
-                onToggleHelp={this.onToggleHelp}
-            />
+            <>
+                <Helmet>
+                    <title>Flip a Coin - Dicether</title>
+                    <meta name="description" content="Ethereum state channel based Flip a Coin game" />
+                </Helmet>
+                <Ui
+                    num={num}
+                    value={value}
+                    maxBetValue={maxBetValue}
+                    onValueChange={this.onValueChange}
+                    onClick={this.onClick}
+                    onPlaceBet={this.onPlaceBet}
+                    showResult={showResult}
+                    result={result}
+                    showHelp={info.showHelp}
+                    onToggleHelp={this.onToggleHelp}
+                />
+            </>
         );
     }
 }

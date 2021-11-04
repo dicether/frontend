@@ -13,6 +13,7 @@ import {Dispatch} from "../../util/util";
 import StatsTable from "./StatsTable";
 
 import Style from "./HallOfFame.scss";
+import {Helmet} from "react-helmet";
 
 type StatsEntryProps = {
     timeSpan: string;
@@ -72,7 +73,11 @@ class HallOfFame extends React.Component<Props> {
         const allEntry = () => <StatsEntry timeSpan="all" showUserModal={(user) => showUserModal({user})} />;
 
         return (
-            <DocumentTitle title="Hall of Fame - Dicether">
+            <>
+                <Helmet>
+                    <title>Hall of Fame - Dicether</title>
+                    <meta name="description" content="Top players at Dicether" />
+                </Helmet>
                 <Container>
                     <h2 className={Style.heading}>Hall of Fame</h2>
                     <Nav pills className={Style.selection}>
@@ -99,7 +104,7 @@ class HallOfFame extends React.Component<Props> {
                         <Route exact path={`${match.path}/all`} component={allEntry} />
                     </Switch>
                 </Container>
-            </DocumentTitle>
+            </>
         );
     }
 }

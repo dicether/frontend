@@ -24,6 +24,7 @@ import sounds from "../sound";
 import {canPlaceBet} from "../utilities";
 import {changeNum, changeValue} from "./actions";
 import Ui from "./components/Ui";
+import {Helmet} from "react-helmet";
 
 const mapStateToProps = ({games, account, web3}: State) => {
     const {info, keno, gameState} = games;
@@ -233,21 +234,27 @@ class Keno extends React.PureComponent<Props, KenoState> {
         }
 
         return (
-            <Ui
-                num={num}
-                value={value}
-                maxBetValue={maxBetValue}
-                onValueChange={this.onValueChange}
-                onClick={this.onClick}
-                onAutoPick={this.onAutoPick}
-                onClear={this.onClear}
-                onPlaceBet={this.onPlaceBet}
-                showResult={showResult}
-                showResultProfit={showResultProfit}
-                result={{...result, num: tmpResult}}
-                showHelp={info.showHelp}
-                onToggleHelp={this.onToggleHelp}
-            />
+            <>
+                <Helmet>
+                    <title>Keno - Dicether</title>
+                    <meta name="description" content="Ethereum state channel based keno game" />
+                </Helmet>
+                <Ui
+                    num={num}
+                    value={value}
+                    maxBetValue={maxBetValue}
+                    onValueChange={this.onValueChange}
+                    onClick={this.onClick}
+                    onAutoPick={this.onAutoPick}
+                    onClear={this.onClear}
+                    onPlaceBet={this.onPlaceBet}
+                    showResult={showResult}
+                    showResultProfit={showResultProfit}
+                    result={{...result, num: tmpResult}}
+                    showHelp={info.showHelp}
+                    onToggleHelp={this.onToggleHelp}
+                />
+            </>
         );
     }
 }
