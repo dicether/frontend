@@ -10,7 +10,7 @@
   "scripts": {
     "start": "DEV_SERVER=TRUE webpack serve --config webpack/dev.js --progress --port 2992",
     "build-staging": " node --max_old_space_size=8000 ./node_modules/.bin/webpack --config webpack/staging.js --progress --profile",
-    "build-production": "webpack --config webpack/prod.js --progress --profile ",
+    "build-production": "webpack --config webpack/prod.js --progress --profile",
     "eslint": "eslint './**/*.{js,ts,tsx}'",
     "stylelint": "stylelint './**/*.scss'",
     "prettier": "prettier --write './**/*.{ts,tsx}'",
