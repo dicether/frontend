@@ -1,5 +1,5 @@
 import ClassNames from "classnames";
-import moment from "moment";
+import dayjs from "dayjs";
 import * as React from "react";
 import Emoji from "react-emoji-render";
 import {Link} from "react-router-dom";
@@ -132,7 +132,7 @@ class Message extends React.Component<Props, State> {
                         <span>[removed]</span>
                     )}
                 </div>
-                <span className={Style.time}>{moment(message.timestamp).format("HH:mm")}</span>
+                <span className={Style.time}>{dayjs(message.timestamp).format("HH:mm")}</span>
             </div>
         );
     }

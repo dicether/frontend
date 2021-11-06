@@ -1,4 +1,6 @@
 import "core-js/stable";
+import dayjs from "dayjs";
+import localizedFormat from "dayjs/plugin/localizedFormat";
 import * as React from "react";
 import {render} from "react-dom";
 import "regenerator-runtime/runtime";
@@ -10,6 +12,8 @@ import Root from "./Root";
 import {store} from "./store";
 import {parseReferral} from "./util/affiliate";
 import "./util/prototypes";
+
+dayjs.extend(localizedFormat);
 
 parseReferral();
 

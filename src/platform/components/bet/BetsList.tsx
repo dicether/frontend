@@ -1,4 +1,4 @@
-import moment from "moment";
+import dayjs from "dayjs";
 import * as React from "react";
 import {Link} from "react-router-dom";
 
@@ -42,7 +42,7 @@ const LastBetRow = ({bet, showUser, showBetModal, showUserModal}: LastBetRowProp
                 </td>
             )}
             <td className={Style.center + " hidden-xs-down"}>
-                <div className={Style.entry}>{moment(timestamp).format("LT")}</div>
+                <div className={Style.entry}>{dayjs(timestamp).format("LT")}</div>
             </td>
             <td className={Style.center + " hidden-xs-down"}>
                 <div className={Style.entry}>

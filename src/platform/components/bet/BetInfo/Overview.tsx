@@ -1,4 +1,4 @@
-import moment from "moment";
+import dayjs from "dayjs";
 import * as React from "react";
 
 import {CopyToClipBoard, Ether} from "../../../../reusable/index";
@@ -18,7 +18,7 @@ const Overview = ({bet, showUserModal}: Props) => (
             Bet:
             {bet.id} <CopyToClipBoard message={"Copied! Paste in Chat!"} content={`Bet:${bet.id}`} />
         </h3>
-        <span>{moment(bet.timestamp).format("lll")}</span>
+        <span>{dayjs(bet.timestamp).format("lll")}</span>
         <span>
             Placed by{" "}
             <button className={Style.userName} onClick={() => showUserModal(bet.user)}>
