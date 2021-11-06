@@ -2,6 +2,10 @@
   "name": "dicether-frontend",
   "version": "1.0.0",
   "description": "Dicether frontend",
+  "sideEffects": [
+    "*.css",
+    "*.scss"
+  ],
   "main": "config.js",
   "scripts": {
     "start": "DEV_SERVER=TRUE webpack serve --config webpack/dev.js --progress --port 2992",
