@@ -13,8 +13,8 @@ export const changeAccount = ca((account: string | null) => {
     return {type: types.CHANGE_ACCOUNT, account};
 });
 
-export const changeNetworkId = ca((networkId: number | null) => {
-    return {type: types.CHANGE_NETWORK, networkId};
+export const changeChainId = ca((chainId: number | null) => {
+    return {type: types.CHANGE_NETWORK, chainId};
 });
 
 export const changeContract = ca((contract: any | null) => {

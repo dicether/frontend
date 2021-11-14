@@ -33,7 +33,6 @@ export const ACCOUNT_BALANCE_POLL_INTERVAL = 5000;
 export const FROM_WEI_TO_BASE = 1e9; // conversion from wei to base unit GWEI
 export const FROM_BASE_TO_WEI = 1e9; // conversion from base unit GWEI to wei
 
-export const NETWORK_ID = 1;
 export const NETWORK_NAME = "Main";
 
 export const MIN_GAME_SESSION_VALUE = 1e7;

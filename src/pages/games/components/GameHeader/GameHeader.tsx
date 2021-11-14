@@ -10,7 +10,7 @@ import {
     SESSION_TIMEOUT,
     TRUST_WALLET_URL,
 } from "../../../../config/config";
-import {validNetwork} from "../../../../platform/modules/games/state/asyncActions";
+import {validChainId} from "../../../../platform/modules/games/state/asyncActions";
 import {State as GameState} from "../../../../platform/modules/games/state/reducer";
 import {State as Web3State} from "../../../../platform/modules/web3/reducer";
 import {Ether, Tooltip} from "../../../../reusable";
@@ -138,7 +138,7 @@ export default class GameHeader extends React.Component<Props, State> {
                     <span className="text-danger">Please log in to your Wallet!</span>
                 </div>
             );
-        } else if (!validNetwork(web3State.networkId)) {
+        } else if (!validChainId(web3State.chainId)) {
             return (
                 <div className={Style.gameHeader}>
                     <span className="text-danger">Please select the {NETWORK_NAME} network!</span>

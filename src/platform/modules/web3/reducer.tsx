@@ -9,7 +9,7 @@ export type Actions = ActionType<typeof actions>;
 export type State = {
     web3: Web3 | null;
     account: string | null;
-    networkId: number | null;
+    chainId: number | null;
     contract: any | null;
     balance: number | null;
 };
@@ -17,7 +17,7 @@ export type State = {
 const initialState = {
     web3: null,
     account: null,
-    networkId: null,
+    chainId: null,
     contract: null,
     balance: null,
 };
@@ -29,7 +29,7 @@ export default function reducer(state: State = initialState, action: Actions): S
         case types.CHANGE_ACCOUNT:
             return {...state, account: action.account};
         case types.CHANGE_NETWORK:
-            return {...state, networkId: action.networkId};
+            return {...state, chainId: action.chainId};
         case types.CHANGE_CONTRACT:
             return {...state, contract: action.contract};
         case types.CHANGE_BALANCE:

@@ -15,7 +15,7 @@ import {
 import {addNewBet} from "../../../platform/modules/bets/asyncActions";
 import {Bet} from "../../../platform/modules/bets/types";
 import {toggleHelp} from "../../../platform/modules/games/info/actions";
-import {placeBet, validNetwork} from "../../../platform/modules/games/state/asyncActions";
+import {placeBet, validChainId} from "../../../platform/modules/games/state/asyncActions";
 import {showErrorMessage} from "../../../platform/modules/utilities/actions";
 import {catchError} from "../../../platform/modules/utilities/asyncActions";
 import {State} from "../../../rootReducer";
@@ -35,7 +35,7 @@ function calcNumberFromPayOutMultiplier(multiplier: number, reversedRoll: boolea
 
 const mapStateToProps = ({games, account, web3}: State) => {
     const {gameState, info, dice} = games;
-    const web3Available = web3.account && web3.contract && web3.web3 && validNetwork(web3.networkId);
+    const web3Available = web3.account && web3.contract && web3.web3 && validChainId(web3.chainId);
 
     return {
         web3Available: web3Available === true,

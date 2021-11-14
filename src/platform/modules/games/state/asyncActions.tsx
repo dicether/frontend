@@ -17,14 +17,7 @@ import axios from "axios";
 import Web3 from "web3";
 
 import {TransactionReceipt} from "web3-core";
-import {
-    CHAIN_ID,
-    CONTRACT_ADDRESS,
-    NETWORK_ID,
-    NETWORK_NAME,
-    SERVER_ADDRESS,
-    SIGNATURE_VERSION,
-} from "../../../../config/config";
+import {CHAIN_ID, CONTRACT_ADDRESS, NETWORK_NAME, SERVER_ADDRESS, SIGNATURE_VERSION} from "../../../../config/config";
 import {getLogGameCreated, getReasonEnded} from "../../../../contractUtils";
 import {Dispatch, GetState, isLocalStorageAvailable} from "../../../../util/util";
 import {addNewBet} from "../../bets/asyncActions";
@@ -284,9 +277,8 @@ function isTransactionFailed(receipt: TransactionReceipt) {
     return !receipt.status;
 }
 
-export const validNetwork = (networkId: number | null) => {
-    // only check for null on development
-    return networkId !== null && (process.env.NODE_ENV === "development" || networkId === NETWORK_ID);
+export const validChainId = (chainId: number | null) => {
+    return chainId === CHAIN_ID;
 };
 
 const checkIfEndTransactionFinished = (web3: Web3, transactionHash?: string) => {
@@ -334,13 +326,13 @@ export function loadContractGameState() {
         const {web3: web3State, games} = getState();
         const {contract} = web3State;
         const {gameState} = games;
-        const {web3, account, networkId} = web3State;
+        const {web3, account, chainId} = web3State;
 
-        if (!account || !web3 || !contract || networkId === null) {
+        if (!account || !web3 || !contract || chainId === null) {
             throw new Error("You need a web3 enabled browser (Metamask)!");
         }
 
-        if (!validNetwork(networkId)) {
+        if (!validChainId(chainId)) {
             throw new Error(`Invalid network! You need to use ${NETWORK_NAME}!`);
         }
 
@@ -464,8 +456,8 @@ export function createGame(stake: number, userSeed: string) {
             );
         }
 
-        if (!validNetwork(web3State.networkId)) {
-            throw new Error(`Invalid network! You need to use ${NETWORK_NAME}!`);
+        if (!validChainId(web3State.chainId)) {
+            throw new Error(`Invalid chain! You need to use ${NETWORK_NAME}!`);
         }
 
         if (!account || !contract || !web3State.web3) {
@@ -543,7 +535,7 @@ export function endGame() {
         const gameState = state.games.gameState;
         const account = state.web3.account;
         const web3 = state.web3.web3;
-        const networkId = state.web3.networkId;
+        const chainId = state.web3.chainId;
 
         // use previous seeds as new hashes seeds (hash chain)
         const serverHash = gameState.serverHash;
@@ -562,7 +554,7 @@ export function endGame() {
             throw new Error("You need a web3 enabled browser (Metamask)!");
         }
 
-        if (!validNetwork(networkId)) {
+        if (!validChainId(chainId)) {
             throw new Error(`Invalid network! You need to use ${NETWORK_NAME}!`);
         }
 
@@ -606,13 +598,13 @@ export function userEndGame() {
         const account = state.web3.account;
         const web3 = state.web3.web3;
         const contract = state.web3.contract;
-        const networkId = state.web3.networkId;
+        const chainId = state.web3.chainId;
 
         if (!web3 || !account || !contract) {
             throw new Error("You need a web3 enabled browser (Metamask)!");
         }
 
-        if (!validNetwork(networkId)) {
+        if (!validChainId(chainId)) {
             throw new Error(`Invalid network! You need to use ${NETWORK_NAME}!`);
         }
 
@@ -664,7 +656,7 @@ export function conflictEnd() {
         const account = state.web3.account;
         const web3 = state.web3.web3;
         const contract = state.web3.contract;
-        const networkId = state.web3.networkId;
+        const chainId = state.web3.chainId;
 
         const gameId = gameState.gameId;
         const roundId = gameState.roundId;
@@ -678,7 +670,7 @@ export function conflictEnd() {
             throw new Error("You need a web3 enabled browser (Metamask)!");
         }
 
-        if (!validNetwork(networkId)) {
+        if (!validChainId(chainId)) {
             throw new Error(`Invalid network! You need to use ${NETWORK_NAME}!`);
         }
 
@@ -769,7 +761,7 @@ export function forceEnd() {
         const gameState = state.games.gameState;
         const account = state.web3.account;
         const contract = state.web3.contract;
-        const networkId = state.web3.networkId;
+        const chainId = state.web3.chainId;
 
         const gameId = gameState.gameId;
 
@@ -777,7 +769,7 @@ export function forceEnd() {
             throw new Error("You need a web3 enabled browser (Metamask)!");
         }
 
-        if (!validNetwork(networkId)) {
+        if (!validChainId(chainId)) {
             throw new Error(`Invalid network! You need to use ${NETWORK_NAME}!`);
         }
 
@@ -906,7 +898,7 @@ export function placeBet(num: number, betValue: number, gameType: number) {
             throw new Error("You need a web3 enabled browser (Metamask)!");
         }
 
-        if (!validNetwork(web3State.networkId)) {
+        if (!validChainId(web3State.chainId)) {
             throw new Error(`Invalid network! You need to use ${NETWORK_NAME}!`);
         }
 

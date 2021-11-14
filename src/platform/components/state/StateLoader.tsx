@@ -5,7 +5,7 @@ import {bindActionCreators} from "redux";
 import {State} from "../../../rootReducer";
 import {Dispatch} from "../../../util/util";
 import {getUser} from "../../modules/account/selectors";
-import {storeGameState, syncGameState, validNetwork} from "../../modules/games/state/asyncActions";
+import {storeGameState, syncGameState, validChainId} from "../../modules/games/state/asyncActions";
 
 const mapStateToProps = (state: State) => {
     const {games, web3} = state;
@@ -36,7 +36,7 @@ class StateLoader extends React.Component<Props> {
     componentDidMount() {
         const {syncGameState, userAuth, web3} = this.props;
 
-        if (userAuth !== null && web3.web3 && web3.account && web3.contract && validNetwork(web3.networkId)) {
+        if (userAuth !== null && web3.web3 && web3.account && web3.contract && validChainId(web3.chainId)) {
             syncGameState(userAuth.address);
         }
     }
@@ -50,10 +50,10 @@ class StateLoader extends React.Component<Props> {
             nextWeb3State.web3 &&
             nextWeb3State.account &&
             nextWeb3State.contract &&
-            validNetwork(nextWeb3State.networkId) &&
+            validChainId(nextWeb3State.chainId) &&
             (nextUserAuth !== curUserAuth ||
                 nextWeb3State.account !== curWeb3State.account ||
-                nextWeb3State.networkId !== curWeb3State.networkId)
+                nextWeb3State.chainId !== curWeb3State.chainId)
         ) {
             syncGameState(nextUserAuth.address);
         }

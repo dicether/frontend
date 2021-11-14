@@ -7,26 +7,22 @@ import {AbstractProvider, TransactionReceipt} from "web3-core";
 
 import {CONTRACT_ADDRESS, FROM_WEI_TO_BASE} from "../../../config/config";
 import {Dispatch, GetState} from "../../../util/util";
-import {changeAccount, changeBalance, changeContract, changeNetworkId, changeWeb3} from "./actions";
+import {changeAccount, changeBalance, changeContract, changeChainId, changeWeb3} from "./actions";
 
 const stateChannelContractAbi = require("assets/json/GameChannelContract.json");
 
-export function fetchNetwork() {
-    return (dispatch: Dispatch, getState: GetState) => {
-        const web3 = getState().web3.web3;
-        const networkId = getState().web3.networkId;
-        if (web3 !== null) {
-            web3.eth.net
-                .getId()
-                .then((netId) => {
-                    const networkId = getState().web3.networkId;
-                    if (networkId !== netId) {
-                        dispatch(changeNetworkId(netId));
-                    }
-                })
-                .catch((error) => console.log("Network id fetching failed: " + error));
-        } else if (networkId !== null) {
-            dispatch(changeNetworkId(null));
+export function fetchChainId() {
+    return async (dispatch: Dispatch, getState: GetState) => {
+        const chainId = getState().web3.chainId;
+        if (window.ethereum !== null) {
+            try {
+                const newChainId = parseInt(await window.ethereum.request({method: "eth_chainId", params: []}));
+                if (newChainId !== chainId) {
+                    dispatch(changeChainId(newChainId));
+                }
+            } catch (ex) {
+                console.log("Chain id fetching failed: " + ex);
+            }
         }
     };
 }
@@ -107,8 +103,8 @@ export function registerAccountChainIdListener() {
             }
         });
 
-        window.ethereum.on("chainChanged", (_chainId: string) => {
-            dispatch(fetchNetwork());
+        window.ethereum.on("chainChanged", (chainId: string) => {
+            dispatch(changeChainId(parseInt(chainId)));
         });
     };
 }
@@ -122,7 +118,7 @@ export function fetchAllWeb3() {
     return (dispatch: Dispatch) => {
         dispatch(fetchWeb3());
         dispatch(fetchAccount());
-        dispatch(fetchNetwork());
+        dispatch(fetchChainId());
         dispatch(fetchAccountBalance());
     };
 }
