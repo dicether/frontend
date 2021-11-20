@@ -6,14 +6,17 @@
 
 :global {
   .Toastify__toast--error {
+    color: $white;
     @include background-color("danger");
   }
 
   .Toastify__toast--success {
+    color: $white;
     @include background-color("success");
   }
 
   .Toastify__toast--info {
+    color: $white;
     @include background-color("info");
   }
 }

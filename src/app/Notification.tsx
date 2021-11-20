@@ -27,7 +27,9 @@ export default class Notification extends React.Component<Props> {
             } else if (notification.type === "info") {
                 toast.info(<div style={{width: "275px", wordWrap: "break-word"}}>{notification.message}</div>);
             } else {
-                toast.error(<div style={{width: "275px", wordWrap: "break-word"}}>{notification.message}</div>);
+                toast.error(
+                    /*<div style={{width: "275px", wordWrap: "break-word"}}>{*/ notification.message /*}</div>*/
+                );
             }
         }
     }
@@ -35,6 +37,7 @@ export default class Notification extends React.Component<Props> {
     render() {
         return (
             <ToastContainer
+                icon={false}
                 toastClassName={Style.notification}
                 position="top-left"
                 autoClose={5000}
