@@ -1,5 +1,4 @@
 import * as React from "react";
-import DocumentTitle from "react-document-title";
 import {connect} from "react-redux";
 import {Redirect, Route, RouteComponentProps, Switch, withRouter} from "react-router-dom";
 

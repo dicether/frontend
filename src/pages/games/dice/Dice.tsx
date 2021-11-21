@@ -1,6 +1,5 @@
 import {GameType, maxBet} from "@dicether/state-channel";
 import * as React from "react";
-import DocumentTitle from "react-document-title";
 import {connect} from "react-redux";
 
 import {

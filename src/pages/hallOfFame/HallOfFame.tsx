@@ -1,5 +1,4 @@
 import * as React from "react";
-import DocumentTitle from "react-document-title";
 import {WithTranslation, withTranslation} from "react-i18next";
 import {connect} from "react-redux";
 import {NavLink as RRNavLink, Redirect, Route, RouteComponentProps, Switch} from "react-router-dom";

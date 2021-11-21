@@ -1,6 +1,4 @@
 import * as React from "react";
-import DocumentTitle from "react-document-title";
-
 import {connect} from "react-redux";
 import {bindActionCreators, Dispatch} from "redux";
 import Stats from "../../platform/components/bet/Stats";

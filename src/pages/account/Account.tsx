@@ -1,5 +1,4 @@
 import * as React from "react";
-import DocumentTitle from "react-document-title";
 import {NavLink as RRNavLink, Redirect, Route, RouteComponentProps, Switch} from "react-router-dom";
 import {Nav, Navbar, NavItem, NavLink} from "reactstrap";
 import {Container} from "../../reusable";
