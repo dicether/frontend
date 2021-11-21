@@ -128,7 +128,6 @@ class Keno extends React.PureComponent<Props, KenoState> {
 
     private onClear = () => {
         const {changeNum} = this.props;
-        const {showResult} = this.state;
         changeNum(0);
     };
 
