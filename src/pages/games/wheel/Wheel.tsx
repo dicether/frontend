@@ -16,6 +16,7 @@ import {canPlaceBet} from "../utilities";
 import {changeNum, changeValue} from "./actions";
 import Ui from "./components/Ui";
 import {Helmet} from "react-helmet";
+import {playFromBegin} from "../../../util/audio";
 
 const mapStateToProps = ({games, account, web3, app}: State) => {
     const {info, gameState, wheel} = games;
@@ -157,7 +158,7 @@ class Wheel extends React.PureComponent<Props, WheelState> {
         const {sound} = info;
 
         if (sound) {
-            audio.playFromBegin();
+            playFromBegin(audio);
         }
     };
 

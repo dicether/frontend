@@ -11,7 +11,6 @@ import "./googleanalytics";
 import Root from "./Root";
 import {store} from "./store";
 import {parseReferral} from "./util/affiliate";
-import "./util/prototypes";
 
 dayjs.extend(localizedFormat);
 

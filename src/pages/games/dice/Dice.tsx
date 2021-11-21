@@ -25,6 +25,7 @@ import {canPlaceBet} from "../utilities";
 import {changeNum, changeRollMode, changeValue} from "./actions";
 import DiceUi from "./components/DiceUi";
 import {Helmet} from "react-helmet";
+import {playFromBegin} from "../../../util/audio";
 
 function calcNumberFromPayOutMultiplier(multiplier: number, reversedRoll: boolean) {
     const houseEdgeFactor = 1 - HOUSE_EDGE / HOUSE_EDGE_DIVISOR;
@@ -151,7 +152,7 @@ class Dice extends React.Component<Props, DiceState> {
 
                     addNewBet(result.bet);
                     if (info.sound) {
-                        setTimeout(() => (result.won ? sounds.win.playFromBegin() : sounds.lose.playFromBegin()), 500);
+                        setTimeout(() => (result.won ? playFromBegin(sounds.win) : playFromBegin(sounds.lose)), 500);
                     }
                 })
                 .catch((error) => catchError(error));

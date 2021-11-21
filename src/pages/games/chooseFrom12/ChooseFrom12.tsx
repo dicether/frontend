@@ -16,6 +16,7 @@ import {canPlaceBet} from "../utilities";
 import {changeNum, changeValue} from "./actions";
 import Ui from "./components/Ui";
 import {Helmet} from "react-helmet";
+import {playFromBegin} from "../../../util/audio";
 
 const mapStateToProps = ({games, account, web3}: State) => {
     const {info, oneDice, gameState} = games;
@@ -85,7 +86,7 @@ class ChooseFrom12 extends React.PureComponent<Props, OneDiceState> {
         const newNum = (1 << diceNum) ^ num; // tslint:disable-line:no-bitwise
 
         if (info.sound) {
-            sounds.tileSelect.playFromBegin();
+            playFromBegin(sounds.tileSelect);
         }
         changeNum(newNum);
     };
@@ -115,7 +116,7 @@ class ChooseFrom12 extends React.PureComponent<Props, OneDiceState> {
 
                     addNewBet(result.bet);
                     if (info.sound) {
-                        setTimeout(() => (result.won ? sounds.win.playFromBegin() : sounds.lose.playFromBegin()), 500);
+                        setTimeout(() => (result.won ? playFromBegin(sounds.win) : playFromBegin(sounds.lose)), 500);
                     }
                 })
                 .catch((error) => catchError(error));

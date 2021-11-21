@@ -7,6 +7,7 @@ import ResultSlider from "./ResultSlider";
 import Ticks from "./Ticks";
 
 import Style from "./DiceSlider.scss";
+import {playFromBegin} from "../../../../util/audio";
 
 type Props = {
     num: number;
@@ -29,9 +30,9 @@ export default class DiceSlider extends React.PureComponent<Props> {
 
             if (sound) {
                 if (newNum > num) {
-                    sounds.menuUp.playFromBegin();
+                    playFromBegin(sounds.menuUp);
                 } else if (newNum < num) {
-                    sounds.menuDown.playFromBegin();
+                    playFromBegin(sounds.menuDown);
                 }
             }
             this.props.onNumberChange(newNum);
