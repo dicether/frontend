@@ -21,7 +21,7 @@
     "stylelint": "stylelint './**/*.scss'"
   },
   "lint-staged": {
-    "*.{ts,tsx}": [
+    "*.{js,ts,tsx}": [
       "prettier --write",
       "eslint --fix"
     ],
