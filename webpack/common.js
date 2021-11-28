@@ -141,31 +141,17 @@ module.exports = {
 
             {
                 test: /\.(png|jpg|gif|ico|svg)$/,
-                use: [
-                    {
-                        loader: 'url-loader',
-                        options: {
-                            esModule: false,
-                            limit: 8192
-                        }
-                    }]
+                type: "asset"
             },
             {
                 test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
                 // Limiting the size of the woff fonts breaks font-awesome ONLY for the extract text plugin
                 // loader: "url?limit=10000"
-                use: "url-loader"
+                type: "asset/inline"
             },
             {
                 test: /\.(ttf|eot|wav)(\?[\s\S]+)?$/,
-                use: [
-                    {
-                        loader: 'file-loader',
-                        options: {
-                            esModule: false,
-                        }
-                    }
-                 ]
+                type: "asset/resource"
             },
             {
                 test: /\.js$/,
