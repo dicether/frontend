@@ -200,14 +200,15 @@ $btn-border-width: 2px;
 
 // Variables for used bootstrap components
 // You normally don't need to edit this file
-@import './componentVariables';
 
+// stylelint-disable no-invalid-position-at-import-rule
+@import './componentVariables';
 
 @import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins';
 @import '~bootstrap/scss/utilities/borders';
 @import '~bootstrap/scss/utilities/background';
-
+// stylelint-enable no-invalid-position-at-import-rule
 
 @mixin border-left {
   border-left: $border-width solid $border-color;
