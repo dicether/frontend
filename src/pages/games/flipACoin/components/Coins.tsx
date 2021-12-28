@@ -3,12 +3,8 @@ import * as React from "react";
 
 import Style from "./Coins.scss";
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import CoinHead from "!!babel-loader!react-svg-loader!assets/images/coinHead.svg";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import CoinNumber from "!!babel-loader!react-svg-loader!assets/images/coinNumber.svg";
+import CoinHead from "assets/images/inline/coinHead.svg";
+import CoinNumber from "assets/images/inline/coinNumber.svg";
 
 const coins = [<CoinHead key={1} width="100%" heigth="auto" />, <CoinNumber key={2} width="100%" heigth="auto" />];
 

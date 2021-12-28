@@ -1,51 +1,45 @@
-const crypto = require('crypto');
-const path = require('path');
+const crypto = require("crypto");
+const path = require("path");
 
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CircularDependencyPlugin = require('circular-dependency-plugin');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CircularDependencyPlugin = require("circular-dependency-plugin");
 const {ProvidePlugin} = require("webpack");
 
-
 // Project root
-const context = path.join(process.cwd(), '.');
+const context = path.join(process.cwd(), ".");
 
 // src code directory
-const contextRoot = path.join(context, 'src');
-
+const contextRoot = path.join(context, "src");
 
 const Title = "Dicether";
 
-
 // the final webpack config
 module.exports = {
-    entry : {
-        index: [
-            path.join(contextRoot, 'index.tsx'),
-            path.join(contextRoot, 'bs-theme-glob.scss'),
-        ]
+    entry: {
+        index: [path.join(contextRoot, "index.tsx"), path.join(contextRoot, "bs-theme-glob.scss")],
     },
-    output : {
-        path :  context  + '/dist/static',
-        publicPath : (process.env.DEV_SERVER === 'TRUE') ? '/' : '/static/',
-        filename : '[name].[chunkhash].js',
+    output: {
+        path: context + "/dist/static",
+        publicPath: process.env.DEV_SERVER === "TRUE" ? "/" : "/static/",
+        filename: "[name].[chunkhash].js",
     },
-    resolve : {
+    resolve: {
         //Allow requiring files without supplying the extension.
-        extensions: ['.tsx', '.ts', '.js', '.css', '.scss'],
+        extensions: [".tsx", ".ts", ".js", ".css", ".scss"],
         modules: [contextRoot, "node_modules"],
         alias: {
-            assets: path.resolve(context, 'assets')
+            assets: path.resolve(context, "assets"),
         },
         fallback: {
-            "assert": require.resolve("assert/"),
-            "os": require.resolve("os-browserify/browser"),
-            "http": require.resolve("stream-http"),
-            "https": require.resolve("https-browserify"),
-            "stream": require.resolve("stream-browserify"),
-            "crypto": require.resolve("crypto-browserify")
-          }
-	},
+            assert: require.resolve("assert/"),
+            os: require.resolve("os-browserify/browser"),
+            http: require.resolve("stream-http"),
+            https: require.resolve("https-browserify"),
+            stream: require.resolve("stream-browserify"),
+            crypto: require.resolve("crypto-browserify"),
+        },
+    },
     optimization: {
         runtimeChunk: "single",
         splitChunks: {
@@ -53,141 +47,151 @@ module.exports = {
                 vendor: {
                     test: /[\\/]node_modules[\\/]/,
                     name: "vendor",
-                    chunks: "all"
-                }
-            }
-        }
+                    chunks: "all",
+                },
+            },
+        },
     },
     devServer: {
         historyApiFallback: {
-            index: '/index.html'
+            index: "/index.html",
         },
         proxy: {
             historyApiFallback: true,
-        }
+        },
     },
     module: {
         rules: [
             {
                 test: /\.(css|less)$/,
                 use: [
-                    { loader: MiniCssExtractPlugin.loader },
-                    { loader: 'css-loader', options: { sourceMap: true } },
-                    { loader: 'postcss-loader', options: { sourceMap: true } }
-                ]
+                    {loader: MiniCssExtractPlugin.loader},
+                    {loader: "css-loader", options: {sourceMap: true}},
+                    {loader: "postcss-loader", options: {sourceMap: true}},
+                ],
             },
             {
                 test: /(glob\.scss|reusable\/\w+\.scss)$/,
                 use: [
-                    { loader: MiniCssExtractPlugin.loader },
+                    {loader: MiniCssExtractPlugin.loader},
                     {
-                        loader: 'css-loader', options: {
+                        loader: "css-loader",
+                        options: {
                             sourceMap: true,
                             modules: {
-                                localIdentName: '[local]',
+                                localIdentName: "[local]",
                                 getLocalIdent: (context, localIdentName, localName) => {
                                     return localName;
-                                }
-                            }
-                        }
+                                },
+                            },
+                        },
                     },
-                    { loader: 'postcss-loader', options: { sourceMap: true } },
-                    { loader: 'resolve-url-loader', options: { sourceMap: true, root: context, debug: true} },
+                    {loader: "postcss-loader", options: {sourceMap: true}},
+                    {loader: "resolve-url-loader", options: {sourceMap: true, root: context, debug: true}},
                     {
-                        loader: 'sass-loader', options: {
+                        loader: "sass-loader",
+                        options: {
                             sourceMap: true,
                             sassOptions: {
-                                includePaths: [path.join(__dirname, 'src')]
-                            }
+                                includePaths: [path.join(__dirname, "src")],
+                            },
                         },
-
-                    }
-                ]
+                    },
+                ],
             },
             {
                 test: /\.scss$/,
                 exclude: /(glob\.scss|reusable\/\w+\.scss)$/,
                 use: [
-                    { loader: MiniCssExtractPlugin.loader },
+                    {loader: MiniCssExtractPlugin.loader},
                     {
-                        loader: 'css-loader', options: {
+                        loader: "css-loader",
+                        options: {
                             sourceMap: true,
                             importLoaders: 1,
                             modules: {
-                                localIdentName: '[hash:base64:5]__[local]',
+                                localIdentName: "[hash:base64:5]__[local]",
                                 getLocalIdent: (context, localIdentName, localName) => {
                                     const request = path.relative(contextRoot, context.resourcePath);
-                                    const sha = crypto.createHash('sha1');
+                                    const sha = crypto.createHash("sha1");
                                     sha.update(request);
-                                    const prefix = sha.digest('base64').slice(0, 5);
-                                    const hash = prefix + '__' + localName;
-                                    return hash.replace(new RegExp("[^a-zA-Z0-9\\-_\u00A0-\uFFFF]", "g"), "-").replace(/^((-?[0-9])|--)/, "_$1");
-                                }
-                            }
-                        }
+                                    const prefix = sha.digest("base64").slice(0, 5);
+                                    const hash = prefix + "__" + localName;
+                                    return hash
+                                        .replace(new RegExp("[^a-zA-Z0-9\\-_\u00A0-\uFFFF]", "g"), "-")
+                                        .replace(/^((-?[0-9])|--)/, "_$1");
+                                },
+                            },
+                        },
                     },
-                    { loader: 'postcss-loader', options: { sourceMap: true } },
-                    { loader: 'resolve-url-loader', options: { sourceMap: true, root: context, debug: true} },
+                    {loader: "postcss-loader", options: {sourceMap: true}},
+                    {loader: "resolve-url-loader", options: {sourceMap: true, root: context, debug: true}},
                     {
-                        loader: 'sass-loader', options: {
+                        loader: "sass-loader",
+                        options: {
                             sourceMap: true,
                             sassOptions: {
-                                includePaths: [path.join(__dirname, 'src')]
-                            }
-                        }
-                    }
-                ]
+                                includePaths: [path.join(__dirname, "src")],
+                            },
+                        },
+                    },
+                ],
             },
-
+            {
+                test: /\.svg$/,
+                use: [{loader: "babel-loader"}, {loader: "react-svg-loader"}],
+                include: /inline/,
+            },
             {
                 test: /\.(png|jpg|gif|ico|svg)$/,
-                type: "asset"
+                type: "asset",
+                exclude: /inline/,
             },
             {
                 test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
                 // Limiting the size of the woff fonts breaks font-awesome ONLY for the extract text plugin
                 // loader: "url?limit=10000"
-                type: "asset/inline"
+                type: "asset/inline",
             },
             {
                 test: /\.(ttf|eot|wav)(\?[\s\S]+)?$/,
-                type: "asset/resource"
+                type: "asset/resource",
             },
             {
                 test: /\.js$/,
                 exclude: /(node_modules|bower_components)/,
                 use: {
-                    loader: 'babel-loader',
-                }
+                    loader: "babel-loader",
+                },
             },
             {
                 test: /\.tsx?$/,
                 exclude: /(node_modules|bower_components)/,
                 use: [
                     {
-                        loader: 'babel-loader',
+                        loader: "babel-loader",
                     },
                     {
-                        loader: 'ts-loader'
-                    }
-                ]
+                        loader: "ts-loader",
+                    },
+                ],
             },
-        ]
+        ],
     },
     plugins: [
         new ProvidePlugin({
             process: "process/browser",
-            Buffer: ['buffer', 'Buffer'],
+            Buffer: ["buffer", "Buffer"],
         }),
         new MiniCssExtractPlugin({
-            filename: '[name].[hash].css'
+            filename: "[name].[hash].css",
         }),
         new HtmlWebpackPlugin({
             title: Title,
-            filename: (process.env.DEV_SERVER === 'TRUE') ? 'index.html' : '../index.html',
-            template: 'root.ejs',
-            favicon: 'assets/images/favicon.png',
-            inject: 'body'
+            filename: process.env.DEV_SERVER === "TRUE" ? "index.html" : "../index.html",
+            template: "root.ejs",
+            favicon: "assets/images/favicon.png",
+            inject: "body",
         }),
         new CircularDependencyPlugin({
             // exclude detection of files based on a RegExp
@@ -196,6 +200,6 @@ module.exports = {
             failOnError: false,
             // set the current working directory for displaying module paths
             cwd: process.cwd(),
-        })
-    ]
+        }),
+    ],
 };
