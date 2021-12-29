@@ -139,7 +139,7 @@ module.exports = {
             },
             {
                 test: /\.svg$/,
-                use: [{loader: "babel-loader"}, {loader: "react-svg-loader"}],
+                use: [{loader: "babel-loader"}, {loader: "@svgr/webpack"}],
                 include: /inline/,
             },
             {

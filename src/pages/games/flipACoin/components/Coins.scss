@@ -33,17 +33,16 @@
   justify-content: center;
 
 
-  & :global(.coin) {
-    transition: fill 250ms ease-in-out;
-    fill: $gray-300;
-  }
 
-  :global(.night) & :global(.coin) {
+  transition: fill 250ms ease-in-out;
+  fill: $gray-300;
+
+  :global(.night) {
     fill: $gray-300--night;
   }
 
 
-  &_selected :global(.coin) {
+  &_selected {
     fill: $primary;
   }
 
@@ -51,21 +50,17 @@
     border-radius: 50%;
     color: $success;
     animation: boxShadow 1000ms linear forwards;
-    & :global(.coin) {
-      fill: $success;
-    }
+    fill: $success;
   }
 
   &_lost {
     border-radius: 50%;
     color: $danger;
     animation: boxShadow 1000ms linear forwards;
-    & :global(.coin) {
-      fill: $danger;
-    }
+    fill: $danger;
   }
 
-  :global(.night) &_selected :global(.coin) {
+  :global(.night) &_selected {
     fill: $primary--night;
   }
 
