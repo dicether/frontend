@@ -1,6 +1,5 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {RouteComponentProps, withRouter} from "react-router-dom";
 import {bindActionCreators, Dispatch} from "redux";
 
 import {authenticate} from "../platform/modules/account/asyncActions";
@@ -39,7 +38,7 @@ type OtherProps = {
 
 type ReduxProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
-type Props = RouteComponentProps<any> & ReduxProps & OtherProps;
+type Props = ReduxProps & OtherProps;
 
 const Layout = ({
     children,
@@ -70,4 +69,4 @@ const Layout = ({
     );
 };
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Layout));
+export default connect(mapStateToProps, mapDispatchToProps)(Layout);

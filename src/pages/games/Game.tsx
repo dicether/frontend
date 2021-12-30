@@ -1,6 +1,6 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {Route, RouteProps} from "react-router-dom";
+import {Route, RouteProps, Routes} from "react-router-dom";
 
 import {bindActionCreators} from "redux";
 import Stats from "../../platform/components/bet/Stats";
@@ -28,6 +28,7 @@ import Plinko from "./plinko/Plinko";
 import Wheel from "./wheel/Wheel";
 
 import Style from "./Game.scss";
+import PathNotFound from "../../app/PathNotFound";
 
 const mapStateToProps = ({games, web3, account}: State) => {
     const {gameState, info} = games;
@@ -64,12 +65,6 @@ type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchT
 class Game extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
-    }
-
-    componentDidUpdate(prevProps: Props) {
-        if (this.props.location !== prevProps.location) {
-            window.scrollTo(0, 0);
-        }
     }
 
     componentDidMount() {
@@ -143,12 +138,15 @@ class Game extends React.Component<Props> {
                                 />
                             )}
                             <div className={Style.gameWrapper}>
-                                <Route exact path="/games/dice" component={Dice} />
-                                <Route exact path="/games/chooseFrom12" component={ChooseFrom12} />
-                                <Route exact path="/games/flipACoin" component={FlipACoin} />
-                                <Route exact path="/games/keno" component={Keno} />
-                                <Route exact path="/games/wheel" component={Wheel} />
-                                <Route exact path="/games/plinko" component={Plinko} />
+                                <Routes>
+                                    <Route path="dice" element={<Dice />} />
+                                    <Route path="chooseFrom12" element={<ChooseFrom12 />} />
+                                    <Route path="flipACoin" element={<FlipACoin />} />
+                                    <Route path="keno" element={<Keno />} />
+                                    <Route path="wheel" element={<Wheel />} />
+                                    <Route path="plinko" element={<Plinko />} />
+                                    <Route path="*" element={PathNotFound} />
+                                </Routes>
                             </div>
                             <GameFooter
                                 authenticated={loggedIn}

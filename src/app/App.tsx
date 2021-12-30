@@ -1,6 +1,6 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {Redirect, Route, RouteComponentProps, Switch, withRouter} from "react-router-dom";
+import {Navigate, Route, Routes} from "react-router-dom";
 
 import {bindActionCreators} from "redux";
 import {ACCOUNT_BALANCE_POLL_INTERVAL} from "../config/config";
@@ -27,7 +27,7 @@ import {init as initSockets, unInit as unInitSockets} from "../platform/sockets"
 import {State as RootState} from "../rootReducer";
 import TermsOfUse from "../termsOfUse/TermsOfUse";
 import {Dispatch} from "../util/util";
-import AuthenticatedRoute from "./AuthenticatedRoute";
+import RequireAuth from "./RequireAuth";
 import BeforeUnload from "./BeforeUnload";
 import Notification from "./Notification";
 import PathNotFound from "./PathNotFound";
@@ -58,9 +58,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
     loadDefaultData: () => loadDefaultData(dispatch),
 });
 
-export type Props = ReturnType<typeof mapStateToProps> &
-    ReturnType<typeof mapDispatchToProps> &
-    RouteComponentProps<any>;
+export type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
 class App extends React.Component<Props> {
     private accountBalanceTimer: number | null = null;
@@ -131,18 +129,25 @@ class App extends React.Component<Props> {
                     />
                 </Helmet>
                 <Layout>
-                    {logout && <Redirect to="/logout" />}
-                    <Switch>
-                        <Route exact path="/" component={Index} />
-                        <Route exact path="/faq" component={Faq} />
-                        <Route path="/hallOfFame" component={HallOfFame} />
-                        <Route exact path="/termsOfUse" component={TermsOfUse} />
-                        <Route exact path="/logout" component={LogoutRoute} />
-                        <Route exact path="/games/(dice|chooseFrom12|flipACoin|keno|wheel|plinko)" component={Game} />
-                        <AuthenticatedRoute authenticated={userAuth !== null} path="/account" component={Account} />
-                        <Route exact path="/gameSession/:gameId(\d+)" component={GameSession} />
-                        <Route component={PathNotFound} />
-                    </Switch>
+                    {logout && <Navigate replace to="/logout" />}
+                    <Routes>
+                        <Route path="/" element={<Index />} />
+                        <Route path="/faq" element={<Faq />} />
+                        <Route path="/hallOfFame/*" element={<HallOfFame />} />
+                        <Route path="/termsOfUse" element={<TermsOfUse />} />
+                        <Route path="/logout" element={<LogoutRoute />} />
+                        <Route path="/games/*" element={<Game />} />
+                        <Route
+                            path="/account/*"
+                            element={
+                                <RequireAuth authenticated={userAuth !== null}>
+                                    <Account />
+                                </RequireAuth>
+                            }
+                        />
+                        <Route path="/gameSession/:gameId(\d+)" element={<GameSession />} />
+                        <Route path="*" element={<PathNotFound insideContainer />} />
+                    </Routes>
                     <Chat />
                     {/*<TermsOfUseModal/>*/}
                     <Modals />
@@ -155,4 +160,4 @@ class App extends React.Component<Props> {
     }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+export default connect(mapStateToProps, mapDispatchToProps)(App);

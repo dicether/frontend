@@ -85,7 +85,7 @@ class Header extends React.Component<Props, State> {
                                 </NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink to="/hallOfFame" tag={RRNavLink} onClick={this.closeMenu}>
+                                <NavLink to="/hallOfFame/weekly" tag={RRNavLink} onClick={this.closeMenu}>
                                     {t("hallOfFame")}
                                 </NavLink>
                             </NavItem>
@@ -113,7 +113,7 @@ class Header extends React.Component<Props, State> {
                             {authenticated
                                 ? [
                                       <NavItem key="1">
-                                          <NavLink tag={RRNavLink} to="/account">
+                                          <NavLink tag={RRNavLink} to="/account/stats">
                                               {t("account")}
                                           </NavLink>
                                       </NavItem>,

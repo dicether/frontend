@@ -1,7 +1,7 @@
 import * as React from "react";
 import {WithTranslation, withTranslation} from "react-i18next";
 import {connect} from "react-redux";
-import {NavLink as RRNavLink, Redirect, Route, RouteComponentProps, Switch} from "react-router-dom";
+import {NavLink as RRNavLink, Route, Routes} from "react-router-dom";
 import {Nav, NavItem, NavLink} from "reactstrap";
 import {bindActionCreators} from "redux";
 
@@ -13,6 +13,7 @@ import StatsTable from "./StatsTable";
 
 import Style from "./HallOfFame.scss";
 import {Helmet} from "react-helmet";
+import PathNotFound from "../../app/PathNotFound";
 
 type StatsEntryProps = {
     timeSpan: string;
@@ -53,23 +54,15 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
         dispatch
     );
 
-type Props = ReturnType<typeof mapDispatchToProps> & RouteComponentProps<any> & WithTranslation;
+type Props = ReturnType<typeof mapDispatchToProps> & WithTranslation;
 
 class HallOfFame extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
     }
 
-    shouldComponentUpdate(nextProps: Props) {
-        return this.props.location.pathname !== nextProps.location.pathname;
-    }
-
     render() {
-        const {match, showUserModal, t} = this.props;
-
-        const weekEntry = () => <StatsEntry timeSpan="week" showUserModal={(user) => showUserModal({user})} />;
-        const monthEntry = () => <StatsEntry timeSpan="month" showUserModal={(user) => showUserModal({user})} />;
-        const allEntry = () => <StatsEntry timeSpan="all" showUserModal={(user) => showUserModal({user})} />;
+        const {showUserModal, t} = this.props;
 
         return (
             <>
@@ -81,27 +74,36 @@ class HallOfFame extends React.Component<Props> {
                     <h2 className={Style.heading}>Hall of Fame</h2>
                     <Nav pills className={Style.selection}>
                         <NavItem>
-                            <NavLink tag={RRNavLink} to={`${match.path}/weekly`}>
+                            <NavLink tag={RRNavLink} to="weekly">
                                 {t("weekly")}
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink tag={RRNavLink} to={`${match.path}/monthly`}>
+                            <NavLink tag={RRNavLink} to="monthly">
                                 {t("monthly")}
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink tag={RRNavLink} to={`${match.path}/all`}>
+                            <NavLink tag={RRNavLink} to="all">
                                 {t("all")}
                             </NavLink>
                         </NavItem>
                     </Nav>
-                    <Switch>
-                        <Route exact path={`${match.path}`} render={() => <Redirect to={`${match.path}/weekly`} />} />
-                        <Route exact path={`${match.path}/weekly`} component={weekEntry} />
-                        <Route exact path={`${match.path}/monthly`} component={monthEntry} />
-                        <Route exact path={`${match.path}/all`} component={allEntry} />
-                    </Switch>
+                    <Routes>
+                        <Route
+                            path="weekly"
+                            element={<StatsEntry timeSpan="week" showUserModal={(user) => showUserModal({user})} />}
+                        />
+                        <Route
+                            path="monthly"
+                            element={<StatsEntry timeSpan="month" showUserModal={(user) => showUserModal({user})} />}
+                        />
+                        <Route
+                            path="all"
+                            element={<StatsEntry timeSpan="all" showUserModal={(user) => showUserModal({user})} />}
+                        />
+                        <Route path="*" element={<PathNotFound />} />
+                    </Routes>
                 </Container>
             </>
         );

@@ -1,8 +1,5 @@
 import * as React from "react";
-
-type Props = {
-    location: Location;
-};
+import {useLocation} from "react-router-dom";
 
 const withTracker = (WrappedComponent: React.ComponentType<any>) => {
     let lastPage: string | null = null;
@@ -18,11 +15,12 @@ const withTracker = (WrappedComponent: React.ComponentType<any>) => {
         }
     };
 
-    const WithTracker = (props: Props) => {
-        const page = props.location.pathname;
+    const WithTracker = () => {
+        const location = useLocation();
+        const page = location.pathname;
         trackPage(page);
 
-        return <WrappedComponent {...props} />;
+        return <WrappedComponent />;
     };
 
     WithTracker.displayName = `WithTracker(${WrappedComponent.displayName || WrappedComponent.name || "Component"})`;

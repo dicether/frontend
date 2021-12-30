@@ -1,6 +1,6 @@
 import * as React from "react";
 import {connect} from "react-redux";
-import {Redirect} from "react-router-dom";
+import {Navigate} from "react-router-dom";
 
 import {Dispatch} from "../../../util/util";
 import {deauthenticate} from "../account/asyncActions";
@@ -18,7 +18,7 @@ class LogoutRoute extends React.Component<Props> {
     }
 
     render() {
-        return <Redirect to="/" />;
+        return <Navigate replace to="/" />;
     }
 }
 
