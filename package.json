@@ -6,7 +6,8 @@
   "author": "Dicether",
   "sideEffects": [
     "*.css",
-    "*.scss"
+    "*.scss",
+    "*.js"
   ],
   "main": "config.js",
   "scripts": {
