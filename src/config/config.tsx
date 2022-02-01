@@ -41,8 +41,8 @@ export const HOUSE_EDGE = 150;
 export const HOUSE_EDGE_DIVISOR = 10000;
 
 export const MIN_BET_VALUE = 1e4;
-export const MAX_BET_VALUE = 20e9;
-export const MIN_BANKROLL = 35e9;
+export const MAX_BET_VALUE = 4e9;
+export const MIN_BANKROLL = 9e9;
 export const KELLY_FACTOR = 1;
 
 export const RANGE = 100;
