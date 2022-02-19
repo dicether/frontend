@@ -1,7 +1,7 @@
 export type Campaign = {
     id: number;
     name: string;
-    balance: number;
+    balances: {[chainId: number]: number};
     hits: number;
     referred: number;
     commission: number;

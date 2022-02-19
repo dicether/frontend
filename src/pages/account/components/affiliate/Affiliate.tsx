@@ -10,6 +10,7 @@ import Balance from "./Balance";
 import Campaigns from "./Campaigns";
 import CreateCampaign from "./CreateCampaign";
 import {Campaign} from "./types";
+import {CHAIN_ID} from "../../../../config/config";
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
     catchError: (error: Error) => catchError(error, dispatch),
@@ -45,7 +46,7 @@ class Affiliate extends React.Component<Props, State> {
             .then((response) => {
                 this.setState({
                     campaigns: response.data.campaigns,
-                    balance: response.data.balance,
+                    balance: response.data.balances[CHAIN_ID] || 0,
                 });
             })
             .catch((error) => catchError(error));

@@ -3,6 +3,7 @@ import {WithTranslation, withTranslation} from "react-i18next";
 
 import {CopyToClipBoard, DefinitionEntry, Ether} from "../../../../reusable";
 import {Campaign} from "./types";
+import {CHAIN_ID} from "../../../../config/config";
 
 type CampaignProps = {
     campaign: Campaign;
@@ -20,7 +21,7 @@ const Campaign = ({campaign}: CampaignProps) => (
         <dl>
             <DefinitionEntry name="Hits:" value={campaign.hits} />
             <DefinitionEntry name="Registrations:" value={campaign.referred} />
-            <DefinitionEntry name="Profit:" value={<Ether gwei={campaign.balance} />} />
+            <DefinitionEntry name="Profit:" value={<Ether gwei={campaign.balances[CHAIN_ID] || 0} />} />
             <DefinitionEntry name="Commission:" value={`${campaign.commission * 100}%`} />
         </dl>
     </div>
