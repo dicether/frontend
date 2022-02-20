@@ -4,6 +4,7 @@ import * as Sentry from "@sentry/browser";
 import {ActionType, assertNever} from "../../../../util/util";
 import * as actions from "./actions";
 import * as types from "./constants";
+import {CHAIN_ID} from "../../../../config/config";
 
 export type Actions = ActionType<typeof actions>;
 
@@ -27,6 +28,8 @@ export type ReasonEnded =
     | "CANCELLED_BY_USER";
 
 export type State = {
+    chainId: number;
+
     status: Status;
     reasonEnded?: ReasonEnded;
 
@@ -55,6 +58,8 @@ export type State = {
 };
 
 const initialState: State = {
+    chainId: CHAIN_ID,
+
     status: "ENDED",
 
     hashChain: [],

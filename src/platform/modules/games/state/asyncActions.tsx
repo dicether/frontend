@@ -394,14 +394,14 @@ export function loadServerGameState() {
     };
 }
 
-export function loadLocalGameState(address: string) {
+export function loadLocalGameState(chainId: number, address: string) {
     return (dispatch: Dispatch) => {
         if (!isLocalStorageAvailable()) {
             Sentry.captureMessage("No local storage support!");
             console.warn("No local storage support!");
         }
 
-        const storedState = localStorage.getItem(`gameState${address}`);
+        const storedState = localStorage.getItem(`gameState_${address}_${chainId}`);
         if (storedState !== null) {
             const state = JSON.parse(storedState);
             dispatch(restoreState(state.gameState));
@@ -415,13 +415,16 @@ export function storeGameState(address: string, gameState: State) {
         console.warn("No local storage support! Can not store game state!");
         return;
     }
-    localStorage.setItem(`gameState${address}`, JSON.stringify({version: STORAGE_VERSION, gameState}));
+    localStorage.setItem(
+        `gameState_${address}_${gameState.chainId}`,
+        JSON.stringify({version: STORAGE_VERSION, gameState})
+    );
 }
 
-export function syncGameState(address: string) {
+export function syncGameState(chainId: number, address: string) {
     return async (dispatch: Dispatch) => {
         try {
-            dispatch(loadLocalGameState(address));
+            dispatch(loadLocalGameState(chainId, address));
             await dispatch(loadContractGameState());
             await dispatch(loadServerGameState());
         } catch (error) {

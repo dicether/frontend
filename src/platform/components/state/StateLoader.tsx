@@ -37,7 +37,7 @@ class StateLoader extends React.Component<Props> {
         const {syncGameState, userAuth, web3} = this.props;
 
         if (userAuth !== null && web3.web3 && web3.account && web3.contract && validChainId(web3.chainId)) {
-            syncGameState(userAuth.address);
+            syncGameState(web3.chainId as number, userAuth.address);
         }
     }
 
@@ -55,7 +55,7 @@ class StateLoader extends React.Component<Props> {
                 nextWeb3State.account !== curWeb3State.account ||
                 nextWeb3State.chainId !== curWeb3State.chainId)
         ) {
-            syncGameState(nextUserAuth.address);
+            syncGameState(nextWeb3State.chainId as number, nextUserAuth.address);
         }
 
         if (nextState !== curState && nextUserAuth) {
