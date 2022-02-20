@@ -729,7 +729,6 @@ export function conflictEnd() {
                     serverHash,
                     userHash,
                     gameId,
-                    contractAddress,
                     serverSig,
                     userSeed
                 )

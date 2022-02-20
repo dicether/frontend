@@ -382,10 +382,6 @@
         "type": "uint256"
       },
       {
-        "name": "_contractAddress",
-        "type": "address"
-      },
-      {
         "name": "_serverSig",
         "type": "bytes"
       },
@@ -462,10 +458,6 @@
       {
         "name": "_gameId",
         "type": "uint256"
-      },
-      {
-        "name": "_contractAddress",
-        "type": "address"
       },
       {
         "name": "_userSig",
