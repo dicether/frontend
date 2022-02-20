@@ -52,9 +52,7 @@ class DataLoader<T = any> extends React.Component<Props<T>, State<T>> {
         };
     }
 
-    componentDidMount() {
-        const {url} = this.props;
-
+    private fetchData(url: string) {
         axios
             .get<T>(url)
             .then((response) => {
@@ -64,6 +62,20 @@ class DataLoader<T = any> extends React.Component<Props<T>, State<T>> {
             .catch((error) => {
                 this.setState({error});
             });
+    }
+
+    componentDidMount() {
+        const {url} = this.props;
+
+        this.fetchData(url);
+    }
+
+    componentDidUpdate(prevProps: Props<T>) {
+        const {url} = this.props;
+
+        if (url !== prevProps.url) {
+            this.fetchData(url);
+        }
     }
 
     render() {
