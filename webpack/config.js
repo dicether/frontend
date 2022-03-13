@@ -4,8 +4,8 @@ const domain = "dicether.com";
 
 module.exports = {
     domain: domain,
-    contractAddress: "0x0F2f2aB5924B977E9c52B83032dB49941c67CD8e",
-    serverAddress: "0xcef260a5fed7a896bbe07b933b3a5c17aec094d8",
+    contractAddress: "0xa867bF8447eC6f614EA996057e3D769b76a8aa0e",
+    serverAddress: "0x437EC7503dFF1b5F5Ab4Dab4455C45a270629f4d",
     apiUrl: `https://api.${domain}/api`,
     websocketUrl: `https://websocket.${domain}`,
     chainId: 1,
