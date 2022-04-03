@@ -145,7 +145,7 @@ class App extends React.Component<Props> {
                                 </RequireAuth>
                             }
                         />
-                        <Route path="/gameSession/:gameId(\d+)" element={<GameSession />} />
+                        <Route path="/gameSession/:gameId" element={<GameSession />} />
                         <Route path="*" element={<PathNotFound insideContainer />} />
                     </Routes>
                     <Chat />

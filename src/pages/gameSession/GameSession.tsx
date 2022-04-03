@@ -12,6 +12,7 @@ import Ether from "../../reusable/Ether";
 import {Dispatch} from "../../util/util";
 
 import Style from "./GameSession.scss";
+import PathNotFound from "../../app/PathNotFound";
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
     bindActionCreators(
@@ -38,7 +39,16 @@ type GameState = {
 const GameSession = (props: Props) => {
     const {showBetModal, showUserModal} = props;
     const params = useParams<MatchParams>();
-    const gameId = params.gameId;
+
+    const gameIdString = params.gameId;
+    if (!gameIdString) {
+        return <PathNotFound />;
+    }
+
+    const gameId = gameIdString.match(/\d+/);
+    if (!gameId) {
+        return <PathNotFound />;
+    }
 
     return (
         <Container>
