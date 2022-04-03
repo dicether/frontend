@@ -11,6 +11,8 @@ type Props = {
     bet: Bet;
 };
 
+const OLD_SERVER_ADDRESS = "0xcef260a5fed7a896bbe07b933b3a5c17aec094d8";
+
 const Valid = ({valid}: {valid: boolean}) =>
     valid ? <FontAwesomeIcon icon="check" color="success" /> : <FontAwesomeIcon icon="times" color="danger" />;
 
@@ -26,7 +28,8 @@ class Verification extends React.PureComponent<Props> {
         const validServerSeed = verifySeed(bet.serverSeed, bet.serverHash);
 
         const signatureVersion = 2;
-        // bet.gameId < NEW_EIP_GAME_ID || (bet.gameId >= OLD_EIP_GAME_ID && bet.gameId < NEW_EIP_GAME_ID_2) ? 1 : 2;
+        const serverAddress = bet.gameId < 5246 ? OLD_SERVER_ADDRESS : SERVER_ADDRESS;
+
         const validUserSig = verifySignature(
             bet,
             CHAIN_ID,
@@ -40,7 +43,7 @@ class Verification extends React.PureComponent<Props> {
             CHAIN_ID,
             bet.contractAddress,
             bet.serverSig,
-            SERVER_ADDRESS,
+            serverAddress,
             signatureVersion
         );
 
