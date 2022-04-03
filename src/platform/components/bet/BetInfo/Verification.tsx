@@ -11,7 +11,7 @@ type Props = {
     bet: Bet;
 };
 
-const OLD_SERVER_ADDRESS = "0xcef260a5fed7a896bbe07b933b3a5c17aec094d8";
+const OLD_SERVER_ADDRESS = "0xCef260a5Fed7A896BBE07b933B3A5c17aEC094D8";
 
 const Valid = ({valid}: {valid: boolean}) =>
     valid ? <FontAwesomeIcon icon="check" color="success" /> : <FontAwesomeIcon icon="times" color="danger" />;
