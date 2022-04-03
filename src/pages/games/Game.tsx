@@ -145,7 +145,7 @@ class Game extends React.Component<Props> {
                                     <Route path="keno" element={<Keno />} />
                                     <Route path="wheel" element={<Wheel />} />
                                     <Route path="plinko" element={<Plinko />} />
-                                    <Route path="*" element={PathNotFound} />
+                                    <Route path="*" element={<PathNotFound />} />
                                 </Routes>
                             </div>
                             <GameFooter
