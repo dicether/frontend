@@ -1,5 +1,5 @@
-import * as Sentry from "@sentry/browser";
-import {applyMiddleware, createStore, Middleware} from "redux";
+import * as Sentry from "@sentry/react";
+import {applyMiddleware, createStore, compose, Middleware} from "redux";
 import {createLogger} from "redux-logger";
 import createSentryMiddleware from "redux-sentry-middleware";
 import thunkMiddleware from "redux-thunk";
@@ -42,16 +42,14 @@ if (process.env.SENTRY_LOGGING) {
             return breadcrumb;
         },
     });
-    middlewares.push(
-        createSentryMiddleware(Sentry, {
-            stateTransformer: filterState,
-            actionTransformer: filterAction,
-        })
-    );
 }
 
 if (process.env.REDUX_LOGGING) {
     middlewares.push(createLogger());
 }
 
-export const store = createStore(rootReducer, applyMiddleware(...middlewares));
+const sentryReduxEnhancer = Sentry.createReduxEnhancer({
+    // Optionally pass options listed below
+});
+
+export const store = createStore(rootReducer, compose(applyMiddleware(...middlewares)));

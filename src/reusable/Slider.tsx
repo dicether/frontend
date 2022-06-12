@@ -24,7 +24,8 @@ const Slider = ({lowColor, highColor, onValue, ...props}: Props) => {
     const trackStyle = lowColor !== undefined ? {backgroundColor: Style[lowColor]} : {};
     const railStyle = highColor !== undefined ? {backgroundColor: Style[highColor]} : {};
 
-    return <RcSlider onChange={onValue} {...props} trackStyle={trackStyle} railStyle={railStyle} />;
+    type OnValueFunc = (value: number | number[]) => void;
+    return <RcSlider onChange={onValue as OnValueFunc} {...props} trackStyle={trackStyle} railStyle={railStyle} />;
 };
 
 export default Slider;
