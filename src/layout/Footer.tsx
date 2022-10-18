@@ -3,7 +3,7 @@ import {WithTranslation, withTranslation} from "react-i18next";
 import {NavLink as RRNavLink} from "react-router-dom";
 import {Container, Nav, NavItem, NavLink} from "reactstrap";
 
-import {CONTACT_URL, DISCORD_URL, GITHUB_URL, NAME, REDDIT_URL, TWITTER_URL} from "../config/config";
+import {CONTACT_URL, DISCORD_URL, GITHUB_URL, NAME, REDDIT_URL, TWITTER_URL, BUILD_DATE} from "../config/config";
 import {Col} from "../reusable";
 
 const logo = require("assets/images/logoTop.svg");
@@ -26,7 +26,9 @@ const Footer = ({showChat, t}: Props) => {
                         <NavLink to="/" tag={RRNavLink}>
                             <img className={Style.logo} src={logo} />
                         </NavLink>
-                        <span className={Style.copyright}>©2017 {NAME}. All Rights Reserved</span>
+                        <span className={Style.copyright}>
+                            ©{BUILD_DATE.getUTCFullYear()} {NAME}. All Rights Reserved
+                        </span>
                     </Col>
                     <Col className="my-auto order-sm-1" sm={{size: 4}} xs={12}>
                         <Nav navbar style={{alignItems: "center"}}>
