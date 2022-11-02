@@ -29,7 +29,8 @@ function filterAction(action: any) {
 
 if (process.env.SENTRY_LOGGING) {
     Sentry.init({
-        dsn: "https://551f6a44d9a54cfe9c18e976685f8234@sentry.io/227657",
+        dsn: "https://551f6a44d9a54cfe9c18e976685f8234@o103499.ingest.sentry.io/227657",
+        tunnel: "/sentry",
         release: `dicether@${VERSION}`,
         normalizeDepth: 10,
         maxBreadcrumbs: 20,
