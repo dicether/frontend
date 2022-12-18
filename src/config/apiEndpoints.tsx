@@ -5,10 +5,10 @@ axios.defaults.baseURL = API_URL;
 
 export function changeAxiosAuthToken(jwt: string | null) {
     if (jwt === null) {
-        delete axios.defaults.headers.common["CustomAuthorization"]; // tslint:disable-line no-string-literal
+        delete axios.defaults.headers.common["Authorization"];
+        delete axios.defaults.headers.common["CustomAuthorization"];
     } else {
         axios.defaults.headers.common = {
-            CustomAuthorization: `Bearer ${jwt}`,
             Authorization: `Bearer ${jwt}`,
             "Content-Type": "application/json",
         };
