@@ -7,7 +7,8 @@
   "sideEffects": [
     "*.css",
     "*.scss",
-    "*.js"
+    "*.js",
+    "interceptors.tsx"
   ],
   "main": "config.js",
   "scripts": {
