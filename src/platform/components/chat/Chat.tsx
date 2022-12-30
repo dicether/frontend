@@ -49,29 +49,20 @@ export type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDi
 
 export type ChatState = {
     showFriends: boolean;
-    message: string;
 };
 
 class Chat extends React.Component<Props, ChatState> {
     constructor(props: Props) {
         super(props);
-        this.state = {message: "", showFriends: false};
+        this.state = {showFriends: false};
     }
 
     toggleFriends = (showFriends: boolean) => {
         this.setState({showFriends});
     };
 
-    onMessageChange = (message: string) => {
-        if (message.length > MAX_MESSAGE_LENGTH) {
-            message = message.slice(0, MAX_MESSAGE_LENGTH);
-        }
-        this.setState({message});
-    };
-
-    onMessageSend = () => {
+    onMessageSend = (message: string) => {
         const {showErrorMessage, sendMessage, userAuth} = this.props;
-        const message = this.state.message;
 
         if (message.length === 0) {
             return;
@@ -83,7 +74,6 @@ class Chat extends React.Component<Props, ChatState> {
         }
 
         sendMessage(message);
-        this.setState({message: ""});
     };
 
     render() {
@@ -111,9 +101,8 @@ class Chat extends React.Component<Props, ChatState> {
                             />
                         )}
                         <Footer
-                            message={this.state.message}
+                            maxMessageLength={MAX_MESSAGE_LENGTH}
                             numUsers={numUsers}
-                            onMessageChange={this.onMessageChange}
                             onMessageSend={this.onMessageSend}
                         />
                     </div>

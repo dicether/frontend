@@ -5,15 +5,24 @@ import {Button} from "../../../../reusable/index";
 import ChatCommandInfo from "./ChatCommandInfo";
 
 import Style from "./Footer.scss";
+import {useState} from "react";
 
 export interface Props extends WithTranslation {
-    message: string;
+    maxMessageLength: number;
     numUsers: number;
-    onMessageChange(message: string): void;
-    onMessageSend(): void;
+    onMessageSend(message: string): void;
 }
 
-const Footer = ({message, numUsers, onMessageChange, onMessageSend, t}: Props) => {
+const Footer = ({maxMessageLength, numUsers, onMessageSend, t}: Props) => {
+    const [message, setMessage] = useState("");
+
+    const onMessageChange = (message: string) => {
+        if (message.length > maxMessageLength) {
+            message = message.slice(0, maxMessageLength);
+        }
+        setMessage(message);
+    };
+
     return (
         <div className={Style.footer}>
             <ChatCommandInfo message={message} />
@@ -25,7 +34,7 @@ const Footer = ({message, numUsers, onMessageChange, onMessageSend, t}: Props) =
                     onKeyDown={(e) => {
                         if (e.keyCode === 13) {
                             // send on enter key press
-                            onMessageSend();
+                            onMessageSend(message);
                             e.preventDefault();
                         }
                     }}
@@ -34,7 +43,7 @@ const Footer = ({message, numUsers, onMessageChange, onMessageSend, t}: Props) =
                 />
             </div>
             <div className={Style.footerFooter}>
-                <Button color="primary" onClick={onMessageSend}>
+                <Button color="primary" onClick={() => onMessageSend(message)}>
                     {t("sendMessage")}
                 </Button>
                 <span className={Style.online}>online: {numUsers}</span>
