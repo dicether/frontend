@@ -32,7 +32,7 @@ const Footer = ({maxMessageLength, numUsers, onMessageSend, t}: Props) => {
                     value={message}
                     onChange={(e) => onMessageChange(e.target.value)}
                     onKeyDown={(e) => {
-                        if (e.keyCode === 13) {
+                        if (e.key === "Enter") {
                             // send on enter key press
                             onMessageSend(message);
                             e.preventDefault();
