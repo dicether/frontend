@@ -16,7 +16,7 @@ export interface Props extends BaseType {
     block?: boolean;
     variant?: string;
     type?: "button" | "reset" | "submit";
-    tag?: React.ReactType;
+    tag?: React.ElementType;
     to?: string;
 }
 

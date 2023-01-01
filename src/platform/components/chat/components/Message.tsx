@@ -119,7 +119,7 @@ class Message extends React.Component<Props, State> {
                         {user.userType !== "BOT" ? (
                             <UserMenu user={user} messageId={message.id} button={userName} />
                         ) : (
-                            {userName}
+                            <span>{userName}</span>
                         )}
                     </div>
                     {!message.deleted ? (

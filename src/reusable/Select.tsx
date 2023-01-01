@@ -4,6 +4,7 @@ import {Input} from "reactstrap";
 import {BaseType} from "./BaseType";
 
 interface Props extends BaseType {
+    children: React.ReactNode;
     value: string;
     disabled?: boolean;
     onValue(value: string): void;

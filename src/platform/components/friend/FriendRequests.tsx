@@ -30,9 +30,7 @@ const FriendRequests = ({
         <ul className={Style.list}>
             {sentFriendRequests.map((friendRequest) => (
                 <li className={Style.entry} key={friendRequest.to.address}>
-                    <span>
-                        {friendRequest.to.username} {friendRequest.date}
-                    </span>{" "}
+                    <span>{`${friendRequest.to.username} ${friendRequest.date}`}</span>{" "}
                     <Button color="secondary" size="sm" onClick={() => onCancelFriendRequest(friendRequest.to.address)}>
                         {t("cancel")}
                     </Button>
@@ -45,9 +43,7 @@ const FriendRequests = ({
         <ul className={Style.list}>
             {receivedFriendRequests.map((friendRequest) => (
                 <li className={Style.entry} key={friendRequest.from.address}>
-                    <span>
-                        {friendRequest.from.username} {friendRequest.date}
-                    </span>{" "}
+                    <span>{`${friendRequest.to.username} ${friendRequest.date}`}</span>{" "}
                     <Button color="primary" size="sm" onClick={() => onAcceptFriendRequest(friendRequest.from.address)}>
                         Accept
                     </Button>{" "}

@@ -1,6 +1,6 @@
 import {TFunction} from "i18next";
 import * as React from "react";
-import {withTranslation} from "react-i18next";
+import {WithTranslation, withTranslation} from "react-i18next";
 import {Link} from "react-router-dom";
 
 import {Container, Section} from "../../../reusable";
@@ -15,7 +15,7 @@ const WheelLogo = require("assets/images/wheelLogo.svg");
 
 import Style from "./Games.scss";
 
-const Games = ({t}: {t: TFunction}) => (
+const Games = ({t}: WithTranslation) => (
     <Section className={Style.games}>
         <Container>
             <h2 className="text-center">Games</h2>
