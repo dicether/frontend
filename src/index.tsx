@@ -16,6 +16,12 @@ dayjs.extend(localizedFormat);
 
 parseReferral();
 
+import ResizeObserver from "resize-observer-polyfill";
+
+if (!window.ResizeObserver) {
+    window.ResizeObserver = ResizeObserver;
+}
+
 const root = document.getElementById("root");
 if (root !== null) {
     render(<Root store={store} />, root);

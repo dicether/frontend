@@ -1,10 +1,10 @@
 import * as React from "react";
 import {Navigate, RouteProps} from "react-router-dom";
 
-interface Props extends RouteProps {
+type Props = RouteProps & {
     children: any;
     authenticated: boolean;
-}
+};
 
 const RequireAuth = ({children, authenticated}: Props) => (authenticated ? children : <Navigate replace to="/" />);
 

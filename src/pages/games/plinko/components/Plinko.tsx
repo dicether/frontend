@@ -1,6 +1,6 @@
 import Rand from "rand-seed";
 import * as React from "react";
-import ReactResizeDetector from "react-resize-detector/build/withPolyfill";
+import ReactResizeDetector from "react-resize-detector";
 
 import {PLINKO_PAYOUT} from "@dicether/state-channel";
 import PureCanvas from "../../reusable/PureCanvas";
