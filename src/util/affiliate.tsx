@@ -1,8 +1,8 @@
 import axios from "axios";
-import {parse} from "query-string";
+import querystring from "query-string";
 
 export function parseReferral() {
-    const {ref} = parse(window.location.search);
+    const {ref} = querystring.parse(window.location.search);
 
     if (ref) {
         // clear parameters

@@ -38,7 +38,7 @@ const Footer = ({maxMessageLength, numUsers, onMessageSend, t}: Props) => {
                             e.preventDefault();
                         }
                     }}
-                    placeholder={t("typeMessage")}
+                    placeholder={t("typeMessage") as string}
                     rows={1}
                 />
             </div>
