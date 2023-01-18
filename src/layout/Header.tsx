@@ -9,7 +9,7 @@ import {IconButton} from "../reusable/index";
 
 import Style from "./Header.scss";
 
-const logo = require("assets/images/logoTop_xmas.svg");
+const logo = require("assets/images/logoTop.svg");
 
 interface Props extends WithTranslation {
     authenticated: boolean;
