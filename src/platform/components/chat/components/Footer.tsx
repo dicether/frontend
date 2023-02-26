@@ -35,6 +35,7 @@ const Footer = ({maxMessageLength, numUsers, onMessageSend, t}: Props) => {
                         if (e.key === "Enter") {
                             // send on enter key press
                             onMessageSend(message);
+                            setMessage("");
                             e.preventDefault();
                         }
                     }}
