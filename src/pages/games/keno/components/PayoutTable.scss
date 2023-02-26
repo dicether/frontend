@@ -1,7 +1,5 @@
 @import "variables";
 
-
-
 .payoutTable {
   display: flex;
   justify-content: space-around;
@@ -16,8 +14,8 @@
     font-size: 0.6em;
   }
 
-  @include background-color("white");
-  @include color("500");
+  background-color: var(--bs-body-bg);
+  color: var(--bs-secondary)
 }
 
 .entry {
@@ -29,11 +27,11 @@
 }
 
 .entry_won {
-  @include background-color("success");
+  background-color: var(--bs-success);
   color: white;
 }
 
 .entry_lost {
-  @include background-color("danger");
+  background-color: var(--bs-danger);
   color: white;
 }

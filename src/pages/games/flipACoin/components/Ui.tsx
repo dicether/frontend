@@ -46,7 +46,7 @@ class Ui extends React.Component<Props> {
             <div className={Style.dice}>
                 <div className={Style.ui}>
                     <Coins selectedCoin={num} result={result} showResult={showResult} onClick={onClick} />
-                    <div className={"form-row"} style={{alignItems: "flex-end"}}>
+                    <div className={"row"} style={{alignItems: "flex-end"}}>
                         <Col sm={6} xs={12}>
                             <FormGroup className="games__form-group">
                                 <Label>Bet Amount (ETH)</Label>

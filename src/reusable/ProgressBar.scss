@@ -1,14 +1,2 @@
 @import "variables";
 @import "~bootstrap/scss/progress";
-
-.night {
-  .progress {
-    background-color: $progress-bg;
-    @include box-shadow($progress-box-shadow);
-  }
-
-  .progress-bar {
-    color: $progress-bar-color;
-    background-color: $progress-bar-bg;
-  }
-}

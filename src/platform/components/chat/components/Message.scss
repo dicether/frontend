@@ -15,13 +15,13 @@
 
 .username {
   font-weight: bold;
-  @include  color($gray-700);
+  color: var(--bs-emphasis-color);
   margin-right: 0.5rem;
   cursor: pointer;
 }
 
 .username_friend {
-  @include color($info);
+  color: var(--bs-info);
 }
 
 .message {
@@ -32,12 +32,12 @@
 
 .time {
   font-size: 0.75em;
-  color: $gray-dark;
+  color: var(--bs-secondary);
   white-space: nowrap;
 }
 
 .message_bot {
-  color: $info
+  color: var(--bs-info);
 }
 
 .tooltip {

@@ -5,7 +5,7 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  @include background-color("200");
+  background-color: var(--bs-secondary-bg);
 }
 
 .tiles {

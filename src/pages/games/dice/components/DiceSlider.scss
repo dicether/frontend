@@ -9,13 +9,13 @@ $padding-wrapper2: 0.25rem;
   width: 100%;
   position: relative;
   left: 0;
-  @include background-color("300");
+  background-color: var(--bs-secondary-bg);
 }
 
 .sliderWrapper2 {
   padding: $padding-wrapper2;
   border-radius: 0.25rem;
-  @include background-color("white");
+  background-color: var(--bs-body-bg);
 }
 
 .wrapper {

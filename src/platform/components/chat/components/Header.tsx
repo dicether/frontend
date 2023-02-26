@@ -19,9 +19,7 @@ const Header = ({onClose, onToggleFriends, t}: Props) => (
             <FontAwesomeIcon icon="comments" />
             {t("chat")}
         </span>
-        <button className={"close"} aria-label="Close Chat" onClick={onClose}>
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" className="btn-close" aria-label="Close Chat" onClick={onClose} />
     </div>
 );
 

@@ -1,3 +1,4 @@
+@import 'variables';
 
 .input-group > .input {
   position: relative;
@@ -7,6 +8,16 @@
 
 .input {
   position: relative;
+}
+
+.input__suffix {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  border-color: transparent;
+  background: transparent !important; // should be never changed
+  pointer-events: none;
 }
 
 .input-group .input:not(:last-child) input {

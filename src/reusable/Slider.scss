@@ -16,20 +16,14 @@
 
   .rc-slider-rail {
     height: $progress-height;
-    background-color: $progress-bg;
+    background-color: var(--bs-progress-bg);
     border-radius: $progress-border-radius;
-    .night & {
-      background-color: $progress-bar-bg--night;
-    }
   }
 
   .rc-slider-track {
     height: $progress-height;
-    background-color: $progress-bar-bg;
+    background-color: var(--bs-progress-bar-color);
     border-radius: $progress-border-radius;
-    .night & {
-      background-color: $progress-bar-bg--night;
-    }
   }
 
   .rc-slider-handle {
@@ -37,7 +31,6 @@
     border-radius: 0.3rem;
     height: 2rem;
     width: 2rem;
-    //margin-left: -1rem;
     margin-top: -0.5rem;
     background-color: $primary;
     opacity: 1;
@@ -47,26 +40,18 @@
 
     z-index: 0;
     &:focus {
-      box-shadow: $btn-focus-box-shadow;
-      .night & {
-        box-shadow: $btn-focus-box-shadow--night;
-      }
+      box-shadow: var(--bs-btn-focus-box-shadow);
       border-color: transparent;
     }
 
     &:active {
-      box-shadow: $btn-active-box-shadow;
-      .night & {
-        box-shadow: $btn-focus-box-shadow--night;
-      }
+      box-shadow: var(--bs-btn-active-shadow);
+
     }
 
     &:hover {
       z-index: 1; // hack for dice slider
-      background-color: darken($primary, 7.5%);
-      .night & {
-        background-color: darken($primary--night, 7.5%);
-      }
+      background-color: var(--bs-primary);
     }
   }
   .rc-handle-click-focus {

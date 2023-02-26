@@ -3,8 +3,6 @@ import {Form as BootstrapForm} from "reactstrap";
 
 import {BaseType} from "./BaseType";
 
-import "./Form.scss";
-
 export interface Props extends BaseType {
     inline?: boolean;
     children: React.ReactNode;

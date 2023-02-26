@@ -15,17 +15,3 @@
     color: $value;
   }
 }
-
-.night {
-  @each $color, $value in $theme-colors--night {
-    .icon-#{$color} {
-      color: $value;
-    }
-  }
-
-  @each $color, $value in $colors--night {
-    .icon-#{$color} {
-      color: $value;
-    }
-  }
-}

@@ -49,7 +49,7 @@ class Ui extends React.PureComponent<Props> {
         const payout = (1 / chance) * value * houseEdgeFactor;
 
         return (
-            <div className={Style.ui}>
+            <div>
                 <Row noGutters>
                     <Col lg={{size: 7, order: 2}} xl={{size: 8, order: 2}}>
                         <Grid

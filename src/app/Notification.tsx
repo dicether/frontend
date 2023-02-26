@@ -4,11 +4,7 @@ import "react-toastify/dist/ReactToastify.css"; // tslint:disable-line:no-submod
 
 import Style from "./Notification.scss";
 
-const CloseButton = () => (
-    <button type="button" className="close" aria-label="Close" style={{color: "#fff", alignSelf: "flex-start"}}>
-        <span aria-hidden="true">&times;</span>
-    </button>
-);
+const CloseButton = () => <button type="button" className="btn-close btn-close-white" aria-label="Close" />;
 
 export type Props = {
     notification: any;

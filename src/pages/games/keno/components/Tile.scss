@@ -36,25 +36,22 @@
   left: 0;
   height: 100%;
   width: 100%;
-  @include background-color("white");
-  box-shadow: $gray-400 0 0.2rem 0;
-  :global(.night) & {
-      box-shadow: $gray-400--night 0 0.2rem 0;
-  }
-  @include color("300");
+  color: var(--bs-secondary);
+  background-color: var(--bs-body-bg);
+  box-shadow: var(--bs-tertiary-bg) 0 0.2rem 0;
 }
 
 .numContent_selected {
-  @include background-color("primary");
+  background-color: var(--bs-primary);
 }
 
 .numContent_won {
-  @include background-color("success");
+  background-color: var(--bs-success);
+
 }
 
 .numContent_lost {
-  @include color("danger");
-  @include background-color("400");
+  color: var(--bs-danger);
 }
 
 .num {

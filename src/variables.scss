@@ -1,3 +1,6 @@
+
+$enable-dark-mode: true;
+
 $white:    #fff !default;
 $gray-100: #f7f7fa !default;
 $gray-200: #e9ecef !default;
@@ -159,12 +162,14 @@ $theme-colors--night: map-merge(
   $theme-colors--night
 );
 
+$form-label-margin-bottom: 0;
+
 $font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !default;
 
 $popover-header-padding-y: 1rem;
 $popover-header-padding-x: 1rem;
 
-$btn-border-width: 2px;
+$btn-border-width: 1px;
 
 @import '~bootstrap/scss/functions';
 
@@ -197,34 +202,19 @@ $btn-border-width: 2px;
   @include themify('background-color', $arguments...);
 }
 
+$link-hover-decoration: none;
 
-// Variables for used bootstrap components
-// You normally don't need to edit this file
-
-// stylelint-disable no-invalid-position-at-import-rule
-@import './componentVariables';
-
-@import '~bootstrap/scss/variables';
-@import '~bootstrap/scss/mixins';
-@import '~bootstrap/scss/utilities/borders';
-@import '~bootstrap/scss/utilities/background';
-// stylelint-enable no-invalid-position-at-import-rule
+@import '~bootstrap/scss/variables'; /* stylelint-disable-line no-invalid-position-at-import-rule */
+@import '~bootstrap/scss/variables-dark'; /* stylelint-disable-line no-invalid-position-at-import-rule */
+@import '~bootstrap/scss/mixins'; /* stylelint-disable-line no-invalid-position-at-import-rule */
 
 @mixin border-left {
-  border-left: $border-width solid $border-color;
-  :global(.night) & {
-    border-left: $border-width solid $border-color--night
-  }
+  border-left: var(--bs-border-width) solid var(--bs-border-color);
 }
 
 @mixin border-bottom {
-  border-bottom: $border-width solid $border-color;
-  :global(.night) & {
-    border-bottom: $border-width solid $border-color--night;
-  }
+  border-bottom: var(--bs-border-width) solid var(--bs-border-color);
 }
-
-
 
 $gray: $gray-400;
 $gray-dark: $gray-500;
@@ -242,4 +232,3 @@ $chat-width: 400px;
   border-radius: 0;
   background: none;
 }
-

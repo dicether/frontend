@@ -1,5 +1,5 @@
 import * as React from "react";
-import {InputGroup, InputGroupAddon} from "reactstrap";
+import {InputGroup} from "reactstrap";
 import {BaseType} from "./BaseType";
 import Button from "./Button";
 import NumericInput from "./NumericInput";
@@ -74,14 +74,12 @@ export default class ValueInput extends React.PureComponent<Props> {
                     number={value / ETHER_DIV}
                     onNumber={this.onValueChange}
                 />
-                <InputGroupAddon addonType="append">
-                    <Button color="primary" onClick={() => this.onValueHalf(value)}>
-                        1/2
-                    </Button>
-                    <Button color="primary" onClick={() => this.onValueDouble(value)}>
-                        2X
-                    </Button>
-                </InputGroupAddon>
+                <Button color="primary" onClick={() => this.onValueHalf(value)}>
+                    1/2
+                </Button>
+                <Button color="primary" onClick={() => this.onValueDouble(value)}>
+                    2X
+                </Button>
             </InputGroup>
         );
     }

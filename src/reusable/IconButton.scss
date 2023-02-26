@@ -30,23 +30,3 @@
     @include color-variant($value);
   }
 }
-
-.night {
-  @each $color, $value in $theme-colors--night {
-    .iconButton_#{$color} {
-      @include color-variant($value);
-    }
-  }
-
-  @each $color, $value in $colors--night {
-    .iconButton_#{$color} {
-      @include color-variant($value);
-    }
-  }
-
-  @each $color, $value in $grays--night {
-    .iconButton_#{$color} {
-      @include color-variant($value);
-    }
-  }
-}

@@ -11,7 +11,7 @@
 .resultEntry {
   grid-row: 1;
   text-align: center;
-  @include border-radius();
+  border-radius: var(--bs-border-radius);
   padding: 5%;
   height: 1.25rem;
   font-size: 0.45rem;
@@ -27,10 +27,9 @@
   align-items: center;
   justify-content: center;
 
-  @include color("600");
-  border-radius: $border-radius;
+  color: var(--bs-secondary-text);
   position: relative;
-  @include background-color("white");
+  background-color: var(--bs-body-bg);
   overflow: hidden;
 }
 
@@ -76,26 +75,17 @@
 @for $i from 0 through 8 {
   .colorStrip-16-#{$i} {
     background-color: mix3($red, $yellow, $green, (1 - $i / 8) * 100);
-    :global(.night) & {
-      background-color: mix3($red--night, $yellow--night, $green--night, (1 - $i / 8) * 100);
-    }
   }
 }
 
 @for $i from 0 through 6 {
   .colorStrip-12-#{$i} {
     background-color: mix3($red, $yellow, $green, (1 - $i / 6) * 100);
-    :global(.night) & {
-      background-color: mix3($red--night, $yellow--night, $green--night, (1 - $i / 6) * 100);
-    }
   }
 }
 
 @for $i from 0 through 4 {
   .colorStrip-8-#{$i} {
     background-color: mix3($red, $yellow, $green, (1 - $i / 4) * 100);
-    :global(.night) & {
-      background-color: mix3($red--night, $yellow--night, $green--night, (1 - $i / 4) * 100);
-    }
   }
 }

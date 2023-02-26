@@ -1,6 +1,6 @@
 import * as React from "react";
 import {Col as BootstrapCol} from "reactstrap";
-import {ColumnProps} from "reactstrap/lib/Col"; // tslint:disable-line:no-submodule-imports
+import {ColumnProps} from "reactstrap/types/lib/Col";
 
 import {BaseType} from "./BaseType";
 

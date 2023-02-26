@@ -1,7 +1,7 @@
 @import 'variables';
 
 .chat {
-  background-color: $body-bg;
+  background-color: var(--bs-body-bg);
   position: fixed;
   top: 0;
   height: 100vh;
@@ -11,10 +11,6 @@
   flex-direction: column;
   @include border-left;
   z-index: $zindex-dropdown - 1;
-}
-
-:global(.night) .chat {
-  background-color: $gray-900;
 }
 
 @include media-breakpoint-down(md) {

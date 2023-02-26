@@ -1,6 +1,5 @@
 import * as React from "react";
 import {WithTranslation, withTranslation} from "react-i18next";
-import {Jumbotron} from "reactstrap";
 
 import {Button, Container} from "../../../reusable";
 
@@ -14,7 +13,7 @@ export interface Props extends WithTranslation {
 const Overview = ({loggedIn, showRegisterModal, t}: Props) => (
     <div className={Style.overview}>
         <Container>
-            <Jumbotron className={Style.jumbotron}>
+            <div className={Style.jumbotron + " rounded px-3 px-sm-4 py-3 py-sm-5"}>
                 <h1>{t("theStateChannelCasino")}</h1>
                 {!loggedIn && (
                     <Button color="primary" size="lg" onClick={showRegisterModal}>
@@ -22,7 +21,7 @@ const Overview = ({loggedIn, showRegisterModal, t}: Props) => (
                     </Button>
                 )}
                 <span className={Style.info}>{t("noDetailsRequired")}</span>
-            </Jumbotron>
+            </div>
         </Container>
     </div>
 );

@@ -108,9 +108,9 @@ class App extends React.Component<Props> {
 
     private setTheme = (nightMode: boolean) => {
         if (nightMode) {
-            document.body.classList.add("night");
+            document.documentElement.setAttribute("data-bs-theme", "dark");
         } else {
-            document.body.classList.remove("night");
+            document.documentElement.setAttribute("data-bs-theme", "light");
         }
     };
 

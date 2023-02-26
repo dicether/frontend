@@ -1,7 +1,7 @@
 @import "variables";
 
 .wrapper {
-  @include background-color("200");
+  background-color: var(--bs-secondary-bg);
   display: flex;
   justify-content: center;
   width: 100%;

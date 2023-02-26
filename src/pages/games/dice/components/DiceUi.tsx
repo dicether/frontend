@@ -113,7 +113,7 @@ class DiceUi extends React.Component<Props> {
         return (
             <div>
                 <div className={Style.ui}>
-                    <div className={"form-row"} style={{alignItems: "flex-end"}}>
+                    <div className={"row"} style={{alignItems: "flex-end"}}>
                         <Col sm={6} xs={12}>
                             <FormGroup className="games__form-group">
                                 <Label>{t("betAmountEth")}</Label>
@@ -146,7 +146,7 @@ class DiceUi extends React.Component<Props> {
                                 />
                             </FormGroup>
                         </Col>
-                        <Col xs={6} sm={4} className="hidden-xs-down">
+                        <Col xs={6} sm={4} className="d-none d-sm-block">
                             <FormGroup className="games__form-group">
                                 <Label>{t("payOut")}</Label>
                                 <NumericInput
@@ -159,7 +159,7 @@ class DiceUi extends React.Component<Props> {
                                 />
                             </FormGroup>
                         </Col>
-                        <Col xs={6} sm={4} className="hidden-xs-down">
+                        <Col xs={6} sm={4} className="d-none d-sm-block">
                             <FormGroup className="games__form-group">
                                 <Label>{t("winChance")}</Label>
                                 <NumericInput

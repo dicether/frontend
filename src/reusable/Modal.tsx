@@ -16,9 +16,7 @@ export interface Props extends BaseType {
 const Modal = ({isOpen, toggle, children, ...rest}: Props) => (
     <BootstrapModal isOpen={isOpen} toggle={toggle} {...rest}>
         <ModalBody>
-            <button type="button" className="close" aria-label="Close" onClick={toggle}>
-                <span aria-hidden="true">&times;</span>
-            </button>
+            <button type="button" className={"btn-close " + Style.close} aria-label="Close" onClick={toggle} />
             <div className={Style.modalWrapper}>{children}</div>
         </ModalBody>
     </BootstrapModal>

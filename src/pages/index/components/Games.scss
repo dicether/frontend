@@ -17,17 +17,11 @@
   align-items: center;
   justify-content: center;
   max-width: 10rem;
-  @include color("dark");
-
-  &:hover {
-    @include color("dark");
-    text-decoration: none;
-  }
+  text-decoration: none;
+  color: var(--bs-dark);
 
   &_active {
     &:hover > img {
-      @include color("dark");
-      text-decoration: none;
       transform: translateY(-2%);
     }
   }

@@ -1,170 +1,5 @@
 @import 'variables';
-// Optional
-@import "~bootstrap/scss/functions";
-@import "~bootstrap/scss/variables";
-@import "~bootstrap/scss/mixins";
-
-@import "~bootstrap/scss/transitions";
-@import "~bootstrap/scss/grid";
-@import "~bootstrap/scss/print";
-@import "~bootstrap/scss/type";
-@import "~bootstrap/scss/utilities";
-@import "~bootstrap/scss/reboot";
-
-@import "~bootstrap/scss/close";
-@import "~bootstrap/scss/nav";
-@import "~bootstrap/scss/navbar";
-@import "~bootstrap/scss/button-group";
-@import "~bootstrap/scss/code";
-@import "~bootstrap/scss/input-group";
-@import "~bootstrap/scss/forms";
-
-
-
-.night body,
-body.night {
-  color: $body-color--night !important;
-  background-color: $body-bg--night !important;
-}
-
-.night .close {
-  color: $close-color--night;
-  text-shadow: $close-text-shadow--night;
-
-  &:not(:disabled):not(.disabled) {
-    @include hover-focus {
-      color: $close-color--night;
-    }
-  }
-}
-
-// background
-.night {
-  @each $color, $value in $theme-colors--night {
-    @include bg-variant(".bg-#{$color}", $value);
-  }
-
-  @if $enable-gradients {
-    @each $color, $value in $theme-colors--night {
-      @include bg-gradient-variant(".bg-gradient-#{$color}", $value);
-    }
-  }
-
-  .bg-white {
-    background-color: $white--night !important;
-  }
-
-  .bg-transparen {
-    background-color: transparent !important;
-  }
-
-  .bg-dark {
-    background-color: $gray-900 !important; // header background
-  }
-
-  a {
-    color: $link-color--night;
-    @include hover {
-      color: $link-hover-color--night;
-    }
-  }
-
-  // nav
-  .nav-link {
-    // Disabled state lightens text
-    &.disabled {
-      color: $nav-link-disabled-color--night;
-    }
-  }
-
-  // Tabs
-
-  .nav-tabs {
-    border-bottom-color: $nav-tabs-border-color--night;
-
-    .nav-link {
-      border: $nav-tabs-border-width solid transparent;
-
-      @include hover-focus {
-        border-color: $nav-tabs-link-hover-border-color--night;
-      }
-
-      &.disabled {
-        color: $nav-link-disabled-color--night;
-        background-color: transparent;
-        border-color: transparent;
-      }
-    }
-
-    .nav-link.active,
-    .nav-item.show .nav-link {
-      color: $nav-tabs-link-active-color--night;
-      background-color: $nav-tabs-link-active-bg--night;
-      border-color: $nav-tabs-link-active-border-color--night;
-    }
-  }
-
-  .nav-pills {
-    .nav-link.active,
-    .show > .nav-link {
-      color: $nav-pills-link-active-color--night;
-      background-color: $nav-pills-link-active-bg--night;
-    }
-  }
-}
-
-// navbar
-// make light navbar to dark navbar in the night!
-.night .navbar-light {
-  .navbar-brand {
-    color: $navbar-dark-active-color;
-
-    @include hover-focus {
-      color: $navbar-dark-active-color;
-    }
-  }
-
-  .navbar-nav {
-    .nav-link {
-      color: $navbar-dark-color;
-
-      @include hover-focus {
-        color: $navbar-dark-hover-color;
-      }
-
-      &.disabled {
-        color: $navbar-dark-disabled-color;
-      }
-    }
-
-    .show > .nav-link,
-    .active > .nav-link,
-    .nav-link.show,
-    .nav-link.active {
-      color: $navbar-dark-active-color;
-    }
-  }
-
-  .navbar-toggler {
-    color: $navbar-dark-color;
-    border-color: $navbar-dark-toggler-border-color;
-  }
-
-  .navbar-toggler-icon {
-    background-image: $navbar-dark-toggler-icon-bg;
-  }
-
-  .navbar-text {
-    color: $navbar-dark-color;
-    a {
-      color: $navbar-dark-active-color;
-
-      @include hover-focus {
-        color: $navbar-dark-active-color;
-      }
-    }
-  }
-}
+@import "~bootstrap";
 
 // sticky footer
 #app {
@@ -252,10 +87,10 @@ td {
     }
   }
 
-  @media (min-width: map_get($container-max-widths, xl) + $chat-width) {
+  @media (min-width: map_get($container-max-widths, xxl) + $chat-width) {
     .container {
       width: unquote("calc(100% - #{$chat-width})") !important;
-      margin-left: unquote("calc(50% -  #{(map_get($container-max-widths, xl) + $chat-width) / 2})");
+      margin-left: unquote("calc(50% -  #{(map_get($container-max-widths, xxl) + $chat-width) / 2})");
     }
   }
 }
@@ -266,16 +101,6 @@ td {
 
 .games__form-group {
   width: 100%;
-}
-
-.input__suffix {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  border-color: transparent;
-  background: transparent !important; // should be never changed
-  pointer-events: none;
 }
 
 // pointer for buttons

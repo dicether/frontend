@@ -91,6 +91,8 @@ export default class Input extends React.Component<Props, State> {
             {"is-invalid": isValid === false && showValidation}
         );
 
+        const classNameSuffix = ClassNames("form-control", Style.input__suffix);
+
         return (
             <div className="input">
                 <input
@@ -104,7 +106,7 @@ export default class Input extends React.Component<Props, State> {
                     onFocus={this.onFocus}
                 />
                 {suffix && (
-                    <div className="form-control input__suffix">
+                    <div className={classNameSuffix}>
                         <span style={{color: "transparent"}}>{inputValue}</span>
                         {suffix}
                     </div>

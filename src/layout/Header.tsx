@@ -69,7 +69,7 @@ class Header extends React.Component<Props, State> {
         });
 
         return (
-            <Navbar id="header" expand="md" dark color="dark">
+            <Navbar id="header" expand="md" dark color="dark" container={false}>
                 <Container className={className}>
                     <NavbarBrand className={Style.brand} tag={RRNavLink} to="/" onClick={this.closeMenu}>
                         <div className={Style.brandImageContainer}>
@@ -100,7 +100,7 @@ class Header extends React.Component<Props, State> {
                                 </NavLink>
                             </NavItem>
                         </Nav>
-                        <Nav className="ml-auto" navbar>
+                        <Nav className="ms-auto" navbar>
                             <NavItem>
                                 <NavLink>
                                     <IconButton

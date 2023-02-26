@@ -1,13 +1,13 @@
 @import "variables";
 
 .ui {
-  @include background-color("200");
+  background-color: var(--bs-secondary-bg);
 }
 
 .menu {
   padding: 1rem;
   height: 100%;
-  @include background-color("white");
+  background-color: var(--bs-body-bg);
 }
 
 .grid {
@@ -21,10 +21,10 @@
   top: 50%;
   transform: translate(-50%, -50%);
 
-  @include background-color("white");
+  background-color: var(--bs-body-bg);
   border: 3px solid;
-  border-radius: $border-radius;
-  @include border-color("success");
+  border-radius: var(--bs-border-radius);
+  border-color: var(--bs-success);
   padding: 1rem;
   opacity: 0.9;
   display: flex;

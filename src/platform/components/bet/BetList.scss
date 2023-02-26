@@ -1,4 +1,5 @@
 @import "variables";
+@import "bootstrap/scss/mixins/breakpoints";
 
 .center {
   vertical-align: middle !important;
@@ -29,7 +30,7 @@
 .table {
   position: relative;
   z-index: 1;
-  @include media-breakpoint-down("xs") {
+  @include media-breakpoint-down(sm) {
     font-size: 0.75rem;
   }
 }
@@ -69,7 +70,7 @@
     left: 0;
     top: 0;
     height: 2rem;
-    @include background-color("white");
+    background-color: var(--bs-body-bg);
     width: 100%;
     z-index: 1;
   }
@@ -80,10 +81,7 @@
     left: 0;
     top: 2rem;
     height: 1rem;
-    background: linear-gradient($white, rgba(255, 255, 255, 0));
-    :global(.night) & {
-      background: linear-gradient($white--night, rgba(255 , 255, 255, 0));
-    }
+    background: linear-gradient(var(--bs-body-bg), rgba(255, 255, 255, 0));
     width: 100%;
     z-index: 1;
   }
