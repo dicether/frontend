@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @import "variables";
 
 .payoutTable {
@@ -68,24 +70,24 @@
 }
 
 @function mix3($color1, $color2, $color3, $mix) {
-  $color12: mix($color1, $color2, max($mix - 50, 0) * 2);
-  @return mix($color12, $color3, min($mix * 2, 100));
+  $color12: mix($color1, $color2, max($mix - 50%, 0%) * 2);
+  @return mix($color12, $color3, min($mix * 2, 100%));
 }
 
 @for $i from 0 through 8 {
   .colorStrip-16-#{$i} {
-    background-color: mix3($red, $yellow, $green, (1 - $i / 8) * 100);
+    background-color: mix3($red, $yellow, $green, (1 - $i * 0.125) * 100%);
   }
 }
 
 @for $i from 0 through 6 {
   .colorStrip-12-#{$i} {
-    background-color: mix3($red, $yellow, $green, (1 - $i / 6) * 100);
+    background-color: mix3($red, $yellow, $green, (1 - math.div($i, 6)) * 100%);
   }
 }
 
 @for $i from 0 through 4 {
   .colorStrip-8-#{$i} {
-    background-color: mix3($red, $yellow, $green, (1 - $i / 4) * 100);
+    background-color: mix3($red, $yellow, $green, (1 - $i * 0.25) * 100%);
   }
 }

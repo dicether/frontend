@@ -1,3 +1,5 @@
+@use "sass:math";
+
 @import 'variables';
 @import "~bootstrap";
 
@@ -90,7 +92,7 @@ td {
   @media (min-width: map_get($container-max-widths, xxl) + $chat-width) {
     .container {
       width: unquote("calc(100% - #{$chat-width})") !important;
-      margin-left: unquote("calc(50% -  #{(map_get($container-max-widths, xxl) + $chat-width) / 2})");
+      margin-left: unquote("calc(50% -  #{math.div(map_get($container-max-widths, xxl) + $chat-width, 2) })");
     }
   }
 }

@@ -11,7 +11,7 @@ $result-slider-width: 6rem;
 
   position: relative;
   transition: all 0.5s;
-  left: -($result-slider-width / 2);
+  left: -($result-slider-width * 0.5);
   top: 50%; // transform: translateY(-50%) in style see ResultSlider!
   width: 100%;
 
