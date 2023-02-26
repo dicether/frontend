@@ -125,7 +125,7 @@ class Message extends React.Component<Props, State> {
                     {!message.deleted ? (
                         <span className={messageClass}>
                             {processMessage(message.message, showBetModal, showUserModal).map((x, i) =>
-                                typeof x === "string" ? <Emoji key={i} text={x} /> : x
+                                typeof x === "string" && x.length > 0 ? <Emoji key={i} text={x} /> : x
                             )}
                         </span>
                     ) : (
