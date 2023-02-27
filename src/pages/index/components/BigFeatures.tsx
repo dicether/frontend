@@ -30,7 +30,7 @@ const entries = [
 
 type EntryProps = {
     idx: number;
-    entry: typeof entries[0];
+    entry: (typeof entries)[0];
 };
 
 const Entry = ({idx, entry}: EntryProps) => {
