@@ -47,8 +47,6 @@
 }
 
 .entries {
-  @include color("700");
-
   tr:nth-child(n) {
       animation: 500ms ease-out forwards;
   }
