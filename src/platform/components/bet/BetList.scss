@@ -10,12 +10,11 @@
   @include remove-default-button-style();
   padding-top: 0 !important;
   padding-bottom: 0 !important;
-  @include color("600");
+  color: var(--bs-secondary);
   font-size: 0.9rem;
 }
 
 .gameLink {
-  @include color("700");
   font-weight: bold;
   text-decoration: none;
 }
