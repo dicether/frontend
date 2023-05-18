@@ -23,6 +23,11 @@ const Footer = ({maxMessageLength, numUsers, onMessageSend, t}: Props) => {
         setMessage(message);
     };
 
+    const onSend = () => {
+        onMessageSend(message);
+        setMessage("");
+    };
+
     return (
         <div className={Style.footer}>
             <ChatCommandInfo message={message} />
@@ -34,8 +39,7 @@ const Footer = ({maxMessageLength, numUsers, onMessageSend, t}: Props) => {
                     onKeyDown={(e) => {
                         if (e.key === "Enter") {
                             // send on enter key press
-                            onMessageSend(message);
-                            setMessage("");
+                            onSend();
                             e.preventDefault();
                         }
                     }}
@@ -44,7 +48,7 @@ const Footer = ({maxMessageLength, numUsers, onMessageSend, t}: Props) => {
                 />
             </div>
             <div className={Style.footerFooter}>
-                <Button color="primary" onClick={() => onMessageSend(message)}>
+                <Button color="primary" onClick={() => onSend()}>
                     {t("sendMessage")}
                 </Button>
                 <span className={Style.online}>online: {numUsers}</span>
