@@ -34,7 +34,7 @@ export function gameTypeToLink(gameType: number) {
         case GameType.WHEEL:
             return "/games/wheel";
         case GameType.PLINKO:
-            return "games/plinko";
+            return "/games/plinko";
         default:
             return "/unknown";
     }
