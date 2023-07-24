@@ -73,6 +73,7 @@
     "react-dom": "^18.2.0",
     "react-emoji-render": "^2.0.1",
     "react-flag-icon-css": "^1.0.25",
+    "react-ga4": "^2.1.0",
     "react-helmet": "^6.1.0",
     "react-i18next": "^12.2.0",
     "react-numeric-input": "^2.2.3",

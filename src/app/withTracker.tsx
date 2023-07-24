@@ -1,4 +1,5 @@
 import * as React from "react";
+import ReactGA from "react-ga4";
 import {useLocation} from "react-router-dom";
 
 const withTracker = (WrappedComponent: React.ComponentType<any>) => {
@@ -6,6 +7,7 @@ const withTracker = (WrappedComponent: React.ComponentType<any>) => {
 
     const trackPage = (page: string) => {
         if (lastPage !== page) {
+            ReactGA.send({hitType: "pageview", page: page, title: document.title});
             const ga = (window as any).ga;
             if (ga) {
                 ga("set", "page", page);
