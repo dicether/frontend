@@ -57,9 +57,11 @@ module.exports = {
         historyApiFallback: {
             index: "/index.html",
         },
-        proxy: {
-            historyApiFallback: true,
-        },
+        proxy: [
+            {
+                historyApiFallback: true,
+            },
+        ],
     },
     module: {
         rules: [

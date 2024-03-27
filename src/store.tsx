@@ -1,8 +1,8 @@
 import * as Sentry from "@sentry/react";
-import {applyMiddleware, createStore, compose, Middleware} from "redux";
+import {applyMiddleware, createStore, compose, Middleware, Dispatch, AnyAction} from "redux";
 import {createLogger} from "redux-logger";
 import createSentryMiddleware from "redux-sentry-middleware";
-import thunkMiddleware from "redux-thunk";
+import thunkMiddleware, {ThunkMiddleware} from "redux-thunk";
 import {VERSION} from "./config/config";
 import rootReducer, {State} from "./rootReducer";
 import {truncate} from "./util/util";
@@ -46,7 +46,8 @@ if (process.env.SENTRY_LOGGING) {
 }
 
 if (process.env.REDUX_LOGGING) {
-    middlewares.push(createLogger());
+    const logger = createLogger();
+    middlewares.push(logger as Middleware);
 }
 
 const sentryReduxEnhancer = Sentry.createReduxEnhancer({

@@ -1,5 +1,5 @@
 import axios from "axios";
-import jwtDecode from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 import {Dispatch, GetState} from "../../../util/util";
 import {User} from "../account/types";
 import {showInfoMessage, showSuccessMessage} from "../utilities/actions";

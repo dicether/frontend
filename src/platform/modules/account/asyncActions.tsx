@@ -1,6 +1,6 @@
 import * as Sentry from "@sentry/browser";
 import axios from "axios";
-import jwtDecode from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 
 import {changeAxiosAuthToken} from "../../../config/apiEndpoints";
 import {REALM} from "../../../config/config";
@@ -210,7 +210,7 @@ export function initUser(dispatch: Dispatch, jwt: string) {
         scope.setUser({
             username,
             address,
-        })
+        }),
     );
 }
 
