@@ -46,3 +46,21 @@ export function popCnt(num: number) {
     return (((num + (num >> 4)) & 0xf0f0f0f) * 0x1010101) >> 24; // count
     // tslint:enable:no-bitwise
 }
+
+export const BigIntMath = {
+    abs(x: bigint): bigint {
+        return x < 0n ? -x : x;
+    },
+    sign(x: bigint): bigint {
+        if (x === 0n) return 0n;
+        return x < 0n ? -1n : 1n;
+    },
+    min(value: bigint, ...values: bigint[]): bigint {
+        for (const v of values) if (v < value) value = v;
+        return value;
+    },
+    max(value: bigint, ...values: bigint[]): bigint {
+        for (const v of values) if (v > value) value = v;
+        return value;
+    },
+};

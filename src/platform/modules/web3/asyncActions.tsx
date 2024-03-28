@@ -1,9 +1,8 @@
 import {recoverTypedData} from "@dicether/eip712";
 import * as Sentry from "@sentry/browser";
-import BN from "bn.js";
 import {toChecksumAddress} from "ethereumjs-util";
 import Web3 from "web3";
-import {AbstractProvider, TransactionReceipt} from "web3-core";
+import {TransactionReceipt} from "web3";
 
 import {CONTRACT_ADDRESS, FROM_WEI_TO_BASE} from "../../../config/config";
 import {Dispatch, GetState} from "../../../util/util";
@@ -78,7 +77,7 @@ export function fetchAccountBalance() {
             web3.eth
                 .getBalance(account)
                 .then((result) => {
-                    const balance = new BN(result).div(new BN(FROM_WEI_TO_BASE)).toNumber();
+                    const balance = Number(result / BigInt(FROM_WEI_TO_BASE));
                     if (balance !== web3State.balance) {
                         dispatch(changeBalance(balance));
                     }
@@ -137,24 +136,11 @@ export async function requestAccounts(dispatch: Dispatch) {
 }
 
 export async function signTypedData(web3: Web3, from: string, typedData: any): Promise<string> {
-    const provider: AbstractProvider = web3.currentProvider as AbstractProvider;
-
-    // Use v4 for MetaMask as Ledger Nano used with MataMask supports only version 4
-    const isMetaMask = (provider as any).isMetaMask !== undefined;
-    const method = `eth_signTypedData_v${isMetaMask ? 4 : 3}`;
-    const params = [from, JSON.stringify(typedData)];
-
-    if (!provider.request) return Promise.reject("provider.request undefined!");
-
-    const sig = await provider.request({
-        method,
-        params,
-    });
-
+    const sig = await web3.eth.signTypedData(from, typedData, false);
     const recoveredAddress = recoverTypedData(typedData, sig);
     if (recoveredAddress !== from) {
         Sentry.captureMessage(
-            `Invalid sig ${sig} of data ${JSON.stringify(typedData)} recovered ${recoveredAddress} instead of ${from}.`
+            `Invalid sig ${sig} of data ${JSON.stringify(typedData)} recovered ${recoveredAddress} instead of ${from}.`,
         );
     }
     return sig;

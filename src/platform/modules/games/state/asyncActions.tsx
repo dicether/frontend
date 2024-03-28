@@ -15,8 +15,8 @@ import * as Sentry from "@sentry/browser";
 import retry from "async-retry";
 import axios from "axios";
 import Web3 from "web3";
+import {TransactionReceipt} from "web3";
 
-import {TransactionReceipt} from "web3-core";
 import {CHAIN_ID, CONTRACT_ADDRESS, NETWORK_NAME, SERVER_ADDRESS, SIGNATURE_VERSION} from "../../../../config/config";
 import {getLogGameCreated, getReasonEnded} from "../../../../contractUtils";
 import {Dispatch, GetState, isLocalStorageAvailable} from "../../../../util/util";
@@ -94,7 +94,7 @@ function regularEndGameEvent(
     userHash: string,
     serverSig: string,
     userSig: string,
-    endTransactionHash: string
+    endTransactionHash: string,
 ) {
     return (dispatch: Dispatch, getState: GetState) => {
         if (canRegularEndGame(getState().games.gameState)) {
@@ -417,7 +417,7 @@ export function storeGameState(address: string, gameState: State) {
     }
     localStorage.setItem(
         `gameState_${address}_${gameState.chainId}`,
-        JSON.stringify({version: STORAGE_VERSION, gameState})
+        JSON.stringify({version: STORAGE_VERSION, gameState}),
     );
 }
 
@@ -455,7 +455,7 @@ export function createGame(stake: number, userSeed: string) {
 
         if (!isLocalStorageAvailable()) {
             throw new Error(
-                "You browser doesn't support sessionStorage/localStorage! Without playing is not possible!"
+                "You browser doesn't support sessionStorage/localStorage! Without playing is not possible!",
             );
         }
 
@@ -613,7 +613,7 @@ export function userEndGame() {
 
         if (!canUserEndGame(gameState)) {
             throw new Error(
-                `Invalid game status ${gameState.status}, ${gameState.reasonEnded}! Can not resend end transaction!`
+                `Invalid game status ${gameState.status}, ${gameState.reasonEnded}! Can not resend end transaction!`,
             );
         }
 
@@ -633,7 +633,7 @@ export function userEndGame() {
                 userHash,
                 gameId,
                 CONTRACT_ADDRESS,
-                serverSig
+                serverSig,
             )
                 .send({from: account, value: 0, gas: 120000})
                 .on("transactionHash", (_transactionHash: string) => {
@@ -647,7 +647,7 @@ export function userEndGame() {
                 })
                 .catch((error: Error) => {
                     reject(error);
-                })
+                }),
         );
     };
 }
@@ -705,7 +705,7 @@ export function conflictEnd() {
                     })
                     .catch((error: Error) => {
                         reject(error);
-                    })
+                    }),
             );
         } else {
             let serverHash = keccak(gameState.serverHash);
@@ -733,7 +733,7 @@ export function conflictEnd() {
                     userHash,
                     gameId,
                     serverSig,
-                    userSeed
+                    userSeed,
                 )
                     .send({from: account, gas: 250000})
                     .on("transactionHash", (transactionHash: string) => {
@@ -751,7 +751,7 @@ export function conflictEnd() {
                     })
                     .catch((error: Error) => {
                         reject(error);
-                    })
+                    }),
             );
         }
     };
@@ -798,7 +798,7 @@ export function forceEnd() {
                 })
                 .catch((error: Error) => {
                     reject(error);
-                })
+                }),
         );
     };
 }
@@ -812,7 +812,7 @@ async function revealSeedRequest(gameId: number, roundId: number, userSeed: stri
                 userSeed,
             });
         },
-        {retries: 1, minTimeout: 500}
+        {retries: 1, minTimeout: 500},
     );
 }
 
@@ -877,7 +877,7 @@ export function manualRequestSeed() {
 export function placeBet(num: number, betValue: number, gameType: number) {
     return async (
         dispatch: Dispatch,
-        getState: GetState
+        getState: GetState,
     ): Promise<{betNum: number; num: number; won: boolean; userProfit: number; bet: FinalBet}> => {
         const gameState = getState().games.gameState;
         const web3State = getState().web3;
