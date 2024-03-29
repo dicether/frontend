@@ -1,5 +1,5 @@
+import {createSelector} from "@reduxjs/toolkit";
 import {jwtDecode} from "jwt-decode";
-import {createSelector} from "reselect";
 
 import {State} from "../../../rootReducer";
 import {User} from "./types";

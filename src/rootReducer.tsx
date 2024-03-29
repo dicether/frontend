@@ -20,7 +20,7 @@ export type State = {
     modal: any;
 };
 
-const appReducer = combineReducers<State, any>({
+const appReducer = combineReducers({
     account,
     chat,
     friend,

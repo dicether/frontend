@@ -2,12 +2,12 @@ import * as Sentry from "@sentry/react";
 import {applyMiddleware, createStore, compose, Middleware, Dispatch, AnyAction} from "redux";
 import {createLogger} from "redux-logger";
 import createSentryMiddleware from "redux-sentry-middleware";
-import thunkMiddleware, {ThunkMiddleware} from "redux-thunk";
+import {configureStore, ThunkMiddleware} from "@reduxjs/toolkit";
 import {VERSION} from "./config/config";
 import rootReducer, {State} from "./rootReducer";
 import {truncate} from "./util/util";
 
-const middlewares: Middleware[] = [thunkMiddleware];
+const middlewares: Middleware[] = []; // = [thunkMiddleware];
 
 function filterState(state: State) {
     // remove chat, bets, account from state
@@ -54,4 +54,19 @@ const sentryReduxEnhancer = Sentry.createReduxEnhancer({
     // Optionally pass options listed below
 });
 
-export const store = createStore(rootReducer, compose(applyMiddleware(...middlewares)));
+export const store = configureStore({
+    reducer: rootReducer,
+    // TODO: remove web3, contract from store
+    middleware: (getDefaultMiddleware) =>
+        getDefaultMiddleware({
+            immutableCheck: false,
+            serializableCheck: {
+                // Ignore these action types
+                ignoredActions: ["web3", "contract"],
+                // Ignore these field paths in all actions
+                ignoredActionPaths: ["web3.contract", "web3.web3"],
+                // Ignore these paths in the state
+                ignoredPaths: ["web3.web3", "web3.contract"],
+            },
+        }).concat(middlewares),
+});

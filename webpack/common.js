@@ -39,6 +39,7 @@ module.exports = {
             stream: require.resolve("stream-browserify"),
             crypto: require.resolve("crypto-browserify"),
             url: require.resolve("url/"),
+            "process/browser": require.resolve("process/browser"),
         },
     },
     optimization: {
