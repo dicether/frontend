@@ -1,16 +1,34 @@
 import * as React from "react";
-import {connectModal, InjectedProps} from "redux-modal";
 
 import {Modal} from "../../../reusable";
 import {Bet as BetType} from "../../modules/bets/types";
 import Bet from "../bet/Bet";
+import {connect} from "react-redux";
+import {State} from "../../../rootReducer";
+import {Dispatch} from "../../../util/util";
 
-type Props = InjectedProps & {bet?: BetType; betId?: number};
+import {hideBetModal} from "../../modules/modals/slice";
 
-const BetModal = ({show, handleHide, bet, betId}: Props) => (
-    <Modal toggle={handleHide} isOpen={show}>
-        <Bet betId={betId} bet={bet} />
+const mapStateToProps = ({modal}: State) => {
+    const {betModal} = modal;
+    const {showBetModal: show, betId, bet} = betModal;
+    return {
+        show,
+        bet,
+        betId,
+    };
+};
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    hide: () => dispatch(hideBetModal()),
+});
+
+type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
+
+const BetModal = ({show, hide, bet, betId}: Props) => (
+    <Modal toggle={hide} isOpen={show}>
+        {show && <Bet betId={betId} bet={bet} />}
     </Modal>
 );
 
-export default connectModal({name: "bet"})(BetModal);
+export default connect(mapStateToProps, mapDispatchToProps)(BetModal);

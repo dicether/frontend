@@ -6,7 +6,7 @@ import {Nav, NavItem, NavLink} from "reactstrap";
 import {bindActionCreators} from "redux";
 
 import {User} from "../../platform/modules/account/types";
-import {showUserModal} from "../../platform/modules/modals/actions";
+import {showUserModal} from "../../platform/modules/modals/slice";
 import {Col, Container, DataLoader, Row} from "../../reusable/index";
 import {Dispatch} from "../../util/util";
 import StatsTable from "./StatsTable";
@@ -51,7 +51,7 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
         {
             showUserModal,
         },
-        dispatch
+        dispatch,
     );
 
 type Props = ReturnType<typeof mapDispatchToProps> & WithTranslation;

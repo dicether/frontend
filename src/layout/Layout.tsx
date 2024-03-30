@@ -4,7 +4,7 @@ import {bindActionCreators, Dispatch} from "redux";
 
 import {authenticate} from "../platform/modules/account/asyncActions";
 import {toggleChat} from "../platform/modules/chat/actions";
-import {showRegisterModal} from "../platform/modules/modals/actions";
+import {showRegisterModal} from "../platform/modules/modals/slice";
 import {toggleTheme} from "../platform/modules/utilities/actions";
 import {State} from "../rootReducer";
 import Footer from "./Footer";
@@ -29,7 +29,7 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
             toggleTheme,
             showRegisterModal,
         },
-        dispatch
+        dispatch,
     );
 
 type OtherProps = {

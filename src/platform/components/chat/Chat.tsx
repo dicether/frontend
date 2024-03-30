@@ -6,7 +6,7 @@ import {State} from "../../../rootReducer";
 import {getUser} from "../../modules/account/selectors";
 import {addMessage, toggleChat} from "../../modules/chat/actions";
 import {sendMessage} from "../../modules/chat/asyncActions";
-import {showBetModal, showUserModal} from "../../modules/modals/actions";
+import {showBetModal, showUserModal} from "../../modules/modals/slice";
 import {showErrorMessage} from "../../modules/utilities/actions";
 import Friends from "../friend/Friends";
 import Footer from "./components/Footer";
@@ -42,7 +42,7 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
             showBetModal,
             showUserModal,
         },
-        dispatch
+        dispatch,
     );
 
 export type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;

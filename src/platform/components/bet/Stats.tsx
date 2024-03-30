@@ -8,7 +8,7 @@ import {Dispatch} from "../../../util/util";
 import {getUser} from "../../modules/account/selectors";
 import {addBet, addMyBet} from "../../modules/bets/actions";
 import {loadBets, loadMyBets} from "../../modules/bets/asyncActions";
-import {showBetModal, showUserModal} from "../../modules/modals/actions";
+import {showBetModal, showUserModal} from "../../modules/modals/slice";
 import BetsList from "./BetsList";
 
 import Style from "./Stats.scss";
@@ -34,7 +34,7 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
             showBetModal,
             showUserModal,
         },
-        dispatch
+        dispatch,
     );
 
 type OtherProps = {

@@ -9,7 +9,7 @@ import {Dispatch, GetState, isLocalStorageAvailable} from "../../../util/util";
 import {loadBets, loadMyBets} from "../bets/asyncActions";
 import {loadMessages} from "../chat/asyncActions";
 import {loadFriendRequests, loadFriends} from "../friends/asyncActions";
-import {hideRegisterModal, showMissingWalletModal} from "../modals/actions";
+import {hideRegisterModal, showMissingWalletModal} from "../modals/slice";
 import {showErrorMessage} from "../utilities/actions";
 import {catchError} from "../utilities/asyncActions";
 import {requestAccounts, signTypedData} from "../web3/asyncActions";

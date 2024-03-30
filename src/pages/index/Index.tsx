@@ -2,7 +2,7 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {bindActionCreators, Dispatch} from "redux";
 import Stats from "../../platform/components/bet/Stats";
-import {showRegisterModal} from "../../platform/modules/modals/actions";
+import {showRegisterModal} from "../../platform/modules/modals/slice";
 import {Container, Section} from "../../reusable";
 import {State as RootState} from "../../rootReducer";
 import BigFeatures from "./components/BigFeatures";
@@ -15,7 +15,7 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
         {
             showRegisterModal,
         },
-        dispatch
+        dispatch,
     );
 
 export const mapStateToProps = (state: RootState) => {

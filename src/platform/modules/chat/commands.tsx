@@ -1,5 +1,5 @@
 import {Dispatch} from "../../../util/util";
-import {showBetModal, showUserModal} from "../modals/actions";
+import {showBetModal, showUserModal} from "../modals/slice";
 
 export const COMMANDS = [
     {name: "/user", params: "name", description: "Show user info"},

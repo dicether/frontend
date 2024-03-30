@@ -1,5 +1,4 @@
 import {combineReducers} from "redux";
-import {reducer as modal} from "redux-modal";
 
 import account, {State as AccountState} from "./platform/modules/account/reducer";
 import bets, {State as BetsState} from "./platform/modules/bets/reducer";
@@ -8,6 +7,7 @@ import friend, {State as FriendState} from "./platform/modules/friends/reducer";
 import games, {State as GamesState} from "./platform/modules/games/reducer";
 import app, {State as AppState} from "./platform/modules/utilities/reducer";
 import web3, {State as Web3State} from "./platform/modules/web3/reducer";
+import modal, {ModalState} from "./platform/modules/modals/slice";
 
 export type State = {
     account: AccountState;
@@ -17,7 +17,7 @@ export type State = {
     app: AppState;
     games: GamesState;
     bets: BetsState;
-    modal: any;
+    modal: ModalState;
 };
 
 const appReducer = combineReducers({

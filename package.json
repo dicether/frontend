@@ -87,7 +87,6 @@
     "reactstrap": "^9.2.2",
     "redux": "^5.0.1",
     "redux-logger": "^3.0.6",
-    "redux-modal": "^4.0.0",
     "redux-sentry-middleware": "^0.2.2",
     "regenerator-runtime": "^0.14.1",
     "resize-observer-polyfill": "^1.5.1",

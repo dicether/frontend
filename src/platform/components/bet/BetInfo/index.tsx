@@ -5,7 +5,7 @@ import {bindActionCreators} from "redux";
 
 import {Dispatch} from "../../../../util/util";
 import {Bet} from "../../../modules/bets/types";
-import {showUserModal} from "../../../modules/modals/actions";
+import {showUserModal} from "../../../modules/modals/slice";
 import ChooseFrom12BetInfo from "./ChooseFrom12BetInfo";
 import DiceBetInfo from "./DiceBetInfo";
 import FlipACoinBetInfo from "./FlipACoinBetInfo";
@@ -46,7 +46,7 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
         {
             showUserModal,
         },
-        dispatch
+        dispatch,
     );
 
 type OtherProps = {

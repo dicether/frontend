@@ -6,7 +6,7 @@ import {bindActionCreators} from "redux";
 import BetsList from "../../platform/components/bet/BetsList";
 import {User as UserType} from "../../platform/modules/account/types";
 import {Bet} from "../../platform/modules/bets/types";
-import {showBetModal, showUserModal} from "../../platform/modules/modals/actions";
+import {showBetModal, showUserModal} from "../../platform/modules/modals/slice";
 import {Container, DataLoader} from "../../reusable";
 import Ether from "../../reusable/Ether";
 import {Dispatch} from "../../util/util";
@@ -20,7 +20,7 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
             showBetModal,
             showUserModal,
         },
-        dispatch
+        dispatch,
     );
 
 type MatchParams = {

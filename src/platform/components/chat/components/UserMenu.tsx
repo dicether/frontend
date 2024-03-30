@@ -10,7 +10,7 @@ import {getUser} from "../../../modules/account/selectors";
 import {User} from "../../../modules/account/types";
 import {deleteMessage, mute} from "../../../modules/chat/asyncActions";
 import {sendFriendRequest} from "../../../modules/friends/asyncActions";
-import {showUserModal} from "../../../modules/modals/actions";
+import {showUserModal} from "../../../modules/modals/slice";
 
 export const mapStateToProps = (state: State) => {
     const {web3, friend} = state;
@@ -33,7 +33,7 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
             mute,
             showUserModal,
         },
-        dispatch
+        dispatch,
     );
 
 export type OtherProps = {
