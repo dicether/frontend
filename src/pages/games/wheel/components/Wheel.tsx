@@ -1,5 +1,7 @@
 import * as React from "react";
-import ReactResizeDetector from "react-resize-detector";
+import {useEffect, useState} from "react";
+import {useRef} from "react";
+import ReactResizeDetector, {useResizeDetector} from "react-resize-detector";
 
 import PureCanvas from "../../reusable/PureCanvas";
 import {formatMultiplier} from "./utility";
@@ -15,35 +17,46 @@ type Props = {
     payout: {color: string; value: number; show: boolean; multiplier: number};
 };
 
-type State = {
-    size: number;
+const drawSegment = (ctx: CanvasRenderingContext2D, angle: number, color: string) => {
+    ctx.beginPath();
+    ctx.fillStyle = color;
+    // ctx.strokeStyle = "#fafafa";
+    // ctx.lineWidth = 2;
+
+    ctx.arc(0, 0, 95, angle, 0, true);
+    ctx.lineTo(80, 0);
+    ctx.arc(0, 0, 80, 0, angle);
+
+    ctx.closePath();
+    // ctx.stroke();
+    ctx.fill();
+    // outer border
+
+    ctx.beginPath();
+    ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
+    ctx.arc(0, 0, 92, angle, 0, true);
+    ctx.lineTo(90, 0);
+    ctx.lineTo(90, 0);
+    ctx.arc(0, 0, 90, 0, angle);
+    ctx.closePath();
+    ctx.fill();
 };
 
-export default class Wheel extends React.Component<Props, State> {
-    private ctx: CanvasRenderingContext2D | null = null;
-    private parent = React.createRef<HTMLDivElement>();
+const drawSegmentDots = (ctx: CanvasRenderingContext2D) => {
+    ctx.beginPath();
+    ctx.fillStyle = "#fafafa";
+    ctx.arc(93.5, 0, 1.5, 0, 2 * Math.PI);
+    ctx.closePath();
+    ctx.fill();
+};
 
-    public constructor(props: Props) {
-        super(props);
+const Wheel = ({nightMode, segmentColors, angle, payout}: Props) => {
+    const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
+    const [size, setSize] = useState(500);
 
-        this.state = {
-            size: 500,
-        };
-    }
-
-    public componentDidMount() {
-        this.renderToCanvas();
-    }
-
-    public componentDidUpdate() {
-        this.renderToCanvas();
-    }
-
-    private renderToCanvas = () => {
-        const {angle, nightMode, segmentColors, payout} = this.props;
+    const renderToCanvas = () => {
         const colors = nightMode ? ColorNight : ColorDay;
-        // console.log("angle", angle);
-        const ctx = this.ctx;
+        const ctx = ctxRef.current;
 
         if (ctx === null) {
             return;
@@ -79,7 +92,7 @@ export default class Wheel extends React.Component<Props, State> {
         ctx.save();
         ctx.rotate(-Math.PI / 2);
         for (const segmentColor of segmentColors) {
-            Wheel.drawSegment(ctx, segmentAngle, segmentColor);
+            drawSegment(ctx, segmentAngle, segmentColor);
             ctx.rotate(segmentAngle);
         }
         ctx.restore();
@@ -88,7 +101,7 @@ export default class Wheel extends React.Component<Props, State> {
         ctx.save();
         ctx.rotate(-Math.PI / 2);
         for (const _ of segmentColors) {
-            Wheel.drawSegmentDots(ctx);
+            drawSegmentDots(ctx);
             ctx.rotate(segmentAngle);
         }
         ctx.restore();
@@ -122,66 +135,34 @@ export default class Wheel extends React.Component<Props, State> {
         ctx.restore();
     };
 
-    private static drawSegment = (ctx: CanvasRenderingContext2D, angle: number, color: string) => {
-        ctx.beginPath();
-        ctx.fillStyle = color;
-        // ctx.strokeStyle = "#fafafa";
-        // ctx.lineWidth = 2;
-
-        ctx.arc(0, 0, 95, angle, 0, true);
-        ctx.lineTo(80, 0);
-        ctx.arc(0, 0, 80, 0, angle);
-
-        ctx.closePath();
-        // ctx.stroke();
-        ctx.fill();
-        // outer border
-
-        ctx.beginPath();
-        ctx.fillStyle = "rgba(0, 0, 0, 0.15)";
-        ctx.arc(0, 0, 92, angle, 0, true);
-        ctx.lineTo(90, 0);
-        ctx.lineTo(90, 0);
-        ctx.arc(0, 0, 90, 0, angle);
-        ctx.closePath();
-        ctx.fill();
-
-        // ctx.arc(0, 0, 95, 0, angle, false);
-        // ctx.lineTo(0, 0);
-        // ctx.lineTo(95, 0);
+    const saveContext = (ctx: CanvasRenderingContext2D) => {
+        ctxRef.current = ctx;
     };
 
-    private static drawSegmentDots = (ctx: CanvasRenderingContext2D) => {
-        ctx.beginPath();
-        ctx.fillStyle = "#fafafa";
-        ctx.arc(93.5, 0, 1.5, 0, 2 * Math.PI);
-        ctx.closePath();
-        ctx.fill();
-    };
-
-    private saveContext = (ctx: CanvasRenderingContext2D) => {
-        this.ctx = ctx;
-    };
-
-    private onResize = (width?: number) => {
+    const onResize = (width?: number) => {
         if (width === undefined) return;
 
-        this.setState({
-            size: width,
-        });
-        this.renderToCanvas();
+        setSize(width);
+        renderToCanvas();
     };
 
-    public render() {
-        // const width = this.parent.current !== null ? this.parent.current.offsetWidth : 500;
-        // const height = this.parent.current !== null ? this.parent.current.offsetHeight : 500;
-        const {size} = this.state;
+    useEffect(() => {
+        renderToCanvas();
+    }, [nightMode, segmentColors, angle, payout]);
 
-        return (
-            <div ref={this.parent} className={Style.wheel}>
-                <ReactResizeDetector handleWidth handleHeight onResize={this.onResize} />
-                <PureCanvas width={size} height={size} contextRef={this.saveContext} />
-            </div>
-        );
-    }
-}
+    useResizeDetector({
+        handleHeight: false,
+        refreshMode: "debounce",
+        refreshRate: 1000,
+        onResize,
+    });
+
+    return (
+        <div className={Style.wheel}>
+            <ReactResizeDetector handleWidth handleHeight onResize={onResize} />
+            <PureCanvas width={size} height={size} contextRef={saveContext} />
+        </div>
+    );
+};
+
+export default Wheel;
