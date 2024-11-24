@@ -11,7 +11,7 @@ import {Container, DataLoader} from "../../reusable";
 import Ether from "../../reusable/Ether";
 import {Dispatch} from "../../util/util";
 
-import Style from "./GameSession.scss";
+import * as Style from "./GameSession.scss";
 import PathNotFound from "../../app/PathNotFound";
 
 const mapDispatchToProps = (dispatch: Dispatch) =>

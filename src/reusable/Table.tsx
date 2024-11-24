@@ -4,7 +4,7 @@ import {Table as BootstrapTable} from "reactstrap";
 
 import {BaseType} from "./BaseType";
 
-import Style from "./Table.scss";
+import * as Style from "./Table.scss";
 
 export interface Props extends BaseType {
     children: React.ReactNode;

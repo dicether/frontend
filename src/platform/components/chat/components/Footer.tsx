@@ -4,7 +4,7 @@ import Textarea from "react-textarea-autosize";
 import {Button} from "../../../../reusable/index";
 import ChatCommandInfo from "./ChatCommandInfo";
 
-import Style from "./Footer.scss";
+import * as Style from "./Footer.scss";
 import {useState} from "react";
 
 export interface Props extends WithTranslation {

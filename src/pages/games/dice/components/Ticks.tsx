@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import Style from "./Ticks.scss";
+import * as Style from "./Ticks.scss";
 
 const Ticks = () => (
     <div className={Style.ticks}>

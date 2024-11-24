@@ -2,7 +2,7 @@ import {PLINKO_PAYOUT_DIVIDER} from "@dicether/state-channel";
 import ClassNames from "classnames";
 import * as React from "react";
 
-import Style from "./PayoutTable.scss";
+import * as Style from "./PayoutTable.scss";
 
 export type Props = {
     payout: number[];

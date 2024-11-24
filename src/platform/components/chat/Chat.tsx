@@ -14,7 +14,7 @@ import Header from "./components/Header";
 import MessageList from "./components/MessageList";
 import OpenButton from "./components/OpenButton";
 
-import Style from "./Chat.scss";
+import * as Style from "./Chat.scss";
 
 const MAX_MESSAGE_LENGTH = 140;
 

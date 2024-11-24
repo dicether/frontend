@@ -7,7 +7,7 @@ import {popCnt} from "../../../../util/math";
 import HowToPlay from "./HowToPlay";
 import Plinko from "./Plinko";
 
-import Style from "./Ui.scss";
+import * as Style from "./Ui.scss";
 
 export interface Props extends WithTranslation {
     disableRiskRowUpdate: boolean;

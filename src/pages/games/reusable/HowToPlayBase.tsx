@@ -3,7 +3,7 @@ import * as React from "react";
 import {MAX_GAME_SESSION_VALUE, MIN_GAME_SESSION_VALUE} from "../../../config/config";
 import {Ether} from "../../../reusable";
 
-import Style from "./HowToPlayBase.scss";
+import * as Style from "./HowToPlayBase.scss";
 
 export type Props = {
     children: React.ReactNode;

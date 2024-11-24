@@ -13,7 +13,7 @@ const KenoLogo = require("assets/images/kenoLogo.svg");
 const PlinkoLogo = require("assets/images/plinkoLogo.svg");
 const WheelLogo = require("assets/images/wheelLogo.svg");
 
-import Style from "./Games.scss";
+import * as Style from "./Games.scss";
 
 const Games = ({t}: WithTranslation) => (
     <Section className={Style.games}>

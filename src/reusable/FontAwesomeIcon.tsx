@@ -5,7 +5,7 @@ import {FontAwesomeIcon, Props as FontAwesomeProps} from "@fortawesome/react-fon
 import ClassNames from "classnames";
 import * as React from "react";
 
-import Style from "./FontAwesomeIcon.scss";
+import * as Style from "./FontAwesomeIcon.scss";
 
 library.add(fas, far);
 

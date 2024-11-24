@@ -5,7 +5,7 @@ import {CHAIN_ID, SERVER_ADDRESS} from "../../../../config/config";
 import {FontAwesomeIcon} from "../../../../reusable/index";
 import {Bet} from "../../../modules/bets/types";
 
-import Style from "./Verification.scss";
+import * as Style from "./Verification.scss";
 
 type Props = {
     bet: Bet;
@@ -36,7 +36,7 @@ class Verification extends React.PureComponent<Props> {
             bet.contractAddress,
             bet.userSig,
             bet.user.address,
-            signatureVersion
+            signatureVersion,
         );
         const validServerSig = verifySignature(
             bet,
@@ -44,7 +44,7 @@ class Verification extends React.PureComponent<Props> {
             bet.contractAddress,
             bet.serverSig,
             serverAddress,
-            signatureVersion
+            signatureVersion,
         );
 
         const resultNum = calcResultNumber(bet.gameType, bet.serverSeed, bet.userSeed, bet.num);

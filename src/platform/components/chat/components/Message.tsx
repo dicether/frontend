@@ -11,7 +11,7 @@ import UserType from "./UserType";
 
 import reactStringReplace from "react-string-replace";
 import {isValidUserName} from "../../../modules/account/util";
-import Style from "./Message.scss";
+import * as Style from "./Message.scss";
 
 const BET_REGEX = /Bet:(\d+)/;
 const USER_REGEX = /(?:User:(\S+))/;
@@ -35,7 +35,7 @@ const ChatButton = ({name, onClick}: ChatButtonProps) => (
 function processMessage(
     message: string,
     showBetModal: (betId: number) => void,
-    showUserModal: (userName: string) => void
+    showUserModal: (userName: string) => void,
 ) {
     let res = reactStringReplace(message, BET_REGEX, (match, i) => (
         <ChatButton key={match + i} name={`Bet:${match}`} onClick={() => showBetModal(Number.parseInt(match, 10))} />
@@ -125,7 +125,7 @@ class Message extends React.Component<Props, State> {
                     {!message.deleted ? (
                         <span className={messageClass}>
                             {processMessage(message.message, showBetModal, showUserModal).map((x, i) =>
-                                typeof x === "string" && x.length > 0 ? <Emoji key={i} text={x} /> : x
+                                typeof x === "string" && x.length > 0 ? <Emoji key={i} text={x} /> : x,
                             )}
                         </span>
                     ) : (

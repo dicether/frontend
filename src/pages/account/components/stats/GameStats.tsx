@@ -4,7 +4,7 @@ import {WithTranslation, withTranslation} from "react-i18next";
 import {Stats} from "../../../../platform/modules/account/types";
 import {Ether} from "../../../../reusable/index";
 
-import Style from "./GameStats.scss";
+import * as Style from "./GameStats.scss";
 
 type EntryProps = {
     value: number;

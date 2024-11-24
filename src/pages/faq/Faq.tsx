@@ -13,7 +13,7 @@ import {
 } from "../../config/config";
 import {Container} from "../../reusable";
 
-import Style from "./Faq.scss";
+import * as Style from "./Faq.scss";
 
 const Faq = ({t}: WithTranslation) => (
     <>

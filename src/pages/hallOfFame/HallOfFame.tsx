@@ -11,7 +11,7 @@ import {Col, Container, DataLoader, Row} from "../../reusable/index";
 import {Dispatch} from "../../util/util";
 import StatsTable from "./StatsTable";
 
-import Style from "./HallOfFame.scss";
+import * as Style from "./HallOfFame.scss";
 import {Helmet} from "react-helmet";
 import PathNotFound from "../../app/PathNotFound";
 

@@ -3,7 +3,7 @@ import * as React from "react";
 import Icon from "../../../../reusable/FontAwesomeIcon";
 import {Button} from "../../../../reusable/index";
 
-import Style from "./CollapsButton.scss";
+import * as Style from "./CollapsButton.scss";
 
 type Props = {
     isOpen: boolean;

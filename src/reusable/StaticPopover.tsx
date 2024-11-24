@@ -3,7 +3,7 @@ import * as React from "react";
 
 import {BaseType} from "./BaseType";
 
-import Style from "./StaticPopover.scss";
+import * as Style from "./StaticPopover.scss";
 
 export interface Props extends BaseType {
     placement: "top" | "bottom" | "right" | "left";
@@ -19,7 +19,7 @@ const StaticPopover = ({placement, children, className}: Props) => {
         {"bs-popover-right": placement === "right"},
         {"bs-popover-left": placement === "left"},
         Style.staticPopover,
-        className
+        className,
     );
 
     const arrowClassName = ClassNames(
@@ -27,7 +27,7 @@ const StaticPopover = ({placement, children, className}: Props) => {
         {[Style.staticPopover__arrow_top]: placement === "bottom"},
         {[Style.staticPopover__arrow_bottom]: placement === "top"},
         {[Style.staticPopover__arrow_right]: placement === "left"},
-        {[Style.staticPopover__arrow_left]: placement === "right"}
+        {[Style.staticPopover__arrow_left]: placement === "right"},
     );
 
     return (

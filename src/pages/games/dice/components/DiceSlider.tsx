@@ -6,7 +6,7 @@ import sounds from "../../sound";
 import ResultSlider from "./ResultSlider";
 import Ticks from "./Ticks";
 
-import Style from "./DiceSlider.scss";
+import * as Style from "./DiceSlider.scss";
 import {playFromBegin} from "../../../../util/audio";
 
 type Props = {

@@ -3,7 +3,7 @@ import {WithTranslation, withTranslation} from "react-i18next";
 
 import {FontAwesomeIcon} from "../../../../reusable/index";
 
-import Style from "./Header.scss";
+import * as Style from "./Header.scss";
 
 interface Props extends WithTranslation {
     onClose(): void;

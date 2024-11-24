@@ -5,7 +5,7 @@ import i18n from "../../../i18n";
 import {Col, Container, Row, Section} from "../../../reusable";
 import Icon from "../../../reusable/FontAwesomeIcon";
 
-import Style from "./SmallFeatures.scss";
+import * as Style from "./SmallFeatures.scss";
 
 const entries: Array<{icon: IconProp; text: string}> = [
     {

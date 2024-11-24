@@ -3,7 +3,7 @@ import {WithTranslation, withTranslation} from "react-i18next";
 
 import {COINBASE_WALLET_URL, METAMASK_URL, TRUST_WALLET_URL} from "../config/config";
 
-import Style from "./MissingWallet.scss";
+import * as Style from "./MissingWallet.scss";
 
 const MetaMaskFox = require("assets/images/metamask-fox.svg");
 const TrustWalletLogo = require("assets/images/trustwallet-logo.svg");

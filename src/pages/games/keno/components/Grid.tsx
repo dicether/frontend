@@ -3,7 +3,7 @@ import * as React from "react";
 
 import Tile from "./Tile";
 
-import Style from "./Grid.scss";
+import * as Style from "./Grid.scss";
 
 function wonStatus(tileNum: number, betNum: number, resultNum: number, showResult: boolean) {
     const resultNumBn = new BN(resultNum);

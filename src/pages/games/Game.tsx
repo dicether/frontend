@@ -27,7 +27,7 @@ import Keno from "./keno/Keno";
 import Plinko from "./plinko/Plinko";
 import Wheel from "./wheel/Wheel";
 
-import Style from "./Game.scss";
+import * as Style from "./Game.scss";
 import PathNotFound from "../../app/PathNotFound";
 
 const mapStateToProps = ({games, web3, account}: State) => {
@@ -48,7 +48,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
             toggleHelp,
             toggleSound,
         },
-        dispatch
+        dispatch,
     ),
     createGame: (value: number, seed: string) => dispatch(createGame(value, seed)),
     endGame: () => dispatch(endGame()),

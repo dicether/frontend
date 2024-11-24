@@ -1,7 +1,7 @@
 import ClassNames from "classnames";
 import * as React from "react";
 
-import Style from "./ResultSlider.scss";
+import * as Style from "./ResultSlider.scss";
 
 type Props = {
     result: {num: number; won: boolean};
@@ -20,7 +20,7 @@ export default class ResultSlider extends React.Component<Props> {
         const classNames = ClassNames(
             Style.resultSlider,
             {[Style.resultSlider_visible]: showResult},
-            {[Style.resultSlider_hidden]: !showResult}
+            {[Style.resultSlider_hidden]: !showResult},
         );
 
         const classNamesWrapper = ClassNames(Style.resultWrapper, {[Style.resultWrapper_hidden]: !showResult});

@@ -1,7 +1,7 @@
 import ClassNames from "classnames";
 import * as React from "react";
 
-import Style from "./Coins.scss";
+import * as Style from "./Coins.scss";
 
 import CoinHead from "assets/images/inline/coinHead.svg";
 import CoinNumber from "assets/images/inline/coinNumber.svg";

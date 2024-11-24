@@ -1,7 +1,7 @@
 import ClassNames from "classnames";
 import * as React from "react";
 
-import Style from "./Tile.scss";
+import * as Style from "./Tile.scss";
 
 type TileContentProps = {
     num: number;

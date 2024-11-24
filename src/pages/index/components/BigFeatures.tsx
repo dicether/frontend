@@ -4,7 +4,7 @@ import * as React from "react";
 import i8n from "../../../i18n";
 import {Col, Container, Row, Section} from "../../../reusable";
 
-import Style from "./BigFeatures.scss";
+import * as Style from "./BigFeatures.scss";
 
 const anonymous = require("assets/images/anonymous.svg");
 const fair = require("assets/images/fair.svg");

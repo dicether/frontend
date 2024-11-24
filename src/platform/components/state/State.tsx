@@ -15,7 +15,7 @@ import {catchError} from "../../modules/utilities/asyncActions";
 import ClearState from "./ClearState";
 import ConflictEnd from "./ConflictEnd";
 
-import Style from "./State.scss";
+import * as Style from "./State.scss";
 import UserEndGame from "./UserEndGame";
 
 type EntryProps = {

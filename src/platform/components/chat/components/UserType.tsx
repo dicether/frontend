@@ -2,7 +2,7 @@ import * as React from "react";
 
 import {Tooltip} from "../../../../reusable/index";
 
-import Style from "./UserType.scss";
+import * as Style from "./UserType.scss";
 
 type Props = {
     userType: string;

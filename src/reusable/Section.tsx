@@ -1,7 +1,7 @@
 import ClassNames from "classnames";
 import * as React from "react";
 
-import Style from "./Section.scss";
+import * as Style from "./Section.scss";
 
 type Props = {
     children: React.ReactNode;

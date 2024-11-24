@@ -7,7 +7,7 @@ import {User} from "../../modules/account/types";
 import {Bet} from "../../modules/bets/types";
 import {gameTypeToLink, gameTypeToName} from "./util";
 
-import Style from "./BetList.scss";
+import * as Style from "./BetList.scss";
 
 type LastBetRowProps = {
     bet: Bet;

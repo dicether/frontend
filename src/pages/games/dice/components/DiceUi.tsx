@@ -15,7 +15,7 @@ import DiceSlider from "./DiceSlider";
 import HowToPlay from "./HowToPlay";
 import ReverseRollButton from "./ReverseRollButton";
 
-import Style from "./DiceUi.scss";
+import * as Style from "./DiceUi.scss";
 
 function calcChance(num: number, reversedRoll: boolean) {
     return reversedRoll ? (RANGE - num - 1) / RANGE : num / RANGE;

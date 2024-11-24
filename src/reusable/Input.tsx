@@ -1,7 +1,7 @@
 import ClassNames from "classnames";
 import * as React from "react";
 
-import Style from "./Input.scss";
+import * as Style from "./Input.scss";
 import {BaseType} from "./BaseType";
 
 export interface Props extends BaseType {
@@ -87,7 +87,7 @@ export default class Input extends React.Component<Props, State> {
         const className = ClassNames(
             "form-control",
             {"is-valid": isValid === true && showValidation},
-            {"is-invalid": isValid === false && showValidation}
+            {"is-invalid": isValid === false && showValidation},
         );
 
         const classNameSuffix = ClassNames("form-control", Style.input__suffix);

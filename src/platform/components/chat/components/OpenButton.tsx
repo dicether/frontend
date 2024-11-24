@@ -3,7 +3,7 @@ import {WithTranslation, withTranslation} from "react-i18next";
 
 import {Button, FontAwesomeIcon} from "../../../../reusable/index";
 
-import Style from "./OpenButton.scss";
+import * as Style from "./OpenButton.scss";
 
 export interface Props extends WithTranslation {
     onOpen(): void;

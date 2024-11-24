@@ -8,7 +8,7 @@ import {acceptFriendRequest, cancelFriendRequest, declineFriendRequest} from "..
 import FriendList from "./FriendList";
 import FriendRequests from "./FriendRequests";
 
-import Style from "./Friends.scss";
+import * as Style from "./Friends.scss";
 
 const mapStateToProps = ({friend}: State) => {
     const {friends, receivedFriendRequests, sentFriendRequests} = friend;
@@ -27,7 +27,7 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
             declineFriendRequest,
             cancelFriendRequest,
         },
-        dispatch
+        dispatch,
     );
 
 export type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;

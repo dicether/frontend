@@ -2,7 +2,7 @@ import * as React from "react";
 
 import Tile from "./Tile";
 
-import Style from "./Grid.scss";
+import * as Style from "./Grid.scss";
 
 function wonStatus(num: number, result: {num: number; won: boolean}, showResult: boolean) {
     if (!showResult || num !== result.num) {

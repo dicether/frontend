@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import Style from "./DefinitionEntry.scss";
+import * as Style from "./DefinitionEntry.scss";
 
 type Props = {
     name: string;

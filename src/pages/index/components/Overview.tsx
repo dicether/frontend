@@ -3,7 +3,7 @@ import {WithTranslation, withTranslation} from "react-i18next";
 
 import {Button, Container} from "../../../reusable";
 
-import Style from "./Overview.scss";
+import * as Style from "./Overview.scss";
 
 export interface Props extends WithTranslation {
     loggedIn: boolean;

@@ -5,7 +5,7 @@ import {CopyToClipBoard, Ether} from "../../../../reusable/index";
 import {User} from "../../../modules/account/types";
 import {Bet} from "../../../modules/bets/types";
 
-import Style from "./Overview.scss";
+import * as Style from "./Overview.scss";
 
 type Props = {
     bet: Bet;

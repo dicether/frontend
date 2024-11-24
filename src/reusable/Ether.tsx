@@ -1,7 +1,7 @@
 import ClassNames from "classnames";
 import * as React from "react";
 
-import Style from "./Ether.scss";
+import * as Style from "./Ether.scss";
 const icon = require("assets/images/ETH_icon.svg");
 
 export function formatEth(gwei: number, precision = 9) {
@@ -20,7 +20,7 @@ const Ether = ({gwei, precision = 9, showCurrencySymbol = false, colored = false
     const classNames = ClassNames(
         Style.ether,
         {[Style.ether_positiv]: colored && gwei > 0},
-        {[Style.ether_negativ]: colored && gwei < 0}
+        {[Style.ether_negativ]: colored && gwei < 0},
     );
 
     return (

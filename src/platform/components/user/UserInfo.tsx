@@ -4,7 +4,7 @@ import GameStats from "../../../pages/account/components/stats/GameStats";
 import {Address, CopyToClipBoard, DataLoader} from "../../../reusable";
 import {Stats as StatsType, User} from "../../modules/account/types";
 
-import Style from "./UserInfo.scss";
+import * as Style from "./UserInfo.scss";
 
 type Props = {
     user: User;

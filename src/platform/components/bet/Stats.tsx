@@ -11,7 +11,7 @@ import {loadBets, loadMyBets} from "../../modules/bets/asyncActions";
 import {showBetModal, showUserModal} from "../../modules/modals/slice";
 import BetsList from "./BetsList";
 
-import Style from "./Stats.scss";
+import * as Style from "./Stats.scss";
 
 const mapStateToProps = (state: State) => {
     const {bets} = state;

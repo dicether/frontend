@@ -7,7 +7,7 @@ import {Collapse, Container, Nav, Navbar, NavbarBrand, NavbarToggler, NavItem, N
 import {CONTRACT_URL} from "../config/config";
 import {IconButton} from "../reusable/index";
 
-import Style from "./Header.scss";
+import * as Style from "./Header.scss";
 
 const logo = require("assets/images/logoTop.svg");
 

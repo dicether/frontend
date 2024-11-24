@@ -174,7 +174,7 @@ export function deauthenticate() {
             dispatch({type: "USER_LOGOUT"});
             dispatch(deAuthenticateSocket());
             loadDefaultData(dispatch);
-            Sentry.configureScope((scope) => scope.setUser({}));
+            Sentry.getCurrentScope().setUser({});
         }
     };
 }
@@ -206,12 +206,10 @@ export function initUser(dispatch: Dispatch, jwt: string) {
     dispatch(loadFriends(address)).catch(console.log);
     dispatch(loadFriendRequests(address)).catch(console.log);
     dispatch(authenticateSocket());
-    Sentry.configureScope((scope) =>
-        scope.setUser({
-            username,
-            address,
-        }),
-    );
+    Sentry.getCurrentScope().setUser({
+        username,
+        address,
+    });
 }
 
 export function loadDefaultData(dispatch: Dispatch) {

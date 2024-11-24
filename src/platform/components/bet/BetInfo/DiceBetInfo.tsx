@@ -3,7 +3,7 @@ import * as React from "react";
 
 import {ProgressBar, StaticPopover} from "../../../../reusable/index";
 
-import Style from "./DiceBetInfo.scss";
+import * as Style from "./DiceBetInfo.scss";
 
 type Props = {
     betNum: number;

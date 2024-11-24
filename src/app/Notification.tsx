@@ -2,7 +2,7 @@ import * as React from "react";
 import {toast, ToastContainer} from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // tslint:disable-line:no-submodule-imports
 
-import Style from "./Notification.scss";
+import * as Style from "./Notification.scss";
 
 const CloseButton = () => <button type="button" className="btn-close btn-close-white" aria-label="Close" />;
 
@@ -24,7 +24,7 @@ export default class Notification extends React.Component<Props> {
                 toast.info(<div style={{width: "275px", wordWrap: "break-word"}}>{notification.message}</div>);
             } else {
                 toast.error(
-                    /*<div style={{width: "275px", wordWrap: "break-word"}}>{*/ notification.message /*}</div>*/
+                    /*<div style={{width: "275px", wordWrap: "break-word"}}>{*/ notification.message /*}</div>*/,
                 );
             }
         }

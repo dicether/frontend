@@ -8,7 +8,7 @@ import {formatEth} from "../../../../reusable/Ether";
 import Grid from "./Grid";
 import HowToPlay from "./HowToPlay";
 
-import Style from "./Ui.scss";
+import * as Style from "./Ui.scss";
 
 export interface Props extends WithTranslation {
     num: number;

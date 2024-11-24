@@ -2,7 +2,7 @@ import ClassNames from "classnames";
 import * as React from "react";
 import {formatMultiplier} from "./utility";
 
-import Style from "./PayoutTable.scss";
+import * as Style from "./PayoutTable.scss";
 
 type Props = {
     payoutTable: Array<{value: number; color: string}>;

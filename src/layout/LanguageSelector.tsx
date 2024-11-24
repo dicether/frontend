@@ -4,7 +4,7 @@
 // import i18n from "../i18n";
 // import {Button, Dropdown, FlagIcon} from "../reusable";
 //
-// import Style from "./LanguageSelector.scss";
+// import * as Style from "./LanguageSelector.scss";
 //
 // function languageToIcon(lang: string) {
 //     switch (lang) {
