@@ -51,7 +51,7 @@ const Footer = ({maxMessageLength, numUsers, onMessageSend, t}: Props) => {
                 <Button color="primary" onClick={() => onSend()}>
                     {t("sendMessage")}
                 </Button>
-                <span className={Style.online}>online: {numUsers}</span>
+                <span>online: {numUsers}</span>
             </div>
         </div>
     );

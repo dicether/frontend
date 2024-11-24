@@ -43,7 +43,7 @@ class Ui extends React.Component<Props> {
         const payout = 2 * value * houseEdgeFactor;
 
         return (
-            <div className={Style.dice}>
+            <div>
                 <div className={Style.ui}>
                     <Coins selectedCoin={num} result={result} showResult={showResult} onClick={onClick} />
                     <div className={"row"} style={{alignItems: "flex-end"}}>

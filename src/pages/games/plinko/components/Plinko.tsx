@@ -10,9 +10,9 @@ import PayoutTable from "./PayoutTable";
 import Pins from "./Pins";
 import Vector2 from "./Vector2";
 
-import Style from "./Plinko.scss";
-import DayColors from "./PlinkoDayColors.scss";
-import NightColors from "./PlinkoNightColors.scss";
+import * as Style from "./Plinko.scss";
+import * as DayColors from "./PlinkoDayColors.scss";
+import * as NightColors from "./PlinkoNightColors.scss";
 
 type Props = {
     rows: number;

@@ -86,7 +86,6 @@ export default class Input extends React.Component<Props, State> {
 
         const className = ClassNames(
             "form-control",
-            Style.input__input,
             {"is-valid": isValid === true && showValidation},
             {"is-invalid": isValid === false && showValidation}
         );

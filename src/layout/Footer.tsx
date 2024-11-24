@@ -18,7 +18,7 @@ const Footer = ({showChat, t}: Props) => {
     const className = showChat ? "container-chat-open" : "";
 
     return (
-        <footer className={Style.footer}>
+        <footer>
             <nav className="navbar navbar-dark bg-dark">
                 <Container className={className}>
                     <Col className={Style.brand + " order-sm-2 my-auto"} sm={{size: 4}} xs={12}>

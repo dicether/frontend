@@ -6,9 +6,9 @@ import ReactResizeDetector, {useResizeDetector} from "react-resize-detector";
 import PureCanvas from "../../reusable/PureCanvas";
 import {formatMultiplier} from "./utility";
 
-import Style from "./Wheel.scss";
-import ColorDay from "./WheelDayColors.scss";
-import ColorNight from "./WheelNightColors.scss";
+import * as Style from "./Wheel.scss";
+import * as ColorDay from "./WheelDayColors.scss";
+import * as ColorNight from "./WheelNightColors.scss";
 
 type Props = {
     nightMode: boolean;

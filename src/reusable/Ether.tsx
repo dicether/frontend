@@ -25,7 +25,7 @@ const Ether = ({gwei, precision = 9, showCurrencySymbol = false, colored = false
 
     return (
         <span className={classNames}>
-            <span className={Style.value}>{ether}</span>
+            <span>{ether}</span>
             {showCurrencySymbol && <img className={Style.icon} src={icon} />}
         </span>
     );

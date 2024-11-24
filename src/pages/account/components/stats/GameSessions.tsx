@@ -35,7 +35,7 @@ const GameSessions = ({gameSessions, t}: Props) => (
                         <th>{t("profitInEth")}</th>
                     </tr>
                 </thead>
-                <tbody className={Style.gamseSessionEntries}>
+                <tbody className={Style.gameSessionEntries}>
                     {gameSessions.slice().map((gameSession) => (
                         <GameSessionRow key={gameSession.gameId} {...gameSession} />
                     ))}

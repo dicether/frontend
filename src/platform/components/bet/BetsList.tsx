@@ -34,7 +34,7 @@ const LastBetRow = ({bet, showUser, showBetModal, showUserModal}: LastBetRowProp
             </td>
             {showUser && (
                 <td className={Style.center}>
-                    <div className={Style.entry}>
+                    <div>
                         <button className={Style.userButton} onClick={() => showUserModal(user)}>
                             {user.username}
                         </button>
@@ -42,15 +42,15 @@ const LastBetRow = ({bet, showUser, showBetModal, showUserModal}: LastBetRowProp
                 </td>
             )}
             <td className={Style.center + " d-none d-sm-table-cell"}>
-                <div className={Style.entry}>{dayjs(timestamp).format("LT")}</div>
+                <div>{dayjs(timestamp).format("LT")}</div>
             </td>
             <td className={Style.center + " d-none d-sm-table-cell"}>
-                <div className={Style.entry}>
+                <div>
                     <Ether gwei={value} showCurrencySymbol />
                 </div>
             </td>
             <td className={Style.profit}>
-                <div className={Style.entry}>
+                <div>
                     <Ether gwei={profit} showCurrencySymbol colored />
                 </div>
             </td>

@@ -24,15 +24,15 @@ const Faq = ({t}: WithTranslation) => (
         <Container>
             <h2 className={Style.heading}>{t("FAQ")}</h2>
             <div className={Style.entry}>
-                <h5 className={Style.subheading}>{t("faq.whatIsDicether.question")}</h5>
+                <h5>{t("faq.whatIsDicether.question")}</h5>
                 <p>{t("faq.whatIsDicether.answer")}</p>
             </div>
             <div className={Style.entry}>
-                <h5 className={Style.subheading}>{t("faq.betterThanOtherSolution.question")}</h5>
+                <h5>{t("faq.betterThanOtherSolution.question")}</h5>
                 <p>{t("faq.betterThanOtherSolution.answer")}</p>
             </div>
             <div className={Style.entry}>
-                <h5 className={Style.subheading}>{t("faq.whatIsSecure.question")}</h5>
+                <h5>{t("faq.whatIsSecure.question")}</h5>
                 <Trans i18nKey="faq.whatIsSecure.answer">
                     <p>
                         When you start a game session we and you, the customer, generate a hash chain and send the last
@@ -55,15 +55,15 @@ const Faq = ({t}: WithTranslation) => (
                 </Trans>
             </div>
             <div className={Style.entry}>
-                <h5 className={Style.subheading}>{t("faq.houseEdge.question")}</h5>
+                <h5>{t("faq.houseEdge.question")}</h5>
                 <p>{t("faq.houseEdge.answer")}</p>
             </div>
             <div className={Style.entry}>
-                <h5 className={Style.subheading}>{t("faq.howToRegister.question")}</h5>
+                <h5>{t("faq.howToRegister.question")}</h5>
                 <p>{t("faq.howToRegister.answer")}</p>
             </div>
             <div className={Style.entry}>
-                <h5 className={Style.subheading}>{t("faq.cantPlaceBet.question")}</h5>
+                <h5>{t("faq.cantPlaceBet.question")}</h5>
                 <p>
                     <Trans i18nKey="faq.cantPlaceBet.answer">
                         To play you need to be logged in and you need to have installed
@@ -73,7 +73,7 @@ const Faq = ({t}: WithTranslation) => (
                 </p>
             </div>
             <div className={Style.entry}>
-                <h5 className={Style.subheading}>{t("faq.howToBecomeAffiliate.question")}</h5>
+                <h5>{t("faq.howToBecomeAffiliate.question")}</h5>
                 <p>
                     <Trans i18nKey="faq.howToBecomeAffiliate.answer">
                         We have created a short article describing, how to generate referral links. See
@@ -93,7 +93,7 @@ const Faq = ({t}: WithTranslation) => (
                 </p>
             </div>
             <div className={Style.entry}>
-                <h5 className={Style.subheading}>{t("faq.contact.question")}</h5>
+                <h5>{t("faq.contact.question")}</h5>
                 <p>
                     <Trans i18nKey="faq.contact.answer">
                         You can mail us: <a href={`mailto:${CONTACT_URL}`}>{CONTACT_URL}</a>.

@@ -71,7 +71,7 @@ class Ui extends React.PureComponent<Props, State> {
         return (
             <div>
                 <Row noGutters>
-                    <Col className={Style.plinko} lg={{size: 7, order: 2}} xl={{size: 8, order: 2}}>
+                    <Col lg={{size: 7, order: 2}} xl={{size: 8, order: 2}}>
                         <Plinko
                             ref={this.plinko}
                             rows={rows}
