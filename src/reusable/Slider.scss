@@ -34,9 +34,6 @@
     margin-top: -0.5rem;
     background-color: $primary;
     opacity: 1;
-    .night & {
-      background-color: $primary--night;
-    }
 
     z-index: 0;
     &:focus {
@@ -52,6 +49,10 @@
     &:hover {
       z-index: 1; // hack for dice slider
       background-color: var(--bs-primary);
+    }
+
+    .night & {
+      background-color: $primary--night;
     }
   }
   .rc-handle-click-focus {

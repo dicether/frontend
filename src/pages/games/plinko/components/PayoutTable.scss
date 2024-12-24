@@ -17,13 +17,6 @@
   padding: 5%;
   height: 1.25rem;
   font-size: 0.45rem;
-  @include media-breakpoint-up(lg) {
-    height: 1.5rem;
-    font-size: 0.45rem;
-  }
-  @include media-breakpoint-up(xl) {
-    font-size: 0.7rem;
-  }
   font-weight: 500;
   display: flex;
   align-items: center;
@@ -33,6 +26,14 @@
   position: relative;
   background-color: var(--bs-body-bg);
   overflow: hidden;
+
+  @include media-breakpoint-up(lg) {
+    height: 1.5rem;
+    font-size: 0.45rem;
+  }
+  @include media-breakpoint-up(xl) {
+    font-size: 0.7rem;
+  }
 }
 
 .multiplier {
