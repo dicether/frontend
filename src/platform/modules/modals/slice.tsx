@@ -53,7 +53,7 @@ const modalSlice = createSlice({
             state.betModal.betId = betId;
         },
         hideBetModal(state) {
-            state.betModal.showBetModal = true;
+            state.betModal.showBetModal = false;
             state.betModal.bet = undefined;
             state.betModal.betId = undefined;
         },
