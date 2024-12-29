@@ -53,7 +53,7 @@ export default class AnimatedWheel extends React.Component<Props, State> {
             targetPosition,
             currentTime,
             animationStartTime,
-            animationStartTime + AnimatedWheel.ANIMATION_TIME
+            animationStartTime + AnimatedWheel.ANIMATION_TIME,
         );
 
         this.setState({currentPosition: newPosition});
@@ -66,7 +66,7 @@ export default class AnimatedWheel extends React.Component<Props, State> {
         targetPosition: number,
         curTime: number,
         startTime: number,
-        endTime: number
+        endTime: number,
     ) {
         // TODO: add documentation for acceleration calculation
         const animationTime = endTime - startTime;

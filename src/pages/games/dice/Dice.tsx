@@ -166,7 +166,7 @@ class Dice extends React.Component<Props, DiceState> {
 
         let maxBetValue = Math.min(
             maxBet(dice.reverseRoll ? 2 : 1, dice.num, MIN_BANKROLL, KELLY_FACTOR),
-            MAX_BET_VALUE
+            MAX_BET_VALUE,
         );
         if (gameState.status !== "ENDED") {
             const max = Math.min(gameState.stake + gameState.balance, maxBetValue);

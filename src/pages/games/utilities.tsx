@@ -11,7 +11,7 @@ export function canPlaceBet(
     betValue: number,
     loggedIn: boolean,
     web3Available: boolean,
-    gameState: GameState
+    gameState: GameState,
 ) {
     if (!loggedIn) {
         return returnError("You need to login before playing!");
@@ -20,7 +20,7 @@ export function canPlaceBet(
     if (!web3Available) {
         return returnError(
             "You need to have a web3 enabled browser (e.g. install Metamask, use Trust Wallet or Coinbase Wallet)" +
-                `for playing and select network: ${NETWORK_NAME}!`
+                `for playing and select network: ${NETWORK_NAME}!`,
         );
     }
 
@@ -31,7 +31,7 @@ export function canPlaceBet(
     if (gameState.status === "PLACED_BET") {
         return returnError(
             "Your seed isn't revealed! Should normally work without your interaction." +
-                ' To manually reveal it You can click "request seed"!'
+                ' To manually reveal it You can click "request seed"!',
         );
     }
 

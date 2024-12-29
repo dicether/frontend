@@ -22,7 +22,7 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
         {
             changeFirstVisited,
         },
-        dispatch
+        dispatch,
     );
 
 type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;

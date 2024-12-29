@@ -164,7 +164,7 @@ class Keno extends React.PureComponent<Props, KenoState> {
                                 tmpResult: 0,
                                 showResultProfit: false,
                             }),
-                        5000
+                        5000,
                     );
 
                     addNewBet(result.bet);

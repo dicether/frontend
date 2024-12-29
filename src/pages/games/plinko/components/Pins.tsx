@@ -29,7 +29,7 @@ class Pins extends Drawable {
     public getCollisionPin(
         start: Vector2,
         end: Vector2,
-        radius: number
+        radius: number,
     ): {collisionPoint: Vector2; normal: Vector2} | undefined {
         // TODO: simple not optimized implementation;
         const maxDistanceSqr = (this.pinRadius + radius) * (this.pinRadius + radius);

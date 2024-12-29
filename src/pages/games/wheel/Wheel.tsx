@@ -123,7 +123,7 @@ class Wheel extends React.PureComponent<Props, WheelState> {
                             this.setState({
                                 showResult: false,
                             }),
-                        10000
+                        10000,
                     );
                 })
                 .catch((error) => catchError(error));

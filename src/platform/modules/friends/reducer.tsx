@@ -40,7 +40,7 @@ export default function (state: State = initialState, action: Actions) {
             return {
                 ...state,
                 receivedFriendRequests: state.receivedFriendRequests.filter(
-                    (friendReq) => friendReq.from.address !== address
+                    (friendReq) => friendReq.from.address !== address,
                 ),
             };
         }
@@ -60,7 +60,7 @@ export default function (state: State = initialState, action: Actions) {
             return {
                 ...state,
                 friends: state.friends.map((friend) =>
-                    status.address === friend.user.address ? updateFriendStatus(friend, status.online) : friend
+                    status.address === friend.user.address ? updateFriendStatus(friend, status.online) : friend,
                 ),
             };
         }

@@ -23,7 +23,7 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
         {
             loadStats,
         },
-        dispatch
+        dispatch,
     );
 
 type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;

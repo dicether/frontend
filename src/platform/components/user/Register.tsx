@@ -13,7 +13,7 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
             register,
             authenticate,
         },
-        dispatch
+        dispatch,
     );
 
 type Props = ReturnType<typeof mapDispatchToProps>;

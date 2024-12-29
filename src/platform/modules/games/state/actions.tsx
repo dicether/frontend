@@ -9,7 +9,7 @@ const ca = <T extends ActionCreateType<typeof types>>(a: T) => a;
 export const creatingGame = ca(
     (hashChain: string[], serverEndHash: string, value: number, transactionHash?: string) => {
         return {type: types.CREATING_GAME, hashChain, value, serverEndHash, createTransactionHash: transactionHash};
-    }
+    },
 );
 
 export const endedWithReason = ca((reason: ReasonEnded) => {
@@ -35,10 +35,10 @@ export const endedGame = ca(
         userHash: string,
         serverSig: string,
         userSig: string,
-        endTransactionHash: string
+        endTransactionHash: string,
     ) => {
         return {type: types.ENDED_GAME, roundId, serverHash, userHash, serverSig, userSig, endTransactionHash};
-    }
+    },
 );
 
 export const userInitiateConflictEnd = ca((transactionHash: string) => {
