@@ -1,7 +1,6 @@
 import * as React from "react";
 
 import {Modal} from "../../../reusable";
-import {Bet as BetType} from "../../modules/bets/types";
 import Bet from "../bet/Bet";
 import {connect} from "react-redux";
 import {State} from "../../../rootReducer";

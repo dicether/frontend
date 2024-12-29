@@ -1,7 +1,6 @@
 import * as React from "react";
 
 import {Modal} from "../../../reusable";
-import {User as UserType} from "../../modules/account/types";
 import User from "../user/User";
 import {connect} from "react-redux";
 import {State} from "../../../rootReducer";

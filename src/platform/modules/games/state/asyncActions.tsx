@@ -667,7 +667,6 @@ export function conflictEnd() {
         const num = gameState.num;
         const oldBalance = gameState.oldBalance;
         const serverSig = gameState.serverSig;
-        const contractAddress = contract.options.address;
 
         if (!web3 || !account || !contract) {
             throw new Error("You need a web3 enabled browser (Metamask)!");
