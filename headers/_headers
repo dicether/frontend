@@ -1,5 +1,5 @@
 /*
-  Content-Security-Policy-Report-Only: default-src 'self'; connect-src *; style-src 'self' 'unsafe-inline' https://translate.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' https://www.googletagmanager.com data: https://translate.google.com https://www.gstatic.com; script-src 'self' https://www.googletagmanager.com https://translate.googleapis.com; report-uri https://sentry.io/api/227657/security/?sentry_key=551f6a44d9a54cfe9c18e976685f8234
+  Content-Security-Policy-Report-Only: default-src 'self'; connect-src *; style-src 'self' 'unsafe-inline' https://translate.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' https://*.google-analytics.com https://*.googletagmanager.com data: https://translate.google.com https://www.gstatic.com; script-src 'self' https://*.googletagmanager.com https://translate.googleapis.com; report-uri https://sentry.io/api/227657/security/?sentry_key=551f6a44d9a54cfe9c18e976685f8234
   Feature-Policy: autoplay 'self'
   Permissions-Policy: speaker=*, autoplay=(self)
   X-Frame-Options: DENY
