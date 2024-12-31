@@ -11,7 +11,13 @@
     <meta property="og:title" content="Dicether" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://dicether.com" />
-    <meta property="og:image" content="https://dicether.com<%= require('./assets/images/logo.png') %>" />
+    <link rel="icon" type="image/png" href="<%= require('./assets/images/favicon-96x96.png?resource') %>" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="<%= require('./assets/images/favicon.svg?resource') %>" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="<%= require('./assets/images/apple-touch-icon.png?resource') %>" />
+    <meta name="apple-mobile-web-app-title" content="Dicether" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta property="og:image" content="https://dicether.com<%= require('./assets/images/logo.png?resource') %>" />
     <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
 <body>

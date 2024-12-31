@@ -148,7 +148,17 @@ module.exports = {
             },
             {
                 test: /\.(png|jpg|gif|ico|svg)$/,
+                resourceQuery: {not: /resource/},
                 type: "asset",
+                exclude: /inline/,
+            },
+            {
+                test: /\.(png|jpg|gif|ico|svg)$/,
+                resourceQuery: /resource/, // assets with resource query are not inlined
+                generator: {
+                    filename: "[hash][ext]", // remove query
+                },
+                type: "asset/resource",
                 exclude: /inline/,
             },
             {
@@ -194,7 +204,6 @@ module.exports = {
             title: Title,
             filename: process.env.DEV_SERVER === "TRUE" ? "index.html" : "../index.html",
             template: "root.ejs",
-            favicon: "assets/images/favicon.png",
             inject: "body",
         }),
         new CircularDependencyPlugin({

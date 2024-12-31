@@ -28,6 +28,8 @@ module.exports = merge(common, {
             patterns: [
                 {from: "assets/robots.txt", to: "../robots.txt"},
                 {from: "headers", to: "../"},
+                {from: "assets/site.webmanifest", to: "../site.webmanifest"},
+                {from: "assets/favicon.ico", to: "../favicon.ico"},
             ],
         }),
         new webpack.DefinePlugin({
