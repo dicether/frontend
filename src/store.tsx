@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/react";
-import {Middleware} from "redux";
+import {Middleware, StoreEnhancer} from "redux";
 import {createLogger} from "redux-logger";
 import {configureStore} from "@reduxjs/toolkit";
 import {VERSION} from "./config/config";
@@ -7,6 +7,7 @@ import rootReducer, {State} from "./rootReducer";
 import {truncate} from "./util/util";
 
 const middlewares: Middleware[] = []; // = [thunkMiddleware];
+const enhancers: StoreEnhancer[] = [];
 
 function filterState(state: State) {
     // remove chat, bets, account from state
@@ -47,7 +48,7 @@ if (process.env.SENTRY_LOGGING) {
         actionTransformer: filterAction,
         stateTransformer: filterState,
     });
-    middlewares.push(sentryReduxEnhancer);
+    enhancers.push(sentryReduxEnhancer);
 }
 
 if (process.env.REDUX_LOGGING) {
@@ -70,4 +71,5 @@ export const store = configureStore({
                 ignoredPaths: ["web3.web3", "web3.contract"],
             },
         }).concat(middlewares),
+    enhancers: (getDefaultEnhancers) => getDefaultEnhancers().concat(enhancers),
 });
