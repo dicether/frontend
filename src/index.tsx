@@ -8,7 +8,6 @@ import "regenerator-runtime/runtime";
 import "what-input";
 
 import "./config/interceptors";
-import "./googleanalytics";
 import Root from "./Root";
 import {store} from "./store";
 import {parseReferral} from "./util/affiliate";

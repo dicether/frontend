@@ -8,11 +8,6 @@ const withTracker = (WrappedComponent: React.ComponentType<any>) => {
     const trackPage = (page: string) => {
         if (lastPage !== page) {
             ReactGA.send({hitType: "pageview", page: page, title: document.title});
-            const ga = (window as any).ga;
-            if (ga) {
-                ga("set", "page", page);
-                ga("send", "pageview", page);
-            }
             lastPage = page;
         }
     };
