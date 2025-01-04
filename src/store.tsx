@@ -63,10 +63,8 @@ export const store = configureStore({
         getDefaultMiddleware({
             immutableCheck: false,
             serializableCheck: {
-                // Ignore these action types
-                ignoredActions: ["web3", "contract"],
                 // Ignore these field paths in all actions
-                ignoredActionPaths: ["web3.contract", "web3.web3"],
+                ignoredActionPaths: ["contract", "web3"],
                 // Ignore these paths in the state
                 ignoredPaths: ["web3.web3", "web3.contract"],
             },
