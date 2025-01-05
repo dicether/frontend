@@ -8,6 +8,6 @@ export interface Props extends BaseType {
     noGutters?: boolean;
 }
 
-const Row = ({...rest}: Props) => <BootstrapRow {...rest} />;
+const Row = ({noGutters, ...rest}: Props) => <BootstrapRow className={noGutters ? "g-0" : undefined} {...rest} />;
 
 export default Row;
