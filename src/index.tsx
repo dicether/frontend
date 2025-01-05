@@ -11,6 +11,8 @@ import "./config/interceptors";
 import Root from "./Root";
 import {store} from "./store";
 import {parseReferral} from "./util/affiliate";
+import ResizeObserver from "resize-observer-polyfill";
+import {createRoot} from "react-dom/client";
 
 ReactGA.initialize("G-JHM0P25QLT");
 
@@ -18,13 +20,12 @@ dayjs.extend(localizedFormat);
 
 parseReferral();
 
-import ResizeObserver from "resize-observer-polyfill";
-
 if (!window.ResizeObserver) {
     window.ResizeObserver = ResizeObserver;
 }
 
-const root = document.getElementById("root");
-if (root !== null) {
-    render(<Root store={store} />, root);
+const container = document.getElementById("root");
+if (container !== null) {
+    const root = createRoot(container);
+    root.render(<Root store={store} />);
 }
