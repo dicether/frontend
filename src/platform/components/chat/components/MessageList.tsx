@@ -25,36 +25,24 @@ class MessageList extends React.PureComponent<Props> {
         this.messageList = null;
     }
 
-    scrollToBottom() {
-        window.requestAnimationFrame(() => {
-            if (this.messageList !== null) {
-                const node = this.messageList;
-                node.scrollTop = node.scrollHeight;
-            }
-        });
+    scrollToBottom(smooth: boolean) {
+        if (this.messageList !== null) {
+            this.messageList.scrollIntoView({behavior: smooth ? "instant" : "instant"});
+        }
     }
 
     componentDidMount() {
-        this.scrollToBottom();
-    }
-
-    componentWillUpdate() {
-        if (this.messageList !== null) {
-            const node = this.messageList;
-            this.shouldScrollBottom = Math.abs(node.scrollTop + node.offsetHeight - node.scrollHeight) < 2;
-        }
+        this.scrollToBottom(false);
     }
 
     componentDidUpdate() {
-        if (this.shouldScrollBottom) {
-            this.scrollToBottom();
-        }
+        this.scrollToBottom(true);
     }
 
     render() {
         const {messages, friends, showBetModal, showUserModal} = this.props;
         return (
-            <div ref={(ref) => (this.messageList = ref)} className={Style.messageList}>
+            <div className={Style.messageList}>
                 {messages.slice().map((message) => (
                     <Message
                         key={message.id}
@@ -64,6 +52,7 @@ class MessageList extends React.PureComponent<Props> {
                         showUserModal={showUserModal}
                     />
                 ))}
+                <div ref={(ref) => (this.messageList = ref)} data-explanation="This is where we scroll to" />
             </div>
         );
     }
