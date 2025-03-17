@@ -12,6 +12,7 @@ import {showBetModal, showUserModal} from "../../modules/modals/slice";
 import BetsList from "./BetsList";
 
 import * as Style from "./Stats.scss";
+import {useEffect, useState} from "react";
 
 const mapStateToProps = (state: State) => {
     const {bets} = state;
@@ -45,81 +46,70 @@ type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchT
 
 type Tab = "allBets" | "myBets";
 
-type CompState = {
-    activeTab: Tab;
-};
+const Stats = (props: Props) => {
+    const [state, setState] = useState({activeTab: "myBets"});
 
-class Stats extends React.Component<Props, CompState> {
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-            activeTab: "myBets",
-        };
-    }
-
-    componentWillReceiveProps(newProps: Props) {
-        if (!this.props.userAuth && newProps.userAuth) {
-            this.setState({activeTab: "myBets"});
+    useEffect(() => {
+        if (props.userAuth) {
+            setState({activeTab: "myBets"});
         }
-    }
+    }, [props.userAuth]);
 
-    toggle = (tab: Tab) => {
-        if (this.state.activeTab !== tab) {
-            this.setState({
+    const toggle = (tab: Tab) => {
+        if (state.activeTab !== tab) {
+            setState({
                 activeTab: tab,
             });
         }
     };
 
-    render() {
-        const {allBets, myBets, showMyBets, showBetModal, showUserModal} = this.props;
-        const {activeTab} = this.state;
-        const curActiveTab = showMyBets ? activeTab : "allBets";
+    const {allBets, myBets, showMyBets, showBetModal, showUserModal} = props;
+    const {activeTab} = state;
+    const curActiveTab = showMyBets ? activeTab : "allBets";
 
-        return (
-            <div className={Style.stats}>
-                {showMyBets && (
-                    <Nav pills className={Style.betSelection}>
-                        <NavItem>
-                            <NavLink
-                                href="#"
-                                className={activeTab === "allBets" ? "active" : ""}
-                                onClick={() => this.toggle("allBets")}
-                            >
-                                All Bets
-                            </NavLink>
-                        </NavItem>
-                        <NavItem>
-                            <NavLink
-                                href="#"
-                                className={activeTab === "myBets" ? "active" : ""}
-                                onClick={() => this.toggle("myBets")}
-                            >
-                                My Bets
-                            </NavLink>
-                        </NavItem>
-                    </Nav>
-                )}
-                <TabContent activeTab={curActiveTab}>
-                    <TabPane tabId="allBets">
-                        <BetsList
-                            bets={allBets}
-                            showBetModal={(bet) => showBetModal({bet})}
-                            showUserModal={(user) => showUserModal({user})}
-                        />
-                    </TabPane>
-                    <TabPane tabId="myBets">
-                        <BetsList
-                            bets={myBets}
-                            showUser={false}
-                            showBetModal={(bet) => showBetModal({bet})}
-                            showUserModal={(user) => showUserModal({user})}
-                        />
-                    </TabPane>
-                </TabContent>
-            </div>
-        );
-    }
-}
+    return (
+        <div className={Style.stats}>
+            {showMyBets && (
+                <Nav pills className={Style.betSelection}>
+                    <NavItem>
+                        <NavLink
+                            href="#"
+                            className={activeTab === "allBets" ? "active" : ""}
+                            onClick={() => toggle("allBets")}
+                        >
+                            All Bets
+                        </NavLink>
+                    </NavItem>
+                    <NavItem>
+                        <NavLink
+                            href="#"
+                            className={activeTab === "myBets" ? "active" : ""}
+                            onClick={() => toggle("myBets")}
+                        >
+                            My Bets
+                        </NavLink>
+                    </NavItem>
+                </Nav>
+            )}
+            <TabContent activeTab={curActiveTab}>
+                <TabPane tabId="allBets">
+                    <BetsList
+                        bets={allBets}
+                        showBetModal={(bet) => showBetModal({bet})}
+                        showUserModal={(user) => showUserModal({user})}
+                    />
+                </TabPane>
+                <TabPane tabId="myBets">
+                    <BetsList
+                        bets={myBets}
+                        showUser={false}
+                        showBetModal={(bet) => showBetModal({bet})}
+                        showUserModal={(user) => showUserModal({user})}
+                    />
+                </TabPane>
+            </TabContent>
+        </div>
+    );
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Stats);
