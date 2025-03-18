@@ -76,16 +76,16 @@ class Dice extends React.Component<Props, DiceState> {
         };
     }
 
-    componentWillUnmount() {
+    public componentWillUnmount() {
         window.clearTimeout(this.resultTimeoutId);
     }
 
-    componentWillReceiveProps(nextProps: Props) {
+    public componentDidUpdate(prevProps: Props) {
         const {gameState, dice, changeValue} = this.props;
 
-        if (gameState.balance !== nextProps.gameState.balance) {
+        if (gameState.balance !== prevProps.gameState.balance) {
             // if the balance changes, we need to check if user has enough funds for current bet value
-            const leftStake = nextProps.gameState.stake + nextProps.gameState.balance;
+            const leftStake = gameState.stake + gameState.balance;
             if (dice.value > leftStake) {
                 changeValue(Math.max(leftStake, MIN_BET_VALUE));
             }

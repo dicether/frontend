@@ -75,9 +75,21 @@ class Keno extends React.PureComponent<Props, KenoState> {
         };
     }
 
-    componentWillUnmount() {
+    public componentWillUnmount() {
         clearTimeout(this.pickTimeoutId);
         clearTimeout(this.resultTimeoutId);
+    }
+
+    public componentDidUpdate(prevProps: Props) {
+        const {gameState, keno, changeValue} = this.props;
+
+        if (gameState.balance !== prevProps.gameState.balance) {
+            // if the balance changes, we need to check if user has enough funds for current bet value
+            const leftStake = gameState.stake + gameState.balance;
+            if (keno.value > leftStake) {
+                changeValue(Math.max(leftStake, MIN_BET_VALUE));
+            }
+        }
     }
 
     private onToggleHelp = () => {

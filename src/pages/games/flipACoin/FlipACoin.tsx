@@ -60,6 +60,18 @@ class FlipACoin extends React.PureComponent<Props, OneDiceState> {
         };
     }
 
+    public componentDidUpdate(prevProps: Props) {
+        const {gameState, flipACoin, changeValue} = this.props;
+
+        if (gameState.balance !== prevProps.gameState.balance) {
+            // if the balance changes, we need to check if user has enough funds for current bet value
+            const leftStake = gameState.stake + gameState.balance;
+            if (flipACoin.value > leftStake) {
+                changeValue(Math.max(leftStake, MIN_BET_VALUE));
+            }
+        }
+    }
+
     private onToggleHelp = () => {
         const {toggleHelp, info} = this.props;
         toggleHelp(!info.showHelp);

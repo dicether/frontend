@@ -69,6 +69,18 @@ class Wheel extends React.PureComponent<Props, WheelState> {
         clearTimeout(this.resultUntilShowTimeoutId);
     }
 
+    public componentDidUpdate(prevProps: Props) {
+        const {gameState, wheel, changeValue} = this.props;
+
+        if (gameState.balance !== prevProps.gameState.balance) {
+            // if the balance changes, we need to check if user has enough funds for current bet value
+            const leftStake = gameState.stake + gameState.balance;
+            if (wheel.value > leftStake) {
+                changeValue(Math.max(leftStake, MIN_BET_VALUE));
+            }
+        }
+    }
+
     private onToggleHelp = () => {
         const {toggleHelp, info} = this.props;
         toggleHelp(!info.showHelp);

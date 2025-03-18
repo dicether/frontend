@@ -64,6 +64,18 @@ class ChooseFrom12 extends React.PureComponent<Props, OneDiceState> {
         clearTimeout(this.resultTimeoutId);
     }
 
+    public componentDidUpdate(prevProps: Props) {
+        const {gameState, oneDice, changeValue} = this.props;
+
+        if (gameState.balance !== prevProps.gameState.balance) {
+            // if the balance changes, we need to check if user has enough funds for current bet value
+            const leftStake = gameState.stake + gameState.balance;
+            if (oneDice.value > leftStake) {
+                changeValue(Math.max(leftStake, MIN_BET_VALUE));
+            }
+        }
+    }
+
     private onToggleHelp = () => {
         const {toggleHelp, info} = this.props;
         toggleHelp(!info.showHelp);
