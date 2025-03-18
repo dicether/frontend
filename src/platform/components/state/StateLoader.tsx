@@ -6,6 +6,7 @@ import {State} from "../../../rootReducer";
 import {Dispatch} from "../../../util/util";
 import {getUser} from "../../modules/account/selectors";
 import {storeGameState, syncGameState, validChainId} from "../../modules/games/state/asyncActions";
+import {useEffect, useRef} from "react";
 
 const mapStateToProps = (state: State) => {
     const {games, web3} = state;
@@ -28,44 +29,28 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
 
 export type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
-class StateLoader extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
-
-    componentDidMount() {
-        const {syncGameState, userAuth, web3} = this.props;
-
+const StateLoader = ({gameState, syncGameState, userAuth, web3}: Props) => {
+    useEffect(() => {
         if (userAuth !== null && web3.web3 && web3.account && web3.contract && validChainId(web3.chainId)) {
             syncGameState(web3.chainId as number, userAuth.address);
         }
-    }
+    }, []);
 
-    componentWillReceiveProps(nextProps: Props) {
-        const {syncGameState, userAuth: nextUserAuth, gameState: nextState, web3: nextWeb3State} = nextProps;
-        const {userAuth: curUserAuth, gameState: curState, web3: curWeb3State} = this.props;
-
-        if (
-            nextUserAuth !== null &&
-            nextWeb3State.web3 &&
-            nextWeb3State.account &&
-            nextWeb3State.contract &&
-            validChainId(nextWeb3State.chainId) &&
-            (nextUserAuth !== curUserAuth ||
-                nextWeb3State.account !== curWeb3State.account ||
-                nextWeb3State.chainId !== curWeb3State.chainId)
-        ) {
-            syncGameState(nextWeb3State.chainId as number, nextUserAuth.address);
+    useEffect(() => {
+        if (userAuth !== null && web3.web3 && web3.account && web3.contract && validChainId(web3.chainId)) {
+            syncGameState(web3.chainId as number, userAuth.address);
         }
+    }, [web3.account, web3.chainId, userAuth]);
 
-        if (nextState !== curState && nextUserAuth) {
-            storeGameState(nextUserAuth.address, nextState);
+    const isFirstRun = useRef(true);
+    useEffect(() => {
+        if (userAuth && !isFirstRun.current) {
+            storeGameState(userAuth.address, gameState);
         }
-    }
+        isFirstRun.current = false;
+    }, [gameState]);
 
-    render() {
-        return null;
-    }
-}
+    return null;
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(StateLoader);
