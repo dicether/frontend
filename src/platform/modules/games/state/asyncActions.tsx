@@ -344,7 +344,7 @@ export function loadContractGameState() {
 
             const logCreated = await getLogGameCreated(web3, contract, gameState.serverHash);
             if (logCreated) {
-                const gameId = logCreated.returnValues.gameId;
+                const gameId = Number(logCreated.returnValues.gameId);
                 const serverHash = logCreated.returnValues.serverEndHash;
                 const userHash = logCreated.returnValues.userEndHash;
 
