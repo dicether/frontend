@@ -54,10 +54,16 @@ export type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDi
 
 export type KenoState = {
     showResult: boolean;
-    result: {betNum: number; num: number; won: boolean; userProfit: number};
-    tmpResult: number;
+    tmpResult: {betNum: number; num: number; won: boolean; userProfit: number};
 
     showResultProfit: boolean;
+};
+
+type Result = {
+    betNum: number;
+    num: number;
+    won: boolean;
+    userProfit: number;
 };
 
 class Keno extends React.PureComponent<Props, KenoState> {
@@ -69,8 +75,8 @@ class Keno extends React.PureComponent<Props, KenoState> {
         super(props);
         this.state = {
             showResult: false,
-            result: {betNum: 0, num: 0, won: false, userProfit: 0},
-            tmpResult: 0,
+            //result: {betNum: 0, num: 0, won: false, userProfit: 0},
+            tmpResult: {betNum: 0, num: 0, won: false, userProfit: 0},
             showResultProfit: false,
         };
     }
@@ -167,20 +173,19 @@ class Keno extends React.PureComponent<Props, KenoState> {
         if (canBet.canPlaceBet) {
             placeBet(num, safeBetValue, gameType)
                 .then((result) => {
-                    this.setState({result, showResult: true, tmpResult: 0});
+                    this.setState({showResult: true, tmpResult: {...result, num: 0}});
                     clearTimeout(this.resultTimeoutId);
                     this.resultTimeoutId = window.setTimeout(
                         () =>
                             this.setState({
                                 showResult: false,
-                                tmpResult: 0,
                                 showResultProfit: false,
                             }),
                         5000,
                     );
 
                     addNewBet(result.bet);
-                    this.showResult();
+                    this.showResult(result);
                 })
                 .catch((error) => catchError(error));
         } else {
@@ -188,19 +193,24 @@ class Keno extends React.PureComponent<Props, KenoState> {
         }
     };
 
-    private showResultHelper = (indices: number[]) => {
-        const {showResult, tmpResult, result} = this.state;
-        if (!showResult || indices.length === 0) {
+    private showResultHelper = (indices: number[], betNum: number, curNum: number) => {
+        //const {tmpResult, result} = this.state;
+        if (indices.length === 0) {
             return;
         }
 
         const idx = indices[0];
         const newBit = new BN(1).shln(idx);
-        const newTmpResult = new BN(tmpResult).or(newBit).toNumber();
+        const newTmpResult = new BN(curNum).or(newBit).toNumber();
 
-        this.setState({tmpResult: newTmpResult});
+        this.setState((prevState) => ({
+            tmpResult: {
+                ...prevState.tmpResult,
+                num: newTmpResult,
+            },
+        }));
 
-        if (newBit.and(new BN(result.betNum)).toNumber() !== 0) {
+        if (newBit.and(new BN(betNum)).toNumber() !== 0) {
             this.playSound(sounds.tileHit);
         } else {
             this.playSound(sounds.tileMiss);
@@ -209,20 +219,19 @@ class Keno extends React.PureComponent<Props, KenoState> {
         indices.shift();
 
         if (indices.length === 0) {
-            this.setState({showResultProfit: true});
+            window.setTimeout(() => this.setState({showResultProfit: true}), 300);
         } else {
-            window.setTimeout(this.showResultHelper, 200, indices);
+            window.setTimeout(this.showResultHelper, 300, indices, betNum, newTmpResult);
         }
     };
 
-    private showResult = () => {
-        const {result} = this.state;
+    private showResult = (result: Result) => {
         const {num} = result;
         const resultTiles = getSetBits(num);
 
         const indices = resultTiles.map((x, i) => (x ? i : -1)).filter((idx) => idx !== -1);
         shuffle(indices);
-        this.showResultHelper(indices);
+        this.showResultHelper(indices, result.betNum, 0);
     };
 
     private playSound = (audio: HTMLAudioElement) => {
@@ -237,7 +246,7 @@ class Keno extends React.PureComponent<Props, KenoState> {
     render() {
         const {info, gameState, keno} = this.props;
         const {num, value} = keno;
-        const {result, showResult, tmpResult, showResultProfit} = this.state;
+        const {showResult, tmpResult, showResultProfit} = this.state;
 
         let maxBetValue = maxBet(GameType.KENO, num === 0 ? 1 : num, MIN_BANKROLL, KELLY_FACTOR);
         if (gameState.status !== "ENDED") {
@@ -262,7 +271,7 @@ class Keno extends React.PureComponent<Props, KenoState> {
                     onPlaceBet={this.onPlaceBet}
                     showResult={showResult}
                     showResultProfit={showResultProfit}
-                    result={{...result, num: tmpResult}}
+                    result={tmpResult}
                     showHelp={info.showHelp}
                     onToggleHelp={this.onToggleHelp}
                 />
