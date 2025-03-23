@@ -143,12 +143,15 @@ const Wheel = ({nightMode, segmentColors, angle, payout}: Props) => {
         if (width === undefined) return;
 
         setSize(width);
-        renderToCanvas();
     };
 
     useEffect(() => {
         renderToCanvas();
-    }, [nightMode, segmentColors, angle, payout]);
+    }, []);
+
+    useEffect(() => {
+        renderToCanvas();
+    }, [nightMode, segmentColors, angle, payout, size]);
 
     useResizeDetector({
         handleHeight: false,
