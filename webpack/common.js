@@ -14,6 +14,11 @@ const contextRoot = path.join(context, "src");
 
 const Title = "Dicether";
 
+const sassOptions = {
+    silenceDeprecations: ["import", "global-builtin", "color-functions"],
+    includePaths: [path.join(__dirname, "src")],
+};
+
 // the final webpack config
 module.exports = {
     entry: {
@@ -96,9 +101,7 @@ module.exports = {
                         loader: "sass-loader",
                         options: {
                             sourceMap: true,
-                            sassOptions: {
-                                includePaths: [path.join(__dirname, "src")],
-                            },
+                            sassOptions,
                         },
                     },
                 ],
@@ -134,9 +137,7 @@ module.exports = {
                         loader: "sass-loader",
                         options: {
                             sourceMap: true,
-                            sassOptions: {
-                                includePaths: [path.join(__dirname, "src")],
-                            },
+                            sassOptions,
                         },
                     },
                 ],
