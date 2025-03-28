@@ -170,9 +170,9 @@ export function register(username: string) {
 export function deauthenticate() {
     return (dispatch: Dispatch, getState: GetState) => {
         if (getState().account.jwt !== null) {
+            dispatch(deAuthenticateSocket());
             dispatch(changeJWT(null));
             dispatch({type: "USER_LOGOUT"});
-            dispatch(deAuthenticateSocket());
             loadDefaultData(dispatch);
             Sentry.getCurrentScope().setUser({});
         }
