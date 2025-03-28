@@ -18,12 +18,12 @@ const Account = () => (
             <Navbar color="faded" light expand style={{marginLeft: "-1.5rem"}}>
                 <Nav navbar>
                     <NavItem>
-                        <NavLink tag={RRNavLink} to="stats">
+                        <NavLink tag={RRNavLink} to="../stats" relative="path">
                             Statistics
                         </NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink tag={RRNavLink} to="affiliate">
+                        <NavLink tag={RRNavLink} to="../affiliate" relative="path">
                             Affiliate
                         </NavLink>
                     </NavItem>
