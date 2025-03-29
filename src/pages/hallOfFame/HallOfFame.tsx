@@ -74,17 +74,17 @@ class HallOfFame extends React.Component<Props> {
                     <h2 className={Style.heading}>Hall of Fame</h2>
                     <Nav pills className={Style.selection}>
                         <NavItem>
-                            <NavLink tag={RRNavLink} to="weekly">
+                            <NavLink tag={RRNavLink} to="../weekly" relative="path">
                                 {t("weekly")}
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink tag={RRNavLink} to="monthly">
+                            <NavLink tag={RRNavLink} to="../monthly" relative="path">
                                 {t("monthly")}
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink tag={RRNavLink} to="all">
+                            <NavLink tag={RRNavLink} to="../all" relative="path">
                                 {t("all")}
                             </NavLink>
                         </NavItem>
