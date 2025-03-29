@@ -63,12 +63,7 @@ export function authenticateSocket() {
 }
 
 export function deAuthenticateSocket() {
-    return (dispatch: Dispatch, getState: GetState) => {
-        const jwt = getState().account.jwt;
-        if (jwt !== null) {
-            SOCKET.emit("deauthenticate", jwt);
-        }
-    };
+    SOCKET.emit("deauthenticate");
 }
 
 export function authenticate() {
@@ -170,7 +165,7 @@ export function register(username: string) {
 export function deauthenticate() {
     return (dispatch: Dispatch, getState: GetState) => {
         if (getState().account.jwt !== null) {
-            dispatch(deAuthenticateSocket());
+            deAuthenticateSocket();
             dispatch(changeJWT(null));
             dispatch({type: "USER_LOGOUT"});
             loadDefaultData(dispatch);
