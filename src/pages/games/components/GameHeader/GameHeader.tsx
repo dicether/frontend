@@ -3,11 +3,12 @@ import Countdown from "react-countdown";
 
 import {
     COINBASE_WALLET_URL,
+    GAME_SESSION_TIMEOUT,
     MAX_GAME_SESSION_VALUE,
     METAMASK_URL,
     MIN_GAME_SESSION_VALUE,
     NETWORK_NAME,
-    SESSION_TIMEOUT,
+    FORCE_END_TIMEOUT,
     TRUST_WALLET_URL,
 } from "../../../../config/config";
 import {validChainId} from "../../../../platform/modules/games/state/asyncActions";
@@ -55,7 +56,7 @@ type ForceEndProps = {
 };
 
 const ForceEnd = ({endTime, onForceEnd}: ForceEndProps) => {
-    const sessionTimeout = SESSION_TIMEOUT * 3600 * 1000 + new Date(endTime).getTime(); // convert to milliseconds
+    const sessionTimeout = FORCE_END_TIMEOUT * 3600 * 1000 + new Date(endTime).getTime(); // convert to milliseconds
 
     return (
         <Countdown
@@ -181,7 +182,8 @@ export default class GameHeader extends React.Component<Props, State> {
                 {serverInitiatedEnd && (
                     <div>
                         <span className="text-danger">
-                            Server initiated end! Should only happen if you didn't play for {SESSION_TIMEOUT} hours!
+                            Server initiated end! Should only happen if you didn't play for {GAME_SESSION_TIMEOUT}{" "}
+                            hours!
                         </span>
                         <Button size="sm" onClick={onConflictEnd}>
                             Conflict End

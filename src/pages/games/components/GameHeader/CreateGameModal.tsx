@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import {SESSION_TIMEOUT} from "../../../../config/config";
+import {GAME_SESSION_TIMEOUT} from "../../../../config/config";
 import {State as Web3State} from "../../../../platform/modules/web3/reducer";
 import {Button, Ether, Form, FormGroup, Input, Label, Modal, ValueInput} from "../../../../reusable";
 import {generateSeed} from "../../../../util/crypto";
@@ -106,7 +106,7 @@ export default class CreateGameModal extends React.Component<Props, State> {
                             The data required for the game session is stored local on your browser. So{" "}
                             <em>don't clear your browser history</em> as long as the game session is active. If your are
                             done with playing you must end the game session. If you don't end the game session, we will
-                            end it after waiting {SESSION_TIMEOUT} hours and you will need to pay a fine!
+                            end it after waiting {GAME_SESSION_TIMEOUT} hours and you will need to pay a fine!
                         </FormGroup>
                         <FormGroup>
                             <Button type="submit" color="primary" disabled={toLowBalance}>

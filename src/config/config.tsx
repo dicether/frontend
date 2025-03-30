@@ -52,4 +52,5 @@ export const MAX_NUMBER_DICE_1 = 98;
 export const MIN_NUMBER_DICE_2 = 2;
 export const MAX_NUMBER_DICE_2 = 99;
 
-export const SESSION_TIMEOUT = 48; // in hours
+export const FORCE_END_TIMEOUT = 48; // in hours, timeout force end is possible after conflict end
+export const GAME_SESSION_TIMEOUT = 6; // in hours, timeout after server will end game session with conflict end

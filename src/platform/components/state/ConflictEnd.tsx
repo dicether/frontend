@@ -1,6 +1,6 @@
 import * as React from "react";
 
-import {SESSION_TIMEOUT} from "../../../config/config";
+import {FORCE_END_TIMEOUT} from "../../../config/config";
 import {Button, Modal} from "../../../reusable";
 
 export type Props = {
@@ -39,7 +39,7 @@ class ConflictEnd extends React.Component<Props, State> {
                     <p>
                         It should be almost never needed to do this. It is only necessary if the server stops
                         responding. This will push your current game state to the smart contract. If the server doesn't
-                        publish any newer game state within the next {SESSION_TIMEOUT} you can force the game session
+                        publish any newer game state within the next {FORCE_END_TIMEOUT} you can force the game session
                         termination.
                     </p>
                     <div>
