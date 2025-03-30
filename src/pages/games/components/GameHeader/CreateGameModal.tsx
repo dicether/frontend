@@ -3,9 +3,9 @@ import * as React from "react";
 import {GAME_SESSION_TIMEOUT} from "../../../../config/config";
 import {State as Web3State} from "../../../../platform/modules/web3/reducer";
 import {Button, Ether, Form, FormGroup, Input, Label, Modal, ValueInput} from "../../../../reusable";
-import {generateSeed} from "../../../../util/crypto";
 
 type Props = {
+    seed: string;
     isOpen: boolean;
     minValue: number;
     maxValue: number;
@@ -17,7 +17,6 @@ type Props = {
 
 type State = {
     value: number;
-    seed: string;
 };
 
 function roundValue(value: number, step: number): number {
@@ -33,7 +32,6 @@ export default class CreateGameModal extends React.Component<Props, State> {
 
         this.state = {
             value: roundValue(val, props.minValue),
-            seed: generateSeed(),
         };
     }
 
@@ -43,8 +41,8 @@ export default class CreateGameModal extends React.Component<Props, State> {
     }
 
     private createGame = (e: React.FormEvent<HTMLFormElement>) => {
-        const {onCreateGame, onClose} = this.props;
-        const {value, seed} = this.state;
+        const {onCreateGame, onClose, seed} = this.props;
+        const {value} = this.state;
 
         onCreateGame(value, seed);
         onClose();
@@ -56,8 +54,8 @@ export default class CreateGameModal extends React.Component<Props, State> {
     };
 
     render() {
-        const {minValue, maxValue, isOpen, onClose, web3State} = this.props;
-        const {value, seed} = this.state;
+        const {minValue, maxValue, isOpen, onClose, web3State, seed} = this.props;
+        const {value} = this.state;
 
         const accountBalance = web3State.balance;
 

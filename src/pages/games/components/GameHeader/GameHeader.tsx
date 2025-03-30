@@ -19,6 +19,7 @@ import {Button, FontAwesomeIcon} from "../../../../reusable/index";
 import CreateGameModal from "./CreateGameModal";
 
 import * as Style from "./GameHeader.scss";
+import {generateSeed} from "../../../../util/crypto";
 
 type ForceEndRenderProps = {
     hours: number;
@@ -83,6 +84,7 @@ type State = {
 
 export default class GameHeader extends React.Component<Props, State> {
     endTransactionRef: React.RefObject<HTMLAnchorElement>;
+    seed: string = generateSeed();
 
     constructor(props: Props) {
         super(props);
@@ -98,6 +100,15 @@ export default class GameHeader extends React.Component<Props, State> {
     };
 
     onShow = () => {
+        const {gameState} = this.props;
+
+        const status = gameState.status;
+
+        // If there is already an active transaction reuse the same seed
+        if (status !== "CREATING" || this.seed === null) {
+            this.seed = generateSeed();
+        }
+
         this.setState({modalIsOpen: true});
     };
 
@@ -196,6 +207,7 @@ export default class GameHeader extends React.Component<Props, State> {
                             Start Game Session
                         </Button>
                         <CreateGameModal
+                            seed={this.seed}
                             isOpen={modalIsOpen}
                             minValue={MIN_GAME_SESSION_VALUE}
                             maxValue={MAX_GAME_SESSION_VALUE}
