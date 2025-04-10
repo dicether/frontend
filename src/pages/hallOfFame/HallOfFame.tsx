@@ -84,8 +84,8 @@ class HallOfFame extends React.Component<Props> {
                             </NavLink>
                         </NavItem>
                         <NavItem>
-                            <NavLink tag={RRNavLink} to="../all" relative="path">
-                                {t("all")}
+                            <NavLink tag={RRNavLink} to="../yearly" relative="path">
+                                {t("yearly")}
                             </NavLink>
                         </NavItem>
                     </Nav>
@@ -99,8 +99,8 @@ class HallOfFame extends React.Component<Props> {
                             element={<StatsEntry timeSpan="month" showUserModal={(user) => showUserModal({user})} />}
                         />
                         <Route
-                            path="all"
-                            element={<StatsEntry timeSpan="all" showUserModal={(user) => showUserModal({user})} />}
+                            path="yearly"
+                            element={<StatsEntry timeSpan="year" showUserModal={(user) => showUserModal({user})} />}
                         />
                         <Route path="*" element={<PathNotFound />} />
                     </Routes>
