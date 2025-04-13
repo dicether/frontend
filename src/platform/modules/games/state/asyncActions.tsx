@@ -425,8 +425,20 @@ export function syncGameState(chainId: number, address: string) {
     return async (dispatch: Dispatch) => {
         try {
             dispatch(loadLocalGameState(chainId, address));
-            await dispatch(loadContractGameState());
+        } catch (error) {
+            catchError(error, dispatch);
+        }
+
+        try {
+            // Loading game state from server isn't necessary
+            // But it allows us to get the game, which simplifies to load game state from contract
             await dispatch(loadServerGameState());
+        } catch (error) {
+            catchError(error, dispatch);
+        }
+
+        try {
+            await dispatch(loadContractGameState());
         } catch (error) {
             catchError(error, dispatch);
         }
