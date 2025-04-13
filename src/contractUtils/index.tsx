@@ -1,5 +1,6 @@
 import Web3 from "web3";
 import {BigIntMath} from "../util/math";
+import {MAX_BLOCKS_QUERY} from "../config/config";
 
 export function getLastGameId(
     web3: Web3,
@@ -16,7 +17,7 @@ export function getLastGameId(
         .then((blockNum) => {
             return contract.getPastEvents("LogGameCreated", {
                 filter: {serverEndHash},
-                fromBlock: BigIntMath.max(blockNum - BigInt(30 * 24 * 4 * 60), 0n),
+                fromBlock: BigIntMath.max(blockNum - BigInt(MAX_BLOCKS_QUERY), 0n),
                 toBlock: "latest",
             });
         })
@@ -34,7 +35,7 @@ export async function getLogGameCreated(web3: Web3, contract: any, serverEndHash
     const blockNum = await web3.eth.getBlockNumber();
     const events = await contract.getPastEvents("LogGameCreated", {
         filter: {serverEndHash},
-        fromBlock: BigIntMath.max(blockNum - BigInt(30 * 24 * 4 * 60), 0n),
+        fromBlock: BigIntMath.max(blockNum - BigInt(MAX_BLOCKS_QUERY), 0n),
         toBlock: "latest",
     });
 
@@ -51,7 +52,7 @@ export function getReasonEnded(web3: Web3, contract: any, gameId: number) {
         .then((blockNum) => {
             return contract.getPastEvents("LogGameEnded", {
                 filter: {gameId},
-                fromBlock: BigIntMath.max(blockNum - BigInt(30 * 24 * 4 * 60), 0n),
+                fromBlock: BigIntMath.max(blockNum - BigInt(MAX_BLOCKS_QUERY), 0n),
                 toBlock: "latest",
             });
         })
