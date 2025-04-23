@@ -8,7 +8,7 @@ import {CONTRACT_ADDRESS, FROM_WEI_TO_BASE} from "../../../config/config";
 import {Dispatch, GetState} from "../../../util/util";
 import {changeAccount, changeBalance, changeContract, changeChainId, changeWeb3} from "./actions";
 
-const stateChannelContractAbi = require("assets/json/GameChannelContract.json");
+import stateChannelContractAbi from "assets/json/GameChannelContract.json";
 
 export function fetchChainId() {
     return async (dispatch: Dispatch, getState: GetState) => {

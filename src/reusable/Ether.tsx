@@ -2,7 +2,7 @@ import ClassNames from "classnames";
 import * as React from "react";
 
 import * as Style from "./Ether.scss";
-const icon = require("assets/images/ETH_icon.svg");
+import icon from "assets/images/ETH_icon.svg";
 
 export function formatEth(gwei: number, precision = 9) {
     return (gwei / 1e9).toFixed(precision);

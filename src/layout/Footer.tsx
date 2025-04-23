@@ -6,7 +6,7 @@ import {Container, Nav, NavItem, NavLink} from "reactstrap";
 import {CONTACT_URL, DISCORD_URL, GITHUB_URL, NAME, REDDIT_URL, TWITTER_URL, BUILD_DATE} from "../config/config";
 import {Col} from "../reusable";
 
-const logo = require("assets/images/logoTop.svg");
+import logo from "assets/images/logoTop.svg";
 
 import * as Style from "./Footer.scss";
 

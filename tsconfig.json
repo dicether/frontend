@@ -3,6 +3,7 @@
     "strictFunctionTypes": true,
     "moduleResolution": "node",
     "module": "es6",
+    "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "target": "es2020",
@@ -24,6 +25,7 @@
     "noImplicitThis": true,
     "allowJs": false,
     "paths": {
+        "assets/*": ["./assets/*"],
         "*": ["./typings/*"]
     }
   },

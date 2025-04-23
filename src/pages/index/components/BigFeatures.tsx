@@ -6,9 +6,9 @@ import {Col, Container, Row, Section} from "../../../reusable";
 
 import * as Style from "./BigFeatures.scss";
 
-const anonymous = require("assets/images/anonymous.svg");
-const fair = require("assets/images/fair.svg");
-const fast = require("assets/images/fast.svg");
+import anonymous from "assets/images/anonymous.svg";
+import fair from "assets/images/fair.svg";
+import fast from "assets/images/fast.svg";
 
 const entries = [
     {

@@ -4,13 +4,13 @@ import {Link} from "react-router-dom";
 
 import {Container, Section} from "../../../reusable";
 
-const DiceLogo = require("assets/images/diceLogo.svg");
-const ChooseFrom12Logo = require("assets/images/chooseFrom12Logo.svg");
-// const Question = require("assets/images/question.svg");
-const FlipACoinLogo = require("assets/images/flipACoinLogo.svg");
-const KenoLogo = require("assets/images/kenoLogo.svg");
-const PlinkoLogo = require("assets/images/plinkoLogo.svg");
-const WheelLogo = require("assets/images/wheelLogo.svg");
+import DiceLogo from "assets/images/diceLogo.svg";
+import ChooseFrom12Logo from "assets/images/chooseFrom12Logo.svg";
+// import Question from "assets/images/question.svg";
+import FlipACoinLogo from "assets/images/flipACoinLogo.svg";
+import KenoLogo from "assets/images/kenoLogo.svg";
+import PlinkoLogo from "assets/images/plinkoLogo.svg";
+import WheelLogo from "assets/images/wheelLogo.svg";
 
 import * as Style from "./Games.scss";
 

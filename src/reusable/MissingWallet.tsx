@@ -5,9 +5,9 @@ import {COINBASE_WALLET_URL, METAMASK_URL, TRUST_WALLET_URL} from "../config/con
 
 import * as Style from "./MissingWallet.scss";
 
-const MetaMaskFox = require("assets/images/metamask-fox.svg");
-const TrustWalletLogo = require("assets/images/trustwallet-logo.svg");
-const CoinbaseWalletLogo = require("assets/images/coinbasewallet-logo.svg");
+import MetaMaskFox from "assets/images/metamask-fox.svg";
+import TrustWalletLogo from "assets/images/trustwallet-logo.svg";
+import CoinbaseWalletLogo from "assets/images/coinbasewallet-logo.svg";
 
 const MissingWallet = ({t}: WithTranslation) => (
     <div>

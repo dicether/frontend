@@ -20,3 +20,8 @@ declare module "*.svg" {
     const component: any;
     export default component;
 }
+
+declare module "*.wav" {
+    const component: any;
+    export default component;
+}

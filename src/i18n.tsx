@@ -2,7 +2,7 @@ import i18n from "i18next";
 import detector from "i18next-browser-languagedetector";
 import {initReactI18next} from "react-i18next";
 
-const translationEN = require("../assets/locales/en/translation.json");
+import translationEN from "../assets/locales/en/translation.json";
 // const translationRU = require("../assets/locales/ru/translation.json");
 // const translationZH = require("../assets/locales/zh/translation.json");
 
