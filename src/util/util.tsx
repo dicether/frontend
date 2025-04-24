@@ -52,7 +52,7 @@ export function isLocalStorageAvailable() {
         localStorage.setItem(mod, mod);
         localStorage.removeItem(mod);
         return true;
-    } catch (e) {
+    } catch {
         return false;
     }
 }
@@ -63,7 +63,7 @@ export function isSessionStorageAvailable() {
         sessionStorage.setItem(mod, mod);
         sessionStorage.removeItem(mod);
         return true;
-    } catch (e) {
+    } catch {
         return false;
     }
 }
