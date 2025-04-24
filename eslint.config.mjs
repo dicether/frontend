@@ -42,7 +42,7 @@ export default defineConfig([globalIgnores(["**/lib", "**/dist", "**/typings"]),
         },
     },
     {
-        files: ["webpack/*.js"],
+        files: ["webpack/*.js", "postcss.config.js"],
         rules: {
             "@typescript-eslint/no-require-imports": "off",
         },
