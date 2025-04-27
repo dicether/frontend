@@ -60,6 +60,12 @@ class Header extends React.Component<Props, State> {
         toggleTheme(!nightMode);
     };
 
+    onLogin = () => {
+        const {authenticate} = this.props;
+        this.closeMenu();
+        authenticate();
+    };
+
     render() {
         const {authenticated, showRegisterModal, showChat, nightMode, t} = this.props;
         const {isOpen} = this.state;
@@ -113,12 +119,12 @@ class Header extends React.Component<Props, State> {
                             {authenticated
                                 ? [
                                       <NavItem key="1">
-                                          <NavLink tag={RRNavLink} to="/account/stats">
+                                          <NavLink tag={RRNavLink} to="/account/stats" onClick={this.closeMenu}>
                                               {t("account")}
                                           </NavLink>
                                       </NavItem>,
                                       <NavItem key="2">
-                                          <NavLink tag={RRNavLink} to="/logout">
+                                          <NavLink tag={RRNavLink} to="/logout" onClick={this.closeMenu}>
                                               {t("logout")}
                                           </NavLink>
                                       </NavItem>,
@@ -130,7 +136,7 @@ class Header extends React.Component<Props, State> {
                                           </NavLink>
                                       </NavItem>,
                                       <NavItem key="2">
-                                          <NavLink href="#" onClick={this.props.authenticate}>
+                                          <NavLink href="#" onClick={this.onLogin}>
                                               {t("login")}
                                           </NavLink>
                                       </NavItem>,
