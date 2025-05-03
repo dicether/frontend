@@ -513,12 +513,6 @@ export function createGame(stake: number, userSeed: string) {
                 .on("transactionHash", (transactionHash: string) => {
                     dispatch(createGameEvent(hashChain, serverEndHash, stake, transactionHash));
                 })
-                .on("receipt", (receipt: TransactionReceipt) => {
-                    if (isTransactionFailed(receipt)) {
-                        dispatch(endGameEvent("TRANSACTION_FAILURE"));
-                        reject(new Error("Create game transaction failed!"));
-                    }
-                })
                 .on("confirmation", (num: number, receipt: TransactionReceipt) => {
                     // wait for 3 confirmations
                     if (num === 3) {
