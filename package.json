@@ -80,7 +80,7 @@
     "react-redux": "^9.2.0",
     "react-resize-detector": "^9.1.1",
     "react-router-bootstrap": "^0.26.3",
-    "react-router-dom": "^7.6.0",
+    "react-router-dom": "^7.6.1",
     "react-string-replace": "^1.1.1",
     "react-textarea-autosize": "^8.5.9",
     "react-toastify": "^10.0.5",
