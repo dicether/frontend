@@ -83,7 +83,7 @@
     "react-router-dom": "^7.6.1",
     "react-string-replace": "^1.1.1",
     "react-textarea-autosize": "^8.5.9",
-    "react-toastify": "^10.0.5",
+    "react-toastify": "^11.0.5",
     "reactstrap": "^9.2.3",
     "redux": "^5.0.1",
     "redux-logger": "^3.0.6",
