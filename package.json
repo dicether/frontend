@@ -140,7 +140,7 @@
     "eslint-plugin-prettier": "^5.4.0",
     "eslint-plugin-react": "^7.37.5",
     "git-revision-webpack-plugin": "^5.0.0",
-    "globals": "^16.1.0",
+    "globals": "^16.2.0",
     "html-webpack-plugin": "^5.6.3",
     "husky": "^9.1.7",
     "i18next-parser": "^9.3.0",
