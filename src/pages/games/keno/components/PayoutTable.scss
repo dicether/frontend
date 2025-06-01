@@ -8,15 +8,21 @@
   font-weight: bolder;
   background-color: var(--bs-body-bg);
   color: var(--bs-secondary);
+}
 
-  @include media-breakpoint-down(sm) {
+@include media-breakpoint-down(sm) {
+  .payoutTable {
     font-size: 0.9em;
   }
-  @include media-breakpoint-down(xs) {
+}
+
+@include media-breakpoint-down(xs)  {
+  .payoutTable {
     font-size: 0.6em;
     border-radius: 0.25rem;
   }
 }
+
 
 .entry {
   display: flex;
