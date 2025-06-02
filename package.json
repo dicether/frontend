@@ -151,7 +151,7 @@
     "postcss-each": "^1.1.0",
     "prettier": "^3.5.3",
     "resolve-url-loader": "^5.0.0",
-    "sass": "^1.89.0",
+    "sass": "^1.89.1",
     "sass-loader": "^16.0.5",
     "sitemap-webpack-plugin": "^1.1.1",
     "style-loader": "^4.0.0",
