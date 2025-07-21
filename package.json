@@ -47,7 +47,7 @@
     "bn.js": "^5.2.2",
     "bootstrap": "^5.3.6",
     "classnames": "^2.5.1",
-    "core-js": "^3.42.0",
+    "core-js": "^3.44.0",
     "crypto-browserify": "^3.12.1",
     "dayjs": "^1.11.13",
     "ethereumjs-util": "^7.1.5",
