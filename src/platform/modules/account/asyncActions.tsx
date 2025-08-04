@@ -151,7 +151,7 @@ export function register(username: string) {
                     address: web3Account,
                     username,
                     signature: result,
-                    referredBy: referredBy ? referredBy : undefined,
+                    referredBy: referredBy ?? undefined,
                 });
             })
             .then((response) => {

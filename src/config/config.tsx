@@ -1,17 +1,17 @@
 import {toChecksumAddress} from "ethereumjs-util";
 
 export const NAME = "Dicether";
-export const VERSION = process.env.VERSION || "";
-export const BUILD_DATE = new Date(process.env.BUILD_DATE || new Date());
+export const VERSION = process.env.VERSION ?? "";
+export const BUILD_DATE = new Date(process.env.BUILD_DATE ?? new Date());
 
-export const CONTRACT_ADDRESS = toChecksumAddress(process.env.CONTRACT_ADDRESS || "");
-export const CHAIN_ID = Number.parseInt(process.env.CHAIN_ID || "", 10);
+export const CONTRACT_ADDRESS = toChecksumAddress(process.env.CONTRACT_ADDRESS ?? "");
+export const CHAIN_ID = Number.parseInt(process.env.CHAIN_ID ?? "", 10);
 export const SIGNATURE_VERSION = 2;
 export const NEW_EIP_GAME_ID = 572;
 export const NEW_EIP_GAME_ID_2 = 1759;
 export const OLD_EIP_GAME_ID = 638;
 
-export const SERVER_ADDRESS = toChecksumAddress(process.env.SERVER_ADDRESS || "");
+export const SERVER_ADDRESS = toChecksumAddress(process.env.SERVER_ADDRESS ?? "");
 
 export const DISCORD_URL = "https://discord.gg/kD7FajM";
 export const REDDIT_URL = "https://www.reddit.com/r/Dicether";
@@ -24,8 +24,8 @@ export const TRUST_WALLET_URL = "https://trustwalletapp.com";
 export const COINBASE_WALLET_URL = "https://wallet.coinbase.com";
 export const GITHUB_URL = "https://github.com/dicether";
 
-export const API_URL = process.env.API_URL || "";
-export const SOCKET_URL = process.env.SOCKET_URL || "";
+export const API_URL = process.env.API_URL ?? "";
+export const SOCKET_URL = process.env.SOCKET_URL ?? "";
 
 export const REALM = "Dicether";
 

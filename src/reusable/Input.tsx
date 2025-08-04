@@ -60,7 +60,7 @@ export const Input = ({
         }
     };
 
-    const isValidInput = isValidProp !== undefined ? isValidProp : isValid;
+    const isValidInput = isValidProp ?? isValid;
     const className = ClassNames(
         "form-control",
         {"is-valid": isValidInput === true && showValidation},

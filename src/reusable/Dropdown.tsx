@@ -32,7 +32,7 @@ class Dropdown extends React.Component<Props, State> {
         const {button, children, isOpen} = this.props;
 
         return (
-            <BootstrapDropdown isOpen={isOpen ? isOpen : this.state.isOpen} toggle={this.toggle}>
+            <BootstrapDropdown isOpen={isOpen ?? this.state.isOpen} toggle={this.toggle}>
                 <DropdownToggle
                     tag="span"
                     onClick={this.toggle}

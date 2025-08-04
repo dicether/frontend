@@ -20,7 +20,7 @@ const withTracker = (WrappedComponent: React.ComponentType<any>) => {
         return <WrappedComponent />;
     };
 
-    WithTracker.displayName = `WithTracker(${WrappedComponent.displayName || WrappedComponent.name || "Component"})`;
+    WithTracker.displayName = `WithTracker(${WrappedComponent.displayName ?? WrappedComponent.name ?? "Component"})`;
     return WithTracker;
 };
 

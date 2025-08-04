@@ -46,7 +46,7 @@ class Affiliate extends React.Component<Props, State> {
             .then((response) => {
                 this.setState({
                     campaigns: response.data.campaigns,
-                    balance: response.data.balances[CHAIN_ID] || 0,
+                    balance: response.data.balances[CHAIN_ID] ?? 0,
                 });
             })
             .catch((error) => catchError(error));

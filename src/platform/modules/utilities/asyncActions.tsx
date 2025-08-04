@@ -26,7 +26,7 @@ export function catchError(error: any, dispatch: Dispatch) {
     const response = error.response;
     const data = response ? response.data : null;
     const statusText = response ? response.statusText : null;
-    const message = data?.error ? data.error.message : statusText || error.message || false;
+    const message = data?.error ? data.error.message : (statusText ?? error.message ?? false);
 
     if (message && message.length !== 0) {
         let messageToShow = message;

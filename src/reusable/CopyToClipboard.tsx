@@ -56,7 +56,7 @@ class CopyToClipboard extends React.Component<Props, State> {
                 </ReactCopyToClipboard>
                 {this.ref.current && (
                     <Popover isOpen={showMessage} target={this.ref.current} toggle={this.toggle}>
-                        <span className="text-success">{message ? message : "Copied!"}</span>
+                        <span className="text-success">{message ?? "Copied!"}</span>
                     </Popover>
                 )}
             </span>

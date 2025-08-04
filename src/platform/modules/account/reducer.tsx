@@ -17,7 +17,7 @@ function initialState(): State {
     const firstVisited = isLocalStorageAvailable() ? localStorage.getItem("visited") : null;
     return {
         firstVisited: firstVisited === null,
-        jwt: jwt === null ? null : jwt,
+        jwt,
         stats: {profit: 0, wagered: 0, numBets: 0},
         gameSessions: [],
     };
