@@ -1,7 +1,7 @@
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
 import * as React from "react";
 
-import i18n from "../../../i18n";
+import i18next from "../../../i18n";
 import {Col, Container, Row, Section} from "../../../reusable";
 import Icon from "../../../reusable/FontAwesomeIcon";
 
@@ -10,27 +10,27 @@ import * as Style from "./SmallFeatures.scss";
 const entries: {icon: IconProp; text: string}[] = [
     {
         icon: "balance-scale",
-        text: i18n.t("features.secureProvablyFair"),
+        text: i18next.t("features.secureProvablyFair"),
     },
     {
         icon: "rocket",
-        text: i18n.t("features.fastCasino"),
+        text: i18next.t("features.fastCasino"),
     },
     {
         icon: "user-secret",
-        text: i18n.t("features.fullyAnonymous"),
+        text: i18next.t("features.fullyAnonymous"),
     },
     {
         icon: "gift",
-        text: i18n.t("features.recruitUsers"),
+        text: i18next.t("features.recruitUsers"),
     },
     {
         icon: "comments",
-        text: i18n.t("features.chatWithUsers"),
+        text: i18next.t("features.chatWithUsers"),
     },
     {
         icon: "wallet",
-        text: i18n.t("features.supportedWallets"),
+        text: i18next.t("features.supportedWallets"),
     },
 ];
 

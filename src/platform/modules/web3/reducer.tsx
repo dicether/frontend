@@ -1,4 +1,4 @@
-import Web3 from "web3";
+import {Web3} from "web3";
 
 import * as actions from "./actions";
 import * as types from "./constants";

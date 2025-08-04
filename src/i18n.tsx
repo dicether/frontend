@@ -1,4 +1,4 @@
-import i18n from "i18next";
+import i18next from "i18next";
 import detector from "i18next-browser-languagedetector";
 import {initReactI18next} from "react-i18next";
 
@@ -19,7 +19,9 @@ const resources = {
     // },
 };
 
-void i18n.use(detector)
+// eslint-disable-next-line import/no-named-as-default-member
+void i18next
+    .use(detector)
     .use(initReactI18next) // passes i18n down to react-i18next
     .init({
         resources,
@@ -32,4 +34,4 @@ void i18n.use(detector)
         },
     });
 
-export default i18n;
+export default i18next;

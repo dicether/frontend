@@ -1,4 +1,4 @@
-import Web3 from "web3";
+import {Web3} from "web3";
 
 import {MAX_BLOCKS_QUERY} from "../config/config";
 import {BigIntMath} from "../util/math";

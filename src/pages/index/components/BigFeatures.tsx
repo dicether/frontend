@@ -1,7 +1,7 @@
 import ClassNames from "classnames";
 import * as React from "react";
 
-import i8n from "../../../i18n";
+import i18next from "../../../i18n";
 import {Col, Container, Row, Section} from "../../../reusable";
 
 import * as Style from "./BigFeatures.scss";
@@ -12,18 +12,18 @@ import fast from "assets/images/fast.svg";
 const entries = [
     {
         img: fair,
-        heading: i8n.t("bigFeatures.fair.shortDescription"),
-        text: i8n.t("bigFeatures.fair.longDescription"),
+        heading: i18next.t("bigFeatures.fair.shortDescription"),
+        text: i18next.t("bigFeatures.fair.longDescription"),
     },
     {
         img: fast,
-        heading: i8n.t("bigFeatures.fast.shortDescription"),
-        text: i8n.t("bigFeatures.fast.longDescription"),
+        heading: i18next.t("bigFeatures.fast.shortDescription"),
+        text: i18next.t("bigFeatures.fast.longDescription"),
     },
     {
         img: anonymous,
-        heading: i8n.t("bigFeatures.anonymous.shortDescription"),
-        text: i8n.t("bigFeatures.anonymous.longDescription"),
+        heading: i18next.t("bigFeatures.anonymous.shortDescription"),
+        text: i18next.t("bigFeatures.anonymous.longDescription"),
     },
 ];
 

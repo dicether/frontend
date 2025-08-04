@@ -19,7 +19,7 @@ export interface Props extends BaseType {
     onValue?: (value: string) => void;
 }
 
-export const Input = ({
+const Input = ({
     value,
     suffix,
     disabled = false,

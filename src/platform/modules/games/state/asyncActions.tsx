@@ -14,7 +14,7 @@ import {
 import * as Sentry from "@sentry/browser";
 import retry from "async-retry";
 import axios from "axios";
-import Web3, {TransactionReceipt} from "web3";
+import {TransactionReceipt, Web3} from "web3";
 
 import {
     addBet,

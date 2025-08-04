@@ -1,5 +1,5 @@
 import "core-js/stable";
-import dayjs from "dayjs";
+import {extend} from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import * as React from "react";
 import {createRoot} from "react-dom/client";
@@ -15,7 +15,7 @@ import {parseReferral} from "./util/affiliate";
 
 ReactGA.initialize("G-JHM0P25QLT");
 
-dayjs.extend(localizedFormat);
+extend(localizedFormat);
 
 parseReferral();
 

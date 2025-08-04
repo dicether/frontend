@@ -1,5 +1,5 @@
-import io from "socket.io-client";
+import {connect} from "socket.io-client";
 
 import {SOCKET_URL} from "./config";
 
-export const SOCKET = io.connect(SOCKET_URL);
+export const SOCKET = connect(SOCKET_URL);

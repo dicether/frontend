@@ -1,7 +1,7 @@
 import {recoverTypedData} from "@dicether/eip712";
 import * as Sentry from "@sentry/browser";
 import {toChecksumAddress} from "ethereumjs-util";
-import Web3, {TransactionReceipt} from "web3";
+import {TransactionReceipt, Web3} from "web3";
 
 import stateChannelContractAbi from "assets/json/GameChannelContract.json";
 
