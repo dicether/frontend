@@ -1,11 +1,10 @@
+import ClassNames from "classnames";
 import * as React from "react";
+import {useEffect} from "react";
 import {toast, ToastContainer} from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 import * as Style from "./Notification.scss";
-
-import {useEffect} from "react";
-import ClassNames from "classnames";
 
 const CloseButton = () => {
     const classNames = ClassNames(Style.closeButton, "btn-close btn-close-white");

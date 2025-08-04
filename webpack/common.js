@@ -1,9 +1,9 @@
 const crypto = require("crypto");
 const path = require("path");
 
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const CircularDependencyPlugin = require("circular-dependency-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const {ProvidePlugin} = require("webpack");
 
 // Project root

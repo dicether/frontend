@@ -1,8 +1,8 @@
+const {CleanWebpackPlugin} = require("clean-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const SitemapPlugin = require("sitemap-webpack-plugin").default;
 const webpack = require("webpack");
 const {merge} = require("webpack-merge");
-const SitemapPlugin = require("sitemap-webpack-plugin").default;
-const CopyWebpackPlugin = require("copy-webpack-plugin");
-const {CleanWebpackPlugin} = require("clean-webpack-plugin");
 
 const common = require("./common");
 const config = require("./config");
