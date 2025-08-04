@@ -3,11 +3,11 @@ import BN from "bn.js";
 import * as React from "react";
 import {WithTranslation, withTranslation} from "react-i18next";
 
-import {MIN_BET_VALUE} from "../../../../config/config";
-import {Button, Col, Ether, FormGroup, Label, Modal, Row, ValueInput} from "../../../../reusable";
 import Grid from "./Grid";
 import HowToPlay from "./HowToPlay";
 import PayoutTable from "./PayoutTable";
+import {MIN_BET_VALUE} from "../../../../config/config";
+import {Button, Col, Ether, FormGroup, Label, Modal, Row, ValueInput} from "../../../../reusable";
 
 import * as Style from "./Ui.scss";
 

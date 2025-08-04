@@ -1,9 +1,10 @@
 import ClassNames from "classnames";
 import * as React from "react";
+import {useEffect, useRef, useState} from "react";
+
+import {BaseType} from "./BaseType";
 
 import * as Style from "./Input.scss";
-import {BaseType} from "./BaseType";
-import {useEffect, useRef, useState} from "react";
 
 export interface Props extends BaseType {
     value: string;

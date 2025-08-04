@@ -3,11 +3,11 @@ import * as React from "react";
 
 import * as Style from "./Section.scss";
 
-type Props = {
+interface Props {
     children: React.ReactNode;
     className?: string;
     gray?: boolean;
-};
+}
 
 const Section = ({gray = false, className = "", ...rest}: Props) => {
     const allClassNames = ClassNames(className, {

@@ -1,8 +1,8 @@
-export type Campaign = {
+export interface Campaign {
     id: number;
     name: string;
-    balances: {[chainId: number]: number};
+    balances: Record<number, number>;
     hits: number;
     referred: number;
     commission: number;
-};
+}

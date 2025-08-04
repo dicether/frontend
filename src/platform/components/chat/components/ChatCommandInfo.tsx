@@ -1,11 +1,12 @@
 import * as React from "react";
+
 import {getMatchingCommands} from "../../../modules/chat/commands";
 
 import * as Style from "./ChatCommandInfo.scss";
 
-type Props = {
+interface Props {
     message: string;
-};
+}
 
 class ChatCommandInfo extends React.Component<Props> {
     render() {

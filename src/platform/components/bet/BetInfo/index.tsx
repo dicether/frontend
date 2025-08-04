@@ -3,9 +3,6 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
-import {Dispatch} from "../../../../util/util";
-import {Bet} from "../../../modules/bets/types";
-import {showUserModal} from "../../../modules/modals/slice";
 import ChooseFrom12BetInfo from "./ChooseFrom12BetInfo";
 import DiceBetInfo from "./DiceBetInfo";
 import FlipACoinBetInfo from "./FlipACoinBetInfo";
@@ -14,12 +11,15 @@ import Overview from "./Overview";
 import PlinkoBetInfo from "./PlinkoBetInfo";
 import VerificationInfo from "./VerificationInfo";
 import WheelBetInfo from "./WheelBetInfo";
+import {Dispatch} from "../../../../util/util";
+import {Bet} from "../../../modules/bets/types";
+import {showUserModal} from "../../../modules/modals/slice";
 
-type GameSpecificInfoProps = {
+interface GameSpecificInfoProps {
     gameType: number;
     betNum: number;
     resultNum: number;
-};
+}
 
 const GameSpecificInfo = ({gameType, betNum, resultNum}: GameSpecificInfoProps) => {
     switch (gameType) {
@@ -49,9 +49,9 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
         dispatch,
     );
 
-type OtherProps = {
+interface OtherProps {
     bet: Bet;
-};
+}
 
 type Props = ReturnType<typeof mapDispatchToProps> & OtherProps;
 

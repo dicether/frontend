@@ -1,5 +1,6 @@
 import {GameType, maxBet} from "@dicether/state-channel";
 import * as React from "react";
+import {Helmet} from "react-helmet";
 import {connect} from "react-redux";
 
 import {
@@ -23,7 +24,6 @@ import sounds from "../sound";
 import {canPlaceBet} from "../utilities";
 import {changeNum, changeRollMode, changeValue} from "./actions";
 import DiceUi from "./components/DiceUi";
-import {Helmet} from "react-helmet";
 import {playFromBegin} from "../../../util/audio";
 
 function calcNumberFromPayOutMultiplier(multiplier: number, reversedRoll: boolean) {
@@ -59,10 +59,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
-type DiceState = {
+interface DiceState {
     result: {num: number; won: boolean};
     showResult: boolean;
-};
+}
 
 class Dice extends React.Component<Props, DiceState> {
     resultTimeoutId?: number;

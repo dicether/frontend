@@ -1,8 +1,8 @@
+const {CleanWebpackPlugin} = require("clean-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 const webpack = require("webpack");
 const {merge} = require("webpack-merge");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
-const {CleanWebpackPlugin} = require("clean-webpack-plugin");
-const TerserPlugin = require("terser-webpack-plugin");
 
 const common = require("./common");
 const config = require("./config");

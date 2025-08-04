@@ -1,8 +1,9 @@
 import * as React from "react";
 import {connect} from "react-redux";
-
 import {useParams} from "react-router-dom";
 import {bindActionCreators} from "redux";
+
+import PathNotFound from "../../app/PathNotFound";
 import BetsList from "../../platform/components/bet/BetsList";
 import {User as UserType} from "../../platform/modules/account/types";
 import {Bet} from "../../platform/modules/bets/types";
@@ -12,7 +13,6 @@ import Ether from "../../reusable/Ether";
 import {Dispatch} from "../../util/util";
 
 import * as Style from "./GameSession.scss";
-import PathNotFound from "../../app/PathNotFound";
 
 const mapDispatchToProps = (dispatch: Dispatch) =>
     bindActionCreators(
@@ -23,18 +23,18 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
         dispatch,
     );
 
-type MatchParams = {
+interface MatchParams {
     gameId: string;
-};
+}
 
 type Props = ReturnType<typeof mapDispatchToProps>;
 
-type GameState = {
+interface GameState {
     status: string;
     user: UserType;
     balance: number;
     roundId: number;
-};
+}
 
 const GameSession = (props: Props) => {
     const {showBetModal, showUserModal} = props;
@@ -45,7 +45,7 @@ const GameSession = (props: Props) => {
         return <PathNotFound />;
     }
 
-    const gameId = gameIdString.match(/\d+/);
+    const gameId = /\d+/.exec(gameIdString);
     if (!gameId) {
         return <PathNotFound />;
     }

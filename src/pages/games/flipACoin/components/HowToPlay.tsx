@@ -1,8 +1,8 @@
-import * as React from "react";
-import {Ether} from "../../../../reusable/index";
-
 import {GameType, maxBet} from "@dicether/state-channel";
+import * as React from "react";
+
 import {KELLY_FACTOR, MIN_BANKROLL, MIN_BET_VALUE} from "../../../../config/config";
+import {Ether} from "../../../../reusable/index";
 import HowToPlayBase from "../../reusable/HowToPlayBase";
 
 const HowToPlay = () => (

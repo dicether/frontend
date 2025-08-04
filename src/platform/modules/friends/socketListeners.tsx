@@ -1,7 +1,7 @@
-import {Dispatch} from "../../../util/util";
 import {addReceivedFriendRequest, removeReceivedFriendRequest, toggleFriendOnline} from "./actions";
 import {addFriend, declinedFriendRequest} from "./asyncActions";
 import {Friend, FriendRequest} from "./types";
+import {Dispatch} from "../../../util/util";
 
 const listeners = {
     addFriend: (dispatch: Dispatch) => (friend: Friend) => {

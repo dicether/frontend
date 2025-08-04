@@ -3,10 +3,10 @@ import * as React from "react";
 
 import * as Style from "./ResultSlider.scss";
 
-type Props = {
+interface Props {
     result: {num: number; won: boolean};
     showResult: boolean;
-};
+}
 
 export default class ResultSlider extends React.Component<Props> {
     constructor(props: Props) {

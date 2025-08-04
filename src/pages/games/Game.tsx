@@ -1,8 +1,17 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import {Route, RouteProps, Routes} from "react-router-dom";
-
 import {bindActionCreators} from "redux";
+
+import ChooseFrom12 from "./chooseFrom12/ChooseFrom12";
+import GameFooter from "./components/GameFooter";
+import GameHeader from "./components/GameHeader";
+import Dice from "./dice/Dice";
+import FlipACoin from "./flipACoin/FlipACoin";
+import Keno from "./keno/Keno";
+import Plinko from "./plinko/Plinko";
+import Wheel from "./wheel/Wheel";
+import PathNotFound from "../../app/PathNotFound";
 import Stats from "../../platform/components/bet/Stats";
 import {toggleExpertView, toggleHelp, toggleSound} from "../../platform/modules/games/info/actions";
 import {
@@ -18,17 +27,8 @@ import {addListeners, removeListeners} from "../../platform/sockets";
 import {Container, Section} from "../../reusable";
 import {State} from "../../rootReducer";
 import {Dispatch} from "../../util/util";
-import ChooseFrom12 from "./chooseFrom12/ChooseFrom12";
-import GameFooter from "./components/GameFooter";
-import GameHeader from "./components/GameHeader";
-import Dice from "./dice/Dice";
-import FlipACoin from "./flipACoin/FlipACoin";
-import Keno from "./keno/Keno";
-import Plinko from "./plinko/Plinko";
-import Wheel from "./wheel/Wheel";
 
 import * as Style from "./Game.scss";
-import PathNotFound from "../../app/PathNotFound";
 
 const mapStateToProps = ({games, web3, account}: State) => {
     const {gameState, info} = games;

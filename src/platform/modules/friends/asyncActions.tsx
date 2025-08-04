@@ -1,6 +1,5 @@
 import axios from "axios";
-import {Dispatch} from "../../../util/util";
-import {catchError} from "../utilities/asyncActions";
+
 import {
     addFriendS,
     addSentFriendRequest,
@@ -11,6 +10,8 @@ import {
     removeSentFriendRequest,
 } from "./actions";
 import {Friend} from "./types";
+import {Dispatch} from "../../../util/util";
+import {catchError} from "../utilities/asyncActions";
 
 export function sendFriendRequest(address: string) {
     return (dispatch: Dispatch) => {

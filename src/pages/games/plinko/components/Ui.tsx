@@ -1,11 +1,11 @@
 import * as React from "react";
 import {WithTranslation, withTranslation} from "react-i18next";
 
+import HowToPlay from "./HowToPlay";
+import Plinko from "./Plinko";
 import {MIN_BET_VALUE} from "../../../../config/config";
 import {Button, Col, FormGroup, Label, Modal, Row, Select, ValueInput} from "../../../../reusable";
 import {popCnt} from "../../../../util/math";
-import HowToPlay from "./HowToPlay";
-import Plinko from "./Plinko";
 
 import * as Style from "./Ui.scss";
 
@@ -27,9 +27,9 @@ export interface Props extends WithTranslation {
     onPlaceBet(): void;
 }
 
-export type State = {
+export interface State {
     angle: number;
-};
+}
 
 class Ui extends React.PureComponent<Props, State> {
     public plinko = React.createRef<Plinko>();
@@ -42,7 +42,6 @@ class Ui extends React.PureComponent<Props, State> {
         };
     }
 
-    /* tslint:disable:no-unused-variable */
     private onSimulate = () => {
         this.plinko.current?.simulate();
     };

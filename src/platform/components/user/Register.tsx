@@ -18,10 +18,10 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
 
 type Props = ReturnType<typeof mapDispatchToProps>;
 
-type State = {
+interface State {
     username: string;
     isValid?: boolean;
-};
+}
 
 class Register extends React.Component<Props, State> {
     constructor(props: Props) {

@@ -1,12 +1,13 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
+
+import GameSessions from "./GameSessions";
+import GameStats from "./GameStats";
 import {loadGameSessions, loadStats} from "../../../../platform/modules/account/asyncActions";
 import {getUser} from "../../../../platform/modules/account/selectors";
 import {State} from "../../../../rootReducer";
 import {Dispatch} from "../../../../util/util";
-import GameSessions from "./GameSessions";
-import GameStats from "./GameStats";
 
 const mapStateToProps = (state: State) => {
     const {stats, gameSessions} = state.account;

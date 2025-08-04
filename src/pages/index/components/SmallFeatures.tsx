@@ -7,7 +7,7 @@ import Icon from "../../../reusable/FontAwesomeIcon";
 
 import * as Style from "./SmallFeatures.scss";
 
-const entries: Array<{icon: IconProp; text: string}> = [
+const entries: {icon: IconProp; text: string}[] = [
     {
         icon: "balance-scale",
         text: i18n.t("features.secureProvablyFair"),
@@ -34,10 +34,10 @@ const entries: Array<{icon: IconProp; text: string}> = [
     },
 ];
 
-type EntryProps = {
+interface EntryProps {
     text: string;
     icon: IconProp;
-};
+}
 
 const Entry = ({text, icon}: EntryProps) => (
     <Col sm={6} className={Style.entry}>

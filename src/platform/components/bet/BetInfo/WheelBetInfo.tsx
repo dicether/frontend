@@ -1,14 +1,14 @@
-import * as React from "react";
-
 import {WHEEL_PAYOUT, WHEEL_RESULT_RANGE} from "@dicether/state-channel";
+import * as React from "react";
 import {connect} from "react-redux";
+
 import WheelGrid from "../../../../pages/games/wheel/components/WheelGrid";
 import {State} from "../../../../rootReducer";
 
-type OtherProps = {
+interface OtherProps {
     betNum: number;
     resultNum: number;
-};
+}
 
 const mapStateToProps = (state: State) => {
     const {app} = state;

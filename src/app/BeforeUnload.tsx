@@ -2,9 +2,9 @@ import * as React from "react";
 
 import {State as GameState} from "../platform/modules/games/state/reducer";
 
-export type Props = {
+export interface Props {
     gameState: GameState;
-};
+}
 
 class BeforeUnload extends React.Component<Props> {
     componentDidMount() {

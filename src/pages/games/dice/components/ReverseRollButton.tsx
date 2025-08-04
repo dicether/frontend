@@ -1,12 +1,13 @@
 import * as React from "react";
+
 import IconButton from "../../../../reusable/IconButton";
 
 import * as Style from "./ReverseRollButton.scss";
 
-export type Props = {
+export interface Props {
     reversed: boolean;
     onClick: React.MouseEventHandler<any>;
-};
+}
 
 const ReverseRollButton = ({reversed, onClick}: Props) => (
     <span>

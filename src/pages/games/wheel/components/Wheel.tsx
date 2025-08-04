@@ -1,21 +1,20 @@
 import * as React from "react";
-import {useEffect, useState} from "react";
-import {useRef} from "react";
+import {useEffect, useState, useRef} from "react";
 import ReactResizeDetector, {useResizeDetector} from "react-resize-detector";
 
-import PureCanvas from "../../reusable/PureCanvas";
 import {formatMultiplier} from "./utility";
+import PureCanvas from "../../reusable/PureCanvas";
 
 import * as Style from "./Wheel.scss";
 import * as ColorDay from "./WheelDayColors.scss";
 import * as ColorNight from "./WheelNightColors.scss";
 
-type Props = {
+interface Props {
     nightMode: boolean;
     segmentColors: string[];
     angle: number; // in radians
     payout: {color: string; value: number; show: boolean; multiplier: number};
-};
+}
 
 const drawSegment = (ctx: CanvasRenderingContext2D, angle: number, color: string) => {
     ctx.beginPath();

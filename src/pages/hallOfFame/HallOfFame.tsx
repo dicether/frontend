@@ -1,24 +1,24 @@
 import * as React from "react";
+import {Helmet} from "react-helmet";
 import {WithTranslation, withTranslation} from "react-i18next";
 import {connect} from "react-redux";
 import {NavLink as RRNavLink, Route, Routes} from "react-router-dom";
 import {Nav, NavItem, NavLink} from "reactstrap";
 import {bindActionCreators} from "redux";
 
+import StatsTable from "./StatsTable";
+import PathNotFound from "../../app/PathNotFound";
 import {User} from "../../platform/modules/account/types";
 import {showUserModal} from "../../platform/modules/modals/slice";
 import {Col, Container, DataLoader, Row} from "../../reusable/index";
 import {Dispatch} from "../../util/util";
-import StatsTable from "./StatsTable";
 
 import * as Style from "./HallOfFame.scss";
-import {Helmet} from "react-helmet";
-import PathNotFound from "../../app/PathNotFound";
 
-type StatsEntryProps = {
+interface StatsEntryProps {
     timeSpan: string;
     showUserModal(user: User): void;
-};
+}
 
 const StatsEntry = ({timeSpan, showUserModal}: StatsEntryProps) => (
     <DataLoader

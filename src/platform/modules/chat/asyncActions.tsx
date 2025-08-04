@@ -1,12 +1,13 @@
 import axios from "axios";
 import {jwtDecode} from "jwt-decode";
+
+import {addMessage, changeMessages} from "./actions";
+import {executeCommands} from "./commands";
+import {Message} from "./types";
 import {Dispatch, GetState} from "../../../util/util";
 import {User} from "../account/types";
 import {showInfoMessage, showSuccessMessage} from "../utilities/actions";
 import {catchError} from "../utilities/asyncActions";
-import {addMessage, changeMessages} from "./actions";
-import {executeCommands} from "./commands";
-import {Message} from "./types";
 
 export function loadMessages() {
     return (dispatch: Dispatch) => {

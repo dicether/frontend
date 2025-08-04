@@ -3,15 +3,15 @@ import {Dropdown as BootstrapDropdown, DropdownMenu, DropdownToggle} from "react
 
 import "./Dropdown.scss";
 
-export type Props = {
+export interface Props {
     button: React.ReactNode;
     children: any;
     isOpen?: boolean;
-};
+}
 
-type State = {
+interface State {
     isOpen: boolean;
-};
+}
 
 class Dropdown extends React.Component<Props, State> {
     constructor(props: Props) {

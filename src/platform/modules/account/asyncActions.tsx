@@ -2,6 +2,8 @@ import * as Sentry from "@sentry/browser";
 import axios from "axios";
 import {jwtDecode} from "jwt-decode";
 
+import {changeFirstVisitedS, changeJWTS, changeMyGameSessions, changeMyStats} from "./actions";
+import {User} from "./types";
 import {changeAxiosAuthToken} from "../../../config/apiEndpoints";
 import {REALM} from "../../../config/config";
 import {SOCKET} from "../../../config/sockets";
@@ -13,8 +15,6 @@ import {hideRegisterModal, showMissingWalletModal} from "../modals/slice";
 import {showErrorMessage} from "../utilities/actions";
 import {catchError} from "../utilities/asyncActions";
 import {requestAccounts, signTypedData} from "../web3/asyncActions";
-import {changeFirstVisitedS, changeJWTS, changeMyGameSessions, changeMyStats} from "./actions";
-import {User} from "./types";
 
 const authenticateTypes = {
     EIP712Domain: [{name: "name", type: "string"}],

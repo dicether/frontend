@@ -1,7 +1,9 @@
 import {createSlice} from "@reduxjs/toolkit";
+
 import {Dispatch, GetState} from "../../../util/util";
-import {Bet} from "../bets/types";
 import {User} from "../account/types";
+import {Bet} from "../bets/types";
+
 import type {PayloadAction} from "@reduxjs/toolkit";
 
 export interface ModalState {

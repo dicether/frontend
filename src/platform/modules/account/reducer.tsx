@@ -1,19 +1,18 @@
-import {ActionType, assertNever, isLocalStorageAvailable, isSessionStorageAvailable} from "../../../util/util";
 import * as actions from "./actions";
 import * as types from "./constants";
 import {GameSession, Stats} from "./types";
+import {ActionType, assertNever, isLocalStorageAvailable, isSessionStorageAvailable} from "../../../util/util";
 
 export type Actions = ActionType<typeof actions>;
 
-export type State = {
+export interface State {
     firstVisited: boolean;
     jwt: string | null;
     stats: Stats;
     gameSessions: GameSession[];
-};
+}
 
 function initialState(): State {
-    // tslint:disable-line strict-type-predicates
     const jwt = isSessionStorageAvailable() ? sessionStorage.getItem("jwt") : null;
     const firstVisited = isLocalStorageAvailable() ? localStorage.getItem("visited") : null;
     return {

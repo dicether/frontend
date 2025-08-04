@@ -1,14 +1,14 @@
 import * as React from "react";
-
 import {connect} from "react-redux";
+
 import Plinko from "../../../../pages/games/plinko/components/Plinko";
 import {State} from "../../../../rootReducer";
 import {popCnt} from "../../../../util/math";
 
-type OtherProps = {
+interface OtherProps {
     betNum: number;
     resultNum: number;
-};
+}
 
 const mapStateToProps = (state: State) => {
     const {app} = state;

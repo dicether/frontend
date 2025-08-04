@@ -1,10 +1,10 @@
 import {Bet, keccak} from "@dicether/state-channel";
 import * as Sentry from "@sentry/browser";
 
-import {ActionType, assertNever} from "../../../../util/util";
 import * as actions from "./actions";
 import * as types from "./constants";
 import {CHAIN_ID} from "../../../../config/config";
+import {ActionType, assertNever} from "../../../../util/util";
 
 export type Actions = ActionType<typeof actions>;
 
@@ -27,7 +27,7 @@ export type ReasonEnded =
     | "TRANSACTION_FAILURE"
     | "CANCELLED_BY_USER";
 
-export type State = {
+export interface State {
     chainId: number;
 
     status: Status;
@@ -55,7 +55,7 @@ export type State = {
     userHash?: string;
     serverSig?: string;
     userSig?: string;
-};
+}
 
 const initialState: State = {
     chainId: CHAIN_ID,
@@ -156,7 +156,7 @@ export default function state(state: State = initialState, action: Actions): Sta
         case types.USER_ABORT_FORCE_END:
             return {
                 ...state,
-                status: state.previousState as Status,
+                status: state.previousState!,
                 previousState: undefined,
             };
         case types.USER_CONFLICT_END:

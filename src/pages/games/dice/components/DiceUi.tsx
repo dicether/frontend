@@ -1,6 +1,9 @@
 import * as React from "react";
 import {WithTranslation, withTranslation} from "react-i18next";
 
+import DiceSlider from "./DiceSlider";
+import HowToPlay from "./HowToPlay";
+import ReverseRollButton from "./ReverseRollButton";
 import {
     HOUSE_EDGE,
     HOUSE_EDGE_DIVISOR,
@@ -11,9 +14,6 @@ import {
 } from "../../../../config/config";
 import {formatEth} from "../../../../reusable/Ether";
 import {Button, Col, FormGroup, Input, Label, Modal, NumericInput, Row, ValueInput} from "../../../../reusable/index";
-import DiceSlider from "./DiceSlider";
-import HowToPlay from "./HowToPlay";
-import ReverseRollButton from "./ReverseRollButton";
 
 import * as Style from "./DiceUi.scss";
 

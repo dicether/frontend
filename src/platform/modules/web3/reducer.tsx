@@ -1,18 +1,18 @@
-import * as types from "./constants";
-
 import Web3 from "web3";
-import {ActionType, assertNever} from "../../../util/util";
+
 import * as actions from "./actions";
+import * as types from "./constants";
+import {ActionType, assertNever} from "../../../util/util";
 
 export type Actions = ActionType<typeof actions>;
 
-export type State = {
+export interface State {
     web3: Web3 | null;
     account: string | null;
     chainId: number | null;
     contract: any | null;
     balance: number | null;
-};
+}
 
 const initialState = {
     web3: null,

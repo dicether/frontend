@@ -4,10 +4,9 @@ import {WithTranslation, withTranslation} from "react-i18next";
 import {COINBASE_WALLET_URL, METAMASK_URL, TRUST_WALLET_URL} from "../config/config";
 
 import * as Style from "./MissingWallet.scss";
-
+import CoinbaseWalletLogo from "assets/images/coinbasewallet-logo.svg";
 import MetaMaskFox from "assets/images/metamask-fox.svg";
 import TrustWalletLogo from "assets/images/trustwallet-logo.svg";
-import CoinbaseWalletLogo from "assets/images/coinbasewallet-logo.svg";
 
 const MissingWallet = ({t}: WithTranslation) => (
     <div>

@@ -6,9 +6,9 @@ import {Stats as StatsType, User} from "../../modules/account/types";
 
 import * as Style from "./UserInfo.scss";
 
-type Props = {
+interface Props {
     user: User;
-};
+}
 
 export default class UserInfo extends React.PureComponent<Props> {
     constructor(props: Props) {

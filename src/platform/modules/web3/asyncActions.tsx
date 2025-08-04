@@ -1,14 +1,13 @@
 import {recoverTypedData} from "@dicether/eip712";
 import * as Sentry from "@sentry/browser";
 import {toChecksumAddress} from "ethereumjs-util";
-import Web3 from "web3";
-import {TransactionReceipt} from "web3";
-
-import {CONTRACT_ADDRESS, FROM_WEI_TO_BASE} from "../../../config/config";
-import {Dispatch, GetState} from "../../../util/util";
-import {changeAccount, changeBalance, changeContract, changeChainId, changeWeb3} from "./actions";
+import Web3, {TransactionReceipt} from "web3";
 
 import stateChannelContractAbi from "assets/json/GameChannelContract.json";
+
+import {changeAccount, changeBalance, changeContract, changeChainId, changeWeb3} from "./actions";
+import {CONTRACT_ADDRESS, FROM_WEI_TO_BASE} from "../../../config/config";
+import {Dispatch, GetState} from "../../../util/util";
 
 export function fetchChainId() {
     return async (dispatch: Dispatch, getState: GetState) => {

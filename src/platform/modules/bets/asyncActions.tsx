@@ -1,10 +1,10 @@
 import axios from "axios";
 
+import {addBet, addMyBet, changeBets, changeMyBets} from "./actions";
+import {Bet} from "./types";
 import {Dispatch, GetState} from "../../../util/util";
 import {getUser} from "../account/selectors";
 import {catchError} from "../utilities/asyncActions";
-import {addBet, addMyBet, changeBets, changeMyBets} from "./actions";
-import {Bet} from "./types";
 
 export function loadBets() {
     return (dispatch: Dispatch) => {

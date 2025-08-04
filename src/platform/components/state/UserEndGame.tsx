@@ -2,13 +2,13 @@ import * as React from "react";
 
 import {Button, Modal} from "../../../reusable";
 
-export type Props = {
+export interface Props {
     userEndGame(): void;
-};
+}
 
-export type State = {
+export interface State {
     showModal: boolean;
-};
+}
 
 class UserEndGame extends React.Component<Props, State> {
     constructor(props: Props) {

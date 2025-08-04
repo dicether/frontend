@@ -1,6 +1,7 @@
 import Web3 from "web3";
-import {BigIntMath} from "../util/math";
+
 import {MAX_BLOCKS_QUERY} from "../config/config";
+import {BigIntMath} from "../util/math";
 
 export function getLastGameId(
     web3: Web3,

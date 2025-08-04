@@ -1,8 +1,8 @@
 import * as React from "react";
 
-import {filterFloat} from "../util/math";
 import {BaseType} from "./BaseType";
 import Input from "./Input";
+import {filterFloat} from "../util/math";
 
 export interface Props extends BaseType {
     number: number;
@@ -52,7 +52,7 @@ export default class NumericInput extends React.Component<Props> {
     };
 
     render() {
-        const {number, precision, suffix} = this.props; // tslint:disable-line variable-name
+        const {number, precision, suffix} = this.props;
         const value = precision !== undefined ? number.toFixed(precision) : number.toString();
 
         return <Input suffix={suffix} value={value} validate={this.validate} onValue={this.onValue} />;

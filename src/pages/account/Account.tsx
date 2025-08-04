@@ -1,11 +1,11 @@
 import * as React from "react";
+import {Helmet} from "react-helmet";
 import {NavLink as RRNavLink, Route, Routes} from "react-router-dom";
 import {Nav, Navbar, NavItem, NavLink} from "reactstrap";
 
 import {Container} from "../../reusable";
 import Affiliate from "./components/affiliate/Affiliate";
 import Stats from "./components/stats/Stats";
-import {Helmet} from "react-helmet";
 import PathNotFound from "../../app/PathNotFound";
 
 const Account = () => (

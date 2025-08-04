@@ -1,15 +1,15 @@
 import * as React from "react";
 import {Provider} from "react-redux";
 import {BrowserRouter as Router} from "react-router-dom";
-
 import {Store} from "redux";
+
 import App from "./app/App";
 import withTracker from "./app/withTracker";
 import {State} from "./rootReducer";
 
-export type Props = {
+export interface Props {
     store: Store<State>;
-};
+}
 
 const TrackedApp = withTracker(App);
 

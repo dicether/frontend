@@ -6,7 +6,7 @@ import friendSocketListener from "./modules/friends/socketListeners";
 
 const defaultListeners = {...betSocketListener, ...friendSocketListener, ...chatSocketListener};
 
-type ListenersType = {[id: string]: (dispatch: Dispatch) => (...args: any[]) => void};
+type ListenersType = Record<string, (dispatch: Dispatch) => (...args: any[]) => void>;
 
 export function addListeners(listeners: ListenersType, dispatch: Dispatch) {
     for (const event of Object.keys(listeners)) {

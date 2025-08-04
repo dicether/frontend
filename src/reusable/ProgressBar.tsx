@@ -1,5 +1,6 @@
 import * as React from "react";
 import {Progress} from "reactstrap";
+
 import {BaseType} from "./BaseType";
 
 import "./ProgressBar.scss";

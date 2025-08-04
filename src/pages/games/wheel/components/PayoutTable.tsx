@@ -1,14 +1,15 @@
 import ClassNames from "classnames";
 import * as React from "react";
+
 import {formatMultiplier} from "./utility";
 
 import * as Style from "./PayoutTable.scss";
 
-type Props = {
-    payoutTable: Array<{value: number; color: string}>;
+interface Props {
+    payoutTable: {value: number; color: string}[];
     showMultiplier: boolean;
     multiplier: number;
-};
+}
 
 const PayoutInfo = ({multiplier, color, show}: {multiplier: number; color: string; show: boolean}) => {
     const className = ClassNames(Style.colorStrip, {[Style.colorStrip_show]: show});

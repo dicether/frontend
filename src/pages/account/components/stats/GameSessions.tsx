@@ -1,6 +1,7 @@
 import * as React from "react";
 import {WithTranslation, withTranslation} from "react-i18next";
 import {Link} from "react-router-dom";
+
 import {GameSession} from "../../../../platform/modules/account/types";
 import Ether from "../../../../reusable/Ether";
 import {Table} from "../../../../reusable/index";

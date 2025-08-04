@@ -1,5 +1,6 @@
 import {GameType, maxBet} from "@dicether/state-channel";
 import * as React from "react";
+import {Helmet} from "react-helmet";
 import {connect} from "react-redux";
 
 import {KELLY_FACTOR, MIN_BANKROLL, MIN_BET_VALUE} from "../../../config/config";
@@ -15,7 +16,6 @@ import sounds from "../sound";
 import {canPlaceBet} from "../utilities";
 import {changeNum, changeValue} from "./actions";
 import Ui from "./components/Ui";
-import {Helmet} from "react-helmet";
 import {playFromBegin} from "../../../util/audio";
 
 const mapStateToProps = ({games, account, web3, app}: State) => {
@@ -44,11 +44,11 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 export type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
-export type WheelState = {
+export interface WheelState {
     spinning: boolean;
     showResult: boolean;
     result: {betNum: number; num: number; won: boolean; userProfit: number};
-};
+}
 
 class Wheel extends React.PureComponent<Props, WheelState> {
     private loadedSounds = false;

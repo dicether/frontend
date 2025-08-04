@@ -1,11 +1,12 @@
 import * as React from "react";
+import {useState} from "react";
 import {WithTranslation, withTranslation} from "react-i18next";
 import Textarea from "react-textarea-autosize";
-import {Button} from "../../../../reusable/index";
+
 import ChatCommandInfo from "./ChatCommandInfo";
+import {Button} from "../../../../reusable/index";
 
 import * as Style from "./Footer.scss";
-import {useState} from "react";
 
 export interface Props extends WithTranslation {
     maxMessageLength: number;
@@ -43,7 +44,7 @@ const Footer = ({maxMessageLength, numUsers, onMessageSend, t}: Props) => {
                             e.preventDefault();
                         }
                     }}
-                    placeholder={t("typeMessage") as string}
+                    placeholder={t("typeMessage")}
                     rows={1}
                 />
             </div>

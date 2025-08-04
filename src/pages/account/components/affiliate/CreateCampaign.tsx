@@ -7,13 +7,13 @@ export interface Props extends WithTranslation {
     onCreateCampaign(id: string, name: string): void;
 }
 
-type State = {
+interface State {
     name: string;
     isNameValid?: boolean;
 
     id: string;
     isIdValid?: boolean;
-};
+}
 
 class CreateCampaign extends React.Component<Props, State> {
     constructor(props: Props) {

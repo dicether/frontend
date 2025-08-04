@@ -4,15 +4,14 @@ import {Link} from "react-router-dom";
 
 import {Container, Section} from "../../../reusable";
 
-import DiceLogo from "assets/images/diceLogo.svg";
+import * as Style from "./Games.scss";
 import ChooseFrom12Logo from "assets/images/chooseFrom12Logo.svg";
+import DiceLogo from "assets/images/diceLogo.svg";
 // import Question from "assets/images/question.svg";
 import FlipACoinLogo from "assets/images/flipACoinLogo.svg";
 import KenoLogo from "assets/images/kenoLogo.svg";
 import PlinkoLogo from "assets/images/plinkoLogo.svg";
 import WheelLogo from "assets/images/wheelLogo.svg";
-
-import * as Style from "./Games.scss";
 
 const Games = ({t}: WithTranslation) => (
     <Section className={Style.games}>

@@ -1,16 +1,15 @@
-import {ActionType, assertNever, fixedLengthAddElement} from "../../../util/util";
-import * as types from "./constants";
-
 import * as actions from "./actions";
+import * as types from "./constants";
 import {Message} from "./types";
+import {ActionType, assertNever, fixedLengthAddElement} from "../../../util/util";
 
 export type Actions = ActionType<typeof actions>;
 
-export type State = {
+export interface State {
     readonly show: boolean;
     readonly messages: Message[];
     readonly numUsers: number;
-};
+}
 
 const initialState: State = {
     show: window.innerWidth >= 992,

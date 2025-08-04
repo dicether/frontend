@@ -1,6 +1,6 @@
 import * as React from "react";
-import {Trans, WithTranslation, withTranslation} from "react-i18next";
 import {Helmet} from "react-helmet";
+import {Trans, WithTranslation, withTranslation} from "react-i18next";
 
 import {
     BUGS_URL,

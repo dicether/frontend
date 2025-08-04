@@ -2,19 +2,19 @@ import dayjs from "dayjs";
 import * as React from "react";
 import {Link} from "react-router-dom";
 
+import {gameTypeToLink, gameTypeToName} from "./util";
 import {Ether, Table} from "../../../reusable/index";
 import {User} from "../../modules/account/types";
 import {Bet} from "../../modules/bets/types";
-import {gameTypeToLink, gameTypeToName} from "./util";
 
 import * as Style from "./BetList.scss";
 
-type LastBetRowProps = {
+interface LastBetRowProps {
     bet: Bet;
     showUser: boolean;
     showBetModal(bet: Bet): void;
     showUserModal(user: User): void;
-};
+}
 
 const LastBetRow = ({bet, showUser, showBetModal, showUserModal}: LastBetRowProps) => {
     const {timestamp, user, value, profit} = bet;
@@ -58,12 +58,12 @@ const LastBetRow = ({bet, showUser, showBetModal, showUserModal}: LastBetRowProp
     );
 };
 
-type Props = {
+interface Props {
     bets: Bet[];
     showUser?: boolean;
     showBetModal(bet: Bet): void;
     showUserModal(user: User): void;
-};
+}
 
 const BetsList = ({bets, showUser = true, showBetModal, showUserModal}: Props) => {
     return (

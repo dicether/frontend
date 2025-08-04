@@ -1,15 +1,15 @@
 import * as React from "react";
 
-import {MAX_NUMBER_DICE_1, MIN_NUMBER_DICE_1} from "../../../../config/config";
-import {Slider} from "../../../../reusable/index";
-import sounds from "../../sound";
 import ResultSlider from "./ResultSlider";
 import Ticks from "./Ticks";
+import {MAX_NUMBER_DICE_1, MIN_NUMBER_DICE_1} from "../../../../config/config";
+import {Slider} from "../../../../reusable/index";
+import {playFromBegin} from "../../../../util/audio";
+import sounds from "../../sound";
 
 import * as Style from "./DiceSlider.scss";
-import {playFromBegin} from "../../../../util/audio";
 
-type Props = {
+interface Props {
     num: number;
     result: {num: number; won: boolean};
     showResult: boolean;
@@ -17,7 +17,7 @@ type Props = {
     reversedRoll: boolean;
 
     onNumberChange(n: number): void;
-};
+}
 
 export default class DiceSlider extends React.PureComponent<Props> {
     constructor(props: Props) {

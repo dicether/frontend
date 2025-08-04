@@ -1,6 +1,7 @@
 import * as React from "react";
 import Countdown from "react-countdown";
 
+import CreateGameModal from "./CreateGameModal";
 import {
     COINBASE_WALLET_URL,
     GAME_SESSION_TIMEOUT,
@@ -14,20 +15,18 @@ import {
 import {validChainId} from "../../../../platform/modules/games/state/asyncActions";
 import {State as GameState} from "../../../../platform/modules/games/state/reducer";
 import {State as Web3State} from "../../../../platform/modules/web3/reducer";
-import {Ether, Tooltip} from "../../../../reusable";
-import {Button, FontAwesomeIcon} from "../../../../reusable/index";
-import CreateGameModal from "./CreateGameModal";
-
-import * as Style from "./GameHeader.scss";
+import {Ether, Tooltip, Button, FontAwesomeIcon} from "../../../../reusable";
 import {generateSeed} from "../../../../util/crypto";
 
-type ForceEndRenderProps = {
+import * as Style from "./GameHeader.scss";
+
+interface ForceEndRenderProps {
     hours: number;
     minutes: number;
     seconds: number;
     completed: number;
     onForceEnd(): void;
-};
+}
 
 const ForceEndRender = ({hours, minutes, seconds, completed, onForceEnd}: ForceEndRenderProps) => {
     if (completed) {
@@ -51,10 +50,10 @@ const ForceEndRender = ({hours, minutes, seconds, completed, onForceEnd}: ForceE
     }
 };
 
-type ForceEndProps = {
+interface ForceEndProps {
     endTime: Date;
     onForceEnd(): void;
-};
+}
 
 const ForceEnd = ({endTime, onForceEnd}: ForceEndProps) => {
     const sessionTimeout = FORCE_END_TIMEOUT * 3600 * 1000 + new Date(endTime).getTime(); // convert to milliseconds
@@ -67,7 +66,7 @@ const ForceEnd = ({endTime, onForceEnd}: ForceEndProps) => {
     );
 };
 
-type Props = {
+interface Props {
     gameState: GameState;
     web3State: Web3State;
 
@@ -76,11 +75,11 @@ type Props = {
     onEndGame(): void;
     onConflictEnd(): void;
     onForceEnd(): void;
-};
+}
 
-type State = {
+interface State {
     modalIsOpen: boolean;
-};
+}
 
 export default class GameHeader extends React.Component<Props, State> {
     endTransactionRef: React.RefObject<HTMLAnchorElement>;

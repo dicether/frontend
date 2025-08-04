@@ -1,16 +1,16 @@
-import * as types from "./constants";
-
 import {GameType, maxBet} from "@dicether/state-channel";
+
+import * as actions from "./actions";
+import * as types from "./constants";
 import {KELLY_FACTOR, MIN_BANKROLL, MIN_BET_VALUE} from "../../../config/config";
 import {ActionType, assertNever} from "../../../util/util";
-import * as actions from "./actions";
 
 export type Actions = ActionType<typeof actions>;
 
-export type State = {
+export interface State {
     num: number;
     value: number;
-};
+}
 
 const initialState = {
     num: 220,

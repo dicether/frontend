@@ -1,10 +1,10 @@
 import * as React from "react";
 
-type Props = {
+interface Props {
     contextRef(context: CanvasRenderingContext2D | null): void;
     width: number;
     height: number;
-};
+}
 
 export default class PureCanvas extends React.Component<Props> {
     shouldComponentUpdate(nextProps: Props) {

@@ -1,20 +1,20 @@
 import * as React from "react";
 
+import CollapseButton from "./CollapseButton";
+import Verification from "./Verification";
 import {FROM_BASE_TO_WEI} from "../../../../config/config";
 import {Collapse, Output} from "../../../../reusable/index";
 import {Bet} from "../../../modules/bets/types";
-import CollapseButton from "./CollapseButton";
-import Verification from "./Verification";
 
 import * as Style from "./VerificationInfo.scss";
 
-type Props = {
+interface Props {
     bet: Bet;
-};
+}
 
-type State = {
+interface State {
     isOpen: boolean;
-};
+}
 
 const Entry = ({id, name, data}: {id: string; name: string; data: string | number}) => (
     <div className={Style.verificationInfo__entry}>

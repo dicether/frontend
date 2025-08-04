@@ -47,9 +47,9 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
 
 export type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
-export type ChatState = {
+export interface ChatState {
     showFriends: boolean;
-};
+}
 
 class Chat extends React.Component<Props, ChatState> {
     constructor(props: Props) {

@@ -1,17 +1,17 @@
 import {User} from "../account/types";
 
-export type Friend = {
+export interface Friend {
     user: User;
     date: Date;
     online: boolean;
-};
-export type FriendRequest = {
+}
+export interface FriendRequest {
     from: User;
     to: User;
     date: Date;
-};
+}
 
-export type FriendOnlineStatus = {
+export interface FriendOnlineStatus {
     address: string;
     online: boolean;
-};
+}

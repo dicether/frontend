@@ -2,10 +2,10 @@ import * as React from "react";
 
 import * as Style from "./DefinitionEntry.scss";
 
-type Props = {
+interface Props {
     name: string;
     value: any;
-};
+}
 
 const DefinitionEntry = ({name, value}: Props) => (
     <div className={Style.definitionEntry}>

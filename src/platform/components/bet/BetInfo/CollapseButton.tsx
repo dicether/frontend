@@ -5,11 +5,11 @@ import {Button} from "../../../../reusable/index";
 
 import * as Style from "./CollapsButton.scss";
 
-type Props = {
+interface Props {
     isOpen: boolean;
     onClick: React.MouseEventHandler<any>;
     name: string;
-};
+}
 
 const CollapseButton = ({name, isOpen, onClick}: Props) => {
     return (

@@ -8,7 +8,6 @@ import {CONTRACT_URL} from "../config/config";
 import {IconButton} from "../reusable/index";
 
 import * as Style from "./Header.scss";
-
 import logo from "assets/images/logoTop.svg";
 
 interface Props extends WithTranslation {
@@ -21,10 +20,10 @@ interface Props extends WithTranslation {
     toggleTheme(nightMode: boolean): void;
 }
 
-type State = {
+interface State {
     isOpen: boolean;
     showRegister: boolean;
-};
+}
 
 class Header extends React.Component<Props, State> {
     constructor(props: Props) {

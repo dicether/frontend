@@ -1,18 +1,18 @@
 import * as React from "react";
+import {useEffect, useState} from "react";
 import {connect} from "react-redux";
 import {Nav, NavItem, NavLink, TabContent, TabPane} from "reactstrap";
-
 import {bindActionCreators} from "redux";
+
+import BetsList from "./BetsList";
 import {State} from "../../../rootReducer";
 import {Dispatch} from "../../../util/util";
 import {getUser} from "../../modules/account/selectors";
 import {addBet, addMyBet} from "../../modules/bets/actions";
 import {loadBets, loadMyBets} from "../../modules/bets/asyncActions";
 import {showBetModal, showUserModal} from "../../modules/modals/slice";
-import BetsList from "./BetsList";
 
 import * as Style from "./Stats.scss";
-import {useEffect, useState} from "react";
 
 const mapStateToProps = (state: State) => {
     const {bets} = state;
@@ -38,9 +38,9 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
         dispatch,
     );
 
-type OtherProps = {
+interface OtherProps {
     showMyBets: boolean;
-};
+}
 
 type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps> & OtherProps;
 

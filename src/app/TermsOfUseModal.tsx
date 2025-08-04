@@ -2,10 +2,9 @@ import * as React from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 
+import {BUGS_URL} from "../config/config";
 import {changeFirstVisited} from "../platform/modules/account/asyncActions";
 import {Button, Modal} from "../reusable/index";
-
-import {BUGS_URL} from "../config/config";
 import {State} from "../rootReducer";
 import {Dispatch} from "../util/util";
 

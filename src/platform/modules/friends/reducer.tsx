@@ -1,16 +1,15 @@
-import * as types from "./constants";
-
-import {ActionType, assertNever} from "../../../util/util";
 import * as actions from "./actions";
+import * as types from "./constants";
 import {Friend, FriendRequest} from "./types";
+import {ActionType, assertNever} from "../../../util/util";
 
 export type Actions = ActionType<typeof actions>;
 
-export type State = {
+export interface State {
     readonly friends: Friend[];
     readonly sentFriendRequests: FriendRequest[];
     readonly receivedFriendRequests: FriendRequest[];
-};
+}
 
 export const initialState: State = {
     friends: [],

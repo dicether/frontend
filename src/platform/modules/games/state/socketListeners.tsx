@@ -1,8 +1,12 @@
+import {loadContractGameState, serverActiveGame} from "./asyncActions";
 import {Dispatch} from "../../../../util/util";
 import {catchError} from "../../utilities/asyncActions";
-import {loadContractGameState, serverActiveGame} from "./asyncActions";
 
-type GameAcceptType = {gameId: number; serverHash: string; userHash: string};
+interface GameAcceptType {
+    gameId: number;
+    serverHash: string;
+    userHash: string;
+}
 
 const listeners = {
     gameSessionActive:

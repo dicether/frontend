@@ -4,17 +4,17 @@ import * as React from "react";
 
 import * as Style from "./PayoutTable.scss";
 
-export type Props = {
+export interface Props {
     payout: number[];
     showResult: boolean;
     resultColumn: number;
-};
+}
 
-type PayoutInfoProps = {
+interface PayoutInfoProps {
     showResult: boolean;
     colorClass: string;
     multiplier: number;
-};
+}
 
 const PayoutInfo = ({showResult, colorClass, multiplier}: PayoutInfoProps) => {
     const classNamesColorStrip = ClassNames(Style.colorStrip, colorClass, {[Style.colorStrip_show]: showResult});

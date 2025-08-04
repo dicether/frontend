@@ -1,17 +1,17 @@
 import {GameType, getNumSetBits, KENO_FIELDS, KENO_SELECTABLE_FIELDS, maxBet} from "@dicether/state-channel";
 import BN from "bn.js";
 
-import {KELLY_FACTOR, MIN_BANKROLL, MIN_BET_VALUE} from "../../../config/config";
-import {ActionType, assertNever} from "../../../util/util";
 import * as actions from "./actions";
 import * as types from "./constants";
+import {KELLY_FACTOR, MIN_BANKROLL, MIN_BET_VALUE} from "../../../config/config";
+import {ActionType, assertNever} from "../../../util/util";
 
 export type Actions = ActionType<typeof actions>;
 
-export type State = {
+export interface State {
     num: number;
     value: number;
-};
+}
 
 const initialState = {
     num: 0,

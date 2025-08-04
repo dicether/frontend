@@ -4,14 +4,14 @@ import ReactCopyToClipboard from "react-copy-to-clipboard";
 import IconButton from "./IconButton";
 import Popover from "./Popover";
 
-type Props = {
+interface Props {
     content: string;
     message?: string;
-};
+}
 
-type State = {
+interface State {
     showMessage: boolean;
-};
+}
 
 class CopyToClipboard extends React.Component<Props, State> {
     ref: React.RefObject<HTMLElement>;

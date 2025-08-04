@@ -1,13 +1,13 @@
 import * as React from "react";
 import {Link} from "react-router-dom";
-
 import {ButtonToolbar} from "reactstrap"; // FIXME: Remove
+
 import GameState from "../../../platform/components/state/State";
 import {Button, FancyIconButton, Popover, Switch} from "../../../reusable/index";
 
 import * as Style from "./GameFooter.scss";
 
-type Props = {
+interface Props {
     authenticated: boolean;
     showHelp: boolean;
     showExpertView: boolean;
@@ -16,11 +16,11 @@ type Props = {
     onToggleExpertView(b: boolean): void;
     onToggleHelp(b: boolean): void;
     onToggleSound(b: boolean): void;
-};
+}
 
-type State = {
+interface State {
     showSettingsPopover: boolean;
-};
+}
 
 export default class GameFooter extends React.Component<Props, State> {
     constructor(props: Props) {

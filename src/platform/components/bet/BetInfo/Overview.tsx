@@ -7,10 +7,10 @@ import {Bet} from "../../../modules/bets/types";
 
 import * as Style from "./Overview.scss";
 
-type Props = {
+interface Props {
     bet: Bet;
     showUserModal(user: User): void;
-};
+}
 
 const Overview = ({bet, showUserModal}: Props) => (
     <div className={Style.overview}>

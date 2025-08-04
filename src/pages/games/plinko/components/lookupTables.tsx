@@ -1,5 +1,5 @@
 // prettier-ignore
-export const startPositions: {[key: number]: {[key: number]: number[]}} = {
+export const startPositions: Record<number, Record<number, number[]>> = {
     8: {
         0: [
             0.0806,

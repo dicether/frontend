@@ -1,5 +1,5 @@
-import {Dispatch} from "../../../util/util";
 import {authenticateSocket} from "./asyncActions";
+import {Dispatch} from "../../../util/util";
 
 const listeners = {
     connect: (dispatch: Dispatch) => () => {

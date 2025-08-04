@@ -1,6 +1,7 @@
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
 import ClassName from "classnames";
 import * as React from "react";
+
 import FontAwesomeIcon, {Props as FontAwesomeIconProps} from "./FontAwesomeIcon";
 
 import "./FancyIconButton.scss";

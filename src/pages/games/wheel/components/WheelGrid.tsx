@@ -3,16 +3,16 @@ import * as React from "react";
 import PayoutTable from "./PayoutTable";
 import AnimatedWheel from "./WheelAnimation";
 
-import * as Style from "./WheelGrid.scss";
 import * as DayColors from "./WheelDayColors.scss";
+import * as Style from "./WheelGrid.scss";
 import * as NightColors from "./WheelNightColors.scss";
 
-type Props = {
+interface Props {
     nightMode: boolean;
     segments: number[];
     angle: number; // in radians
     payout: {multiplier: number; value: number; show: boolean};
-};
+}
 
 class WheelGrid extends React.Component<Props> {
     constructor(props: Props) {
@@ -23,7 +23,7 @@ class WheelGrid extends React.Component<Props> {
         const colors = nightMode ? NightColors : DayColors;
 
         let curColorIdx = 0;
-        const colorLookup: {[key: number]: string} = {};
+        const colorLookup: Record<number, string> = {};
         for (const segment of segments) {
             if (!(segment in colorLookup)) {
                 const color = colors[`color${curColorIdx % 6}`];

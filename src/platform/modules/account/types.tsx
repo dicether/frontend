@@ -1,15 +1,15 @@
-export type Stats = {
+export interface Stats {
     wagered: number;
     profit: number;
     numBets: number;
-};
+}
 
-export type Bet = {
+export interface Bet {
     roundId: number;
     value: number;
     won: number | null;
     chance: number;
-};
+}
 
 export type UserType = "ADM" | "DEV" | "MOD" | "VIP" | "BOT" | "USR";
 

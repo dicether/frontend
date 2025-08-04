@@ -1,7 +1,8 @@
+import {GameType, maxBet} from "@dicether/state-channel";
 import * as React from "react";
+import {Helmet} from "react-helmet";
 import {connect} from "react-redux";
 
-import {GameType, maxBet} from "@dicether/state-channel";
 import {KELLY_FACTOR, MAX_BET_VALUE, MIN_BANKROLL, MIN_BET_VALUE} from "../../../config/config";
 import {addNewBet} from "../../../platform/modules/bets/asyncActions";
 import {Bet} from "../../../platform/modules/bets/types";
@@ -15,7 +16,6 @@ import sounds from "../sound";
 import {canPlaceBet} from "../utilities";
 import {changeNum, changeValue} from "./actions";
 import Ui from "./components/Ui";
-import {Helmet} from "react-helmet";
 import {playFromBegin} from "../../../util/audio";
 
 const mapStateToProps = ({games, account, web3}: State) => {
@@ -43,10 +43,10 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 export type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
-export type OneDiceState = {
+export interface OneDiceState {
     showResult: boolean;
     result: {num: number; won: boolean};
-};
+}
 
 class FlipACoin extends React.PureComponent<Props, OneDiceState> {
     private loadedSounds = false;

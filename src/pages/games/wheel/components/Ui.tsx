@@ -2,11 +2,10 @@ import {WHEEL_PAYOUT, WHEEL_RESULT_RANGE} from "@dicether/state-channel";
 import * as React from "react";
 import {WithTranslation, withTranslation} from "react-i18next";
 
+import HowToPlay from "./HowToPlay";
+import WheelGrid from "./WheelGrid";
 import {MIN_BET_VALUE} from "../../../../config/config";
 import {Button, Col, FormGroup, Label, Modal, Row, Select, ValueInput} from "../../../../reusable";
-import HowToPlay from "./HowToPlay";
-
-import WheelGrid from "./WheelGrid";
 
 import * as Style from "./Ui.scss";
 
@@ -27,9 +26,9 @@ export interface Props extends WithTranslation {
     onPlaceBet(): void;
 }
 
-export type State = {
+export interface State {
     angle: number;
-};
+}
 
 class Ui extends React.PureComponent<Props, State> {
     constructor(props: Props) {

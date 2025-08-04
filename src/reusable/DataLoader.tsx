@@ -23,18 +23,18 @@ const NotFound = () => (
     </div>
 );
 
-type Props<T> = {
+interface Props<T> {
     url: string;
     success(data: T): React.ReactNode;
     loading?(): React.ReactNode;
     notFound?(): React.ReactNode;
     failure?(): React.ReactNode;
-};
+}
 
-type State<T> = {
+interface State<T> {
     data: T | undefined;
     error: AxiosError | undefined;
-};
+}
 
 class DataLoader<T = any> extends React.Component<Props<T>, State<T>> {
     static defaultProps = {

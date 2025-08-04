@@ -36,11 +36,11 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
         dispatch,
     );
 
-export type OtherProps = {
+export interface OtherProps {
     user: User;
     messageId: number;
     button: React.ReactNode;
-};
+}
 
 export type Props = ReturnType<typeof mapStateToProps> &
     ReturnType<typeof mapDispatchToProps> &

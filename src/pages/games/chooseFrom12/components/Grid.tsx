@@ -12,12 +12,12 @@ function wonStatus(num: number, result: {num: number; won: boolean}, showResult:
     return result.won;
 }
 
-export type Props = {
+export interface Props {
     selectedCoins: boolean[];
     result: {num: number; won: boolean};
     showResult: boolean;
     onClick?(num: number): void;
-};
+}
 
 const coinNums = [...Array(12).keys()];
 

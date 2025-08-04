@@ -1,8 +1,9 @@
 import * as React from "react";
 import {toast, ToastContainer} from "react-toastify";
-import "react-toastify/dist/ReactToastify.css"; // tslint:disable-line:no-submodule-imports
 
+import "react-toastify/dist/ReactToastify.css";
 import * as Style from "./Notification.scss";
+
 import {useEffect} from "react";
 import ClassNames from "classnames";
 
@@ -11,9 +12,9 @@ const CloseButton = () => {
     return <button type="button" className={classNames} aria-label="Close" />;
 };
 
-export type Props = {
+export interface Props {
     notification: any;
-};
+}
 
 const Notification = (props: Props) => {
     useEffect(() => {

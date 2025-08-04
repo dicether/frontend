@@ -3,11 +3,11 @@ import * as React from "react";
 
 import * as Style from "./Tile.scss";
 
-type TileContentProps = {
+interface TileContentProps {
     num: number;
     selected: boolean;
     won?: boolean;
-};
+}
 
 const TileContent = ({num, selected, won}: TileContentProps) => {
     const classNames = ClassNames(Style.numContent, {
@@ -23,12 +23,12 @@ const TileContent = ({num, selected, won}: TileContentProps) => {
     );
 };
 
-type Props = {
+interface Props {
     num: number;
     selected: boolean;
     won?: boolean;
     onClick?(num: number): void;
-};
+}
 
 const Tile = ({num, selected, won, onClick}: Props) => {
     return onClick ? (

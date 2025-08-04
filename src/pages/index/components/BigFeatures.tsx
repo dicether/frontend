@@ -5,7 +5,6 @@ import i8n from "../../../i18n";
 import {Col, Container, Row, Section} from "../../../reusable";
 
 import * as Style from "./BigFeatures.scss";
-
 import anonymous from "assets/images/anonymous.svg";
 import fair from "assets/images/fair.svg";
 import fast from "assets/images/fast.svg";
@@ -28,10 +27,10 @@ const entries = [
     },
 ];
 
-type EntryProps = {
+interface EntryProps {
     idx: number;
     entry: (typeof entries)[0];
-};
+}
 
 const Entry = ({idx, entry}: EntryProps) => {
     const classNameImgCol = ClassNames("text-center mb-4 mb-sm-0", {"order-sm-last": idx % 2 === 0});

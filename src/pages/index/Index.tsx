@@ -1,6 +1,7 @@
 import * as React from "react";
 import {connect} from "react-redux";
 import {bindActionCreators, Dispatch} from "redux";
+
 import Stats from "../../platform/components/bet/Stats";
 import {showRegisterModal} from "../../platform/modules/modals/slice";
 import {Container, Section} from "../../reusable";

@@ -3,13 +3,13 @@ import * as React from "react";
 import {FORCE_END_TIMEOUT} from "../../../config/config";
 import {Button, Modal} from "../../../reusable";
 
-export type Props = {
+export interface Props {
     conflictEnd(): void;
-};
+}
 
-export type State = {
+export interface State {
     showModal: boolean;
-};
+}
 
 class ConflictEnd extends React.Component<Props, State> {
     constructor(props: Props) {

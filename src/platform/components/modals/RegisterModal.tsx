@@ -1,11 +1,11 @@
 import * as React from "react";
+import {connect} from "react-redux";
 
 import {Modal} from "../../../reusable";
-import Register from "../user/Register";
-import {connect} from "react-redux";
 import {State} from "../../../rootReducer";
 import {Dispatch} from "../../../util/util";
 import {hideRegisterModal} from "../../modules/modals/slice";
+import Register from "../user/Register";
 
 const mapStateToProps = ({modal}: State) => {
     const {showRegisterModal: show} = modal;

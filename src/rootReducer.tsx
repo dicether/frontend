@@ -5,11 +5,11 @@ import bets, {State as BetsState} from "./platform/modules/bets/reducer";
 import chat, {State as ChatState} from "./platform/modules/chat/reducer";
 import friend, {State as FriendState} from "./platform/modules/friends/reducer";
 import games, {State as GamesState} from "./platform/modules/games/reducer";
+import modal, {ModalState} from "./platform/modules/modals/slice";
 import app, {State as AppState} from "./platform/modules/utilities/reducer";
 import web3, {State as Web3State} from "./platform/modules/web3/reducer";
-import modal, {ModalState} from "./platform/modules/modals/slice";
 
-export type State = {
+export interface State {
     account: AccountState;
     chat: ChatState;
     friend: FriendState;
@@ -18,7 +18,7 @@ export type State = {
     games: GamesState;
     bets: BetsState;
     modal: ModalState;
-};
+}
 
 const appReducer = combineReducers({
     account,

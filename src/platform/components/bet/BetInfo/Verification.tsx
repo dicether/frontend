@@ -7,9 +7,9 @@ import {Bet} from "../../../modules/bets/types";
 
 import * as Style from "./Verification.scss";
 
-type Props = {
+interface Props {
     bet: Bet;
-};
+}
 
 const OLD_SERVER_ADDRESS = "0xCef260a5Fed7A896BBE07b933B3A5c17aEC094D8";
 

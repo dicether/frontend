@@ -1,15 +1,14 @@
-import * as types from "./constants";
-
-import {ActionType, assertNever, fixedLengthAddElementFront} from "../../../util/util";
 import * as actions from "./actions";
+import * as types from "./constants";
 import {Bet} from "./types";
+import {ActionType, assertNever, fixedLengthAddElementFront} from "../../../util/util";
 
 export type Actions = ActionType<typeof actions>;
 
-export type State = {
+export interface State {
     allBets: Bet[];
     myBets: Bet[];
-};
+}
 
 const initialState = {
     allBets: [],

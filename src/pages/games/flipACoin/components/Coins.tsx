@@ -2,18 +2,17 @@ import ClassNames from "classnames";
 import * as React from "react";
 
 import * as Style from "./Coins.scss";
-
 import CoinHead from "assets/images/inline/coinHead.svg";
 import CoinNumber from "assets/images/inline/coinNumber.svg";
 
 const coins = [<CoinHead key={1} width="100%" heigth="auto" />, <CoinNumber key={2} width="100%" heigth="auto" />];
 
-type CoinProps = {
+interface CoinProps {
     num: number;
     selected: boolean;
     won?: boolean;
     onClick?(num: number): void;
-};
+}
 
 const Coin = ({num, won, selected, onClick}: CoinProps) => {
     const classNames = ClassNames(Style.coin, {
@@ -40,12 +39,12 @@ function wonStatus(num: number, result: {num: number; won: boolean}, showResult:
     return result.won;
 }
 
-export type Props = {
+export interface Props {
     selectedCoin: number;
     result: {won: boolean; num: number};
     showResult: boolean;
     onClick?(num: number): void;
-};
+}
 
 const Coins = ({selectedCoin, result, showResult, onClick}: Props) => {
     return (

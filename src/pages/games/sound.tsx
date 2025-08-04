@@ -1,6 +1,6 @@
-import win from "assets/sound/win.wav";
-import lose from "assets/sound/lose.wav";
 import click from "assets/sound/click.wav";
+import lose from "assets/sound/lose.wav";
+import win from "assets/sound/win.wav";
 
 export default {
     win: new Audio(win),

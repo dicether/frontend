@@ -3,7 +3,7 @@ import * as React from "react";
 
 import {BaseType} from "./BaseType";
 
-import "rc-slider/assets/index.css"; // tslint:disable-line:no-submodule-imports
+import "rc-slider/assets/index.css";
 import "./Slider.scss";
 import * as Style from "./Slider.scss";
 

@@ -1,18 +1,18 @@
 import {User} from "../../platform/modules/account/types";
 
-export type Stat = {
+export interface Stat {
     user: User;
     value: number;
-};
+}
 
-export type StatEntry = {
+export interface StatEntry {
     mostWagered: Stat[];
     mostProfit: Stat[];
-};
+}
 
-export type Stats = {
+export interface Stats {
     day: StatEntry;
     week: StatEntry;
     month: StatEntry;
     all: StatEntry;
-};
+}

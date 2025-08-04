@@ -6,12 +6,12 @@ import {Ether} from "../../../../reusable/index";
 
 import * as Style from "./GameStats.scss";
 
-type EntryProps = {
+interface EntryProps {
     value: number;
     name: string;
     colored?: boolean;
     ether?: boolean;
-};
+}
 
 const StatsEntry = ({value, name, colored = false, ether = true}: EntryProps) => (
     <div className={Style.entry}>

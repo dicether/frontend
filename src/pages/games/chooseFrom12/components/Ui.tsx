@@ -1,12 +1,12 @@
+import {CHOOSE_FROM_12_NUMS, getSetBits} from "@dicether/state-channel";
 import * as React from "react";
 import {WithTranslation, withTranslation} from "react-i18next";
 
-import {CHOOSE_FROM_12_NUMS, getSetBits} from "@dicether/state-channel";
+import Grid from "./Grid";
+import HowToPlay from "./HowToPlay";
 import {HOUSE_EDGE, HOUSE_EDGE_DIVISOR, MIN_BET_VALUE} from "../../../../config/config";
 import {Button, Col, FormGroup, Input, Label, Modal, Row, ValueInput} from "../../../../reusable";
 import {formatEth} from "../../../../reusable/Ether";
-import Grid from "./Grid";
-import HowToPlay from "./HowToPlay";
 
 import * as Style from "./Ui.scss";
 

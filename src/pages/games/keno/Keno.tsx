@@ -8,6 +8,7 @@ import {
 } from "@dicether/state-channel";
 import BN from "bn.js";
 import * as React from "react";
+import {Helmet} from "react-helmet";
 import {connect} from "react-redux";
 
 import {KELLY_FACTOR, MIN_BANKROLL, MIN_BET_VALUE} from "../../../config/config";
@@ -24,7 +25,6 @@ import sounds from "../sound";
 import {canPlaceBet} from "../utilities";
 import {changeNum, changeValue} from "./actions";
 import Ui from "./components/Ui";
-import {Helmet} from "react-helmet";
 import {playFromBegin} from "../../../util/audio";
 
 const mapStateToProps = ({games, account, web3}: State) => {
@@ -52,19 +52,19 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
 
 export type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
-export type KenoState = {
+export interface KenoState {
     showResult: boolean;
     tmpResult: {betNum: number; num: number; won: boolean; userProfit: number};
 
     showResultProfit: boolean;
-};
+}
 
-type Result = {
+interface Result {
     betNum: number;
     num: number;
     won: boolean;
     userProfit: number;
-};
+}
 
 class Keno extends React.PureComponent<Props, KenoState> {
     private loadedSounds = false;

@@ -4,9 +4,9 @@ import {Tooltip} from "../../../../reusable/index";
 
 import * as Style from "./UserType.scss";
 
-type Props = {
+interface Props {
     userType: string;
-};
+}
 
 const UserType = ({userType}: Props) => {
     let target: HTMLElement | null = null;

@@ -1,36 +1,36 @@
+import {PLINKO_PAYOUT} from "@dicether/state-channel";
 import Rand from "rand-seed";
 import * as React from "react";
 import ReactResizeDetector from "react-resize-detector";
 
-import {PLINKO_PAYOUT} from "@dicether/state-channel";
-import PureCanvas from "../../reusable/PureCanvas";
 import Ball from "./Ball";
 import {startPositions} from "./lookupTables";
 import PayoutTable from "./PayoutTable";
 import Pins from "./Pins";
 import Vector2 from "./Vector2";
+import PureCanvas from "../../reusable/PureCanvas";
 
 import * as Style from "./Plinko.scss";
 import * as DayColors from "./PlinkoDayColors.scss";
 import * as NightColors from "./PlinkoNightColors.scss";
 
-type Props = {
+interface Props {
     rows: number;
     risk: number;
     nightMode: boolean;
     showResult: boolean;
     resultColumn: number;
-};
+}
 
-type State = {
+interface State {
     size: number;
-};
+}
 
 class Plinko extends React.Component<Props, State> {
     private ctx: CanvasRenderingContext2D | null = null;
     private parent = React.createRef<HTMLDivElement>();
     private pins: Pins;
-    private activeBalls: Array<{ball: Ball; targetPos: number; finishedCallBack: () => void}> = [];
+    private activeBalls: {ball: Ball; targetPos: number; finishedCallBack: () => void}[] = [];
     private animationActive = false;
     private ballAcceleration = new Vector2(0, 9.81);
     private currentTime = 0;

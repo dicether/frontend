@@ -3,10 +3,10 @@ import * as React from "react";
 
 import Grid from "../../../../pages/games/chooseFrom12/components/Grid";
 
-type Props = {
+interface Props {
     betNum: number;
     resultNum: number;
-};
+}
 
 const ChooseFrom12BetInfo = ({betNum, resultNum}: Props) => {
     const selectedCoins = getSetBits(betNum);

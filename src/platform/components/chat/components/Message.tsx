@@ -4,13 +4,14 @@ import * as React from "react";
 import Emoji from "react-emoji-render";
 import {Link} from "react-router-dom";
 
-import {Message as MessageType} from "../../../modules/chat/types";
-import {Friend} from "../../../modules/friends/types";
+import reactStringReplace from "react-string-replace";
+
 import UserMenu from "./UserMenu";
 import UserType from "./UserType";
-
-import reactStringReplace from "react-string-replace";
 import {isValidUserName} from "../../../modules/account/util";
+import {Message as MessageType} from "../../../modules/chat/types";
+import {Friend} from "../../../modules/friends/types";
+
 import * as Style from "./Message.scss";
 
 const BET_REGEX = /Bet:(\d+)/;
@@ -21,10 +22,10 @@ const PORT = window.location.port ? `:${window.location.port}` : "";
 const HOST = `${window.location.protocol}//${window.location.hostname}${PORT}`;
 const LOCAL_LINK_REGEX = new RegExp(`${HOST}/(\\S+)`);
 
-type ChatButtonProps = {
+interface ChatButtonProps {
     name: string;
     onClick?: any;
-};
+}
 
 const ChatButton = ({name, onClick}: ChatButtonProps) => (
     <button className={Style.message_button} onClick={onClick}>
@@ -72,16 +73,16 @@ function processMessage(
     ));
 }
 
-export type Props = {
+export interface Props {
     message: MessageType;
     friends: Friend[];
     showBetModal(betId: number): void;
     showUserModal(userName: string): void;
-};
+}
 
-export type State = {
+export interface State {
     showUserPopover: boolean;
-};
+}
 
 class Message extends React.Component<Props, State> {
     constructor(props: Props) {

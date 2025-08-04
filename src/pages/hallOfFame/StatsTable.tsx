@@ -1,16 +1,16 @@
 import * as React from "react";
 
-import {User} from "../../platform/modules/account/types";
-import {Table} from "../../reusable/index";
 import StatsRow from "./StatsRow";
 import {Stat} from "./types";
+import {User} from "../../platform/modules/account/types";
+import {Table} from "../../reusable/index";
 
-type Props = {
+interface Props {
     data: Stat[];
     title: string;
     name: string;
     showUserModal(user: User): void;
-};
+}
 
 const StatsTable = ({data, name, title, showUserModal}: Props) => (
     <div>

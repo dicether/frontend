@@ -5,9 +5,9 @@ import {Ether} from "../../../reusable";
 
 import * as Style from "./HowToPlayBase.scss";
 
-export type Props = {
+export interface Props {
     children: React.ReactNode;
-};
+}
 
 const HowToPlayBase = ({children}: Props) => (
     <div className={Style.howToPlay}>

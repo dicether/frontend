@@ -1,12 +1,11 @@
 import * as React from "react";
+import {connect} from "react-redux";
 
 import {Modal} from "../../../reusable";
-import Bet from "../bet/Bet";
-import {connect} from "react-redux";
 import {State} from "../../../rootReducer";
 import {Dispatch} from "../../../util/util";
-
 import {hideBetModal} from "../../modules/modals/slice";
+import Bet from "../bet/Bet";
 
 const mapStateToProps = ({modal}: State) => {
     const {betModal} = modal;

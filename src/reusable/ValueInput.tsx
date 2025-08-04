@@ -1,5 +1,6 @@
 import * as React from "react";
 import {InputGroup} from "reactstrap";
+
 import {BaseType} from "./BaseType";
 import Button from "./Button";
 import NumericInput from "./NumericInput";

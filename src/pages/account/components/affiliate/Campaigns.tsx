@@ -1,13 +1,13 @@
 import * as React from "react";
 import {WithTranslation, withTranslation} from "react-i18next";
 
-import {CopyToClipBoard, DefinitionEntry, Ether} from "../../../../reusable";
 import {Campaign} from "./types";
 import {CHAIN_ID} from "../../../../config/config";
+import {CopyToClipBoard, DefinitionEntry, Ether} from "../../../../reusable";
 
-type CampaignProps = {
+interface CampaignProps {
     campaign: Campaign;
-};
+}
 
 const Campaign = ({campaign}: CampaignProps) => (
     <div>

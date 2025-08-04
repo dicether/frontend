@@ -1,26 +1,26 @@
 import axios from "axios";
 import * as React from "react";
 import {WithTranslation, withTranslation} from "react-i18next";
-
 import {connect} from "react-redux";
-import {showSuccessMessage} from "../../../../platform/modules/utilities/actions";
-import {catchError} from "../../../../platform/modules/utilities/asyncActions";
-import {Dispatch} from "../../../../util/util";
+
 import Balance from "./Balance";
 import Campaigns from "./Campaigns";
 import CreateCampaign from "./CreateCampaign";
 import {Campaign} from "./types";
 import {CHAIN_ID} from "../../../../config/config";
+import {showSuccessMessage} from "../../../../platform/modules/utilities/actions";
+import {catchError} from "../../../../platform/modules/utilities/asyncActions";
+import {Dispatch} from "../../../../util/util";
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
     catchError: (error: Error) => catchError(error, dispatch),
     showSuccessMessage: (message: string) => dispatch(showSuccessMessage(message)),
 });
 
-type State = {
+interface State {
     campaigns: Campaign[];
     balance: number;
-};
+}
 
 type Props = ReturnType<typeof mapDispatchToProps> & WithTranslation;
 

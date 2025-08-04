@@ -1,9 +1,10 @@
 import * as React from "react";
+
 import {Container} from "../reusable";
 
-type PathNotFoundProps = {
+interface PathNotFoundProps {
     insideContainer?: boolean;
-};
+}
 
 const PathNotFound = ({insideContainer = false}: PathNotFoundProps) =>
     insideContainer ? (

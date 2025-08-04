@@ -1,6 +1,9 @@
 import * as React from "react";
 import {connect} from "react-redux";
 
+import ClearState from "./ClearState";
+import ConflictEnd from "./ConflictEnd";
+import UserEndGame from "./UserEndGame";
 import {Output} from "../../../reusable/index";
 import {State} from "../../../rootReducer";
 import {Dispatch} from "../../../util/util";
@@ -12,17 +15,14 @@ import {
     userEndGame,
 } from "../../modules/games/state/asyncActions";
 import {catchError} from "../../modules/utilities/asyncActions";
-import ClearState from "./ClearState";
-import ConflictEnd from "./ConflictEnd";
 
 import * as Style from "./State.scss";
-import UserEndGame from "./UserEndGame";
 
-type EntryProps = {
+interface EntryProps {
     id: string;
     name: string;
     data?: string | number;
-};
+}
 
 const Entry = ({id, name, data}: EntryProps) => {
     if (data) {

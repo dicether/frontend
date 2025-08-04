@@ -1,18 +1,21 @@
 declare module "eth-sig-util" {
-    type Data = Array<{type: string; name: string; value: any}>;
+    type Data = {type: string; name: string; value: any}[];
 
     export function signTypedData(privateKey: Buffer, msgParams: {data: Data}): string;
 
-    type Recover = {data: Data; sig: string};
+    interface Recover {
+        data: Data;
+        sig: string;
+    }
     export function recoverTypedSignature(rec: Recover): string;
 }
 
 declare module "raven-for-redux" {
-    export default function createRavenMiddleware(raven: any, options: {[id: string]: any}): any;
+    export default function createRavenMiddleware(raven: any, options: Record<string, any>): any;
 }
 
 declare module "*.scss" {
-    const classes: {[key: string]: string};
+    const classes: Record<string, string>;
     export = classes;
 }
 

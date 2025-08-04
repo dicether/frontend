@@ -1,18 +1,19 @@
 import * as React from "react";
+
 import Wheel from "./Wheel";
 
-type Props = {
+interface Props {
     nightMode: boolean;
     segmentColors: string[];
     position: number;
     payout: {show: boolean; value: number; multiplier: number; color: string};
-};
+}
 
-type State = {
+interface State {
     previousPosition: number;
     animationStartTime: number;
     currentPosition: number;
-};
+}
 
 export default class AnimatedWheel extends React.Component<Props, State> {
     private static ANIMATION_TIME = 5000; // 2 seconds

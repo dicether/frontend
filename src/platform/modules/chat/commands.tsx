@@ -14,13 +14,13 @@ export function getMatchingCommands(msg: string) {
 }
 
 export function executeCommands(dispatch: Dispatch, message: string) {
-    const betMatch = message.match(SHOW_BET);
+    const betMatch = SHOW_BET.exec(message);
     if (betMatch) {
         dispatch(showBetModal({betId: Number.parseInt(betMatch[1], 10)}));
         return true;
     }
 
-    const userMatch = message.match(SHOW_USER);
+    const userMatch = SHOW_USER.exec(message);
     if (userMatch) {
         dispatch(showUserModal({userName: userMatch[1]}));
         return true;

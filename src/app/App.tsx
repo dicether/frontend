@@ -1,8 +1,13 @@
 import * as React from "react";
+import {Helmet} from "react-helmet";
 import {connect} from "react-redux";
 import {Navigate, Route, Routes} from "react-router-dom";
-
 import {bindActionCreators} from "redux";
+
+import BeforeUnload from "./BeforeUnload";
+import Notification from "./Notification";
+import PathNotFound from "./PathNotFound";
+import RequireAuth from "./RequireAuth";
 import {ACCOUNT_BALANCE_POLL_INTERVAL} from "../config/config";
 import Layout from "../layout/Layout";
 import Account from "../pages/account/Account";
@@ -27,11 +32,6 @@ import {init as initSockets, unInit as unInitSockets} from "../platform/sockets"
 import {State as RootState} from "../rootReducer";
 import TermsOfUse from "../termsOfUse/TermsOfUse";
 import {Dispatch} from "../util/util";
-import RequireAuth from "./RequireAuth";
-import BeforeUnload from "./BeforeUnload";
-import Notification from "./Notification";
-import PathNotFound from "./PathNotFound";
-import {Helmet} from "react-helmet";
 
 export const mapStateToProps = (state: RootState) => {
     const {account, app, web3, games} = state;

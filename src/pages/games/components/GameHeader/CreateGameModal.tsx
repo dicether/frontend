@@ -4,7 +4,7 @@ import {GAME_SESSION_TIMEOUT} from "../../../../config/config";
 import {State as Web3State} from "../../../../platform/modules/web3/reducer";
 import {Button, Ether, Form, FormGroup, Input, Label, Modal, ValueInput} from "../../../../reusable";
 
-type Props = {
+interface Props {
     seed: string;
     isOpen: boolean;
     minValue: number;
@@ -13,11 +13,11 @@ type Props = {
 
     onCreateGame(value: number, seed: string): void;
     onClose(): void;
-};
+}
 
-type State = {
+interface State {
     value: number;
-};
+}
 
 function roundValue(value: number, step: number): number {
     return Math.floor(value / step) * step;

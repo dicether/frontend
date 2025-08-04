@@ -1,15 +1,14 @@
-import ClassNames from "classnames";
-
 import {KENO_DIVIDER, KENO_PAY_OUT} from "@dicether/state-channel";
+import ClassNames from "classnames";
 import * as React from "react";
 
 import * as Style from "./PayoutTable.scss";
 
-type EntryProps = {
+interface EntryProps {
     hits: number;
     payout: number;
     won?: boolean;
-};
+}
 
 const Entry = ({hits, payout, won}: EntryProps) => {
     const className = ClassNames(Style.entry, {
@@ -25,10 +24,10 @@ const Entry = ({hits, payout, won}: EntryProps) => {
     );
 };
 
-export type Props = {
+export interface Props {
     selectedTiles: number;
     numHits?: number;
-};
+}
 
 const PayoutTable = ({selectedTiles, numHits}: Props) => {
     return (

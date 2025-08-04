@@ -3,10 +3,10 @@ import * as React from "react";
 
 import Grid from "../../../../pages/games/keno/components/Grid";
 
-type Props = {
+interface Props {
     betNum: number;
     resultNum: number;
-};
+}
 
 const KenoBetInfo = ({betNum, resultNum}: Props) => {
     const selectedTiles = getSetBits(betNum);

@@ -1,13 +1,14 @@
 import * as React from "react";
+
+import Coins from "./Coins";
+import HowToPlay from "./HowToPlay";
 import {HOUSE_EDGE, HOUSE_EDGE_DIVISOR, MIN_BET_VALUE} from "../../../../config/config";
 import {Button, Col, FormGroup, Input, Label, Modal, Row, ValueInput} from "../../../../reusable";
 import {formatEth} from "../../../../reusable/Ether";
-import Coins from "./Coins";
-import HowToPlay from "./HowToPlay";
 
 import * as Style from "./Ui.scss";
 
-type Props = {
+interface Props {
     value: number;
     num: number;
     maxBetValue: number;
@@ -18,7 +19,7 @@ type Props = {
     onValueChange(value: number): void;
     onClick(diceNum: number): void;
     onPlaceBet(): void;
-};
+}
 
 class Ui extends React.Component<Props> {
     constructor(props: Props) {

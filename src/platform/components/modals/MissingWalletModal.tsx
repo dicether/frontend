@@ -1,7 +1,7 @@
 import * as React from "react";
+import {connect} from "react-redux";
 
 import {MissingWallet, Modal} from "../../../reusable";
-import {connect} from "react-redux";
 import {State} from "../../../rootReducer";
 import {Dispatch} from "../../../util/util";
 import {hideMissingWalletModal} from "../../modules/modals/slice";

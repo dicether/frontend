@@ -1,12 +1,12 @@
 import * as React from "react";
 import {connect} from "react-redux";
-
 import {bindActionCreators} from "redux";
+
+import FriendList from "./FriendList";
+import FriendRequests from "./FriendRequests";
 import {State} from "../../../rootReducer";
 import {Dispatch} from "../../../util/util";
 import {acceptFriendRequest, cancelFriendRequest, declineFriendRequest} from "../../modules/friends/asyncActions";
-import FriendList from "./FriendList";
-import FriendRequests from "./FriendRequests";
 
 import * as Style from "./Friends.scss";
 

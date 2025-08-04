@@ -1,6 +1,6 @@
 import {User} from "../account/types";
 
-export type Bet = {
+export interface Bet {
     id: number;
     timestamp: Date;
     profit: number;
@@ -19,4 +19,4 @@ export type Bet = {
     userSig: string;
     gameId: number;
     contractAddress: string;
-};
+}

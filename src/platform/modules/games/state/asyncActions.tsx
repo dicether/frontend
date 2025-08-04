@@ -14,16 +14,8 @@ import {
 import * as Sentry from "@sentry/browser";
 import retry from "async-retry";
 import axios from "axios";
-import Web3 from "web3";
-import {TransactionReceipt} from "web3";
+import Web3, {TransactionReceipt} from "web3";
 
-import {CHAIN_ID, CONTRACT_ADDRESS, NETWORK_NAME, SERVER_ADDRESS, SIGNATURE_VERSION} from "../../../../config/config";
-import {getLogGameCreated, getReasonEnded} from "../../../../contractUtils";
-import {Dispatch, GetState, isLocalStorageAvailable} from "../../../../util/util";
-import {addNewBet} from "../../bets/asyncActions";
-import {Bet as FinalBet} from "../../bets/types";
-import {catchError} from "../../utilities/asyncActions";
-import {getTransactionReceipt, signTypedData} from "../../web3/asyncActions";
 import {
     addBet,
     creatingGame,
@@ -40,6 +32,13 @@ import {
     userInitiateForceEnd,
 } from "./actions";
 import {ReasonEnded, State, State as GameState} from "./reducer";
+import {CHAIN_ID, CONTRACT_ADDRESS, NETWORK_NAME, SERVER_ADDRESS, SIGNATURE_VERSION} from "../../../../config/config";
+import {getLogGameCreated, getReasonEnded} from "../../../../contractUtils";
+import {Dispatch, GetState, isLocalStorageAvailable} from "../../../../util/util";
+import {addNewBet} from "../../bets/asyncActions";
+import {Bet as FinalBet} from "../../bets/types";
+import {catchError} from "../../utilities/asyncActions";
+import {getTransactionReceipt, signTypedData} from "../../web3/asyncActions";
 
 const STORAGE_VERSION = 2;
 
@@ -625,10 +624,10 @@ export function userEndGame() {
 
         const roundId = gameState.roundId;
         const balance = gameState.balance;
-        const serverHash = gameState.serverHash as string;
-        const userHash = gameState.userHash as string;
-        const gameId = gameState.gameId as number;
-        const serverSig = gameState.serverSig as string;
+        const serverHash = gameState.serverHash!;
+        const userHash = gameState.userHash!;
+        const gameId = gameState.gameId!;
+        const serverSig = gameState.serverSig!;
 
         const userEndGame = contract.methods.userEndGame;
         await new Promise((resolve, reject) =>
@@ -715,7 +714,7 @@ export function conflictEnd() {
         } else {
             let serverHash = keccak(gameState.serverHash);
             let userHash = keccak(gameState.userHash);
-            const value = fromGweiToWei(gameState.betValue as number).toString();
+            const value = fromGweiToWei(gameState.betValue!).toString();
             let balance = fromGweiToWei(oldBalance).toString();
             let userSeed = gameState.userHash;
 

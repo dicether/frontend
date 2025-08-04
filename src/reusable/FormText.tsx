@@ -1,5 +1,6 @@
 import * as React from "react";
 import {FormText as BootstrapFormText} from "reactstrap";
+
 import {BaseType} from "./BaseType";
 
 export interface Props extends BaseType {

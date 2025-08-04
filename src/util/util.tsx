@@ -20,11 +20,11 @@ export function fixedLengthAddElementFront<T>(array: T[], element: T, maxLength:
 
 export type GetState = () => State;
 
-export type $Values<T extends {[key: string]: unknown}> = T[keyof T];
+export type $Values<T extends Record<string, unknown>> = T[keyof T];
 
-export type ActionType<T extends {[id: string]: (...args: any[]) => any}> = ReturnType<$Values<T>>;
+export type ActionType<T extends Record<string, (...args: any[]) => any>> = ReturnType<$Values<T>>;
 
-export type ActionCreateType<T extends {[key: string]: unknown}> = (...args: any[]) => {type: $Values<T>};
+export type ActionCreateType<T extends Record<string, unknown>> = (...args: any[]) => {type: $Values<T>};
 
 export type ThunkAction1<R, S> = (dispatch: Dispatch, getState: () => S) => R;
 

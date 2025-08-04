@@ -1,7 +1,8 @@
+import {configureStore} from "@reduxjs/toolkit";
 import * as Sentry from "@sentry/react";
 import {Middleware, StoreEnhancer} from "redux";
 import {createLogger} from "redux-logger";
-import {configureStore} from "@reduxjs/toolkit";
+
 import {VERSION} from "./config/config";
 import rootReducer, {State} from "./rootReducer";
 import {truncate} from "./util/util";
@@ -53,7 +54,7 @@ if (process.env.SENTRY_LOGGING) {
 
 if (process.env.REDUX_LOGGING) {
     const logger = createLogger();
-    middlewares.push(logger as Middleware);
+    middlewares.push(logger);
 }
 
 export const store = configureStore({

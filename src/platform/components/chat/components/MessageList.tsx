@@ -1,18 +1,17 @@
 import * as React from "react";
 
 import Message from "./Message";
-
-import * as Style from "./MessageList.scss";
-
 import {Message as MessageType} from "../../../modules/chat/types";
 import {Friend} from "../../../modules/friends/types";
 
-export type Props = {
+import * as Style from "./MessageList.scss";
+
+export interface Props {
     messages: MessageType[];
     friends: Friend[];
     showBetModal(betId: number): void;
     showUserModal(userName: string): void;
-};
+}
 
 class MessageList extends React.PureComponent<Props> {
     shouldScrollBottom: boolean;

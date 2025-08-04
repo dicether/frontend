@@ -1,11 +1,11 @@
 import * as React from "react";
+import {connect} from "react-redux";
 
 import {Modal} from "../../../reusable";
-import User from "../user/User";
-import {connect} from "react-redux";
 import {State} from "../../../rootReducer";
 import {Dispatch} from "../../../util/util";
 import {hideUserModal} from "../../modules/modals/slice";
+import User from "../user/User";
 
 const mapStateToProps = ({modal}: State) => {
     const {userModal} = modal;

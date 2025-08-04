@@ -5,11 +5,11 @@ import {ProgressBar, StaticPopover} from "../../../../reusable/index";
 
 import * as Style from "./DiceBetInfo.scss";
 
-type Props = {
+interface Props {
     betNum: number;
     resultNum: number;
     gameType: number;
-};
+}
 
 const DiceBetInfo = ({betNum, resultNum, gameType}: Props) => {
     const lowColor = gameType === GameType.DICE_LOWER ? "success" : "danger";

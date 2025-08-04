@@ -1,15 +1,14 @@
-import * as types from "./constants";
-
-import {ActionType, assertNever} from "../../../../util/util";
 import * as actions from "./actions";
+import * as types from "./constants";
+import {ActionType, assertNever} from "../../../../util/util";
 
 export type Actions = ActionType<typeof actions>;
 
-export type State = {
+export interface State {
     showHelp: boolean;
     showExpertView: boolean;
     sound: boolean;
-};
+}
 
 const initialState = {
     showHelp: false,

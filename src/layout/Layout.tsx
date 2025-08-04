@@ -32,9 +32,9 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
         dispatch,
     );
 
-type OtherProps = {
+interface OtherProps {
     children: React.ReactNode;
-};
+}
 
 type ReduxProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 
