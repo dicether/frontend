@@ -12,7 +12,7 @@ export function parseReferral() {
 
         if (previousRef !== ref) {
             localStorage.setItem("referral", ref as string);
-            axios.post("/affiliate/hit", {id: ref});
+            void axios.post("/affiliate/hit", {id: ref});
         }
     }
 }

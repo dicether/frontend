@@ -115,8 +115,8 @@ export function unregisterAccounChainIdListener() {
 export function fetchAllWeb3() {
     return (dispatch: Dispatch) => {
         dispatch(fetchWeb3());
-        dispatch(fetchAccount());
-        dispatch(fetchChainId());
+        void dispatch(fetchAccount());
+        void dispatch(fetchChainId());
         dispatch(fetchAccountBalance());
     };
 }

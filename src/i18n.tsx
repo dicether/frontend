@@ -19,7 +19,7 @@ const resources = {
     // },
 };
 
-i18n.use(detector)
+void i18n.use(detector)
     .use(initReactI18next) // passes i18n down to react-i18next
     .init({
         resources,
