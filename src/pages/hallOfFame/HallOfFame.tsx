@@ -17,7 +17,7 @@ import * as Style from "./HallOfFame.scss";
 
 interface StatsEntryProps {
     timeSpan: string;
-    showUserModal(user: User): void;
+    showUserModal: (user: User) => void;
 }
 
 const StatsEntry = ({timeSpan, showUserModal}: StatsEntryProps) => (

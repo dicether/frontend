@@ -12,8 +12,8 @@ import * as Style from "./BetList.scss";
 interface LastBetRowProps {
     bet: Bet;
     showUser: boolean;
-    showBetModal(bet: Bet): void;
-    showUserModal(user: User): void;
+    showBetModal: (bet: Bet) => void;
+    showUserModal: (user: User) => void;
 }
 
 const LastBetRow = ({bet, showUser, showBetModal, showUserModal}: LastBetRowProps) => {
@@ -61,8 +61,8 @@ const LastBetRow = ({bet, showUser, showBetModal, showUserModal}: LastBetRowProp
 interface Props {
     bets: Bet[];
     showUser?: boolean;
-    showBetModal(bet: Bet): void;
-    showUserModal(user: User): void;
+    showBetModal: (bet: Bet) => void;
+    showUserModal: (user: User) => void;
 }
 
 const BetsList = ({bets, showUser = true, showBetModal, showUserModal}: Props) => {

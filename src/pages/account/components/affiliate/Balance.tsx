@@ -5,7 +5,7 @@ import {Button, DefinitionEntry, Ether} from "../../../../reusable";
 
 interface Props extends WithTranslation {
     balance: number;
-    withDrawBalance(): void;
+    withDrawBalance: () => void;
 }
 
 const Balance = ({balance, withDrawBalance, t}: Props) => (

@@ -12,7 +12,7 @@ export interface Props extends BaseType {
     textOn?: string;
     textOff?: string;
 
-    onToggle(t: boolean): void;
+    onToggle: (t: boolean) => void;
 }
 
 const Switch = ({

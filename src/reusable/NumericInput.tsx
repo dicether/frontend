@@ -12,7 +12,7 @@ export interface Props extends BaseType {
     precision?: number;
     suffix?: React.ReactNode;
 
-    onNumber(n: number): void;
+    onNumber: (n: number) => void;
 }
 
 export default class NumericInput extends React.Component<Props> {

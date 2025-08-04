@@ -11,7 +11,7 @@ interface CoinProps {
     num: number;
     selected: boolean;
     won?: boolean;
-    onClick?(num: number): void;
+    onClick?: (num: number) => void;
 }
 
 const Coin = ({num, won, selected, onClick}: CoinProps) => {
@@ -43,7 +43,7 @@ export interface Props {
     selectedCoin: number;
     result: {won: boolean; num: number};
     showResult: boolean;
-    onClick?(num: number): void;
+    onClick?: (num: number) => void;
 }
 
 const Coins = ({selectedCoin, result, showResult, onClick}: Props) => {

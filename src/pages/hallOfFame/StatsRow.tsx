@@ -9,7 +9,7 @@ import * as Style from "./StatsRow.scss";
 interface Props {
     index: number;
     stat: Stat;
-    showUserModal(user: User): void;
+    showUserModal: (user: User) => void;
 }
 
 const StatsRow = ({index, stat, showUserModal}: Props) => {

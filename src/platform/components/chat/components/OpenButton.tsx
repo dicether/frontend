@@ -6,7 +6,7 @@ import {Button, FontAwesomeIcon} from "../../../../reusable/index";
 import * as Style from "./OpenButton.scss";
 
 export interface Props extends WithTranslation {
-    onOpen(): void;
+    onOpen: () => void;
 }
 
 const OpenButton = ({onOpen, t}: Props) => (

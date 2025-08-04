@@ -16,7 +16,7 @@ export interface Props {
     selectedCoins: boolean[];
     result: {num: number; won: boolean};
     showResult: boolean;
-    onClick?(num: number): void;
+    onClick?: (num: number) => void;
 }
 
 const coinNums = [...Array(12).keys()];

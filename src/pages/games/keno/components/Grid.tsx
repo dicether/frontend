@@ -21,7 +21,7 @@ export interface Props {
     selectedTiles: boolean[];
     result: {betNum: number; num: number};
     showResult: boolean;
-    onClick?(num: number): void;
+    onClick?: (num: number) => void;
 }
 
 const tileNums = [...Array(40).keys()];

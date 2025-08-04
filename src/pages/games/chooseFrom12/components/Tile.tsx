@@ -27,7 +27,7 @@ interface Props {
     num: number;
     selected: boolean;
     won?: boolean;
-    onClick?(num: number): void;
+    onClick?: (num: number) => void;
 }
 
 const Tile = ({num, selected, won, onClick}: Props) => {

@@ -6,8 +6,8 @@ import {FontAwesomeIcon} from "../../../../reusable/index";
 import * as Style from "./Header.scss";
 
 interface Props extends WithTranslation {
-    onClose(): void;
-    onToggleFriends(b: boolean): void;
+    onClose: () => void;
+    onToggleFriends: (b: boolean) => void;
 }
 
 const Header = ({onClose, onToggleFriends, t}: Props) => (

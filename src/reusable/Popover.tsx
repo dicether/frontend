@@ -14,7 +14,7 @@ export interface Props extends BaseType {
     container?: any;
     target: string | HTMLElement;
 
-    toggle(): void;
+    toggle: () => void;
 }
 
 const Popover = ({id, isOpen, toggle, children, container, placement = "auto", target, ...rest}: Props) => (

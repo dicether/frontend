@@ -9,7 +9,7 @@ import * as Style from "./Overview.scss";
 
 interface Props {
     bet: Bet;
-    showUserModal(user: User): void;
+    showUserModal: (user: User) => void;
 }
 
 const Overview = ({bet, showUserModal}: Props) => (

@@ -7,7 +7,7 @@ import * as Style from "./Overview.scss";
 
 export interface Props extends WithTranslation {
     loggedIn: boolean;
-    showRegisterModal(): void;
+    showRegisterModal: () => void;
 }
 
 const Overview = ({loggedIn, showRegisterModal, t}: Props) => (

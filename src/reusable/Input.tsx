@@ -15,8 +15,8 @@ export interface Props extends BaseType {
     showValidation?: boolean;
     isValid?: boolean;
 
-    validate?(value: string): {valid: boolean; message?: string};
-    onValue?(value: string): void;
+    validate?: (value: string) => {valid: boolean; message?: string};
+    onValue?: (value: string) => void;
 }
 
 export const Input = ({

@@ -17,7 +17,7 @@ export interface Props extends BaseType {
     lowColor?: string;
     highColor?: string;
 
-    onValue(value: number): void;
+    onValue: (value: number) => void;
 }
 
 const Slider = ({lowColor, highColor, onValue, ...props}: Props) => {

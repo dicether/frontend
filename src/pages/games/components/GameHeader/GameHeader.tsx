@@ -25,7 +25,7 @@ interface ForceEndRenderProps {
     minutes: number;
     seconds: number;
     completed: number;
-    onForceEnd(): void;
+    onForceEnd: () => void;
 }
 
 const ForceEndRender = ({hours, minutes, seconds, completed, onForceEnd}: ForceEndRenderProps) => {
@@ -52,7 +52,7 @@ const ForceEndRender = ({hours, minutes, seconds, completed, onForceEnd}: ForceE
 
 interface ForceEndProps {
     endTime: Date;
-    onForceEnd(): void;
+    onForceEnd: () => void;
 }
 
 const ForceEnd = ({endTime, onForceEnd}: ForceEndProps) => {

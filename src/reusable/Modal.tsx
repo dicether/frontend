@@ -10,7 +10,7 @@ export interface Props extends BaseType {
     children: React.ReactNode;
     fade?: boolean;
 
-    toggle?(): void;
+    toggle?: () => void;
 }
 
 const Modal = ({isOpen, toggle, children, ...rest}: Props) => (

@@ -10,9 +10,9 @@ export interface Props extends WithTranslation {
     receivedFriendRequests: FriendRequest[];
     sentFriendRequests: FriendRequest[];
 
-    onAcceptFriendRequest(address: string): void;
-    onDeclineFriendRequest(address: string): void;
-    onCancelFriendRequest(address: string): void;
+    onAcceptFriendRequest: (address: string) => void;
+    onDeclineFriendRequest: (address: string) => void;
+    onCancelFriendRequest: (address: string) => void;
 }
 
 const FriendRequests = ({

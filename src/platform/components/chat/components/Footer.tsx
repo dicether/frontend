@@ -11,7 +11,7 @@ import * as Style from "./Footer.scss";
 export interface Props extends WithTranslation {
     maxMessageLength: number;
     numUsers: number;
-    onMessageSend(message: string): void;
+    onMessageSend: (message: string) => void;
 }
 
 const Footer = ({maxMessageLength, numUsers, onMessageSend, t}: Props) => {
