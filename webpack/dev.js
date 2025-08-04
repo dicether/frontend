@@ -4,8 +4,8 @@ const {merge} = require("webpack-merge");
 const common = require("./common");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
-const contractAddress = "0x79c7b8F2be0725f654Ed7123A27a903b48A55b08";
-const serverAddress = "0xa8d5f39f3ccd4795b0e38feacb4f2ee22486ca44";
+const contractAddress = "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6";
+const serverAddress = "0x70997970C51812dc3A010C7d01b50e0d17dc79C8";
 const apiUrl = "http://localhost:5000/api";
 const websocketUrl = "http://localhost:5001";
 const chainId = 123456789;
