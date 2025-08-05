@@ -60,9 +60,9 @@ const State = ({gameState, clearState, conflictEnd, catchError, endGame}: Props)
             <div>
                 <ClearState clearState={clearState} />{" "}
                 {canUserInitiateConflictEnd(gameState) && (
-                    <ConflictEnd conflictEnd={() => conflictEnd().catch(catchError)} />
+                    <ConflictEnd conflictEnd={() => void conflictEnd().catch(catchError)} />
                 )}
-                {canUserEndGame(gameState) && <UserEndGame userEndGame={() => endGame().catch(catchError)} />}
+                {canUserEndGame(gameState) && <UserEndGame userEndGame={() => void endGame().catch(catchError)} />}
             </div>
             <Entry id={"gameState_status"} name="Status" data={gameState.status} />
             <Entry id={"gameState_reasonEnded"} name="Reason Ended" data={gameState.reasonEnded} />

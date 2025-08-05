@@ -157,7 +157,7 @@ class Plinko extends React.PureComponent<Props, PlinkoState> {
     };
 
     render() {
-        const {nightMode, info, gameState, plinko} = this.props;
+        const {catchError, nightMode, info, gameState, plinko} = this.props;
         const {num, value} = plinko;
         const {ballsFalling, showResult, result} = this.state;
 
@@ -182,7 +182,7 @@ class Plinko extends React.PureComponent<Props, PlinkoState> {
                     value={value}
                     maxBetValue={maxBetValue}
                     onValueChange={this.onValueChange}
-                    onPlaceBet={this.onPlaceBet}
+                    onPlaceBet={() => void this.onPlaceBet().catch(catchError)}
                     onRiskChange={this.onRiskChange}
                     onRowsChange={this.onRowsChange}
                     showResult={showResult}
