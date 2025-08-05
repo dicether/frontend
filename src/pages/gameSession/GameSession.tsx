@@ -45,8 +45,8 @@ const GameSession = (props: Props) => {
         return <PathNotFound />;
     }
 
-    const gameId = /\d+/.exec(gameIdString);
-    if (!gameId) {
+    const gameId = parseInt(gameIdString);
+    if (Number.isNaN(gameId)) {
         return <PathNotFound />;
     }
 
