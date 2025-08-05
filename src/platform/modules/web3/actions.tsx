@@ -17,7 +17,7 @@ export const changeChainId = ca((chainId: number | null) => {
     return {type: types.CHANGE_NETWORK, chainId};
 });
 
-export const changeContract = ca((contract: any | null) => {
+export const changeContract = ca((contract: unknown) => {
     return {type: types.CHANGE_CONTRACT, contract};
 });
 

@@ -10,7 +10,7 @@ export interface State {
     web3: Web3 | null;
     account: string | null;
     chainId: number | null;
-    contract: any | null;
+    contract: any;
     balance: number | null;
 }
 
