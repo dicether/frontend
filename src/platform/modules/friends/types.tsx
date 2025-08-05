@@ -2,13 +2,13 @@ import {User} from "../account/types";
 
 export interface Friend {
     user: User;
-    date: Date;
+    date: string;
     online: boolean;
 }
 export interface FriendRequest {
     from: User;
     to: User;
-    date: Date;
+    date: string;
 }
 
 export interface FriendOnlineStatus {

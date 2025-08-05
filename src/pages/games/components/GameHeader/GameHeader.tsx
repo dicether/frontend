@@ -128,6 +128,9 @@ export default class GameHeader extends React.Component<Props, State> {
         const isConflictEnding = gameState.status === "USER_INITIATED_CONFLICT_END";
         const isForceEnding = gameState.status === "USER_INITIATED_FORCE_END";
 
+        // NETWORK_NAME in string literal expression is never as NETWORK_NAME is a constant,
+        // so disable the rule which doesn't allow never in string literal expression.
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         const transactionUrlNetPrefix = NETWORK_NAME === "Main" ? "" : `${NETWORK_NAME}.`;
         const transactionUrl = `https://${transactionUrlNetPrefix}etherscan.io/tx/${lastGameTransactionHash}`;
 
