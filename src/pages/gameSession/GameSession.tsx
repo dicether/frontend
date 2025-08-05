@@ -23,10 +23,6 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
         dispatch,
     );
 
-interface MatchParams {
-    gameId: string;
-}
-
 type Props = ReturnType<typeof mapDispatchToProps>;
 
 interface GameState {
@@ -38,7 +34,7 @@ interface GameState {
 
 const GameSession = (props: Props) => {
     const {showBetModal, showUserModal} = props;
-    const params = useParams<MatchParams>();
+    const params = useParams();
 
     const gameIdString = params.gameId;
     if (!gameIdString) {
