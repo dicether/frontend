@@ -10,7 +10,7 @@ export function getLastGameId(
     transactionHash: string,
 ): Promise<number> {
     if (contract == null) {
-        return Promise.reject("Error invalid web3 state!");
+        return Promise.reject(new Error("Error invalid web3 state!"));
     }
 
     return web3.eth
