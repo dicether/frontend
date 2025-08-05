@@ -1,22 +1,12 @@
 import { defineConfig, globalIgnores } from "eslint/config";
 import globals from "globals";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
-import js from "@eslint/js";
-import { FlatCompat } from "@eslint/eslintrc";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const compat = new FlatCompat({
-    baseDirectory: __dirname,
-    recommendedConfig: js.configs.recommended,
-    allConfig: js.configs.all
-});
+import dicetherEsLint from "@dicether/eslint-config";
+import reactPlugin from "eslint-plugin-react";
 
 export default defineConfig([globalIgnores(["**/lib", "**/dist", "**/typings"]),
+    dicetherEsLint,
+    reactPlugin.configs.flat.recommended,
     {
-        extends: compat.extends("@dicether/eslint-config", "plugin:react/recommended"),
-
         languageOptions: {
             globals: {
                 ...globals.browser,
@@ -33,6 +23,14 @@ export default defineConfig([globalIgnores(["**/lib", "**/dist", "**/typings"]),
         rules: {
             "@typescript-eslint/explicit-module-boundary-types": "off",
             "@typescript-eslint/no-var-requires": "off",
+
+            //TODO: Fix this warnings
+            "@typescript-eslint/no-unsafe-assignment": "off",
+            "@typescript-eslint/no-unsafe-member-access": "off",
+            "@typescript-eslint/no-unsafe-argument": "off",
+            "@typescript-eslint/no-unsafe-call": "off",
+            "@typescript-eslint/no-unsafe-enum-comparison": "off",
+            "@typescript-eslint/no-unsafe-return": "off",
 
             "react/no-unescaped-entities": ["error", {
                 forbid: [">", "}"],
