@@ -19,7 +19,9 @@ export function fetchChainId() {
                     dispatch(changeChainId(newChainId));
                 }
             } catch (ex) {
-                console.log("Chain id fetching failed: " + ex);
+                let message = "Chain id fetching failed";
+                if (ex instanceof Error) message += `: ${ex.message}`;
+                console.log(message);
             }
         }
     };
