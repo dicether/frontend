@@ -70,7 +70,6 @@
     "rc-slider": "^11.1.9",
     "react": "^18.3.1",
     "react-bootstrap-switch": "^15.5.3",
-    "react-copy-to-clipboard": "^5.1.0",
     "react-countdown": "^2.3.6",
     "react-dom": "^18.3.0",
     "react-emoji-render": "^2.0.1",

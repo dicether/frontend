@@ -14,7 +14,7 @@ interface State {
 }
 
 class CopyToClipboard extends React.Component<Props, State> {
-    ref: React.RefObject<HTMLElement>;
+    ref: HTMLSpanElement | null = null;
 
     constructor(props: Props) {
         super(props);
@@ -22,15 +22,19 @@ class CopyToClipboard extends React.Component<Props, State> {
         this.state = {
             showMessage: false,
         };
-
-        this.ref = React.createRef();
     }
 
     toggle = () => {
         this.setState({showMessage: false});
     };
 
-    onCopy = () => {
+    onCopy = async () => {
+        const {content} = this.props;
+        try {
+            await navigator.clipboard.writeText(content);
+        } catch (err) {
+            console.error("Failed to copy: ", err);
+        }
         this.setState({showMessage: true});
         setTimeout(() => {
             this.setState({showMessage: false});
@@ -39,23 +43,17 @@ class CopyToClipboard extends React.Component<Props, State> {
 
     render() {
         const {showMessage} = this.state;
-        const {content, message} = this.props;
+        const {message} = this.props;
 
         return (
-            <span>
-                <ReactCopyToClipboard text={content} onCopy={this.onCopy}>
-                    <span ref={this.ref}>
-                        {" "}
-                        <IconButton
-                            icon="share"
-                            onClick={() => {
-                                return;
-                            }}
-                        />{" "}
-                    </span>
-                </ReactCopyToClipboard>
-                {this.ref.current && (
-                    <Popover isOpen={showMessage} target={this.ref.current} toggle={this.toggle}>
+            <span
+                ref={(element) => {
+                    this.ref = element;
+                }}
+            >
+                {<IconButton icon="share" onClick={() => void this.onCopy()} />}
+                {this.ref !== null && (
+                    <Popover isOpen={showMessage} target={this.ref} toggle={this.toggle}>
                         <span className="text-success">{message ?? "Copied!"}</span>
                     </Popover>
                 )}
