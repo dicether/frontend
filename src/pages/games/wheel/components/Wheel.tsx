@@ -1,6 +1,5 @@
 import * as React from "react";
-import {useEffect, useState, useRef} from "react";
-import ReactResizeDetector, {useResizeDetector} from "react-resize-detector";
+import {useEffect, useRef} from "react";
 
 import {formatMultiplier} from "./utility";
 import PureCanvas from "../../reusable/PureCanvas";
@@ -51,7 +50,6 @@ const drawSegmentDots = (ctx: CanvasRenderingContext2D) => {
 
 const Wheel = ({nightMode, segmentColors, angle, payout}: Props) => {
     const ctxRef = useRef<CanvasRenderingContext2D | null>(null);
-    const [size, setSize] = useState(500);
 
     const renderToCanvas = () => {
         const colors = nightMode ? ColorNight : ColorDay;
@@ -134,14 +132,8 @@ const Wheel = ({nightMode, segmentColors, angle, payout}: Props) => {
         ctx.restore();
     };
 
-    const saveContext = (ctx: CanvasRenderingContext2D) => {
+    const saveContext = (ctx: CanvasRenderingContext2D | null) => {
         ctxRef.current = ctx;
-    };
-
-    const onResize = (width?: number) => {
-        if (width === undefined) return;
-
-        setSize(width);
     };
 
     useEffect(() => {
@@ -150,19 +142,11 @@ const Wheel = ({nightMode, segmentColors, angle, payout}: Props) => {
 
     useEffect(() => {
         renderToCanvas();
-    }, [nightMode, segmentColors, angle, payout, size]);
-
-    useResizeDetector({
-        handleHeight: false,
-        refreshMode: "debounce",
-        refreshRate: 1000,
-        onResize,
-    });
+    }, [nightMode, segmentColors, angle, payout]);
 
     return (
         <div className={Style.wheel}>
-            <ReactResizeDetector handleWidth handleHeight onResize={onResize} />
-            <PureCanvas width={size} height={size} contextRef={saveContext} />
+            <PureCanvas onResize={renderToCanvas} contextRef={saveContext} />
         </div>
     );
 };

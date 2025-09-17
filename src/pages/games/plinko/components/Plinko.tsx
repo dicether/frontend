@@ -1,7 +1,6 @@
 import {PLINKO_PAYOUT} from "@dicether/state-channel";
 import Rand from "rand-seed";
 import * as React from "react";
-import ReactResizeDetector from "react-resize-detector";
 
 import Ball from "./Ball";
 import {startPositions} from "./lookupTables";
@@ -22,11 +21,7 @@ interface Props {
     resultColumn: number;
 }
 
-interface State {
-    size: number;
-}
-
-class Plinko extends React.Component<Props, State> {
+class Plinko extends React.Component<Props> {
     private ctx: CanvasRenderingContext2D | null = null;
     private parent = React.createRef<HTMLDivElement>();
     private pins: Pins;
@@ -46,10 +41,6 @@ class Plinko extends React.Component<Props, State> {
 
         this.pins = new Pins(rows, nightMode ? NightColors.pinColor : DayColors.pinColor);
         this.ballRadius = (0.02 * 16) / rows;
-
-        this.state = {
-            size: 500,
-        };
     }
 
     public componentDidMount() {
@@ -222,21 +213,11 @@ class Plinko extends React.Component<Props, State> {
         }
     };
 
-    private saveContext = (ctx: CanvasRenderingContext2D) => {
+    private saveContext = (ctx: CanvasRenderingContext2D | null) => {
         this.ctx = ctx;
     };
 
-    private onResize = (width?: number) => {
-        if (width === undefined) return;
-
-        this.setState({
-            size: width,
-        });
-        this.renderToCanvas();
-    };
-
     public render() {
-        const {size} = this.state;
         const {rows, resultColumn, risk, showResult} = this.props;
         const payout = PLINKO_PAYOUT[risk][rows];
 
@@ -245,8 +226,7 @@ class Plinko extends React.Component<Props, State> {
             <div className={Style.wrapper}>
                 <div className={Style.plinkoGrid}>
                     <div ref={this.parent} className={Style.plinko}>
-                        <ReactResizeDetector handleWidth handleHeight onResize={this.onResize} />
-                        <PureCanvas width={size} height={size} contextRef={this.saveContext} />
+                        <PureCanvas onResize={this.renderToCanvas} contextRef={this.saveContext} />
                         <PayoutTable payout={payout} showResult={showResult} resultColumn={resultColumn} />
                     </div>
                 </div>

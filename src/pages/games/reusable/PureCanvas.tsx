@@ -1,26 +1,27 @@
 import * as React from "react";
+import {useCallback, useEffect} from "react";
+import {useResizeDetector} from "react-resize-detector";
 
 interface Props {
-    contextRef(context: CanvasRenderingContext2D | null): void;
-    width: number;
-    height: number;
+    contextRef: (context: CanvasRenderingContext2D | null) => void;
+    onResize?: () => void;
 }
 
-export default class PureCanvas extends React.Component<Props> {
-    shouldComponentUpdate(nextProps: Props) {
-        return nextProps.height !== this.props.height || nextProps.width !== this.props.height;
-    }
+const PureCanvas = ({contextRef, onResize}: Props) => {
+    const {width, ref} = useResizeDetector<HTMLCanvasElement>();
 
-    render() {
-        const {width, height} = this.props;
+    const refCallback = useCallback((node: HTMLCanvasElement | null) => {
+        if (node !== null) contextRef(node.getContext("2d"));
+        ref(node);
+    }, []);
 
-        return (
-            <canvas
-                style={{width: "100%"}}
-                width={width}
-                height={height}
-                ref={(node) => (node ? this.props.contextRef(node.getContext("2d")) : null)}
-            />
-        );
-    }
-}
+    useEffect(() => {
+        if (onResize) {
+            onResize();
+        }
+    });
+
+    return <canvas style={{width: "100%"}} width={width} height={width} ref={refCallback} />;
+};
+
+export default PureCanvas;
