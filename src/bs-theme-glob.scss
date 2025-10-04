@@ -3,6 +3,14 @@
 @import 'variables';
 @import "~bootstrap";
 
+body {
+  container-type: inline-size;
+}
+
+.container {
+  container-type: inline-size;
+}
+
 // sticky footer
 #app {
   display:flex;

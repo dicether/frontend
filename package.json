@@ -146,6 +146,7 @@
     "i18next-parser": "^9.3.0",
     "lint-staged": "^16.1.6",
     "mini-css-extract-plugin": "^2.9.4",
+    "patch-package": "^8.0.1",
     "postcss-custom-properties": "^14.0.6",
     "postcss-discard-comments": "^7.0.4",
     "postcss-each": "^1.1.0",

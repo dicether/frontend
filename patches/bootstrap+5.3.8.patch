@@ -1,0 +1,40 @@
+diff --git a/node_modules/bootstrap/scss/mixins/_breakpoints.scss b/node_modules/bootstrap/scss/mixins/_breakpoints.scss
+index 286be89..4e9d8b3 100644
+--- a/node_modules/bootstrap/scss/mixins/_breakpoints.scss
++++ b/node_modules/bootstrap/scss/mixins/_breakpoints.scss
+@@ -61,7 +61,7 @@
+ @mixin media-breakpoint-up($name, $breakpoints: $grid-breakpoints) {
+   $min: breakpoint-min($name, $breakpoints);
+   @if $min {
+-    @media (min-width: $min) {
++    @container (width > #{$min}) {
+       @content;
+     }
+   } @else {
+@@ -74,7 +74,7 @@
+ @mixin media-breakpoint-down($name, $breakpoints: $grid-breakpoints) {
+   $max: breakpoint-max($name, $breakpoints);
+   @if $max {
+-    @media (max-width: $max) {
++    @container (width < #{$max}) {
+       @content;
+     }
+   } @else {
+@@ -89,7 +89,7 @@
+   $max: breakpoint-max($upper, $breakpoints);
+ 
+   @if $min != null and $max != null {
+-    @media (min-width: $min) and (max-width: $max) {
++    @container (width > #{$min}) and (width < #{$max}) {
+       @content;
+     }
+   } @else if $max == null {
+@@ -112,7 +112,7 @@
+   $max:  breakpoint-max($next, $breakpoints);
+ 
+   @if $min != null and $max != null {
+-    @media (min-width: $min) and (max-width: $max) {
++    @container (width > #{$min}) and (width < #{$max}) {
+       @content;
+     }
+   } @else if $max == null {

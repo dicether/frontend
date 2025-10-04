@@ -51,7 +51,7 @@ class Ui extends React.PureComponent<Props> {
         return (
             <div>
                 <Row noGutters>
-                    <Col lg={{size: 7, order: 2}} xl={{size: 8, order: 2}}>
+                    <Col sm={{size: 7, order: 2}} lg={{size: 8, order: 2}}>
                         <Grid
                             onClick={onClick}
                             selectedCoins={selectedCoinsArray}
@@ -59,7 +59,7 @@ class Ui extends React.PureComponent<Props> {
                             showResult={showResult}
                         />
                     </Col>
-                    <Col lg={5} xl={4}>
+                    <Col sm={5} lg={4}>
                         <div className={Style.menu}>
                             <FormGroup className="games__form-group">
                                 <Label>{t("betAmountEth")}</Label>
