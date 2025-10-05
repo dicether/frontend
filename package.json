@@ -12,6 +12,7 @@
   ],
   "main": "config.js",
   "scripts": {
+    "postinstall": "patch-package",
     "build-production": "webpack --config webpack/prod.js --progress --profile",
     "build-staging": " node --max_old_space_size=8000 ./node_modules/.bin/webpack --config webpack/staging.js --progress --profile",
     "eslint": "eslint './**/*.{js,ts,tsx}'",
