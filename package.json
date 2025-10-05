@@ -120,7 +120,7 @@
     "@types/react-helmet": "^6.1.11",
     "@types/react-resize-detector": "^5.0.0",
     "@types/react-router-dom": "^5.3.3",
-    "@types/react-textarea-autosize": "^4.3.6",
+    "@types/react-textarea-autosize": "^8.0.0",
     "@types/redux-logger": "^3.0.13",
     "@types/redux-sentry-middleware": "^0.2.8",
     "@types/socket.io-client": "^1.4.36",
