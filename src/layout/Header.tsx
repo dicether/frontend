@@ -8,7 +8,7 @@ import {CONTRACT_URL} from "../config/config";
 import {IconButton} from "../reusable/index";
 
 import * as Style from "./Header.scss";
-import logo from "assets/images/logoTop.svg";
+import logo from "assets/images/logoTop_xmas.svg";
 
 interface Props extends WithTranslation {
     authenticated: boolean;
