@@ -1,11 +1,11 @@
 import {GameType, maxBet} from "@dicether/state-channel";
 import * as React from "react";
+import {useEffect, useRef, useState} from "react";
 import {Helmet} from "react-helmet";
-import {connect} from "react-redux";
+import {useSelector} from "react-redux";
 
 import {KELLY_FACTOR, MIN_BANKROLL, MIN_BET_VALUE} from "../../../config/config";
 import {addNewBet} from "../../../platform/modules/bets/asyncActions";
-import {Bet} from "../../../platform/modules/bets/types";
 import {toggleHelp} from "../../../platform/modules/games/info/actions";
 import {placeBet, validChainId} from "../../../platform/modules/games/state/asyncActions";
 import {showErrorMessage} from "../../../platform/modules/utilities/actions";
@@ -13,142 +13,115 @@ import {catchError} from "../../../platform/modules/utilities/asyncActions";
 import {State} from "../../../rootReducer";
 import {popCnt} from "../../../util/math";
 import {sleep} from "../../../util/time";
-import {Dispatch} from "../../../util/util";
+import {useDispatch} from "../../../util/util";
 import sounds from "../sound";
 import {canPlaceBet} from "../utilities";
 import {changeNum, changeValue} from "./actions";
 import Ui from "./components/Ui";
 import {playFromBegin} from "../../../util/audio";
 
-const mapStateToProps = ({games, account, web3, app}: State) => {
-    const {info, gameState, plinko} = games;
-    const web3Available = web3.account && web3.contract && web3.web3 && validChainId(web3.chainId);
+const Plinko = () => {
+    const loadedSounds = useRef(false);
 
-    return {
-        web3Available: web3Available === true,
-        info,
-        gameState,
-        loggedIn: account.jwt !== null,
-        plinko,
-        nightMode: app.nightMode,
-    };
-};
+    const ui = useRef<any>();
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-    placeBet: (num: number, value: number, gameType: number) => dispatch(placeBet(num, value, gameType)),
-    addNewBet: (bet: Bet) => dispatch(addNewBet(bet)),
-    changeNum: (num: number) => dispatch(changeNum(num)),
-    changeValue: (value: number) => dispatch(changeValue(value)),
-    toggleHelp: (t: boolean) => dispatch(toggleHelp(t)),
-    showErrorMessage: (message: string) => dispatch(showErrorMessage(message)),
-    catchError: (error: unknown) => catchError(error, dispatch),
-});
+    const [showResult, setShowResult] = useState(false);
+    const [ballsFalling, setBallsFalling] = useState(0);
+    const [result, setResult] = useState({betNum: 0, num: 0, won: false, userProfit: 0});
 
-export type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
+    const {web3Available, gameState, info, nightMode, plinko, loggedIn} = useSelector(
+        ({app, games, account, web3}: State) => {
+            const {gameState, info, plinko} = games;
+            const web3Available = web3.account && web3.contract && web3.web3 && validChainId(web3.chainId);
 
-export interface PlinkoState {
-    showResult: boolean;
-    ballsFalling: number;
-    result: {betNum: number; num: number; won: boolean; userProfit: number};
-}
+            return {
+                web3Available: web3Available === true,
+                gameState,
+                info,
+                plinko,
+                nightMode: app.nightMode,
+                loggedIn: account.jwt !== null,
+            };
+        },
+    );
 
-class Plinko extends React.PureComponent<Props, PlinkoState> {
-    private loadedSounds = false;
+    const dispatch = useDispatch();
 
-    public ui = React.createRef<any>();
-
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-            showResult: false,
-            ballsFalling: 0,
-            result: {betNum: 0, num: 0, won: false, userProfit: 0},
-        };
-    }
-
-    public componentDidUpdate(prevProps: Props) {
-        const {gameState, plinko, changeValue} = this.props;
-
-        if (gameState.balance !== prevProps.gameState.balance) {
-            // if the balance changes, we need to check if user has enough funds for current bet value
-            const leftStake = gameState.stake + gameState.balance;
-            if (plinko.value > leftStake) {
-                changeValue(Math.max(leftStake, MIN_BET_VALUE));
-            }
+    useEffect(() => {
+        // if the balance changes, we need to check if user has enough funds for current bet value
+        const leftStake = gameState.stake + gameState.balance;
+        if (plinko.value > leftStake) {
+            dispatch(changeValue(Math.max(leftStake, MIN_BET_VALUE)));
         }
-    }
+    }, [gameState.stake, gameState.balance, plinko.value]);
 
-    private onToggleHelp = () => {
-        const {toggleHelp, info} = this.props;
-        toggleHelp(!info.showHelp);
+    useEffect(() => {
+        // if the balance changes, we need to check if user has enough funds for current bet value
+        const leftStake = gameState.stake + gameState.balance;
+        if (plinko.value > leftStake) {
+            dispatch(changeValue(Math.max(leftStake, MIN_BET_VALUE)));
+        }
+    }, [gameState.stake, gameState.balance, plinko.value]);
+
+    const onToggleHelp = () => {
+        dispatch(toggleHelp(!info.showHelp));
     };
 
-    private onPlaceBet = async () => {
-        const {plinko, addNewBet, placeBet, catchError, showErrorMessage, web3Available, gameState, loggedIn} =
-            this.props;
-
+    const onPlaceBet = async () => {
         const safeBetValue = Math.round(plinko.value);
         const num = plinko.num;
         const gameType = GameType.PLINKO;
 
-        if (!this.loadedSounds) {
+        if (!loadedSounds.current) {
             // workaround for sound playback on mobile browsers: load sounds in user gesture handler
             sounds.plinkoResult.load();
-            this.loadedSounds = true;
+            loadedSounds.current = true;
         }
 
         const canBet = canPlaceBet(gameType, num, safeBetValue, loggedIn, web3Available, gameState);
         if (canBet.canPlaceBet) {
             try {
-                const result = await placeBet(num, safeBetValue, gameType);
+                const result = await dispatch(placeBet(num, safeBetValue, gameType));
                 const resultNum = result.num;
 
                 const numBitsSet = popCnt(resultNum);
-                this.setState({
-                    ballsFalling: this.state.ballsFalling + 1,
-                });
-                await this.ui.current?.plinko.current?.addBall(numBitsSet, resultNum);
-                this.setState({
-                    showResult: true,
-                    ballsFalling: this.state.ballsFalling - 1,
-                    result,
-                });
-                addNewBet(result.bet);
-                this.playSound(sounds.plinkoResult);
+                setBallsFalling(ballsFalling + 1);
+                await ui.current?.plinko.current?.addBall(numBitsSet, resultNum);
+                setShowResult(true);
+                setBallsFalling(ballsFalling - 1);
+                setResult(result);
+                dispatch(addNewBet(result.bet));
+                playSound(sounds.plinkoResult);
 
                 await sleep(5000);
-                this.setState({showResult: false});
+                setShowResult(false);
             } catch (error) {
-                catchError(error);
+                catchError(error, dispatch);
             }
         } else {
-            showErrorMessage(canBet.errorMessage);
+            dispatch(showErrorMessage(canBet.errorMessage));
         }
     };
 
-    private onValueChange = (value: number) => {
-        const {changeValue} = this.props;
-        changeValue(value);
+    const onValueChange = (value: number) => {
+        dispatch(changeValue(value));
     };
 
-    private onRiskChange = (risk: number) => {
+    const onRiskChange = (risk: number) => {
         // TODO: as action
-        const {plinko, changeNum} = this.props;
         const {num} = plinko;
         const newNum = risk * 100 + (num % 100);
-        changeNum(newNum);
+        dispatch(changeNum(newNum));
     };
 
-    private onRowsChange = (segments: number) => {
+    const onRowsChange = (segments: number) => {
         // TODO: as action
-        const {plinko, changeNum} = this.props;
         const {num} = plinko;
         const newNum = Math.floor(num / 100) * 100 + segments;
-        changeNum(newNum);
+        dispatch(changeNum(newNum));
     };
 
-    private playSound = (audio: HTMLAudioElement) => {
-        const {info} = this.props;
+    const playSound = (audio: HTMLAudioElement) => {
         const {sound} = info;
 
         if (sound) {
@@ -156,43 +129,39 @@ class Plinko extends React.PureComponent<Props, PlinkoState> {
         }
     };
 
-    render() {
-        const {catchError, nightMode, info, gameState, plinko} = this.props;
-        const {num, value} = plinko;
-        const {ballsFalling, showResult, result} = this.state;
+    const {num, value} = plinko;
 
-        let maxBetValue = maxBet(GameType.PLINKO, num, MIN_BANKROLL, KELLY_FACTOR);
-        if (gameState.status !== "ENDED") {
-            const max = Math.min(gameState.stake + gameState.balance, maxBetValue);
-            maxBetValue = Math.max(max, MIN_BET_VALUE);
-        }
-
-        return (
-            <>
-                <Helmet>
-                    <title>Plinko - Dicether</title>
-                    <meta name="description" content="Ethereum state channel based Plinko game" />
-                </Helmet>
-                <Ui
-                    disableRiskRowUpdate={ballsFalling > 0}
-                    ref={this.ui}
-                    nightMode={nightMode}
-                    risk={Math.floor(num / 100)}
-                    rows={num % 100}
-                    value={value}
-                    maxBetValue={maxBetValue}
-                    onValueChange={this.onValueChange}
-                    onPlaceBet={() => void this.onPlaceBet().catch(catchError)}
-                    onRiskChange={this.onRiskChange}
-                    onRowsChange={this.onRowsChange}
-                    showResult={showResult}
-                    result={{...result}}
-                    showHelp={info.showHelp}
-                    onToggleHelp={this.onToggleHelp}
-                />
-            </>
-        );
+    let maxBetValue = maxBet(GameType.PLINKO, num, MIN_BANKROLL, KELLY_FACTOR);
+    if (gameState.status !== "ENDED") {
+        const max = Math.min(gameState.stake + gameState.balance, maxBetValue);
+        maxBetValue = Math.max(max, MIN_BET_VALUE);
     }
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(Plinko);
+    return (
+        <>
+            <Helmet>
+                <title>Plinko - Dicether</title>
+                <meta name="description" content="Ethereum state channel based Plinko game" />
+            </Helmet>
+            <Ui
+                disableRiskRowUpdate={ballsFalling > 0}
+                ref={ui}
+                nightMode={nightMode}
+                risk={Math.floor(num / 100)}
+                rows={num % 100}
+                value={value}
+                maxBetValue={maxBetValue}
+                onValueChange={onValueChange}
+                onPlaceBet={() => void onPlaceBet().catch((error) => catchError(error, dispatch))}
+                onRiskChange={onRiskChange}
+                onRowsChange={onRowsChange}
+                showResult={showResult}
+                result={{...result}}
+                showHelp={info.showHelp}
+                onToggleHelp={onToggleHelp}
+            />
+        </>
+    );
+};
+
+export default Plinko;
