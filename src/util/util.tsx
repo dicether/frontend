@@ -1,3 +1,4 @@
+import {useDispatch as defaultUseDispatch} from "react-redux";
 import {Action, AnyAction} from "redux";
 
 import {State} from "../rootReducer";
@@ -36,6 +37,8 @@ export interface Dispatch<A extends Action = AnyAction> {
     <T extends A>(action: T): T;
     <R>(asyncAction: ThunkAction<R, State>): R;
 }
+
+export const useDispatch = defaultUseDispatch.withTypes<Dispatch>();
 
 export function createConstant<T>(p: T, prefix: string): T {
     const res = prefix + "/" + (p as any);
