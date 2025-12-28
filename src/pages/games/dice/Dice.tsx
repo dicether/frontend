@@ -26,13 +26,6 @@ import DiceUi from "./components/DiceUi";
 import {playFromBegin} from "../../../util/audio";
 import {useDispatch} from "../../../util/util";
 
-function calcNumberFromPayOutMultiplier(multiplier: number, reversedRoll: boolean) {
-    const houseEdgeFactor = 1 - HOUSE_EDGE / HOUSE_EDGE_DIVISOR;
-    const n = (RANGE / multiplier) * houseEdgeFactor;
-    const num = reversedRoll ? RANGE - 1 - n : n;
-    return Math.round(num);
-}
-
 const Dice = () => {
     const resultTimeoutId = useRef(0);
     const loadedSounds = useRef(false);
@@ -78,16 +71,6 @@ const Dice = () => {
 
     const onValueChange = (value: number) => {
         dispatch(changeValue(value));
-    };
-
-    const onMultiplierChange = (multiplier: number) => {
-        const num = calcNumberFromPayOutMultiplier(multiplier, dice.reverseRoll);
-        dispatch(changeNum(num));
-    };
-
-    const onChanceChange = (chance: number) => {
-        const num = dice.reverseRoll ? RANGE - 1 - RANGE * chance : RANGE * chance;
-        dispatch(changeNum(num));
     };
 
     const onReverseRoll = () => {
