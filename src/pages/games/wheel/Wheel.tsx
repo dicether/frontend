@@ -5,9 +5,10 @@ import {Helmet} from "react-helmet";
 import {useSelector} from "react-redux";
 
 import {KELLY_FACTOR, MIN_BANKROLL, MIN_BET_VALUE} from "../../../config/config";
+import {useIsConnected} from "../../../hooks/useIsConnected";
 import {addNewBet} from "../../../platform/modules/bets/asyncActions";
 import {toggleHelp} from "../../../platform/modules/games/info/actions";
-import {placeBet, validChainId} from "../../../platform/modules/games/state/asyncActions";
+import {placeBet} from "../../../platform/modules/games/state/asyncActions";
 import {showErrorMessage} from "../../../platform/modules/utilities/actions";
 import {catchError} from "../../../platform/modules/utilities/asyncActions";
 import {State} from "../../../rootReducer";
@@ -34,23 +35,21 @@ const Wheel = () => {
         };
     }, []);
 
-    const {web3Available, gameState, info, wheel, loggedIn, nightMode} = useSelector(
-        ({app, games, account, web3}: State) => {
-            const {gameState, info, wheel} = games;
-            const web3Available = web3.account && web3.contract && web3.web3 && validChainId(web3.chainId);
+    const {gameState, info, wheel, loggedIn, nightMode} = useSelector(({app, games, account}: State) => {
+        const {gameState, info, wheel} = games;
 
-            return {
-                web3Available: web3Available === true,
-                gameState,
-                info,
-                wheel,
-                loggedIn: account.jwt !== null,
-                nightMode: app.nightMode,
-            };
-        },
-    );
+        return {
+            gameState,
+            info,
+            wheel,
+            loggedIn: account.jwt !== null,
+            nightMode: app.nightMode,
+        };
+    });
 
     const dispatch = useDispatch();
+
+    const isConnected = useIsConnected();
 
     useEffect(() => {
         // if the balance changes, we need to check if user has enough funds for current bet value
@@ -81,7 +80,7 @@ const Wheel = () => {
             return;
         }
 
-        const canBet = canPlaceBet(gameType, num, safeBetValue, loggedIn, web3Available, gameState);
+        const canBet = canPlaceBet(gameType, num, safeBetValue, loggedIn, isConnected, gameState);
         if (canBet.canPlaceBet) {
             setShowResult(false);
             dispatch(placeBet(num, safeBetValue, gameType))

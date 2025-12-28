@@ -13,9 +13,10 @@ import {Helmet} from "react-helmet";
 import {useSelector} from "react-redux";
 
 import {KELLY_FACTOR, MIN_BANKROLL, MIN_BET_VALUE} from "../../../config/config";
+import {useIsConnected} from "../../../hooks/useIsConnected";
 import {addNewBet} from "../../../platform/modules/bets/asyncActions";
 import {toggleHelp} from "../../../platform/modules/games/info/actions";
-import {placeBet, validChainId} from "../../../platform/modules/games/state/asyncActions";
+import {placeBet} from "../../../platform/modules/games/state/asyncActions";
 import {showErrorMessage} from "../../../platform/modules/utilities/actions";
 import {catchError} from "../../../platform/modules/utilities/asyncActions";
 import {State} from "../../../rootReducer";
@@ -50,12 +51,10 @@ const Keno = () => {
         };
     }, []);
 
-    const {web3Available, gameState, info, keno, loggedIn} = useSelector(({games, account, web3}: State) => {
+    const {gameState, info, keno, loggedIn} = useSelector(({games, account}: State) => {
         const {gameState, info, keno} = games;
-        const web3Available = web3.account && web3.contract && web3.web3 && validChainId(web3.chainId);
 
         return {
-            web3Available: web3Available === true,
             gameState,
             info,
             keno,
@@ -64,6 +63,8 @@ const Keno = () => {
     });
 
     const dispatch = useDispatch();
+
+    const isConnected = useIsConnected();
 
     useEffect(() => {
         // if the balance changes, we need to check if user has enough funds for current bet value
@@ -137,7 +138,7 @@ const Keno = () => {
             return;
         }
 
-        const canBet = canPlaceBet(gameType, num, safeBetValue, loggedIn, web3Available, gameState);
+        const canBet = canPlaceBet(gameType, num, safeBetValue, loggedIn, isConnected, gameState);
         if (canBet.canPlaceBet) {
             dispatch(placeBet(num, safeBetValue, gameType))
                 .then((result) => {

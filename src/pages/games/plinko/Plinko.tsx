@@ -5,9 +5,10 @@ import {Helmet} from "react-helmet";
 import {useSelector} from "react-redux";
 
 import {KELLY_FACTOR, MIN_BANKROLL, MIN_BET_VALUE} from "../../../config/config";
+import {useIsConnected} from "../../../hooks/useIsConnected";
 import {addNewBet} from "../../../platform/modules/bets/asyncActions";
 import {toggleHelp} from "../../../platform/modules/games/info/actions";
-import {placeBet, validChainId} from "../../../platform/modules/games/state/asyncActions";
+import {placeBet} from "../../../platform/modules/games/state/asyncActions";
 import {showErrorMessage} from "../../../platform/modules/utilities/actions";
 import {catchError} from "../../../platform/modules/utilities/asyncActions";
 import {State} from "../../../rootReducer";
@@ -29,23 +30,21 @@ const Plinko = () => {
     const [ballsFalling, setBallsFalling] = useState(0);
     const [result, setResult] = useState({betNum: 0, num: 0, won: false, userProfit: 0});
 
-    const {web3Available, gameState, info, nightMode, plinko, loggedIn} = useSelector(
-        ({app, games, account, web3}: State) => {
-            const {gameState, info, plinko} = games;
-            const web3Available = web3.account && web3.contract && web3.web3 && validChainId(web3.chainId);
+    const {gameState, info, nightMode, plinko, loggedIn} = useSelector(({app, games, account}: State) => {
+        const {gameState, info, plinko} = games;
 
-            return {
-                web3Available: web3Available === true,
-                gameState,
-                info,
-                plinko,
-                nightMode: app.nightMode,
-                loggedIn: account.jwt !== null,
-            };
-        },
-    );
+        return {
+            gameState,
+            info,
+            plinko,
+            nightMode: app.nightMode,
+            loggedIn: account.jwt !== null,
+        };
+    });
 
     const dispatch = useDispatch();
+
+    const isConnected = useIsConnected();
 
     useEffect(() => {
         // if the balance changes, we need to check if user has enough funds for current bet value
@@ -78,7 +77,7 @@ const Plinko = () => {
             loadedSounds.current = true;
         }
 
-        const canBet = canPlaceBet(gameType, num, safeBetValue, loggedIn, web3Available, gameState);
+        const canBet = canPlaceBet(gameType, num, safeBetValue, loggedIn, isConnected, gameState);
         if (canBet.canPlaceBet) {
             try {
                 const result = await dispatch(placeBet(num, safeBetValue, gameType));

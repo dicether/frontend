@@ -4,18 +4,11 @@ import {useEffect, useRef, useState} from "react";
 import {Helmet} from "react-helmet";
 import {useSelector} from "react-redux";
 
-import {
-    HOUSE_EDGE,
-    HOUSE_EDGE_DIVISOR,
-    KELLY_FACTOR,
-    MAX_BET_VALUE,
-    MIN_BANKROLL,
-    MIN_BET_VALUE,
-    RANGE,
-} from "../../../config/config";
+import {KELLY_FACTOR, MAX_BET_VALUE, MIN_BANKROLL, MIN_BET_VALUE, RANGE} from "../../../config/config";
+import {useIsConnected} from "../../../hooks/useIsConnected";
 import {addNewBet} from "../../../platform/modules/bets/asyncActions";
 import {toggleHelp} from "../../../platform/modules/games/info/actions";
-import {placeBet, validChainId} from "../../../platform/modules/games/state/asyncActions";
+import {placeBet} from "../../../platform/modules/games/state/asyncActions";
 import {showErrorMessage} from "../../../platform/modules/utilities/actions";
 import {catchError} from "../../../platform/modules/utilities/asyncActions";
 import {State} from "../../../rootReducer";
@@ -38,12 +31,10 @@ const Dice = () => {
         };
     }, []);
 
-    const {web3Available, gameState, info, dice, loggedIn} = useSelector(({games, account, web3}: State) => {
+    const {gameState, info, dice, loggedIn} = useSelector(({games, account}: State) => {
         const {gameState, info, dice} = games;
-        const web3Available = web3.account && web3.contract && web3.web3 && validChainId(web3.chainId);
 
         return {
-            web3Available: web3Available === true,
             gameState,
             info,
             dice,
@@ -60,6 +51,8 @@ const Dice = () => {
     }, [gameState.stake, gameState.balance, dice.value]);
 
     const dispatch = useDispatch();
+
+    const isConnected = useIsConnected();
 
     const onToggleHelp = () => {
         dispatch(toggleHelp(!info.showHelp));
@@ -90,7 +83,7 @@ const Dice = () => {
             loadedSounds.current = true;
         }
 
-        const canBet = canPlaceBet(gameType, num, safeBetValue, loggedIn, web3Available, gameState);
+        const canBet = canPlaceBet(gameType, num, safeBetValue, loggedIn, isConnected, gameState);
         if (canBet.canPlaceBet) {
             dispatch(placeBet(num, safeBetValue, gameType)) // to get the latest num value
                 .then((result) => {
