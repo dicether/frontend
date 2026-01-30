@@ -1,9 +1,11 @@
-import { defineConfig, globalIgnores } from "eslint/config";
-import globals from "globals";
 import dicetherEsLint from "@dicether/eslint-config";
+import {defineConfig, globalIgnores} from "eslint/config";
 import reactPlugin from "eslint-plugin-react";
 
-export default defineConfig([globalIgnores(["**/lib", "**/dist", "**/typings"]),
+import globals from "globals";
+
+export default defineConfig([
+    globalIgnores(["**/lib", "**/dist", "**/typings"]),
     dicetherEsLint,
     reactPlugin.configs.flat.recommended,
     {
@@ -32,9 +34,12 @@ export default defineConfig([globalIgnores(["**/lib", "**/dist", "**/typings"]),
             "@typescript-eslint/no-unsafe-enum-comparison": "off",
             "@typescript-eslint/no-unsafe-return": "off",
 
-            "react/no-unescaped-entities": ["error", {
-                forbid: [">", "}"],
-            }],
+            "react/no-unescaped-entities": [
+                "error",
+                {
+                    forbid: [">", "}"],
+                },
+            ],
 
             "react/no-deprecated": "off",
         },

@@ -1,5 +1,7 @@
 import * as React from "react";
+import {useRef, useState} from "react";
 import Countdown from "react-countdown";
+import {useConnection, usePublicClient} from "wagmi";
 
 import CreateGameModal from "./CreateGameModal";
 import {
@@ -14,7 +16,6 @@ import {
 } from "../../../../config/config";
 import {validChainId} from "../../../../platform/modules/games/state/asyncActions";
 import {State as GameState} from "../../../../platform/modules/games/state/reducer";
-import {State as Web3State} from "../../../../platform/modules/web3/reducer";
 import {Ether, Tooltip, Button, FontAwesomeIcon} from "../../../../reusable";
 import {generateSeed} from "../../../../util/crypto";
 
@@ -68,173 +69,159 @@ const ForceEnd = ({endTime, onForceEnd}: ForceEndProps) => {
 
 interface Props {
     gameState: GameState;
-    web3State: Web3State;
 
-    onStartGame(value: number, seed: string): void;
-    onSeedRequest(): void;
-    onEndGame(): void;
-    onConflictEnd(): void;
-    onForceEnd(): void;
+    onStartGame: (value: number, seed: string) => void;
+    onSeedRequest: () => void;
+    onEndGame: () => void;
+    onConflictEnd: () => void;
+    onForceEnd: () => void;
 }
 
-interface State {
-    modalIsOpen: boolean;
-}
+const GameHeader = (props: Props) => {
+    const endTransactionRef = useRef<HTMLAnchorElement>(null);
+    const seed = useRef(generateSeed());
+    const [modalIsOpen, setModalIsOpen] = useState(false);
 
-export default class GameHeader extends React.Component<Props, State> {
-    endTransactionRef: React.RefObject<HTMLAnchorElement>;
-    seed: string = generateSeed();
-
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-            modalIsOpen: false,
-        };
-
-        this.endTransactionRef = React.createRef();
-    }
-
-    onClose = () => {
-        this.setState({modalIsOpen: false});
+    const onClose = () => {
+        setModalIsOpen(false);
     };
 
-    onShow = () => {
-        const {gameState} = this.props;
+    const onShow = () => {
+        const {gameState} = props;
 
         const status = gameState.status;
 
         // If there is already an active transaction reuse the same seed
-        if (status !== "CREATING" || this.seed === null) {
-            this.seed = generateSeed();
+        if (status !== "CREATING" || seed.current === null) {
+            seed.current = generateSeed();
         }
 
-        this.setState({modalIsOpen: true});
+        setModalIsOpen(true);
     };
 
-    render() {
-        const {gameState, onStartGame, onEndGame, web3State, onSeedRequest, onConflictEnd, onForceEnd} = this.props;
-        const {modalIsOpen} = this.state;
+    const {gameState, onStartGame, onEndGame, onSeedRequest, onConflictEnd, onForceEnd} = props;
 
-        // special case creating: handle as ended as long as we didn't get transaction hash
-        const status = gameState.status;
-        const isGameEnded = status === "ENDED" || (status === "CREATING" && !gameState.createTransactionHash);
+    // special case creating: handle as ended as long as we didn't get transaction hash
+    const status = gameState.status;
+    const isGameEnded = status === "ENDED" || (status === "CREATING" && !gameState.createTransactionHash);
 
-        const isGameActive = gameState.status === "ACTIVE";
-        const isGameCreating = gameState.status === "CREATING" && gameState.createTransactionHash;
-        const placedBet = gameState.status === "PLACED_BET";
-        const lastGameTransactionHash = gameState.endTransactionHash;
-        const serverInitiatedEnd = gameState.status === "SERVER_CONFLICT_ENDED";
-        const isUserConflictEnded = gameState.status === "USER_CONFLICT_ENDED";
-        const isConflictEnding = gameState.status === "USER_INITIATED_CONFLICT_END";
-        const isForceEnding = gameState.status === "USER_INITIATED_FORCE_END";
+    const isGameActive = gameState.status === "ACTIVE";
+    const isGameCreating = gameState.status === "CREATING" && gameState.createTransactionHash;
+    const placedBet = gameState.status === "PLACED_BET";
+    const lastGameTransactionHash = gameState.endTransactionHash;
+    const serverInitiatedEnd = gameState.status === "SERVER_CONFLICT_ENDED";
+    const isUserConflictEnded = gameState.status === "USER_CONFLICT_ENDED";
+    const isConflictEnding = gameState.status === "USER_INITIATED_CONFLICT_END";
+    const isForceEnding = gameState.status === "USER_INITIATED_FORCE_END";
 
-        // NETWORK_NAME in string literal expression is never as NETWORK_NAME is a constant,
-        // so disable the rule which doesn't allow never in string literal expression.
-        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-        const transactionUrlNetPrefix = NETWORK_NAME === "Main" ? "" : `${NETWORK_NAME}.`;
-        const transactionUrl = `https://${transactionUrlNetPrefix}etherscan.io/tx/${lastGameTransactionHash}`;
+    // NETWORK_NAME in string literal expression is never as NETWORK_NAME is a constant,
+    // so disable the rule which doesn't allow never in string literal expression.
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    const transactionUrlNetPrefix = NETWORK_NAME === "Main" ? "" : `${NETWORK_NAME}.`;
+    const transactionUrl = `https://${transactionUrlNetPrefix}etherscan.io/tx/${lastGameTransactionHash}`;
 
-        const spinner = <FontAwesomeIcon color="dark" icon="spinner" spin size="lg" />;
+    const spinner = <FontAwesomeIcon color="dark" icon="spinner" spin size="lg" />;
 
-        if (!web3State.web3) {
-            return (
-                <div className={Style.gameHeader}>
-                    <span className="text-danger">
-                        You need a web3 enabled browser for playing (e.g. <a href={METAMASK_URL}>MetaMask</a>,{" "}
-                        <a href={TRUST_WALLET_URL}>Trust Wallet</a> or <a href={COINBASE_WALLET_URL}>Coinbase Wallet</a>
-                        )
-                    </span>
-                </div>
-            );
-        } else if (!web3State.account) {
-            return (
-                <div className={Style.gameHeader}>
-                    <span className="text-danger">Please log in to your Wallet!</span>
-                </div>
-            );
-        } else if (!validChainId(web3State.chainId)) {
-            return (
-                <div className={Style.gameHeader}>
-                    <span className="text-danger">Please select the {NETWORK_NAME} network!</span>
-                </div>
-            );
-        }
+    const publicClient = usePublicClient();
+    const {status: connectionStatus, chainId} = useConnection();
 
+    if (!publicClient) {
         return (
             <div className={Style.gameHeader}>
-                {isConflictEnding && <span>Conflict Ending... {spinner}</span>}
-                {isForceEnding && <span>Force Ending... {spinner}</span>}
-                {isUserConflictEnded && gameState.conflictEndTime && (
-                    <ForceEnd endTime={gameState.conflictEndTime} onForceEnd={onForceEnd} />
-                )}
-                {placedBet && (
-                    <Button size="sm" color="primary" onClick={onSeedRequest}>
-                        Request seed!
-                    </Button>
-                )}
-                {isGameActive && (
-                    <Button key="1" size="sm" color="secondary" onClick={onEndGame}>
-                        End Game Session
-                    </Button>
-                )}
-                {(isGameActive || placedBet) && [
-                    <div key="1" className={Style.gameHeader__entry}>
-                        <span className={Style.gameHeader__entryHeader} key="2">
-                            Funds left
-                        </span>
-                        <Ether gwei={gameState.stake + gameState.balance} />
-                    </div>,
-                    <div key="2" className={"hidden-xs-down " + Style.gameHeader__entry}>
-                        <span className={Style.gameHeader__entryHeader} key="2">
-                            Balance
-                        </span>
-                        <Ether gwei={gameState.balance} />
-                    </div>,
-                ]}
-                {isGameCreating && <span>Creating Game Session... {spinner}</span>}
-                {serverInitiatedEnd && (
-                    <div>
-                        <span className="text-danger">
-                            Server initiated end! Should only happen if you didn't play for {GAME_SESSION_TIMEOUT}{" "}
-                            hours!
-                        </span>
-                        <Button size="sm" onClick={onConflictEnd}>
-                            Conflict End
-                        </Button>
-                    </div>
-                )}
-                {isGameEnded && (
-                    <div>
-                        <Button size="sm" color="primary" onClick={this.onShow}>
-                            Start Game Session
-                        </Button>
-                        <CreateGameModal
-                            seed={this.seed}
-                            isOpen={modalIsOpen}
-                            minValue={MIN_GAME_SESSION_VALUE}
-                            maxValue={MAX_GAME_SESSION_VALUE}
-                            onClose={this.onClose}
-                            onCreateGame={onStartGame}
-                            web3State={web3State}
-                        />
-                        {lastGameTransactionHash !== undefined && [
-                            <a
-                                key="1"
-                                ref={this.endTransactionRef}
-                                rel={"noreferrer"}
-                                style={{marginLeft: "1em"}}
-                                target="_blank"
-                                href={transactionUrl}
-                            >
-                                End Transaction
-                            </a>,
-                            <Tooltip key="2" target={() => this.endTransactionRef.current}>
-                                Show last game session end transaction
-                            </Tooltip>,
-                        ]}
-                    </div>
-                )}
+                <span className="text-danger">
+                    You need a web3 enabled browser for playing (e.g. <a href={METAMASK_URL}>MetaMask</a>,{" "}
+                    <a href={TRUST_WALLET_URL}>Trust Wallet</a> or <a href={COINBASE_WALLET_URL}>Coinbase Wallet</a>)
+                </span>
+            </div>
+        );
+    } else if (connectionStatus !== "connected") {
+        return (
+            <div className={Style.gameHeader}>
+                <span className="text-danger">Please log in to your Wallet!</span>
+            </div>
+        );
+    } else if (!validChainId(chainId)) {
+        return (
+            <div className={Style.gameHeader}>
+                <span className="text-danger">Please select the {NETWORK_NAME} network!</span>
             </div>
         );
     }
-}
+
+    return (
+        <div className={Style.gameHeader}>
+            {isConflictEnding && <span>Conflict Ending... {spinner}</span>}
+            {isForceEnding && <span>Force Ending... {spinner}</span>}
+            {isUserConflictEnded && gameState.conflictEndTime && (
+                <ForceEnd endTime={gameState.conflictEndTime} onForceEnd={onForceEnd} />
+            )}
+            {placedBet && (
+                <Button size="sm" color="primary" onClick={onSeedRequest}>
+                    Request seed!
+                </Button>
+            )}
+            {isGameActive && (
+                <Button key="1" size="sm" color="secondary" onClick={onEndGame}>
+                    End Game Session
+                </Button>
+            )}
+            {(isGameActive || placedBet) && [
+                <div key="1" className={Style.gameHeader__entry}>
+                    <span className={Style.gameHeader__entryHeader} key="2">
+                        Funds left
+                    </span>
+                    <Ether gwei={gameState.stake + gameState.balance} />
+                </div>,
+                <div key="2" className={"hidden-xs-down " + Style.gameHeader__entry}>
+                    <span className={Style.gameHeader__entryHeader} key="2">
+                        Balance
+                    </span>
+                    <Ether gwei={gameState.balance} />
+                </div>,
+            ]}
+            {isGameCreating && <span>Creating Game Session... {spinner}</span>}
+            {serverInitiatedEnd && (
+                <div>
+                    <span className="text-danger">
+                        Server initiated end! Should only happen if you didn't play for {GAME_SESSION_TIMEOUT} hours!
+                    </span>
+                    <Button size="sm" onClick={onConflictEnd}>
+                        Conflict End
+                    </Button>
+                </div>
+            )}
+            {isGameEnded && (
+                <div>
+                    <Button size="sm" color="primary" onClick={onShow}>
+                        Start Game Session
+                    </Button>
+                    <CreateGameModal
+                        seed={seed.current}
+                        isOpen={modalIsOpen}
+                        minValue={MIN_GAME_SESSION_VALUE}
+                        maxValue={MAX_GAME_SESSION_VALUE}
+                        onClose={onClose}
+                        onCreateGame={onStartGame}
+                    />
+                    {lastGameTransactionHash !== undefined && [
+                        <a
+                            key="1"
+                            ref={endTransactionRef}
+                            rel={"noreferrer"}
+                            style={{marginLeft: "1em"}}
+                            target="_blank"
+                            href={transactionUrl}
+                        >
+                            End Transaction
+                        </a>,
+                        <Tooltip key="2" target={() => endTransactionRef.current}>
+                            Show last game session end transaction
+                        </Tooltip>,
+                    ]}
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default GameHeader;

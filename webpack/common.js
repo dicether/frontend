@@ -21,6 +21,17 @@ const sassOptions = {
 
 // the final webpack config
 module.exports = {
+    externals: [
+        "@walletconnect/ethereum-provider",
+        "@coinbase/wallet-sdk",
+        "@base-org/account",
+        "@gemini-wallet/core",
+        "@metamask/sdk",
+        "porto",
+        "porto/internal",
+        "@safe-global/safe-apps-sdk",
+        "@safe-global/safe-apps-provider",
+    ],
     entry: {
         index: [path.join(contextRoot, "index.tsx"), path.join(contextRoot, "bs-theme-glob.scss")],
     },

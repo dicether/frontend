@@ -25,16 +25,10 @@ const FlipACoin = () => {
     const [showResult, setShowResult] = useState(false);
     const [result, setResult] = useState({num: 1, won: false});
 
-    const {gameState, info, flipACoin, loggedIn} = useSelector(({games, account}: State) => {
-        const {info, flipACoin, gameState} = games;
-
-        return {
-            info,
-            flipACoin,
-            gameState,
-            loggedIn: account.jwt !== null,
-        };
-    });
+    const gameState = useSelector((state: State) => state.games.gameState);
+    const info = useSelector((state: State) => state.games.info);
+    const flipACoin = useSelector((state: State) => state.games.flipACoin);
+    const loggedIn = useSelector((state: State) => state.account.jwt !== null);
 
     const dispatch = useDispatch();
 

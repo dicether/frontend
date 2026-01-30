@@ -1,5 +1,7 @@
 import {createSlice} from "@reduxjs/toolkit";
+import {getPublicClient} from "@wagmi/core";
 
+import wagmiConfig from "../../../config/wagmiConfig";
 import {Dispatch, GetState} from "../../../util/util";
 import {User} from "../account/types";
 import {Bet} from "../bets/types";
@@ -86,8 +88,9 @@ export const {
 export default modalSlice.reducer;
 
 export function showRegisterModal() {
-    return (dispatch: Dispatch, getState: GetState) => {
-        if (!getState().web3.web3) {
+    return (dispatch: Dispatch) => {
+        const publicClient = getPublicClient(wagmiConfig);
+        if (!publicClient) {
             dispatch(showMissingWalletModal());
         } else {
             dispatch(showRegisterModalInternal());

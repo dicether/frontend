@@ -4,7 +4,7 @@ export const NAME = "Dicether";
 export const VERSION = process.env.VERSION ?? "";
 export const BUILD_DATE = new Date(process.env.BUILD_DATE ?? new Date());
 
-export const CONTRACT_ADDRESS = toChecksumAddress(process.env.CONTRACT_ADDRESS ?? "");
+export const CONTRACT_ADDRESS = toChecksumAddress(process.env.CONTRACT_ADDRESS ?? "") as `0x${string}`;
 export const CHAIN_ID = Number.parseInt(process.env.CHAIN_ID ?? "", 10);
 export const SIGNATURE_VERSION = 2;
 export const NEW_EIP_GAME_ID = 572;

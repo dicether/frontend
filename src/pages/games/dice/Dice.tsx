@@ -31,16 +31,10 @@ const Dice = () => {
         };
     }, []);
 
-    const {gameState, info, dice, loggedIn} = useSelector(({games, account}: State) => {
-        const {gameState, info, dice} = games;
-
-        return {
-            gameState,
-            info,
-            dice,
-            loggedIn: account.jwt !== null,
-        };
-    });
+    const gameState = useSelector((state: State) => state.games.gameState);
+    const info = useSelector((state: State) => state.games.info);
+    const dice = useSelector((state: State) => state.games.dice);
+    const loggedIn = useSelector((state: State) => state.account.jwt !== null);
 
     useEffect(() => {
         // if the balance changes, we need to check if user has enough funds for current bet value

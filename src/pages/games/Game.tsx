@@ -30,13 +30,12 @@ import {Dispatch} from "../../util/util";
 
 import * as Style from "./Game.scss";
 
-const mapStateToProps = ({games, web3, account}: State) => {
+const mapStateToProps = ({games, account}: State) => {
     const {gameState, info} = games;
 
     return {
         gameState,
         info,
-        web3State: web3,
         loggedIn: account.jwt !== null,
     };
 };
@@ -118,7 +117,7 @@ class Game extends React.Component<Props> {
     };
 
     render() {
-        const {gameState, info, web3State, loggedIn} = this.props;
+        const {gameState, info, loggedIn} = this.props;
         const {showHelp, showExpertView, sound} = info;
 
         return (
@@ -128,7 +127,6 @@ class Game extends React.Component<Props> {
                         <div className={Style.wrapper}>
                             {loggedIn && (
                                 <GameHeader
-                                    web3State={web3State}
                                     gameState={gameState}
                                     onStartGame={this.createGame}
                                     onEndGame={this.endGame}

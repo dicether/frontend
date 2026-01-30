@@ -13,7 +13,7 @@ import {sendFriendRequest} from "../../../modules/friends/asyncActions";
 import {showUserModal} from "../../../modules/modals/slice";
 
 export const mapStateToProps = (state: State) => {
-    const {web3, friend} = state;
+    const {friend} = state;
     const {friends, receivedFriendRequests, sentFriendRequests} = friend;
 
     return {
@@ -21,7 +21,6 @@ export const mapStateToProps = (state: State) => {
         receivedFriendRequests,
         sentFriendRequests,
         userAuth: getUser(state),
-        defaultAccount: web3.account,
     };
 };
 

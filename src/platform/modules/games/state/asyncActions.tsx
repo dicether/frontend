@@ -12,9 +12,18 @@ import {
     verifySignature,
 } from "@dicether/state-channel";
 import * as Sentry from "@sentry/browser";
+import {
+    getConnection,
+    getPublicClient,
+    getTransactionReceipt,
+    readContract,
+    signTypedData,
+    waitForTransactionReceipt,
+    writeContract,
+} from "@wagmi/core";
 import retry from "async-retry";
 import axios from "axios";
-import {TransactionReceipt, Web3} from "web3";
+import {parseEventLogs} from "viem";
 
 import {
     addBet,
@@ -33,12 +42,13 @@ import {
 } from "./actions";
 import {ReasonEnded, State, State as GameState} from "./reducer";
 import {CHAIN_ID, CONTRACT_ADDRESS, NETWORK_NAME, SERVER_ADDRESS, SIGNATURE_VERSION} from "../../../../config/config";
+import wagmiConfig from "../../../../config/wagmiConfig";
 import {getLogGameCreated, getReasonEnded} from "../../../../contractUtils";
+import {abi} from "../../../../GameChannelContract";
 import {Dispatch, GetState, isLocalStorageAvailable} from "../../../../util/util";
 import {addNewBet} from "../../bets/asyncActions";
 import {Bet as FinalBet} from "../../bets/types";
 import {catchError} from "../../utilities/asyncActions";
-import {getTransactionReceipt, signTypedData} from "../../web3/asyncActions";
 
 const STORAGE_VERSION = 2;
 
@@ -114,10 +124,10 @@ function activateGameEvent(gameId: number, serverHash: string, userHash: string)
         const gameState = getState().games.gameState;
         if (canActivateGame(gameState)) {
             if (serverHash !== gameState.serverHash) {
-                throw Error(`Unexpectd serverHash: ${serverHash}, expected ${gameState.serverHash}`);
+                throw Error(`Unexpected serverHash: ${serverHash}, expected ${gameState.serverHash}`);
             }
             if (userHash !== gameState.userHash) {
-                throw Error(`Unexpectd userHash: ${userHash}, expected ${gameState.userHash}`);
+                throw Error(`Unexpected userHash: ${userHash}, expected ${gameState.userHash}`);
             }
 
             dispatch(gameCreated(gameId));
@@ -269,46 +279,41 @@ function serverConflictEndEvent() {
     };
 }
 
-//
-// util functions
-//
-function isTransactionFailed(receipt: TransactionReceipt) {
-    return !receipt.status;
-}
-
-export const validChainId = (chainId: number | null) => {
+export const validChainId = (chainId: number | null | undefined) => {
     return chainId === CHAIN_ID;
-};
-
-const checkIfEndTransactionFinished = (web3: Web3, transactionHash?: string) => {
-    if (!transactionHash) {
-        return Promise.resolve(true);
-    }
-
-    return getTransactionReceipt(web3, transactionHash).then((receipt) => receipt !== null);
 };
 
 export function loadContractStateCreatedGame() {
     return async (dispatch: Dispatch, getState: GetState) => {
-        const {web3: web3State, games} = getState();
-        const {contract} = web3State;
+        const {games} = getState();
         const {gameState} = games;
         const {gameId} = gameState;
-        const {web3, account} = web3State;
 
-        if (!web3 || !account) {
+        const {isConnected, chainId} = getConnection(wagmiConfig);
+        if (!isConnected) {
             throw new Error("You need a web3 enabled browser (Metamask)!");
+        }
+
+        if (!validChainId(chainId)) {
+            throw new Error(`Invalid network! You need to use ${NETWORK_NAME}!`);
         }
 
         if (gameId === undefined) {
             throw new Error("Invalid game state!");
         }
 
-        const result = await contract.methods.gameIdGame(gameId).call();
-        const status = Number.parseInt(result.status, 10);
+        const game = await readContract(wagmiConfig, {
+            abi,
+            address: CONTRACT_ADDRESS,
+            functionName: "gameIdGame",
+            args: [BigInt(gameId)],
+        });
+
+        const status = game[0];
 
         if (status === ContractStatus.ENDED && canEndGame(gameState)) {
-            const reasonEnded = await getReasonEnded(web3, contract, gameId);
+            const publicClient = getPublicClient(wagmiConfig);
+            const reasonEnded = await getReasonEnded(publicClient, CONTRACT_ADDRESS, gameId);
             return dispatch(endGameEvent(ContractReasonEnded[reasonEnded] as ReasonEnded));
         } else if (status === ContractStatus.USER_INITIATED_END && canUserConflictEnd(gameState)) {
             return dispatch(userConflictEndEvent(new Date()));
@@ -322,12 +327,11 @@ export function loadContractStateCreatedGame() {
 
 export function loadContractGameState() {
     return async (dispatch: Dispatch, getState: GetState) => {
-        const {web3: web3State, games} = getState();
-        const {contract} = web3State;
+        const {games} = getState();
         const {gameState} = games;
-        const {web3, account, chainId} = web3State;
 
-        if (!account || !web3 || !contract || chainId === null) {
+        const {isConnected, chainId} = getConnection(wagmiConfig);
+        if (!isConnected) {
             throw new Error("You need a web3 enabled browser (Metamask)!");
         }
 
@@ -341,24 +345,27 @@ export function loadContractGameState() {
                 throw new Error("Invalid game state!");
             }
 
-            const logCreated = await getLogGameCreated(web3, contract, gameState.serverHash);
-            if (logCreated) {
-                const gameId = Number(logCreated.returnValues.gameId);
-                const serverHash = logCreated.returnValues.serverEndHash;
-                const userHash = logCreated.returnValues.userEndHash;
+            const publicClient = getPublicClient(wagmiConfig);
 
-                dispatch(activateGameEvent(gameId, serverHash, userHash));
+            const logCreated = await getLogGameCreated(
+                publicClient,
+                CONTRACT_ADDRESS,
+                gameState.serverHash as `0x${string}`,
+            );
+
+            if (logCreated) {
+                const {gameId, serverEndHash, userEndHash} = logCreated;
+
+                dispatch(activateGameEvent(gameId, serverEndHash, userEndHash));
                 return dispatch(loadContractStateCreatedGame());
             }
 
             if (gameState.createTransactionHash) {
-                const receipt = await getTransactionReceipt(web3, gameState.createTransactionHash);
-                if (!receipt) {
-                    // transaction isn't mined
-                    return;
-                }
+                const receipt = await getTransactionReceipt(wagmiConfig, {
+                    hash: gameState.createTransactionHash as `0x${string}`,
+                });
 
-                if (isTransactionFailed(receipt)) {
+                if (receipt.status === "reverted") {
                     return dispatch(endGameEvent("TRANSACTION_FAILURE"));
                 }
             }
@@ -368,7 +375,6 @@ export function loadContractGameState() {
     };
 }
 
-// TODO: remove???
 export function loadServerGameState() {
     return async (dispatch: Dispatch, getState: GetState) => {
         if (getState().games.gameState.status === "ENDED") {
@@ -446,7 +452,8 @@ export function syncGameState(chainId: number, address: string) {
 
 // TODO: improve, check contract state???
 export function serverActiveGame(gameId: number, serverHash: string, userHash: string) {
-    return (dispatch: Dispatch) => {
+    return (dispatch: Dispatch, getState: GetState) => {
+        const status = getState().games.gameState.status;
         if (status === "ACTIVE") {
             // already active => do nothing
             return;
@@ -458,9 +465,6 @@ export function serverActiveGame(gameId: number, serverHash: string, userHash: s
 
 export function createGame(stake: number, userSeed: string) {
     return async (dispatch: Dispatch, getState: GetState) => {
-        const web3State = getState().web3;
-        const contract = web3State.contract;
-        const account = web3State.account;
         const gameState = getState().games.gameState;
         const status = gameState.status;
 
@@ -470,69 +474,85 @@ export function createGame(stake: number, userSeed: string) {
             );
         }
 
-        if (!validChainId(web3State.chainId)) {
-            throw new Error(`Invalid chain! You need to use ${NETWORK_NAME}!`);
+        const {isConnected, chainId} = getConnection(wagmiConfig);
+        if (!isConnected) {
+            throw new Error("You need a web3 enabled browser (Metamask)!");
         }
 
-        if (!account || !contract || !web3State.web3) {
-            throw new Error("You need a web3 enabled browser (Metamask)!");
+        if (!validChainId(chainId)) {
+            throw new Error(`Invalid network! You need to use ${NETWORK_NAME}!`);
         }
 
         if (!canCreateGame(gameState)) {
             throw new Error(`Invalid game status: ${status}! Can not create game!`);
         }
 
-        const createGame = contract.methods.createGame;
         const hashChain = createHashChain(userSeed);
 
-        const finished = await checkIfEndTransactionFinished(web3State.web3, gameState.endTransactionHash);
-        if (!finished) {
-            throw new Error("You need to wait until transaction ending game session is mined!");
+        if (gameState.endTransactionHash !== undefined) {
+            console.log("Checking previous game end transaction...", gameState.endTransactionHash);
+            const transactionReceipt = await getTransactionReceipt(wagmiConfig, {
+                hash: gameState.endTransactionHash as `0x${string}`,
+            });
+            console.log("Previous game end transaction receipt:", transactionReceipt);
+            if (!transactionReceipt) {
+                throw new Error("You need to wait until transaction ending game session is mined!");
+            }
         }
 
+        console.log("Posting create game request to server...");
         const response = await axios.post("stateChannel/createGame");
         const data = response.data;
         const serverEndHash = data.serverEndHash;
-        const previousGameId = data.previousGameId;
-        const createBefore = data.createBefore;
+        const previousGameId = BigInt(data.previousGameId);
+        const createBefore = BigInt(data.createBefore);
         const signature = data.signature;
 
         dispatch(createGameEvent(hashChain, serverEndHash, stake));
+        console.log("Creating game...");
+        const transactionHash = await writeContract(wagmiConfig, {
+            address: CONTRACT_ADDRESS,
+            abi,
+            functionName: "createGame",
+            args: [
+                hashChain[0] as `0x${string}`,
+                previousGameId,
+                createBefore,
+                serverEndHash as `0x${string}`,
+                signature as `0x${string}`,
+            ],
+            value: BigInt(fromGweiToWei(stake)),
+            gas: 150000n,
+        });
 
-        await new Promise<void>((resolve, reject) => {
-            createGame(hashChain[0], previousGameId, createBefore, serverEndHash, signature)
-                .send({
-                    from: account,
-                    value: fromGweiToWei(stake).toString(),
-                    gas: 150000,
-                })
-                .on("error", (error: Error) => {
-                    reject(error);
-                })
-                .on("transactionHash", (transactionHash: string) => {
-                    dispatch(createGameEvent(hashChain, serverEndHash, stake, transactionHash));
-                })
-                .on("confirmation", (num: number, receipt: TransactionReceipt) => {
-                    // wait for 3 confirmations
-                    if (num === 3) {
-                        const event = receipt.events ? receipt.events.LogGameCreated : null;
-                        if (isTransactionFailed(receipt) || !event) {
-                            dispatch(endGameEvent("TRANSACTION_FAILURE"));
-                            reject(new Error("Create game transaction failed!"));
-                        } else {
-                            const gameId = (event.returnValues as any).gameId;
-                            const serverHash = (event.returnValues as any).serverEndHash;
-                            const userHash = (event.returnValues as any).userEndHash;
-                            if (getState().games.gameState.status !== "ACTIVE") {
-                                dispatch(activateGameEvent(gameId, serverHash, userHash));
-                            }
-                            resolve();
-                        }
-                    }
-                })
-                .catch((error: Error) => {
-                    reject(error);
-                });
+        dispatch(createGameEvent(hashChain, serverEndHash, stake, transactionHash));
+
+        console.log("Waiting for create game transaction receipt...", transactionHash);
+        const receipt = await waitForTransactionReceipt(wagmiConfig, {hash: transactionHash, confirmations: 2});
+        console.log("Create game transaction receipt:", receipt);
+
+        if (receipt.status === "reverted") {
+            dispatch(endGameEvent("TRANSACTION_FAILURE"));
+            throw new Error("Create game transaction failed!");
+        }
+
+        const logs = parseEventLogs({
+            abi,
+            logs: receipt.logs,
+        });
+
+        logs.forEach((log) => {
+            const eventName = log.eventName;
+
+            if (eventName === "LogGameCreated") {
+                const args = log.args;
+                const gameId = args.gameId;
+                const serverHash = args.serverEndHash;
+                const userHash = args.userEndHash;
+                if (getState().games.gameState.status !== "ACTIVE") {
+                    dispatch(activateGameEvent(Number(gameId), serverHash, userHash));
+                }
+            }
         });
     };
 }
@@ -541,24 +561,21 @@ export function endGame() {
     return async (dispatch: Dispatch, getState: GetState) => {
         const state = getState();
         const gameState = state.games.gameState;
-        const account = state.web3.account;
-        const web3 = state.web3.web3;
-        const chainId = state.web3.chainId;
 
         // use previous seeds as new hashes seeds (hash chain)
         const serverHash = gameState.serverHash;
         const userHash = gameState.userHash;
 
-        const userAddress = account;
         const gameId = gameState.gameId;
         const roundId = gameState.roundId + 1;
         const balance = gameState.balance;
 
-        if (!getState().account.jwt) {
+        if (!state.account.jwt) {
             throw new Error("You need to login before ending game session!");
         }
 
-        if (!account || !web3) {
+        const {isConnected, chainId} = getConnection(wagmiConfig);
+        if (!isConnected) {
             throw new Error("You need a web3 enabled browser (Metamask)!");
         }
 
@@ -570,7 +587,7 @@ export function endGame() {
             throw new Error(`Invalid game status ${gameState.status}! Can not end game!`);
         }
 
-        if (!userHash || !serverHash || !userAddress || !gameId) {
+        if (!userHash || !serverHash /* || !userAddress*/ || !gameId) {
             throw new Error("Invalid state!");
         }
 
@@ -586,7 +603,7 @@ export function endGame() {
         };
 
         const typedData = createTypedData(bet, CHAIN_ID, CONTRACT_ADDRESS, SIGNATURE_VERSION);
-        const userSig = await signTypedData(web3, account, typedData);
+        const userSig = await signTypedData(wagmiConfig, typedData);
 
         const {data} = await axios.post("stateChannel/endGame", {bet, contractAddress: CONTRACT_ADDRESS, userSig});
         const {serverSig, transactionHash: endTransactionHash} = data;
@@ -603,12 +620,9 @@ export function userEndGame() {
     return async (dispatch: Dispatch, getState: GetState) => {
         const state = getState();
         const gameState = state.games.gameState;
-        const account = state.web3.account;
-        const web3 = state.web3.web3;
-        const contract = state.web3.contract;
-        const chainId = state.web3.chainId;
 
-        if (!web3 || !account || !contract) {
+        const {isConnected, chainId} = getConnection(wagmiConfig);
+        if (!isConnected) {
             throw new Error("You need a web3 enabled browser (Metamask)!");
         }
 
@@ -629,31 +643,29 @@ export function userEndGame() {
         const gameId = gameState.gameId!;
         const serverSig = gameState.serverSig!;
 
-        const userEndGame = contract.methods.userEndGame;
-        await new Promise((resolve, reject) =>
-            userEndGame(
+        const transactionHash = await writeContract(wagmiConfig, {
+            address: CONTRACT_ADDRESS,
+            abi,
+            functionName: "userEndGame",
+            args: [
                 roundId,
-                fromGweiToWei(balance).toString(),
-                serverHash,
-                userHash,
-                gameId,
+                BigInt(fromGweiToWei(balance)),
+                serverHash as `0x${string}`,
+                userHash as `0x${string}`,
+                BigInt(gameId),
                 CONTRACT_ADDRESS,
-                serverSig,
-            )
-                .send({from: account, value: 0, gas: 120000})
-                .on("transactionHash", (_transactionHash: string) => {
-                    // nothing to do
-                })
-                .on("error", (error: Error) => {
-                    reject(error);
-                })
-                .then((_receipt: TransactionReceipt) => {
-                    // nothing to do
-                })
-                .catch((error: Error) => {
-                    reject(error);
-                }),
-        );
+                serverSig as `0x${string}`,
+            ],
+            gas: BigInt(120000),
+        });
+
+        const receipt = await waitForTransactionReceipt(wagmiConfig, {hash: transactionHash, confirmations: 1});
+        if (receipt.status === "success") {
+            // nothing to do
+            //TODO: Store transaction hash???
+        } else {
+            throw new Error("Transaction failed!");
+        }
     };
 }
 
@@ -661,10 +673,6 @@ export function conflictEnd() {
     return async (dispatch: Dispatch, getState: GetState) => {
         const state = getState();
         const gameState = state.games.gameState;
-        const account = state.web3.account;
-        const web3 = state.web3.web3;
-        const contract = state.web3.contract;
-        const chainId = state.web3.chainId;
 
         const gameId = gameState.gameId;
         const roundId = gameState.roundId;
@@ -673,7 +681,8 @@ export function conflictEnd() {
         const oldBalance = gameState.oldBalance;
         const serverSig = gameState.serverSig;
 
-        if (!web3 || !account || !contract) {
+        const {isConnected, chainId} = getConnection(wagmiConfig);
+        if (!isConnected) {
             throw new Error("You need a web3 enabled browser (Metamask)!");
         }
 
@@ -690,27 +699,20 @@ export function conflictEnd() {
         }
 
         if (roundId === 0) {
-            const cancelActiveGame = contract.methods.userCancelActiveGame;
-            await new Promise((resolve, reject) =>
-                cancelActiveGame(gameId)
-                    .send({from: account, value: 0, gas: 120000})
-                    .on("transactionHash", (transactionHash: string) => {
-                        dispatch(userInitiateConflictEndEvent(transactionHash));
-                    })
-                    .on("error", (error: Error) => {
-                        reject(error);
-                    })
-                    .then((receipt: TransactionReceipt) => {
-                        if (isTransactionFailed(receipt)) {
-                            dispatch(userAbortConflictEndEvent());
-                        } else {
-                            dispatch(userConflictEndEvent(new Date()));
-                        }
-                    })
-                    .catch((error: Error) => {
-                        reject(error);
-                    }),
-            );
+            const transactionHash = await writeContract(wagmiConfig, {
+                address: CONTRACT_ADDRESS,
+                abi,
+                functionName: "userCancelActiveGame",
+                args: [BigInt(gameId)],
+                gas: BigInt(120000),
+            });
+            dispatch(userInitiateConflictEndEvent(transactionHash));
+            const receipt = await waitForTransactionReceipt(wagmiConfig, {hash: transactionHash, confirmations: 1});
+            if (receipt.status === "success") {
+                dispatch(userConflictEndEvent(new Date()));
+            } else {
+                dispatch(userAbortConflictEndEvent());
+            }
         } else {
             let serverHash = keccak(gameState.serverHash);
             let userHash = keccak(gameState.userHash);
@@ -719,44 +721,39 @@ export function conflictEnd() {
             let userSeed = gameState.userHash;
 
             if (gameState.status === "PLACED_BET") {
-                serverHash = gameState.serverHash;
-                userHash = gameState.userHash;
+                serverHash = gameState.serverHash as `0x${string}`;
+                userHash = gameState.userHash as `0x${string}`;
                 balance = fromGweiToWei(gameState.balance).toString();
                 userSeed = gameState.hashChain[roundId];
             }
 
-            const userEndGameConflict = contract.methods.userEndGameConflict;
-            await new Promise((resolve, reject) =>
-                userEndGameConflict(
+            const transactionHash = await writeContract(wagmiConfig, {
+                address: CONTRACT_ADDRESS,
+                abi,
+                functionName: "userEndGameConflict",
+                args: [
                     roundId,
                     gameType,
-                    num,
-                    value,
-                    balance,
+                    BigInt(num),
+                    BigInt(value),
+                    BigInt(balance),
                     serverHash,
                     userHash,
-                    gameId,
-                    serverSig,
-                    userSeed,
-                )
-                    .send({from: account, gas: 250000})
-                    .on("transactionHash", (transactionHash: string) => {
-                        dispatch(userInitiateConflictEndEvent(transactionHash));
-                    })
-                    .on("error", (error: Error) => {
-                        reject(error);
-                    })
-                    .then((receipt: TransactionReceipt) => {
-                        if (isTransactionFailed(receipt)) {
-                            dispatch(userAbortConflictEnd());
-                        } else {
-                            dispatch(userConflictEndEvent(new Date()));
-                        }
-                    })
-                    .catch((error: Error) => {
-                        reject(error);
-                    }),
-            );
+                    BigInt(gameId),
+                    serverSig as `0x${string}`,
+                    userSeed as `0x${string}`,
+                ],
+                gas: BigInt(250000),
+            });
+
+            dispatch(userInitiateConflictEndEvent(transactionHash));
+
+            const receipt = await waitForTransactionReceipt(wagmiConfig, {hash: transactionHash, confirmations: 1});
+            if (receipt.status === "success") {
+                dispatch(userConflictEndEvent(new Date()));
+            } else {
+                dispatch(userAbortConflictEndEvent());
+            }
         }
     };
 }
@@ -765,13 +762,11 @@ export function forceEnd() {
     return async (dispatch: Dispatch, getState: GetState) => {
         const state = getState();
         const gameState = state.games.gameState;
-        const account = state.web3.account;
-        const contract = state.web3.contract;
-        const chainId = state.web3.chainId;
 
         const gameId = gameState.gameId;
 
-        if (!account || !contract) {
+        const {isConnected, chainId} = getConnection(wagmiConfig);
+        if (!isConnected) {
             throw new Error("You need a web3 enabled browser (Metamask)!");
         }
 
@@ -783,27 +778,26 @@ export function forceEnd() {
             throw new Error(`Invalid game status ${gameState.status}! Can not force end!`);
         }
 
-        const userForceGameEnd = contract.methods.userForceGameEnd;
-        await new Promise((resolve, reject) =>
-            userForceGameEnd(gameId)
-                .send({from: account, value: 0, gas: 120000})
-                .on("transactionHash", (transactionHash: string) => {
-                    dispatch(userInitiateForceEndEvent(transactionHash));
-                })
-                .on("error", (error: Error) => {
-                    return Promise.reject(error);
-                })
-                .then((receipt: TransactionReceipt) => {
-                    if (isTransactionFailed(receipt)) {
-                        dispatch(userAbortForceEndEvent());
-                    } else {
-                        dispatch(userForceEndEvent());
-                    }
-                })
-                .catch((error: Error) => {
-                    reject(error);
-                }),
-        );
+        if (!gameId) {
+            throw new Error("Invalid game ID!");
+        }
+
+        const transactionHash = await writeContract(wagmiConfig, {
+            address: CONTRACT_ADDRESS,
+            abi,
+            functionName: "userForceGameEnd",
+            args: [BigInt(gameId)],
+            gas: BigInt(120000),
+        });
+
+        dispatch(userInitiateForceEndEvent(transactionHash));
+
+        const transaction = await waitForTransactionReceipt(wagmiConfig, {hash: transactionHash, confirmations: 1});
+        if (transaction.status === "success") {
+            dispatch(userForceEndEvent());
+        } else {
+            dispatch(userAbortForceEndEvent());
+        }
     };
 }
 
@@ -884,8 +878,6 @@ export function placeBet(num: number, betValue: number, gameType: number) {
         getState: GetState,
     ): Promise<{betNum: number; num: number; won: boolean; userProfit: number; bet: FinalBet}> => {
         const gameState = getState().games.gameState;
-        const web3State = getState().web3;
-        const {account, web3} = web3State;
 
         // use previous seeds as new hashes seeds (hash chain)
         const serverHash = gameState.serverHash;
@@ -900,11 +892,12 @@ export function placeBet(num: number, betValue: number, gameType: number) {
             throw new Error("You need to login before playing!");
         }
 
-        if (!web3 || !account) {
+        const {isConnected, chainId} = getConnection(wagmiConfig);
+        if (!isConnected) {
             throw new Error("You need a web3 enabled browser (Metamask)!");
         }
 
-        if (!validChainId(web3State.chainId)) {
+        if (!validChainId(chainId)) {
             throw new Error(`Invalid network! You need to use ${NETWORK_NAME}!`);
         }
 
@@ -932,7 +925,7 @@ export function placeBet(num: number, betValue: number, gameType: number) {
         };
 
         const typedData = createTypedData(bet, CHAIN_ID, CONTRACT_ADDRESS, SIGNATURE_VERSION);
-        const userSig = await signTypedData(web3, account, typedData);
+        const userSig = await signTypedData(wagmiConfig, typedData);
 
         const {data: dataPlaceBet} = await axios.post("stateChannel/placeBet", {
             bet,

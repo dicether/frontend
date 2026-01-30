@@ -35,17 +35,11 @@ const Wheel = () => {
         };
     }, []);
 
-    const {gameState, info, wheel, loggedIn, nightMode} = useSelector(({app, games, account}: State) => {
-        const {gameState, info, wheel} = games;
-
-        return {
-            gameState,
-            info,
-            wheel,
-            loggedIn: account.jwt !== null,
-            nightMode: app.nightMode,
-        };
-    });
+    const gameState = useSelector((state: State) => state.games.gameState);
+    const info = useSelector((state: State) => state.games.info);
+    const wheel = useSelector((state: State) => state.games.wheel);
+    const nightMode = useSelector((state: State) => state.app.nightMode);
+    const loggedIn = useSelector((state: State) => state.account.jwt !== null);
 
     const dispatch = useDispatch();
 

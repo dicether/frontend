@@ -51,16 +51,10 @@ const Keno = () => {
         };
     }, []);
 
-    const {gameState, info, keno, loggedIn} = useSelector(({games, account}: State) => {
-        const {gameState, info, keno} = games;
-
-        return {
-            gameState,
-            info,
-            keno,
-            loggedIn: account.jwt !== null,
-        };
-    });
+    const gameState = useSelector((state: State) => state.games.gameState);
+    const info = useSelector((state: State) => state.games.info);
+    const keno = useSelector((state: State) => state.games.keno);
+    const loggedIn = useSelector((state: State) => state.account.jwt !== null);
 
     const dispatch = useDispatch();
 

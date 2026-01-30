@@ -1,14 +1,15 @@
 import * as React from "react";
+import {useEffect} from "react";
 import {Helmet} from "react-helmet";
-import {connect} from "react-redux";
+import {useSelector} from "react-redux";
 import {Navigate, Route, Routes} from "react-router-dom";
-import {bindActionCreators} from "redux";
+import {useConnection} from "wagmi";
 
 import BeforeUnload from "./BeforeUnload";
 import Notification from "./Notification";
 import PathNotFound from "./PathNotFound";
 import RequireAuth from "./RequireAuth";
-import {ACCOUNT_BALANCE_POLL_INTERVAL} from "../config/config";
+import useConstructor from "../hooks/useConstructor";
 import Layout from "../layout/Layout";
 import Account from "../pages/account/Account";
 import Faq from "../pages/faq/Faq";
@@ -22,91 +23,53 @@ import StateLoader from "../platform/components/state/StateLoader";
 import {initUser, loadDefaultData} from "../platform/modules/account/asyncActions";
 import {getUser} from "../platform/modules/account/selectors";
 import LogoutRoute from "../platform/modules/utilities/LogoutRoute";
-import {
-    fetchAccountBalance,
-    fetchAllWeb3,
-    registerAccountChainIdListener,
-    unregisterAccounChainIdListener,
-} from "../platform/modules/web3/asyncActions";
 import {init as initSockets, unInit as unInitSockets} from "../platform/sockets";
 import {State as RootState} from "../rootReducer";
 import TermsOfUse from "../termsOfUse/TermsOfUse";
-import {Dispatch} from "../util/util";
+import {useDispatch} from "../util/util";
 
-export const mapStateToProps = (state: RootState) => {
-    const {account, app, web3, games} = state;
-    const {gameState} = games;
-    const {notification, nightMode} = app;
-    const jwt = account.jwt;
+const jwtSelector = (state: RootState) => state.account.jwt;
+const userAuthSelector = (state: RootState) => getUser(state);
+const nightModeSelector = (state: RootState) => state.app.nightMode;
+const notificationSelector = (state: RootState) => state.app.notification;
+const gameStateSelector = (state: RootState) => state.games.gameState;
 
-    return {
-        jwt,
-        userAuth: getUser(state),
-        defaultAccount: web3.account,
-        notification,
-        nightMode,
-        gameState,
-        web3: web3.web3,
-    };
-};
+const App = () => {
+    const dispatch = useDispatch();
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-    ...bindActionCreators({fetchAllWeb3, fetchAccountBalance, registerAccountChainIdListener}, dispatch),
-    initSockets: () => initSockets(dispatch),
-    unInitSockets: () => unInitSockets(dispatch),
-    initUser: (address: string) => initUser(dispatch, address),
-    loadDefaultData: () => loadDefaultData(dispatch),
-});
+    const jwt = useSelector(jwtSelector);
+    const userAuth = useSelector(userAuthSelector);
+    const nightMode = useSelector(nightModeSelector);
+    const notification = useSelector(notificationSelector);
+    const gameState = useSelector(gameStateSelector);
 
-export type Props = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
-
-class App extends React.Component<Props> {
-    private accountBalanceTimer: number | null = null;
-
-    constructor(props: Props) {
-        super(props);
-        this.state = {web3Timer: null};
-
-        const {jwt, initUser} = this.props;
-
+    useConstructor(() => {
+        console.log("Initializing user...");
         if (jwt !== null) {
-            initUser(jwt);
+            initUser(dispatch, jwt);
         }
-    }
+    });
 
-    componentDidMount() {
-        const {fetchAllWeb3, fetchAccountBalance, initSockets, loadDefaultData, registerAccountChainIdListener} =
-            this.props;
+    useEffect(() => {
+        loadDefaultData(dispatch);
+        initSockets(dispatch);
 
-        loadDefaultData();
-        initSockets();
+        setTheme(nightMode);
+    }, []);
 
-        fetchAllWeb3();
-        this.accountBalanceTimer = window.setInterval(() => fetchAccountBalance(), ACCOUNT_BALANCE_POLL_INTERVAL);
-        registerAccountChainIdListener();
+    useEffect(() => {
+        return () => {
+            unInitSockets(dispatch);
+        };
+    }, []);
 
-        this.setTheme(this.props.nightMode);
-    }
+    useEffect(() => {
+        setTheme(nightMode);
+    }, [nightMode]);
 
-    componentDidUpdate(prevProps: Props) {
-        if (prevProps.nightMode !== this.props.nightMode) {
-            this.setTheme(this.props.nightMode);
-        }
+    const {address} = useConnection();
 
-        this.props.fetchAllWeb3();
-    }
-
-    componentWillUnmount() {
-        const {unInitSockets} = this.props;
-        unInitSockets();
-
-        unregisterAccounChainIdListener();
-        if (this.accountBalanceTimer !== null) {
-            clearInterval(this.accountBalanceTimer);
-        }
-    }
-
-    private setTheme = (nightMode: boolean) => {
+    const setTheme = (nightMode: boolean) => {
         if (nightMode) {
             document.documentElement.setAttribute("data-bs-theme", "dark");
         } else {
@@ -114,50 +77,45 @@ class App extends React.Component<Props> {
         }
     };
 
-    render() {
-        const {userAuth, notification, defaultAccount, gameState} = this.props;
-
-        const logout = userAuth !== null && userAuth.address !== defaultAccount && defaultAccount !== null;
-
-        return (
-            <>
-                <Helmet>
-                    <title>Dicether</title>
-                    <meta
-                        name="description"
-                        content="Dicether is an Ethereum dice game. It uses a smart contract based state channel implementation to provide a fast, secure and provably fair gambling experience."
+    const logout = userAuth !== null && userAuth.address !== address;
+    return (
+        <>
+            <Helmet>
+                <title>Dicether</title>
+                <meta
+                    name="description"
+                    content="Dicether is an Ethereum dice game. It uses a smart contract based state channel implementation to provide a fast, secure and provably fair gambling experience."
+                />
+            </Helmet>
+            <Layout>
+                {logout && <Navigate replace to="/logout" />}
+                <Routes>
+                    <Route path="/" element={<Index />} />
+                    <Route path="/faq" element={<Faq />} />
+                    <Route path="/hallOfFame/*" element={<HallOfFame />} />
+                    <Route path="/termsOfUse" element={<TermsOfUse />} />
+                    <Route path="/logout" element={<LogoutRoute />} />
+                    <Route path="/games/*" element={<Game />} />
+                    <Route
+                        path="/account/*"
+                        element={
+                            <RequireAuth authenticated={userAuth !== null}>
+                                <Account />
+                            </RequireAuth>
+                        }
                     />
-                </Helmet>
-                <Layout>
-                    {logout && <Navigate replace to="/logout" />}
-                    <Routes>
-                        <Route path="/" element={<Index />} />
-                        <Route path="/faq" element={<Faq />} />
-                        <Route path="/hallOfFame/*" element={<HallOfFame />} />
-                        <Route path="/termsOfUse" element={<TermsOfUse />} />
-                        <Route path="/logout" element={<LogoutRoute />} />
-                        <Route path="/games/*" element={<Game />} />
-                        <Route
-                            path="/account/*"
-                            element={
-                                <RequireAuth authenticated={userAuth !== null}>
-                                    <Account />
-                                </RequireAuth>
-                            }
-                        />
-                        <Route path="/gameSession/:gameId" element={<GameSession />} />
-                        <Route path="*" element={<PathNotFound insideContainer />} />
-                    </Routes>
-                    <Chat />
-                    {/*<TermsOfUseModal/>*/}
-                    <Modals />
-                    <BeforeUnload gameState={gameState} />
-                    <Notification notification={notification} />
-                    <StateLoader />
-                </Layout>
-            </>
-        );
-    }
-}
+                    <Route path="/gameSession/:gameId" element={<GameSession />} />
+                    <Route path="*" element={<PathNotFound insideContainer />} />
+                </Routes>
+                <Chat />
+                {/*<TermsOfUseModal/>*/}
+                <Modals />
+                <BeforeUnload gameState={gameState} />
+                <Notification notification={notification} />
+                <StateLoader />
+            </Layout>
+        </>
+    );
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

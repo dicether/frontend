@@ -7,13 +7,11 @@ import friend, {State as FriendState} from "./platform/modules/friends/reducer";
 import games, {State as GamesState} from "./platform/modules/games/reducer";
 import modal, {ModalState} from "./platform/modules/modals/slice";
 import app, {State as AppState} from "./platform/modules/utilities/reducer";
-import web3, {State as Web3State} from "./platform/modules/web3/reducer";
 
 export interface State {
     account: AccountState;
     chat: ChatState;
     friend: FriendState;
-    web3: Web3State;
     app: AppState;
     games: GamesState;
     bets: BetsState;
@@ -24,7 +22,6 @@ const appReducer = combineReducers({
     account,
     chat,
     friend,
-    web3,
     app,
     games,
     bets,

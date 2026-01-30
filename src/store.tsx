@@ -13,7 +13,7 @@ const enhancers: StoreEnhancer[] = [];
 function filterState(state: State) {
     // remove chat, bets, account from state
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const {chat, bets, account, web3, ...newState} = state;
+    const {chat, bets, account, ...newState} = state;
 
     // remove hashChain from state
     return {

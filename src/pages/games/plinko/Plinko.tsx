@@ -30,17 +30,11 @@ const Plinko = () => {
     const [ballsFalling, setBallsFalling] = useState(0);
     const [result, setResult] = useState({betNum: 0, num: 0, won: false, userProfit: 0});
 
-    const {gameState, info, nightMode, plinko, loggedIn} = useSelector(({app, games, account}: State) => {
-        const {gameState, info, plinko} = games;
-
-        return {
-            gameState,
-            info,
-            plinko,
-            nightMode: app.nightMode,
-            loggedIn: account.jwt !== null,
-        };
-    });
+    const gameState = useSelector((state: State) => state.games.gameState);
+    const info = useSelector((state: State) => state.games.info);
+    const plinko = useSelector((state: State) => state.games.plinko);
+    const nightMode = useSelector((state: State) => state.app.nightMode);
+    const loggedIn = useSelector((state: State) => state.account.jwt !== null);
 
     const dispatch = useDispatch();
 
