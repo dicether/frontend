@@ -15,7 +15,7 @@ const contextRoot = path.join(context, "src");
 const Title = "Dicether";
 
 const sassOptions = {
-    silenceDeprecations: ["import", "global-builtin", "color-functions"],
+    silenceDeprecations: ["import", "global-builtin", "color-functions", "if-function"],
     includePaths: [path.join(__dirname, "src")],
 };
 
