@@ -134,7 +134,13 @@ const GameHeader = (props: Props) => {
                 </span>
             </div>
         );
-    } else if (connectionStatus !== "connected") {
+    } else if (connectionStatus === "connecting" || connectionStatus === "reconnecting") {
+        return (
+            <div className={Style.gameHeader}>
+                <span>Connecting to Wallet... {spinner}</span>
+            </div>
+        );
+    } else if (connectionStatus === "disconnected") {
         return (
             <div className={Style.gameHeader}>
                 <span className="text-danger">Please log in to your Wallet!</span>
