@@ -23,6 +23,7 @@ const mapDispatchToProps = (dispatch: Dispatch) =>
     bindActionCreators(
         {
             loadStats,
+            loadGameSessions,
         },
         dispatch,
     );
@@ -35,7 +36,7 @@ class Stats extends React.PureComponent<Props> {
     }
 
     componentWillMount() {
-        const {loadStats, userAuth} = this.props;
+        const {loadStats, loadGameSessions, userAuth} = this.props;
         if (userAuth) {
             loadStats(userAuth.address);
             loadGameSessions(userAuth.address);
