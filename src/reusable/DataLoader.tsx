@@ -85,7 +85,7 @@ class DataLoader<T = any> extends React.Component<Props<T>, State<T>> {
         if (data) {
             return success(data);
         } else if (error) {
-            if (error.response && error.response.status === 404) {
+            if (error.response?.status === 404) {
                 return notFound ? notFound() : null;
             } else {
                 return failure ? failure() : null;

@@ -6,7 +6,7 @@ import {store} from "../store";
 axios.interceptors.response.use(
     (response) => response,
     (error: AxiosError | Error) => {
-        if (axios.isAxiosError(error) && error.response != null && error.response.status === 401) {
+        if (axios.isAxiosError(error) && error.response?.status === 401) {
             store.dispatch(deauthenticate());
             return Promise.reject(new Error("Session timeout!"));
         } else {

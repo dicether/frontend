@@ -2,7 +2,7 @@ import {createSlice} from "@reduxjs/toolkit";
 import {getPublicClient} from "@wagmi/core";
 
 import wagmiConfig from "../../../config/wagmiConfig";
-import {Dispatch, GetState} from "../../../util/util";
+import {Dispatch} from "../../../util/util";
 import {User} from "../account/types";
 import {Bet} from "../bets/types";
 

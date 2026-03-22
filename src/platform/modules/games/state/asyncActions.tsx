@@ -392,7 +392,7 @@ export function loadServerGameState() {
                 dispatch(gameCreated(gameId));
             }
         } catch (error: any) {
-            if (!error.response || error.response.status !== 404) {
+            if (error.response?.status !== 404) {
                 catchError(error, dispatch);
             }
         }

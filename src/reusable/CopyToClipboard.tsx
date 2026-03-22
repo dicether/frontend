@@ -1,5 +1,4 @@
 import * as React from "react";
-import ReactCopyToClipboard from "react-copy-to-clipboard";
 
 import IconButton from "./IconButton";
 import Popover from "./Popover";
