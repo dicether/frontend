@@ -33,7 +33,7 @@ const CreateGameModal = ({seed, isOpen, minValue, maxValue, onCreateGame, onClos
 
     const {address} = useConnection();
     const result = useBalance({address});
-    const accountBalance = result.data?.value !== undefined ? Number(result.data.value) : null;
+    const accountBalance = result.data?.value !== undefined ? Number(result.data.value / BigInt(1e9)) : null;
 
     let toLowBalance = false;
     let max = maxValue;
