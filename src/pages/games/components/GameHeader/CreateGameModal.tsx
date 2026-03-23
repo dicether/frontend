@@ -40,6 +40,10 @@ const CreateGameModal = ({seed, isOpen, minValue, maxValue, onCreateGame, onClos
     if (accountBalance !== null) {
         toLowBalance = accountBalance < minValue;
         max = roundValue(Math.min(maxValue, accountBalance), minValue);
+
+        if (value > max) {
+            setValue(max);
+        }
     }
 
     return (
