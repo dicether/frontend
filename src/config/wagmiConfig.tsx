@@ -1,5 +1,5 @@
-import {defineChain} from "viem";
-import {createConfig, http} from "wagmi";
+import {defineChain, fallback} from "viem";
+import {createConfig, http, unstable_connector} from "wagmi";
 import {mainnet} from "wagmi/chains";
 import {injected} from "wagmi/connectors";
 
@@ -19,7 +19,7 @@ export const localhost = defineChain({
 });
 
 const chains = CHAIN_ID === 1 ? ([mainnet] as const) : ([localhost] as const);
-const transports = {[mainnet.id]: http(), [localhost.id]: http()} as const;
+const transports = {[mainnet.id]: fallback([unstable_connector(injected), http()]), [localhost.id]: http()} as const;
 
 const wagmiConfig = createConfig({
     chains: chains,
