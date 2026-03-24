@@ -44,7 +44,6 @@ const App = () => {
     const gameState = useSelector(gameStateSelector);
 
     useConstructor(() => {
-        console.log("Initializing user...");
         if (jwt !== null) {
             initUser(dispatch, jwt);
         }
