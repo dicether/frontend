@@ -18,6 +18,7 @@ import {
     getTransactionReceipt,
     readContract,
     signTypedData,
+    simulateContract,
     waitForTransactionReceipt,
     writeContract,
 } from "@wagmi/core";
@@ -510,7 +511,7 @@ export function createGame(stake: number, userSeed: string) {
 
         dispatch(createGameEvent(hashChain, serverEndHash, stake));
         console.log("Creating game...");
-        const transactionHash = await writeContract(wagmiConfig, {
+        const {request} = await simulateContract(wagmiConfig, {
             address: CONTRACT_ADDRESS,
             abi,
             functionName: "createGame",
@@ -524,6 +525,7 @@ export function createGame(stake: number, userSeed: string) {
             value: BigInt(fromGweiToWei(stake)),
             gas: 150000n,
         });
+        const transactionHash = await writeContract(wagmiConfig, request);
 
         dispatch(createGameEvent(hashChain, serverEndHash, stake, transactionHash));
 
@@ -643,7 +645,7 @@ export function userEndGame() {
         const gameId = gameState.gameId!;
         const serverSig = gameState.serverSig!;
 
-        const transactionHash = await writeContract(wagmiConfig, {
+        const {request} = await simulateContract(wagmiConfig, {
             address: CONTRACT_ADDRESS,
             abi,
             functionName: "userEndGame",
@@ -658,6 +660,7 @@ export function userEndGame() {
             ],
             gas: BigInt(120000),
         });
+        const transactionHash = await writeContract(wagmiConfig, request);
 
         const receipt = await waitForTransactionReceipt(wagmiConfig, {hash: transactionHash, confirmations: 1});
         if (receipt.status === "success") {
@@ -699,13 +702,15 @@ export function conflictEnd() {
         }
 
         if (roundId === 0) {
-            const transactionHash = await writeContract(wagmiConfig, {
+            const {request} = await simulateContract(wagmiConfig, {
                 address: CONTRACT_ADDRESS,
                 abi,
                 functionName: "userCancelActiveGame",
                 args: [BigInt(gameId)],
                 gas: BigInt(120000),
             });
+            const transactionHash = await writeContract(wagmiConfig, request);
+
             dispatch(userInitiateConflictEndEvent(transactionHash));
             const receipt = await waitForTransactionReceipt(wagmiConfig, {hash: transactionHash, confirmations: 1});
             if (receipt.status === "success") {
@@ -727,7 +732,7 @@ export function conflictEnd() {
                 userSeed = gameState.hashChain[roundId];
             }
 
-            const transactionHash = await writeContract(wagmiConfig, {
+            const {request} = await simulateContract(wagmiConfig, {
                 address: CONTRACT_ADDRESS,
                 abi,
                 functionName: "userEndGameConflict",
@@ -745,6 +750,7 @@ export function conflictEnd() {
                 ],
                 gas: BigInt(250000),
             });
+            const transactionHash = await writeContract(wagmiConfig, request);
 
             dispatch(userInitiateConflictEndEvent(transactionHash));
 
@@ -782,13 +788,14 @@ export function forceEnd() {
             throw new Error("Invalid game ID!");
         }
 
-        const transactionHash = await writeContract(wagmiConfig, {
+        const {request} = await simulateContract(wagmiConfig, {
             address: CONTRACT_ADDRESS,
             abi,
             functionName: "userForceGameEnd",
             args: [BigInt(gameId)],
             gas: BigInt(120000),
         });
+        const transactionHash = await writeContract(wagmiConfig, request);
 
         dispatch(userInitiateForceEndEvent(transactionHash));
 
