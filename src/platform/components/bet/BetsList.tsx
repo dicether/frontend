@@ -22,18 +22,18 @@ const LastBetRow = ({bet, showUser, showBetModal, showUserModal}: LastBetRowProp
 
     return (
         <tr>
-            <td className={Style.tdGameType}>
-                <div className={Style.gameType}>
-                    <Link className={Style.gameLink} to={gameTypeToLink(gameType)}>
-                        {gameTypeToName(gameType)}
-                    </Link>
-                    <button className={Style.infoButton} key="1" color="link" onClick={() => showBetModal(bet)}>
-                        Info
-                    </button>
-                </div>
+            <td>
+                <Link className={Style.gameLink} to={gameTypeToLink(gameType)}>
+                    {gameTypeToName(gameType)}
+                </Link>
+            </td>
+            <td>
+                <button className={Style.betId} onClick={() => showBetModal(bet)}>
+                    {bet.id}
+                </button>
             </td>
             {showUser && (
-                <td className={Style.center}>
+                <td>
                     <div>
                         <button className={Style.userButton} onClick={() => showUserModal(user)}>
                             {user.username}
@@ -41,15 +41,15 @@ const LastBetRow = ({bet, showUser, showBetModal, showUserModal}: LastBetRowProp
                     </div>
                 </td>
             )}
-            <td className={Style.center + " d-none d-sm-table-cell"}>
+            <td className={"d-none d-sm-table-cell"}>
                 <div>{dayjs(timestamp).format("LT")}</div>
             </td>
-            <td className={Style.center + " d-none d-sm-table-cell"}>
+            <td className={"d-none d-sm-table-cell"}>
                 <div>
                     <Ether gwei={value} showCurrencySymbol />
                 </div>
             </td>
-            <td className={Style.profit}>
+            <td>
                 <div>
                     <Ether gwei={profit} showCurrencySymbol colored />
                 </div>
@@ -71,10 +71,11 @@ const BetsList = ({bets, showUser = true, showBetModal, showUserModal}: Props) =
             <thead className={Style.head}>
                 <tr>
                     <th>Game</th>
-                    {showUser && <th className={Style.center}>User</th>}
-                    <th className={Style.center + " d-none d-sm-table-cell"}>Time</th>
-                    <th className={Style.center + " d-none d-sm-table-cell"}>Bet</th>
-                    <th className={Style.profitHeader}>Profit</th>
+                    <th className={Style.center}>Bet ID</th>
+                    {showUser && <th>User</th>}
+                    <th className={"d-none d-sm-table-cell"}>Time</th>
+                    <th className={"d-none d-sm-table-cell"}>Bet</th>
+                    <th>Profit</th>
                 </tr>
             </thead>
             <tbody className={Style.entries}>

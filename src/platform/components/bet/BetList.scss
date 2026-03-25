@@ -2,16 +2,16 @@
 @import "bootstrap/scss/mixins/breakpoints";
 
 .center {
-  vertical-align: middle !important;
   text-align: center;
 }
 
-.infoButton {
+.betId {
   @include remove-default-button-style();
   padding-top: 0 !important;
   padding-bottom: 0 !important;
-  color: var(--bs-secondary);
-  font-size: 0.9rem;
+  font-weight: bold;
+  color: inherit;
+  text-align: center;
 }
 
 .gameLink {
@@ -46,7 +46,31 @@
   }
 }
 
+.head > tr > th:not(:first-child):not(:last-child) {
+  text-align: center;
+}
+
+.head > tr > th:first-child {
+  text-align: left;
+}
+
+.head > tr > th:last-child {
+  text-align: right;
+}
+
 .entries {
+  td:not(:first-child):not(:last-child) {
+    text-align: center;
+  }
+
+  td:first-child {
+    text-align: left;
+  }
+
+  td:last-child {
+    text-align: right;
+  }
+
   tr:nth-child(n) {
       animation: 500ms ease-out forwards;
   }
@@ -85,27 +109,6 @@
     z-index: 1;
   }
 
-}
-
-.tdGameType {
-  padding-top: 0.25rem !important;
-  padding-bottom: 0 !important;
-}
-
-.gameType {
-  line-height: normal;
-  display: inline-flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-}
-
-.profitHeader {
-  text-align: right;
-}
-
-.profit {
-  text-align: right;
 }
 
 @keyframes slideIn {
