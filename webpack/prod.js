@@ -23,6 +23,7 @@ const Paths = [
 
 module.exports = merge(common, {
     mode: "production",
+    devtool: "source-map",
     plugins: [
         new CopyWebpackPlugin({
             patterns: [
