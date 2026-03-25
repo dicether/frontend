@@ -1,7 +1,7 @@
 import * as React from "react";
 import {useRef, useState} from "react";
 import Countdown from "react-countdown";
-import {useConnection, usePublicClient} from "wagmi";
+import {useConnection, usePublicClient, useTransactionConfirmations} from "wagmi";
 
 import CreateGameModal from "./CreateGameModal";
 import {
@@ -67,6 +67,22 @@ const ForceEnd = ({endTime, onForceEnd}: ForceEndProps) => {
     );
 };
 
+const CreateGame = ({transactionHash}: {transactionHash: `0x${string}` | undefined}) => {
+    const spinner = <FontAwesomeIcon color="dark" icon="spinner" spin size="lg" />;
+    const {data: confirmations} = useTransactionConfirmations({
+        hash: transactionHash,
+        query: {
+            refetchInterval: 5000, // poll every 5s
+        },
+    });
+
+    return (
+        <span>
+            Creating Game Session Test... {confirmations?.toString()}/2 Confirmations {spinner}
+        </span>
+    );
+};
+
 interface Props {
     gameState: GameState;
 
@@ -109,6 +125,7 @@ const GameHeader = (props: Props) => {
     const isGameCreating = gameState.status === "CREATING" && gameState.createTransactionHash;
     const placedBet = gameState.status === "PLACED_BET";
     const lastGameTransactionHash = gameState.endTransactionHash;
+    const createTransactionHash = gameState.createTransactionHash as `0x${string}` | undefined;
     const serverInitiatedEnd = gameState.status === "SERVER_CONFLICT_ENDED";
     const isUserConflictEnded = gameState.status === "USER_CONFLICT_ENDED";
     const isConflictEnding = gameState.status === "USER_INITIATED_CONFLICT_END";
@@ -185,7 +202,7 @@ const GameHeader = (props: Props) => {
                     <Ether gwei={gameState.balance} />
                 </div>,
             ]}
-            {isGameCreating && <span>Creating Game Session... {spinner}</span>}
+            {isGameCreating && <CreateGame transactionHash={createTransactionHash} />}
             {serverInitiatedEnd && (
                 <div>
                     <span className="text-danger">
