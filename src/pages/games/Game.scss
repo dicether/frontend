@@ -3,6 +3,11 @@
 .wrapper {
   padding-top: 3rem;
   padding-bottom: 3rem;
+
+  @include media-breakpoint-down(sm) {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
 }
 
 .gameWrapper {
